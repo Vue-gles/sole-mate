@@ -22,3 +22,4 @@ Tech Stack:
 - Sequelize / PostgresSQL
 - NERD stack
 - Basic CSS/CSS library
+- Sockets.io
