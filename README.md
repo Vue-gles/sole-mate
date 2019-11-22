@@ -1,7 +1,7 @@
 # sole-mate
 
 Overview:
-“Ever want to run but can't do it alone? SoleMate is an app made to find a running buddy near you.“
+“Run away with your SoleMate.“
 
 MVP:
 SoleMate optimizes the way runners find other runners with similar fitness levels and goals. Users are able to set their availability (now or later), view other runners interested in a similar time frame and location, and request to schedule a run. Once a run is confirmed, SoleMates are able to message each other to finalize logistics.
