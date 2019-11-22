@@ -16,7 +16,8 @@ export default function HomeScreen() {
   async function fetchUsers() {
     try {
       const response = await fetch(`${process.env.BACKEND_HOST}/api/users`);
-      console.log(response);
+      const newResponse = await response.json();
+      console.log(JSON.stringify(newResponse));
     } catch (error) {
       console.log('fetch error:', error);
     }
