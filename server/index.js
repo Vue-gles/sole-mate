@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+const cors = require('cors');
 const morgan = require('morgan');
 const compression = require('compression');
 const session = require('express-session');
@@ -41,6 +42,9 @@ passport.deserializeUser(async (id, done) => {
 });
 
 const createApp = () => {
+  // cors middleware
+  app.use(cors());
+
   // logging middleware
   app.use(morgan('dev'));
 
