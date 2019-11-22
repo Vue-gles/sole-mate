@@ -7,6 +7,8 @@ import { Ionicons } from '@expo/vector-icons';
 
 import AppNavigator from './navigation/AppNavigator';
 
+if (process.env.NODE_ENV !== 'production') require('./secrets');
+
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
 

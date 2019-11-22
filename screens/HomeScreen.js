@@ -13,6 +13,15 @@ import {
 import { MonoText } from '../components/StyledText';
 
 export default function HomeScreen() {
+  async function fetchUsers() {
+    try {
+      const response = await fetch(`${process.env.BACKEND_HOST}/api/users`);
+      console.log(response);
+    } catch (error) {
+      console.log('fetch error:', error);
+    }
+  }
+  console.log(fetchUsers());
   return (
     <View style={styles.container}>
       <ScrollView
