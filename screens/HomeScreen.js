@@ -15,11 +15,17 @@ import { MonoText } from '../components/StyledText';
 export default function HomeScreen() {
   async function fetchUsers() {
     try {
+      console.log('what is happening here')
       const response = await fetch(`${process.env.BACKEND_HOST}/api/users`);
-      console.log(response);
+      console.log('help', response);
+      const newResponse = await response.json();
+      console.log(JSON.stringify(newResponse));
     } catch (error) {
       console.log('fetch error:', error);
     }
+
+
+
   }
   console.log(fetchUsers());
   return (
