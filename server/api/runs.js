@@ -29,3 +29,23 @@ router.get('/:runId', async (req, res, next) => {
     next(err);
   }
 });
+
+// POST /api/runs
+router.post('/', async (req, res, next) => {
+  try {
+    const { locationName, startTimeframe, endTimeframe } = req.body;
+    const newRun = await Run.create({
+      locationName,
+      startTimeframe,
+      endTimeframe,
+      creatorId: req.user.id,
+    });
+    if (newRun) {
+      res.send(newRun);
+    } else {
+      res.status(400).send(`Unable to create run`);
+    }
+  } catch (err) {
+    next(err);
+  }
+});
