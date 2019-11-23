@@ -35,7 +35,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.mate-sole",
       "config": {
-          "googleMapsApiKey": "AIzaSyBhWzAETpXr8rtg_wdZIxWo_NoThy7jN9E"
+          "googleMapsApiKey": ""
       }
     }
     
