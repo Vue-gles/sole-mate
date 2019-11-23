@@ -31,20 +31,18 @@ class SignInScreen extends React.Component {
   static navigationOptions = {
     title: 'Please sign in',
   };
-  _signInAsync = async () => {
-    await AsyncStorage.setItem('userToken', 'abc');
-    this.props.navigation.navigate('Main');
-  };
 
-  submitHandler = () => {
+  submitHandler = async () => {
     if (this.state.email && this.state.password) {
       const inputs = {
         email: this.state.email,
         password: this.state.password,
       };
-      this.props.signin(inputs, 'login');
+      await this.props.signin(inputs, 'login');
     }
-    this.props.navigation.navigate('AuthLoading');
+    if (this.props.user && this.props.user.id) {
+      this.props.navigation.navigate('Main');
+    }
   };
 
   render() {
