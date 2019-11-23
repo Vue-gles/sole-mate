@@ -1,5 +1,5 @@
 import * as WebBrowser from 'expo-web-browser';
-import React from 'react';
+import React, {Component} from 'react';
 import {
   Image,
   Platform,
@@ -8,14 +8,20 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Button
 } from 'react-native';
 
 import { MonoText } from '../components/StyledText';
+import { NavigationEvents } from 'react-navigation';
 
-export default function HomeScreen() {
+export default class HomeScreen extends Component {
+
+  render(){
   async function fetchUsers() {
     try {
+      console.log('what is happening here')
       const response = await fetch(`${process.env.BACKEND_HOST}/api/users`);
+      console.log('help', response);
       const newResponse = await response.json();
       console.log(JSON.stringify(newResponse));
     } catch (error) {
@@ -23,6 +29,7 @@ export default function HomeScreen() {
     }
   }
   console.log(fetchUsers());
+  const {navigate} = this.props.navigation
   return (
     <View style={styles.container}>
       <ScrollView
@@ -31,25 +38,27 @@ export default function HomeScreen() {
       >
         <View style={styles.welcomeContainer}>
           <Image
-            source={
-              __DEV__
-                ? require('../assets/images/robot-dev.png')
-                : require('../assets/images/robot-prod.png')
+            source={{uri: 'https://p7.hiclipart.com/preview/751/476/837/running-silhouette-clip-art-silhouette.jpg'}
+              // __DEV__
+              //   ? require('../assets/images/robot-dev.png')
+              //   : require('../assets/images/robot-prod.png')
             }
             style={styles.welcomeImage}
           />
+          <Text style={styles.getStartedText}>
+            Sole-Mate
+            {/* {users[1].email} */}
+          
+          </Text>
         </View>
 
         <View style={styles.getStartedContainer}>
-          <DevelopmentModeNotice />
-
-          <Text style={styles.getStartedText}>Get started by opening</Text>
-
-          <View
-            style={[styles.codeHighlightContainer, styles.homeScreenFilename]}
-          >
-            <MonoText>screens/HomeScreen.js</MonoText>
-          </View>
+          <Button 
+          title = 'Now'
+          onPress = {() => navigate('Settings')}/>
+          <Button 
+          title = 'Later'
+          onPress = {() => navigate('Settings')}/>
 
           <Text style={styles.getStartedText}>
             Is it working???? It is working!!!Why is it crashing!
@@ -66,7 +75,7 @@ export default function HomeScreen() {
       </ScrollView>
 
       <View style={styles.tabBarInfoContainer}>
-        <Text style={styles.tabBarInfoText}>
+        {/* <Text style={styles.tabBarInfoText}>
           This is a tab bar. You can edit it in:
         </Text>
 
@@ -76,16 +85,15 @@ export default function HomeScreen() {
           <MonoText style={styles.codeHighlightText}>
             navigation/MainTabNavigator.js
           </MonoText>
-        </View>
+        </View> */}
       </View>
     </View>
   );
+      }
 }
-
 HomeScreen.navigationOptions = {
   header: null,
 };
-
 function DevelopmentModeNotice() {
   if (__DEV__) {
     const learnMoreButton = (
