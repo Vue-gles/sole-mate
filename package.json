@@ -8,7 +8,7 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "postinstall": "touch secrets.js",
-    "db": "node server",
+    "backend": "nodemon server",
     "seed": "node script/seed.js",
     "test": "jest --watchAll"
   },

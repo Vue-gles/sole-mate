@@ -41,6 +41,7 @@ const users = [
     avgMileage: 3,
     goal: 'hobby',
     bio: 'RUN! RUN! RUN!',
+    isAdmin: true,
   },
   {
     firstName: 'Lauren',
