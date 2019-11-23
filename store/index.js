@@ -3,15 +3,10 @@ import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-const temporaryReducer = function(state = {}, action) {
-  switch (action.type) {
-    default:
-      return state;
-  }
-};
+import user from './user';
 
 const rootReducer = combineReducers({
-  temp: temporaryReducer,
+  user: user,
 });
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))

@@ -33,7 +33,18 @@ export const me = () => async dispatch => {
 
 export const auth = (inputs, method) => async dispatch => {
   let res;
-  const { email, password, firstName, lastName } = inputs;
+  const {
+    email,
+    password,
+    firstName,
+    lastName,
+    defaultAddress,
+    imageUrl,
+    avgPace,
+    avgMileage,
+    goal,
+    bio,
+  } = inputs;
   try {
     res = await axios.post(`${process.env.BACKEND_HOST}/auth/${method}`, {
       email,
