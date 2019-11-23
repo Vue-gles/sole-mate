@@ -1,5 +1,5 @@
 import * as WebBrowser from 'expo-web-browser';
-import React from 'react';
+import React, {Component} from 'react';
 import {
   Image,
   Platform,
@@ -12,8 +12,14 @@ import {
 } from 'react-native';
 
 import { MonoText } from '../components/StyledText';
+import { NavigationEvents } from 'react-navigation';
 
-export default function HomeScreen(props) {
+export default class HomeScreen extends Component {
+
+  render(){
+
+  
+
   async function fetchUsers() {
     try {
       console.log('what is happening here')
@@ -27,6 +33,9 @@ export default function HomeScreen(props) {
   }
   console.log(fetchUsers());
   const {navigate} = this.props.navigation
+  
+
+  
   return (
     <View style={styles.container}>
       <ScrollView
@@ -86,6 +95,7 @@ export default function HomeScreen(props) {
       </View>
     </View>
   );
+      }
 }
 
 
