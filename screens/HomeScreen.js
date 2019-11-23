@@ -1,6 +1,7 @@
 import * as WebBrowser from 'expo-web-browser';
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
+  AsyncStorage,
   Image,
   Platform,
   ScrollView,
@@ -8,74 +9,82 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Button
+  Button,
 } from 'react-native';
 
 import { MonoText } from '../components/StyledText';
 import { NavigationEvents } from 'react-navigation';
 
 export default class HomeScreen extends Component {
-
-  render(){
-  async function fetchUsers() {
-    try {
-      console.log('what is happening here')
-      const response = await fetch(`${process.env.BACKEND_HOST}/api/users`);
-      console.log('help', response);
-      const newResponse = await response.json();
-      console.log(JSON.stringify(newResponse));
-    } catch (error) {
-      console.log('fetch error:', error);
+  _signOutAsync = async () => {
+    await AsyncStorage.clear();
+    this.props.navigation.navigate('Auth');
+  };
+  render() {
+    console.log('HomeScreen View ------------------->');
+    async function fetchUsers() {
+      try {
+        console.log('what is happening here');
+        const response = await fetch(`${process.env.BACKEND_HOST}/api/runs`);
+        console.log('help', response);
+        const newResponse = await response.json();
+        console.log(JSON.stringify(newResponse));
+      } catch (error) {
+        console.log('fetch error:', error);
+      }
     }
-  }
-  console.log(fetchUsers());
-  const {navigate} = this.props.navigation
-  return (
-    <View style={styles.container}>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.contentContainer}
-      >
-        <View style={styles.welcomeContainer}>
-          <Image
-            source={{uri: 'https://p7.hiclipart.com/preview/751/476/837/running-silhouette-clip-art-silhouette.jpg'}
-              // __DEV__
-              //   ? require('../assets/images/robot-dev.png')
-              //   : require('../assets/images/robot-prod.png')
-            }
-            style={styles.welcomeImage}
-          />
-          <Text style={styles.getStartedText}>
-            Sole-Mate
-            {/* {users[1].email} */}
-          
-          </Text>
-        </View>
-
-        <View style={styles.getStartedContainer}>
-          <Button 
-          title = 'Now'
-          onPress = {() => navigate('Settings')}/>
-          <Button 
-          title = 'Later'
-          onPress = {() => navigate('Settings')}/>
-
-          <Text style={styles.getStartedText}>
-            Is it working???? It is working!!!Why is it crashing!
-          </Text>
-        </View>
-
-        <View style={styles.helpContainer}>
-          <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
-            <Text style={styles.helpLinkText}>
-              Help, it didn’t automatically reload!
+    console.log(fetchUsers());
+    const { navigate } = this.props.navigation;
+    return (
+      <View style={styles.container}>
+        <ScrollView
+          style={styles.container}
+          contentContainerStyle={styles.contentContainer}
+        >
+          <View style={styles.welcomeContainer}>
+            <Image
+              source={
+                {
+                  uri:
+                    'https://p7.hiclipart.com/preview/751/476/837/running-silhouette-clip-art-silhouette.jpg',
+                }
+                // __DEV__
+                //   ? require('../assets/images/robot-dev.png')
+                //   : require('../assets/images/robot-prod.png')
+              }
+              style={styles.welcomeImage}
+            />
+            <Text style={styles.getStartedText}>
+              Sole-Mate
+              {/* {users[1].email} */}
             </Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+          </View>
 
-      <View style={styles.tabBarInfoContainer}>
-        {/* <Text style={styles.tabBarInfoText}>
+          <View style={styles.getStartedContainer}>
+            <Button title="Now" onPress={() => navigate('Settings')} />
+            <Button title="Later" onPress={() => navigate('Settings')} />
+
+            <Text style={styles.getStartedText}>
+              Is it working???? It is working!!!Why is it crashing!
+            </Text>
+
+            <Button
+              title="Actually, sign me out :)"
+              onPress={this._signOutAsync}
+            />
+          </View>
+
+          <View style={styles.helpContainer}>
+            <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
+              <Text style={styles.helpLinkText}>
+                Help, it didn’t automatically reload!
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+
+        <View style={styles.tabBarInfoContainer}>
+          {/* <Text style={styles.tabBarInfoText}>
           This is a tab bar. You can edit it in:
         </Text>
 
@@ -86,10 +95,10 @@ export default class HomeScreen extends Component {
             navigation/MainTabNavigator.js
           </MonoText>
         </View> */}
+        </View>
       </View>
-    </View>
-  );
-      }
+    );
+  }
 }
 HomeScreen.navigationOptions = {
   header: null,
