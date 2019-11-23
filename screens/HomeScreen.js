@@ -17,9 +17,6 @@ import { NavigationEvents } from 'react-navigation';
 export default class HomeScreen extends Component {
 
   render(){
-
-  
-
   async function fetchUsers() {
     try {
       console.log('what is happening here')
@@ -33,9 +30,6 @@ export default class HomeScreen extends Component {
   }
   console.log(fetchUsers());
   const {navigate} = this.props.navigation
-  
-
-  
   return (
     <View style={styles.container}>
       <ScrollView
@@ -97,12 +91,9 @@ export default class HomeScreen extends Component {
   );
       }
 }
-
-
 HomeScreen.navigationOptions = {
   header: null,
 };
-
 function DevelopmentModeNotice() {
   if (__DEV__) {
     const learnMoreButton = (
