@@ -5,7 +5,9 @@ export default class Map extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <MapView style={styles.mapStyle} />
+        <MapView 
+        provider = "google"
+        style={styles.mapStyle} />
       </View>
     );
   }

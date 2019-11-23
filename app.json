@@ -23,8 +23,21 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "android": {
+      "package": "com.mate-sole",
+      "config": {
+          "googleMaps": {
+              "apiKey": "API KEY HERE EVENTUALLY"
+          }
+      }
+  },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.mate-sole",
+      "config": {
+          "googleMapsApiKey": "API KEY HERE EVENTUALLY"
+      }
     }
+    
   }
 }
