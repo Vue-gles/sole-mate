@@ -1,9 +1,10 @@
 const router = require('express').Router();
 const { Run } = require('../db');
+const { isAdmin, isUser } = require('../../utils');
 module.exports = router;
 
 // GET /api/runs
-router.get('/', async (req, res, next) => {
+router.get('/', isUser, async (req, res, next) => {
   try {
     const runs = await Run.findAll();
     if (runs) {
@@ -17,7 +18,7 @@ router.get('/', async (req, res, next) => {
 });
 
 // GET /api/runs/:runId
-router.get('/:runId', async (req, res, next) => {
+router.get('/:runId', isUser, async (req, res, next) => {
   try {
     const run = await Run.findByPk(req.params.runId);
     if (run) {
@@ -31,7 +32,7 @@ router.get('/:runId', async (req, res, next) => {
 });
 
 // POST /api/runs
-router.post('/', async (req, res, next) => {
+router.post('/', isUser, async (req, res, next) => {
   try {
     const { locationName, startTimeframe, endTimeframe } = req.body;
     const newRun = await Run.create({
