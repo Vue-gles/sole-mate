@@ -1,8 +1,7 @@
 import * as WebBrowser from 'expo-web-browser';
-import React from 'react';
+import React, { Component } from 'react';
 import {
   AsyncStorage,
-  Button,
   Image,
   Platform,
   ScrollView,
@@ -10,72 +9,82 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Button,
 } from 'react-native';
 
 import { MonoText } from '../components/StyledText';
+import { NavigationEvents } from 'react-navigation';
 
-export default function HomeScreen(props) {
-  console.log('HomeScreen View ------------------->');
-  async function fetchUsers() {
-    try {
-      const response = await fetch(`${process.env.BACKEND_HOST}/api/runs`);
-      const newResponse = await response.json();
-      console.log(JSON.stringify(newResponse));
-    } catch (error) {
-      console.log('fetch error:', error);
-    }
-  }
-  //console.log(fetchUsers());
+export default class HomeScreen extends Component {
   _signOutAsync = async () => {
     await AsyncStorage.clear();
-    props.navigation.navigate('Auth');
+    this.props.navigation.navigate('Auth');
   };
-  return (
-    <View style={styles.container}>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.contentContainer}
-      >
-        <View style={styles.welcomeContainer}>
-          <Image
-            source={
-              __DEV__
-                ? require('../assets/images/robot-dev.png')
-                : require('../assets/images/robot-prod.png')
-            }
-            style={styles.welcomeImage}
-          />
-        </View>
-
-        <View style={styles.getStartedContainer}>
-          <DevelopmentModeNotice />
-
-          <Text style={styles.getStartedText}>Get started by opening</Text>
-
-          <View
-            style={[styles.codeHighlightContainer, styles.homeScreenFilename]}
-          >
-            <MonoText>screens/HomeScreen.js</MonoText>
+  render() {
+    console.log('HomeScreen View ------------------->');
+    async function fetchUsers() {
+      try {
+        console.log('what is happening here');
+        const response = await fetch(`${process.env.BACKEND_HOST}/api/runs`);
+        console.log('help', response);
+        const newResponse = await response.json();
+        console.log(JSON.stringify(newResponse));
+      } catch (error) {
+        console.log('fetch error:', error);
+      }
+    }
+    console.log(fetchUsers());
+    const { navigate } = this.props.navigation;
+    return (
+      <View style={styles.container}>
+        <ScrollView
+          style={styles.container}
+          contentContainerStyle={styles.contentContainer}
+        >
+          <View style={styles.welcomeContainer}>
+            <Image
+              source={
+                {
+                  uri:
+                    'https://p7.hiclipart.com/preview/751/476/837/running-silhouette-clip-art-silhouette.jpg',
+                }
+                // __DEV__
+                //   ? require('../assets/images/robot-dev.png')
+                //   : require('../assets/images/robot-prod.png')
+              }
+              style={styles.welcomeImage}
+            />
+            <Text style={styles.getStartedText}>
+              Sole-Mate
+              {/* {users[1].email} */}
+            </Text>
           </View>
 
-          <Text style={styles.getStartedText}>
-            Is it working???? It is working!!!Why is it crashing!
-          </Text>
+          <View style={styles.getStartedContainer}>
+            <Button title="Now" onPress={() => navigate('Settings')} />
+            <Button title="Later" onPress={() => navigate('Settings')} />
 
-          <Button title="Actually, sign me out :)" onPress={_signOutAsync} />
-        </View>
-
-        <View style={styles.helpContainer}>
-          <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
-            <Text style={styles.helpLinkText}>
-              Help, it didn’t automatically reload!
+            <Text style={styles.getStartedText}>
+              Is it working???? It is working!!!Why is it crashing!
             </Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
 
-      <View style={styles.tabBarInfoContainer}>
-        <Text style={styles.tabBarInfoText}>
+            <Button
+              title="Actually, sign me out :)"
+              onPress={this._signOutAsync}
+            />
+          </View>
+
+          <View style={styles.helpContainer}>
+            <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
+              <Text style={styles.helpLinkText}>
+                Help, it didn’t automatically reload!
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+
+        <View style={styles.tabBarInfoContainer}>
+          {/* <Text style={styles.tabBarInfoText}>
           This is a tab bar. You can edit it in:
         </Text>
 
@@ -85,16 +94,15 @@ export default function HomeScreen(props) {
           <MonoText style={styles.codeHighlightText}>
             navigation/MainTabNavigator.js
           </MonoText>
+        </View> */}
         </View>
       </View>
-    </View>
-  );
+    );
+  }
 }
-
 HomeScreen.navigationOptions = {
   header: null,
 };
-
 function DevelopmentModeNotice() {
   if (__DEV__) {
     const learnMoreButton = (
