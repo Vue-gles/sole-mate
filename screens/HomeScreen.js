@@ -12,28 +12,24 @@ import {
   Button,
 } from 'react-native';
 
+import { connect } from 'react-redux';
+import { logout } from '../store/user';
+
 import { MonoText } from '../components/StyledText';
 import { NavigationEvents } from 'react-navigation';
 
-export default class HomeScreen extends Component {
+class HomeScreen extends Component {
+  constructor(props) {
+    super(props);
+  }
   _signOutAsync = async () => {
-    await AsyncStorage.clear();
-    this.props.navigation.navigate('Auth');
+    await this.props.logout();
+    if (this.props.user && !this.props.user.id) {
+      this.props.navigation.navigate('Auth');
+    }
   };
   render() {
     console.log('HomeScreen View ------------------->');
-    async function fetchUsers() {
-      try {
-        console.log('what is happening here');
-        const response = await fetch(`${process.env.BACKEND_HOST}/api/runs`);
-        console.log('help', response);
-        const newResponse = await response.json();
-        console.log(JSON.stringify(newResponse));
-      } catch (error) {
-        console.log('fetch error:', error);
-      }
-    }
-    console.log(fetchUsers());
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
@@ -226,3 +222,17 @@ const styles = StyleSheet.create({
     color: '#2e78b7',
   },
 });
+
+const mapState = state => {
+  return {
+    user: state.user,
+  };
+};
+
+const mapDispatch = dispatch => {
+  return {
+    logout: () => dispatch(logout()),
+  };
+};
+
+export default connect(mapState, mapDispatch)(HomeScreen);
