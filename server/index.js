@@ -71,8 +71,6 @@ const createApp = () => {
   app.use('/auth', require('./auth'));
   app.use('/api', require('./api'));
 
-  // static file-serving middleware
-
   // any remaining requests with an extension (.js, .css, etc.) send 404
   app.use((req, res, next) => {
     if (path.extname(req.path).length) {
