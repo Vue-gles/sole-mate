@@ -11,4 +11,18 @@ const Request = db.define('request', {
   },
 });
 
+Request.updateRequestStatus = function(runId, requesterId, status) {
+  const updatedRequest = Request.update(
+    {
+      status: status,
+    },
+    {
+      where: {
+        runId: runId,
+        requesterId: requesterId,
+      }
+    })
+    return updatedRequest
+}
+
 module.exports = Request;
