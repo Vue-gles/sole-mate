@@ -33,7 +33,7 @@ export default class HomeScreen extends Component {
         console.log('fetch error:', error);
       }
     }
-    console.log(fetchUsers());
+    // console.log(fetchUsers());
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>

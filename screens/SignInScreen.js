@@ -13,9 +13,11 @@ import {
   View,
 } from 'react-native';
 
+import { connect } from 'react-redux';
+
 import { MonoText } from '../components/StyledText';
 
-export default class SignInScreen extends React.Component {
+class SignInScreen extends React.Component {
   static navigationOptions = {
     title: 'Please sign in',
   };
@@ -42,3 +44,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+const mapState = state => {
+  return {};
+};
+
+const mapDispatch = dispatch => {
+  return {};
+};
+
+export default connect(mapState, mapDispatch)(SignInScreen);
