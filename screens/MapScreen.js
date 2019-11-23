@@ -6,17 +6,11 @@ export default class Map extends Component {
   render() {
     return (
       <View style={styles.container}>
-        
-       
           <MapView provider = "google"
                   style={styles.mapStyle}
                   showUserLocation = {true}
                   center = {{lat: 41, lng: -78}}
                   defaultZoom = {this.props.zoom} />
-      
-        
-        
-        
       </View>
     );
   }
