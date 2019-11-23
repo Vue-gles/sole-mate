@@ -23,3 +23,5 @@ const Run = db.define('run', {
 });
 
 module.exports = Run;
+
+// Class Methods
