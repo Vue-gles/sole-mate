@@ -4,7 +4,7 @@ const { isAdmin, isUser } = require('../../utils');
 module.exports = router;
 
 // GET /api/runs
-router.get('/', isUser, async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     const runs = await Run.findAll();
     if (runs) {

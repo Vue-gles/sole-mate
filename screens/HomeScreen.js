@@ -1,6 +1,8 @@
 import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
 import {
+  AsyncStorage,
+  Button,
   Image,
   Platform,
   ScrollView,
@@ -12,17 +14,22 @@ import {
 
 import { MonoText } from '../components/StyledText';
 
-export default function HomeScreen() {
+export default function HomeScreen(props) {
+  console.log('HomeScreen View ------------------->');
   async function fetchUsers() {
     try {
-      const response = await fetch(`${process.env.BACKEND_HOST}/api/users`);
+      const response = await fetch(`${process.env.BACKEND_HOST}/api/runs`);
       const newResponse = await response.json();
       console.log(JSON.stringify(newResponse));
     } catch (error) {
       console.log('fetch error:', error);
     }
   }
-  console.log(fetchUsers());
+  //console.log(fetchUsers());
+  _signOutAsync = async () => {
+    await AsyncStorage.clear();
+    props.navigation.navigate('Auth');
+  };
   return (
     <View style={styles.container}>
       <ScrollView
@@ -54,6 +61,8 @@ export default function HomeScreen() {
           <Text style={styles.getStartedText}>
             Is it working???? It is working!!!Why is it crashing!
           </Text>
+
+          <Button title="Actually, sign me out :)" onPress={_signOutAsync} />
         </View>
 
         <View style={styles.helpContainer}>
