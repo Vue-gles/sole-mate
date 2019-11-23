@@ -24,7 +24,7 @@
       "**/*"
     ],
     "android": {
-      "package": "com.mate-sole",
+      "package": "com.mate_sole",
       "config": {
           "googleMaps": {
               "apiKey": "API KEY HERE EVENTUALLY"
@@ -35,7 +35,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.mate-sole",
       "config": {
-          "googleMapsApiKey": "API KEY HERE EVENTUALLY"
+          "googleMapsApiKey": "AIzaSyBhWzAETpXr8rtg_wdZIxWo_NoThy7jN9E"
       }
     }
     
