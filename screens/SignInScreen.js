@@ -29,7 +29,7 @@ class SignInScreen extends React.Component {
   }
 
   static navigationOptions = {
-    title: 'Please sign in',
+    title: 'Sign in to SoleMate',
   };
 
   submitHandler = async () => {
@@ -48,6 +48,14 @@ class SignInScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <Image
+          source={{
+            uri:
+              'https://p7.hiclipart.com/preview/751/476/837/running-silhouette-clip-art-silhouette.jpg',
+          }}
+          style={styles.welcomeImage}
+        />
+        <Text style={styles.getStartedText}>Sole-Mate</Text>
         <TextInput
           value={this.state.email}
           onChangeText={email => this.setState({ email })}
@@ -80,6 +88,13 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderRadius: 5,
     marginBottom: 10,
+  },
+  welcomeImage: {
+    width: 100,
+    height: 80,
+    resizeMode: 'contain',
+    marginTop: 3,
+    marginLeft: -10,
   },
 });
 
