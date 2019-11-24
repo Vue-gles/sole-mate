@@ -160,9 +160,24 @@ const requests = [
     requesterId: 3,
   },
   {
+    status: 'denied',
+    runId: 5,
+    requesterId: 3,
+  },
+  {
     status: 'pending',
     runId: 4,
     requesterId: 2,
+  },
+  {
+    status: 'pending',
+    runId: 4,
+    requesterId: 6,
+  },
+  {
+    status: 'pending',
+    runId: 4,
+    requesterId: 5,
   },
   {
     status: 'pending',
