@@ -1,16 +1,49 @@
 import React, {Component} from 'react';
-import MapView from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import { StyleSheet, View, Dimensions } from 'react-native';
-// import GooglePlaceInput from '../components/GooglePlacesInput'
+
+
 export default class Map extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      latitude : 0,
+      longitude : 0,
+      error : null
+    };
+  }
+
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition(
+       (position) => {
+         console.log("wokeeey");
+         console.log(position);
+         this.setState({
+           latitude: position.coords.latitude,
+           longitude: position.coords.longitude,
+           error: null,
+         });
+       },
+       (error) => this.setState({ error: error.message }),
+       { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 },
+     );
+   }
+
   render() {
     return (
       <View style={styles.container}>
-          <MapView provider = "google"
-                  style={styles.mapStyle}
-                  showUserLocation = {true}
-                  center = {{lat: 41, lng: -78}}
-                  defaultZoom = {this.props.zoom} />
+        <MapView 
+          provider = "google"
+          style={styles.mapStyle}
+          region={{
+            latitude: this.state.latitude,
+            longitude: this.state.longitude,
+            latitudeDelta: 0.0125,
+            longitudeDelta: 0.0121 
+          }}>
+          <Marker coordinate={this.state}></Marker>
+        </MapView>
       </View>
     );
   }
