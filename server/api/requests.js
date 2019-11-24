@@ -6,12 +6,7 @@ const { isAdmin, isUser } = require('../../utils');
 // GET /api/requests/outgoing
 router.get('/outgoing', isUser, async (req, res, next) => {
   try {
-    const outgoing = await Request.findAll({
-      where: {
-        requesterId: req.user.id,
-      },
-      include: [{ model: Run, include: [{ model: User, as: 'Creator' }] }],
-    });
+    const outgoing = await Request.getOutgoing(req.user.id);
     if (outgoing) {
       res.send(outgoing);
     } else {
@@ -26,18 +21,7 @@ router.get('/outgoing', isUser, async (req, res, next) => {
 // GET /api/requests/incoming
 router.get('/incoming', isUser, async (req, res, next) => {
   try {
-    const incoming = await Request.findAll({
-      include: [
-        {
-          model: User,
-          as: 'Request',
-        },
-        {
-          model: Run,
-          where: { creatorId: req.user.id },
-        },
-      ],
-    });
+    const incoming = await Request.getIncoming(req.user.id);
     if (incoming) {
       res.send(incoming);
     } else {
@@ -63,14 +47,13 @@ router.put('/', isUser, async (req, res, next) => {
   }
 });
 
-router.post('/', isUser, async (req, res, next) => {
+// Create new request
+// POST /api/requests/:runId
+router.post('/:runId', isUser, async (req, res, next) => {
   try {
-    const newRequest = await Request.create({
-      requesterId: req.body.requesterId,
-      runId: req.body.runId,
-      status: 'pending',
-    });
-    res.send(newRequest);
+    await Request.addNew(req.user.id, req.params.runId);
+    const outgoing = await Request.getOutgoing(req.user.id);
+    res.send(outgoing);
   } catch (error) {
     next(error);
   }

@@ -1,5 +1,7 @@
 const router = require('express').Router();
 const { Run, User } = require('../db');
+const { Op } = require('sequelize');
+
 const { isAdmin, isUser } = require('../../utils');
 module.exports = router;
 
@@ -7,6 +9,9 @@ module.exports = router;
 router.get('/', isUser, async (req, res, next) => {
   try {
     const runs = await Run.findAll({
+      where: {
+        creatorId: { [Op.ne]: req.user.id },
+      },
       include: [{ model: User, as: 'Creator' }],
     });
     if (runs) {
