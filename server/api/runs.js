@@ -22,7 +22,9 @@ router.get('/', isUser, async (req, res, next) => {
 // GET /api/runs/:runId
 router.get('/:runId', isUser, async (req, res, next) => {
   try {
-    const run = await Run.findByPk(req.params.runId);
+    const run = await Run.findByPk(req.params.runId, {
+      include: [{ model: User, as: 'Creator' }],
+    });
     if (run) {
       res.send(run);
     } else {
