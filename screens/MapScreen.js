@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import MapView, { Marker, Polyline } from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import { StyleSheet, View, Dimensions } from 'react-native';
 
 
@@ -8,32 +8,23 @@ export default class Map extends Component {
     super(props);
 
     this.state = {
-      latitude : 0,
-      longitude : 0,
-      error : null,
-      routeCoordinates: []
+      latitude : 40.7128,
+      longitude : -74.0060,
+      error : null
     };
-    this.getMapRegion = this.getMapRegion.bind(this)
   }
-  getMapRegion = () => ({
-    latitude: this.state.latitude,
-    longitude: this.state.longitude,
-    latitudeDelta: 0.0125,
-    longitudeDelta: 0.0121
-   });
 
   componentDidMount() {
-    navigator.geolocation.watchPosition(
-      position => {
-       const { latitude, longitude } = position.coords;
-       const { routeCoordinates } = this.state;
-       const newCoordinate = {  latitude,  longitude  };
-       this.setState({
-        latitude,
-        longitude,
-         routeCoordinates: routeCoordinates.concat([newCoordinate])
-       });
-     },
+    navigator.geolocation.getCurrentPosition(
+       (position) => {
+         console.log("wokeeey");
+         console.log(position);
+         this.setState({
+           latitude: position.coords.latitude,
+           longitude: position.coords.longitude,
+           error: null,
+         });
+       },
        (error) => this.setState({ error: error.message }),
        { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 },
      );
@@ -45,10 +36,13 @@ export default class Map extends Component {
         <MapView 
           provider = "google"
           style={styles.mapStyle}
-          region={this.getMapRegion()}>
-          <Polyline coordinates={this.state.routeCoordinates} strokeWidth={5} />
+          region={{
+            latitude: this.state.latitude,
+            longitude: this.state.longitude,
+            latitudeDelta: 0.0125,
+            longitudeDelta: 0.0121 
+          }}>
           <Marker coordinate={this.state}></Marker>
-
         </MapView>
       </View>
     );
