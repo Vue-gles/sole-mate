@@ -23,7 +23,7 @@ class HomeScreen extends Component {
     super(props);
   }
   static navigationOptions = {
-    title: 'SoleMate',
+    title: 'Home',
   };
 
   _signOutAsync = async () => {
@@ -49,7 +49,7 @@ class HomeScreen extends Component {
               }}
               style={styles.welcomeImage}
             />
-            <Text style={styles.getStartedText}>Sole-Mate</Text>
+            <Text style={styles.getStartedText}>SoleMate</Text>
           </View>
 
           <View style={styles.getStartedContainer}>
@@ -67,9 +67,7 @@ class HomeScreen extends Component {
     );
   }
 }
-HomeScreen.navigationOptions = {
-  header: null,
-};
+
 function DevelopmentModeNotice() {
   if (__DEV__) {
     const learnMoreButton = (

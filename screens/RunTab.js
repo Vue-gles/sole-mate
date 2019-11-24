@@ -16,6 +16,7 @@ import {
 import Constants from 'expo-constants';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import { NativeRouter, Route, Link } from 'react-router-native';
 
 import { getRuns } from '../store/runs';
 import SingleRunScreen from './SingleRunScreen';
@@ -31,33 +32,18 @@ class RunTab extends React.Component {
     title: 'Run Results',
   };
 
-  componentDidMount() {}
-
   render() {
     return (
-      <View style={styles.container}>
-        {this.props.singleRun && this.props.singleRun.id ? (
-          <SingleRunScreen />
-        ) : (
-          <RunResultsScreen />
-        )}
-      </View>
+      <NativeRouter>
+        <Route exact path={'/'} component={RunResultsScreen} />
+        <Route path={'/runs/:runId'} component={SingleRunScreen} />
+      </NativeRouter>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-});
-
 const mapState = state => {
-  return {
-    runs: state.runs,
-    singleRun: state.singleRun,
-  };
+  return {};
 };
 
 const mapDispatch = dispatch => {
