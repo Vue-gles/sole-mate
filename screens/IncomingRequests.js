@@ -18,21 +18,49 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { NativeRouter, Route, Link } from 'react-router-native';
 
-import { getNotifications } from '../store/notifications';
+import { getIncoming } from '../store/notifications';
 
 class IncomingRequests extends React.Component {
   constructor(props) {
     super(props);
     console.log('Outgoing View -------------------->');
   }
+  async componentDidMount() {
+    await this.props.getIncoming();
+  }
   render() {
     return (
-      <View>
-        <Text>Incoming</Text>
-      </View>
+      <SafeAreaView style={styles.container}>
+        <ScrollView style={styles.scrollView}>
+          {this.props.notifications.map(notification => {
+            return (
+              <View
+                style={styles.notification}
+                key={`${notification.requesterId}${notification.runId}`}
+              >
+                <Text>Run ID: {notification.runId}</Text>
+                <Text>Status: {notification.status}</Text>
+              </View>
+            );
+          })}
+        </ScrollView>
+      </SafeAreaView>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop: Constants.statusBarHeight,
+  },
+  notification: {
+    padding: 10,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
 const mapState = state => {
   return {
@@ -42,7 +70,7 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    getNotifications: (id, method) => dispatch(getNotifications(id, method)),
+    getIncoming: () => dispatch(getIncoming()),
   };
 };
 

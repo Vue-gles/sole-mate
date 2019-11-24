@@ -24,7 +24,7 @@ router.get('/outgoing', isUser, async (req, res, next) => {
     if (outgoing) {
       res.send(outgoing);
     } else {
-      res.send('No outgoing requests.');
+      res.status(404).send('No outgoing requests.');
     }
   } catch (error) {
     next(error);
@@ -33,6 +33,26 @@ router.get('/outgoing', isUser, async (req, res, next) => {
 
 // Incoming Requests
 // GET /api/requests/incoming
+router.get('/incoming', isUser, async (req, res, next) => {
+  try {
+    const incoming = await Request.findAll({
+      include: [
+        {
+          model: Run,
+          where: { creatorId: req.user.id },
+          include: [{ model: User, as: 'Creator' }],
+        },
+      ],
+    });
+    if (incoming) {
+      res.send(incoming);
+    } else {
+      res.status(404).send('No incoming requests');
+    }
+  } catch (error) {
+    next(error);
+  }
+});
 
 // Request.updateRequestStatus is a class method found in db/models/request
 router.put('/', isUser, async (req, res, next) => {
