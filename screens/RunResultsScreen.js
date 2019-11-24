@@ -11,6 +11,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  TouchableHighlight,
   View,
 } from 'react-native';
 import Constants from 'expo-constants';
@@ -18,11 +19,12 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 
 import { getRuns } from '../store/runs';
+import { getSingleRun } from '../store/singleRun';
 
 class RunResultsScreen extends React.Component {
   constructor(props) {
     super(props);
-    console.log('RunResults View -------------------->');
+    this.clickHandler = this.clickHandler.bind(this);
   }
 
   static navigationOptions = {
@@ -33,29 +35,41 @@ class RunResultsScreen extends React.Component {
     this.props.getRuns();
   }
 
+  clickHandler(id) {
+    console.log('id', id);
+    this.props.getSingleRun(1);
+  }
+
   render() {
+    console.log('RunResults ------------->');
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
           {this.props.runs.map(run => {
             return (
-              <View key={run.id} style={styles.runAd}>
-                <Image
-                  source={{
-                    uri: run.Creator.imageUrl,
-                  }}
-                  style={styles.runImage}
-                />
-                <Text>Creator Name: {run.Creator.firstName}</Text>
-                <Text>Location: {run.locationName}</Text>
-                <Text>
-                  Date: {moment(run.startTimeframe).format('MMMM Do')}
-                </Text>
-                <Text>
-                  Time: {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
-                  {moment(run.endTimeframe).format('h:mm:ss a')}
-                </Text>
-              </View>
+              <TouchableHighlight
+                key={run.id}
+                id={run.id}
+                onPress={this.clickHandler}
+              >
+                <View style={styles.runAd}>
+                  <Image
+                    source={{
+                      uri: run.Creator.imageUrl,
+                    }}
+                    style={styles.runImage}
+                  />
+                  <Text>Creator Name: {run.Creator.firstName}</Text>
+                  <Text>Location: {run.locationName}</Text>
+                  <Text>
+                    Date: {moment(run.startTimeframe).format('MMMM Do')}
+                  </Text>
+                  <Text>
+                    Time: {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
+                    {moment(run.endTimeframe).format('h:mm:ss a')}
+                  </Text>
+                </View>
+              </TouchableHighlight>
             );
           })}
         </ScrollView>
@@ -93,6 +107,7 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     getRuns: () => dispatch(getRuns()),
+    getSingleRun: id => dispatch(getSingleRun(id)),
   };
 };
 

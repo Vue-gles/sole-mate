@@ -18,48 +18,30 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 
 import { getRuns } from '../store/runs';
+import SingleRunScreen from './SingleRunScreen';
+import RunResultsScreen from './RunResultsScreen';
 
 class RunTab extends React.Component {
   constructor(props) {
     super(props);
-    console.log('RunResults View -------------------->');
+    console.log('RunTab View -------------------->');
   }
 
   static navigationOptions = {
     title: 'Run Results',
   };
 
-  componentDidMount() {
-    this.props.getRuns();
-  }
+  componentDidMount() {}
 
   render() {
     return (
-      <SafeAreaView style={styles.container}>
-        <ScrollView style={styles.scrollView}>
-          {this.props.runs.map(run => {
-            return (
-              <View key={run.id} style={styles.runAd}>
-                <Image
-                  source={{
-                    uri: run.Creator.imageUrl,
-                  }}
-                  style={styles.runImage}
-                />
-                <Text>Creator Name: {run.Creator.firstName}</Text>
-                <Text>Location: {run.locationName}</Text>
-                <Text>
-                  Date: {moment(run.startTimeframe).format('MMMM Do')}
-                </Text>
-                <Text>
-                  Time: {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
-                  {moment(run.endTimeframe).format('h:mm:ss a')}
-                </Text>
-              </View>
-            );
-          })}
-        </ScrollView>
-      </SafeAreaView>
+      <View style={styles.container}>
+        {this.props.singleRun && this.props.singleRun.id ? (
+          <SingleRunScreen />
+        ) : (
+          <RunResultsScreen />
+        )}
+      </View>
     );
   }
 }
@@ -67,33 +49,19 @@ class RunTab extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: Constants.statusBarHeight,
-  },
-  runAd: {
-    padding: 10,
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  runImage: {
-    width: 150,
-    height: 110,
-    resizeMode: 'contain',
-    marginTop: 3,
-    marginLeft: -10,
+    backgroundColor: '#fff',
   },
 });
 
 const mapState = state => {
   return {
     runs: state.runs,
+    singleRun: state.singleRun,
   };
 };
 
 const mapDispatch = dispatch => {
-  return {
-    getRuns: () => dispatch(getRuns()),
-  };
+  return {};
 };
 
 export default connect(mapState, mapDispatch)(RunTab);
