@@ -5,6 +5,7 @@ import key from '../keys'
  
 const homePlace = { description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
 const workPlace = { description: 'Work', geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }};
+
  
 export default class GooglePlacesInput extends Component{
 
@@ -22,6 +23,11 @@ export default class GooglePlacesInput extends Component{
   
 
   render(){
+    console.log("CHILD PROPS", this.props)
+    const currentLocation = { description: 'Current Location', geometry: 
+{ location: 
+  { lat: this.props.currentCoordinates.latitude, 
+    lng: this.props.currentCoordinates.longitude } }};
 
   
   return (
@@ -62,8 +68,9 @@ export default class GooglePlacesInput extends Component{
         }
       }}
       
-      currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
-      currentLocationLabel="Current location"
+      // currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
+      // currentLocationLabel="Current location"
+      currentLocationCoordinates= {{latitude: this.props.currentCoordinates.latitude, latitude: this.props.currentCoordinates.longitude}}
       nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
       GoogleReverseGeocodingQuery={{
         // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
@@ -75,7 +82,7 @@ export default class GooglePlacesInput extends Component{
       }}
  
       filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
-      predefinedPlaces={[homePlace, workPlace]}
+      predefinedPlaces={[currentLocation, homePlace, workPlace]}
  
       debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
       renderLeftButton={()  => <Image source={require('./TabBarIcon')} />}

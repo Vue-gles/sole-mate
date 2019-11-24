@@ -38,7 +38,6 @@ export default class MapScreen extends Component {
   componentDidMount() {
     navigator.geolocation.watchPosition(
        (position) => {
-        //  console.log("wokeeey");
         //  console.log(position);
          this.setState({
            latitude: position.coords.latitude,
@@ -55,9 +54,12 @@ export default class MapScreen extends Component {
    }
 
   render() {
+    
     return (
       <View style={styles.container}>
-        <GooglePlacesInput currentCoordinates = {{latitude: this.state.currentLat, longitude: this.state.currentLng}}handler={this.handler}/>
+        <GooglePlacesInput currentCoordinates = 
+        {{latitude: this.state.currentLat, longitude: this.state.currentLng}} 
+        handler={this.handler}/>
         <MapView 
           provider = "google"
           style={styles.mapStyle}
@@ -67,12 +69,24 @@ export default class MapScreen extends Component {
             latitudeDelta: 0.0125,
             longitudeDelta: 0.0121
           }}
-          onPress = {this.handlePress}>
+          onPress = {this.handlePress}
+          showsUserLocation={true}
+          showsCompass = {true}
+          followsUserLocation = {true}
+          showsScale = {true}
+          showsMyLocationButton = {true}	
+          loadingEnabled = {true}
+          loadingIndicatorColor = 'orange'
+          loadingBackgroundColor = 'purple'
+
+          >
+            
           <Marker pinColor = 'blue' coordinate={{latitude: this.state.latitude, longitude: this.state.longitude}} />
-          <Marker pinColor = 'green' coordinate={{latitude: this.state.currentLat, longitude: this.state.currentLng}} /> 
+          {/* <Marker pinColor = 'green' coordinate={{latitude: this.state.currentLat, longitude: this.state.currentLng}} />  */}
           
           {this.state.markers.map((marker) => {
-            return <Marker key = {marker.latitude} {...marker} />
+            console.log("MARKER",marker)
+            return <Marker key = {marker.coordinate.latitude * marker.coordinate.longitude/3.14159265358979323} {...marker} />
           })}
           
           <MapViewDirections 
@@ -83,6 +97,7 @@ export default class MapScreen extends Component {
             strokeColor = 'blue'
           
           />
+          
         </MapView>
       </View>
     );
