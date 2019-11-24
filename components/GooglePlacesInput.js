@@ -1,11 +1,29 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { View, Image, Text } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import key from '../keys'
  
 const homePlace = { description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
 const workPlace = { description: 'Work', geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }};
  
-export default function GooglePlacesInput(props){
+export default class GooglePlacesInput extends Component{
+
+  constructor(props){
+    super(props);
+    this.state = {address: ''}
+    this.helperFunction = this.helperFunction.bind(this)
+  }
+
+  helperFunction(lat, lng){
+    // console.log("HELPER",lat, lng, this.state.address)
+    // console.log("PROPS",this.props)
+    this.props.handler(this.state, lat, lng)
+  }
+  
+
+  render(){
+
+  
   return (
     <GooglePlacesAutocomplete
       placeholder='Search'
@@ -16,16 +34,20 @@ export default function GooglePlacesInput(props){
       fetchDetails={true}
       renderDescription={row => row.description} // custom description render
       onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
-        console.log(data, details);
-      }}
+      this.setState({address: JSON.stringify(data.description)})
+      // console.log("CHILDSTATE", this.state)
+      this.helperFunction(details.geometry.location.lat, details.geometry.location.lng)
+      }
+
+    }
       
       getDefaultValue={() => ''}
       
       query={{
         // available options: https://developers.google.com/places/web-service/autocomplete
-        key: "",
+        key: key,
         language: 'en', // language of the results
-        types: '(cities)' // default: 'geocode'
+        // types: 'establishment' && 'geocode' // default: 'geocode'
       }}
       
       styles={{
@@ -60,4 +82,5 @@ export default function GooglePlacesInput(props){
     //   renderRightButton={() => <Text>Custom text after the input</Text>}
     />
   );
+}
 }
