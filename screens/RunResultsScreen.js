@@ -17,27 +17,17 @@ import {
 import Constants from 'expo-constants';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import { Link } from 'react-router-native';
 
 import { getRuns } from '../store/runs';
-import { getSingleRun } from '../store/singleRun';
 
 class RunResultsScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.clickHandler = this.clickHandler.bind(this);
   }
-
-  static navigationOptions = {
-    title: 'Run Results',
-  };
 
   componentDidMount() {
     this.props.getRuns();
-  }
-
-  clickHandler(id) {
-    console.log('id', id);
-    this.props.getSingleRun(1);
   }
 
   render() {
@@ -47,11 +37,7 @@ class RunResultsScreen extends React.Component {
         <ScrollView style={styles.scrollView}>
           {this.props.runs.map(run => {
             return (
-              <TouchableHighlight
-                key={run.id}
-                id={run.id}
-                onPress={this.clickHandler}
-              >
+              <Link to={`/runs/${run.id}`} key={run.id}>
                 <View style={styles.runAd}>
                   <Image
                     source={{
@@ -69,7 +55,7 @@ class RunResultsScreen extends React.Component {
                     {moment(run.endTimeframe).format('h:mm:ss a')}
                   </Text>
                 </View>
-              </TouchableHighlight>
+              </Link>
             );
           })}
         </ScrollView>
@@ -107,7 +93,6 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     getRuns: () => dispatch(getRuns()),
-    getSingleRun: id => dispatch(getSingleRun(id)),
   };
 };
 

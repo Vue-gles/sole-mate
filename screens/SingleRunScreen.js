@@ -15,8 +15,10 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import Constants from 'expo-constants';
+import moment from 'moment';
+import { Link } from 'react-router-native';
 
-import { removeSingleRun } from '../store/singleRun';
+import { removeSingleRun, getSingleRun } from '../store/singleRun';
 
 class SingleRunScreen extends React.Component {
   constructor(props) {
@@ -24,19 +26,41 @@ class SingleRunScreen extends React.Component {
     this.clickHandler = this.clickHandler.bind(this);
     console.log('SingleRun View -------------------->');
   }
-  static navigationOptions = {
-    title: 'Single Run',
-  };
+
+  componentDidMount() {
+    const { runId } = this.props.match.params;
+    this.props.getSingleRun(runId);
+  }
 
   clickHandler() {
     this.props.back();
   }
 
   render() {
+    const { run } = this.props;
     return (
       <View style={styles.container}>
-        <Text>Single Run</Text>
-        <Button title="Back to all runs" onPress={this.clickHandler} />
+        {this.props.run && this.props.run.id && (
+          <View style={styles.container}>
+            <Image
+              source={{
+                uri: run.Creator.imageUrl,
+              }}
+              style={styles.runImage}
+            />
+            <Text>Creator Name: {run.Creator.firstName}</Text>
+            <Text>Location: {run.locationName}</Text>
+            <Text>Date: {moment(run.startTimeframe).format('MMMM Do')}</Text>
+            <Text>
+              Time: {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
+              {moment(run.endTimeframe).format('h:mm:ss a')}
+            </Text>
+            <Button title="Request Run" />
+            <Link to="/" onPress={this.clickHandler}>
+              <Text>Back</Text>
+            </Link>
+          </View>
+        )}
       </View>
     );
   }
@@ -50,20 +74,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   runImage: {
-    width: 150,
-    height: 110,
+    width: 300,
+    height: 300,
     resizeMode: 'contain',
-    marginTop: 3,
+    marginTop: 30,
     marginLeft: -10,
   },
 });
 
 const mapState = state => {
-  return {};
+  return {
+    run: state.singleRun,
+  };
 };
 
 const mapDispatch = dispatch => {
   return {
+    getSingleRun: id => dispatch(getSingleRun(id)),
     back: () => dispatch(removeSingleRun()),
   };
 };
