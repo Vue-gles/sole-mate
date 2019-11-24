@@ -2,17 +2,8 @@ const router = require('express').Router();
 const { Request, Run, User } = require('../db');
 const { isAdmin, isUser } = require('../../utils');
 
-// router.get('/', isUser, async (req, res, next) => {
-//   try {
-//     const allRequests = await Request.findAll();
-//     res.send(allRequests);
-//   } catch (error) {
-//     next(error);
-//   }
-// });
-
 // Outgoing Requests
-// GET /api/requests
+// GET /api/requests/outgoing
 router.get('/outgoing', isUser, async (req, res, next) => {
   try {
     const outgoing = await Request.findAll({

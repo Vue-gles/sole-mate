@@ -18,12 +18,12 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { NativeRouter, Route, Link } from 'react-router-native';
 
-import { getIncoming } from '../store/notifications';
+import { getIncoming } from '../store/incoming';
 
 class IncomingRequests extends React.Component {
   constructor(props) {
     super(props);
-    console.log('Outgoing View -------------------->');
+    console.log('Incoming View -------------------->');
   }
   async componentDidMount() {
     await this.props.getIncoming();
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
 
 const mapState = state => {
   return {
-    notifications: state.notifications,
+    notifications: state.incoming,
   };
 };
 

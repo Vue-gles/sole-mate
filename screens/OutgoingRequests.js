@@ -18,7 +18,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { NativeRouter, Route, Link } from 'react-router-native';
 
-import { getOutgoing } from '../store/notifications';
+import { getOutgoing } from '../store/outgoing';
 
 class OutgoingRequests extends React.Component {
   constructor(props) {
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
 
 const mapState = state => {
   return {
-    notifications: state.notifications,
+    notifications: state.outgoing,
   };
 };
 
