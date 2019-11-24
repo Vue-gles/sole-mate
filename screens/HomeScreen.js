@@ -22,6 +22,10 @@ class HomeScreen extends Component {
   constructor(props) {
     super(props);
   }
+  static navigationOptions = {
+    title: 'SoleMate',
+  };
+
   _signOutAsync = async () => {
     await this.props.logout();
     if (this.props.user && !this.props.user.id) {
@@ -58,29 +62,7 @@ class HomeScreen extends Component {
               onPress={this._signOutAsync}
             />
           </View>
-
-          <View style={styles.helpContainer}>
-            <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
-              <Text style={styles.helpLinkText}>
-                Help, it didn’t automatically reload!
-              </Text>
-            </TouchableOpacity>
-          </View>
         </ScrollView>
-
-        <View style={styles.tabBarInfoContainer}>
-          {/* <Text style={styles.tabBarInfoText}>
-          This is a tab bar. You can edit it in:
-        </Text>
-
-        <View
-          style={[styles.codeHighlightContainer, styles.navigationFilename]}
-        >
-          <MonoText style={styles.codeHighlightText}>
-            navigation/MainTabNavigator.js
-          </MonoText>
-        </View> */}
-        </View>
       </View>
     );
   }
