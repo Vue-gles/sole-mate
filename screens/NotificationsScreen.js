@@ -37,16 +37,16 @@ const NotificationScreen = createMaterialTopTabNavigator(
     animationEnabled: true,
     tabBarOptions: {
       activeTintColor: '#FFFFFF',
-      inactiveTintColor: '#F8F8F8',
+      inactiveTintColor: '#e8e8e8',
       style: {
-        backgroundColor: '#633689',
+        backgroundColor: '#3a5299',
       },
       labelStyle: {
         textAlign: 'center',
       },
       indicatorStyle: {
-        borderBottomColor: '#87B56A',
-        borderBottomWidth: 2,
+        borderBottomColor: '#FFFFFF',
+        borderBottomWidth: 3,
       },
     },
   }
