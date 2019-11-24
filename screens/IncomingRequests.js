@@ -18,16 +18,24 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { NativeRouter, Route, Link } from 'react-router-native';
 
-import { getIncoming } from '../store/incoming';
+import { getIncoming, updateIncoming } from '../store/incoming';
 
 class IncomingRequests extends React.Component {
   constructor(props) {
     super(props);
+    this.acceptHandler = this.acceptHandler.bind(this);
+    this.denyHandler = this.denyHandler.bind(this);
     console.log('Incoming View -------------------->');
   }
   async componentDidMount() {
     await this.props.getIncoming();
   }
+  acceptHandler(evt) {
+    //runId, requesterId, status
+    //this.props.update()
+    //console.log('what up evt', evt);
+  }
+  denyHandler() {}
   render() {
     return (
       <SafeAreaView style={styles.container}>
@@ -47,8 +55,8 @@ class IncomingRequests extends React.Component {
                 <Text>
                   {notification.Request.firstName} would like to run with you
                 </Text>
-                <Button title="✓" />
-                <Button title="X" />
+                <Button title="✓" onPress={this.acceptHandler} />
+                <Button name={notification.runId} title="X" />
               </View>
             );
           })}
@@ -88,6 +96,8 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     getIncoming: () => dispatch(getIncoming()),
+    update: (runId, requesterId, status) =>
+      dispatch(updateIncoming(runId, requesterId, status)),
   };
 };
 

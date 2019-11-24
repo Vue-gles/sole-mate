@@ -30,6 +30,9 @@ Request.getOutgoing = function(requesterId) {
 Request.getIncoming = function(creatorId) {
   try {
     const incoming = Request.findAll({
+      where: {
+        status: 'pending',
+      },
       include: [
         {
           model: User,
