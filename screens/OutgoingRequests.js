@@ -38,8 +38,26 @@ class OutgoingRequests extends React.Component {
                 style={styles.notification}
                 key={`${notification.requesterId}${notification.runId}`}
               >
-                <Text>Run ID: {notification.runId}</Text>
-                <Text>Status: {notification.status}</Text>
+                <Image
+                  source={{
+                    uri: notification.run.Creator.imageUrl,
+                  }}
+                  style={styles.runImage}
+                />
+                {notification.status === 'pending' ? (
+                  <Text>
+                    {notification.run.Creator.firstName} hasn't responded to
+                    your request yet.
+                  </Text>
+                ) : notification.status === 'accepted' ? (
+                  <Text>
+                    {notification.run.Creator.firstName} accepted your request.
+                  </Text>
+                ) : (
+                  <Text>
+                    {notification.run.Creator.firstName} isn't available to run.
+                  </Text>
+                )}
               </View>
             );
           })}
@@ -57,8 +75,16 @@ const styles = StyleSheet.create({
   notification: {
     padding: 10,
     flex: 1,
-    justifyContent: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
     alignItems: 'center',
+  },
+  runImage: {
+    width: 60,
+    height: 60,
+    resizeMode: 'contain',
+    marginTop: 3,
+    marginLeft: -10,
   },
 });
 
