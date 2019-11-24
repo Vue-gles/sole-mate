@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import { StyleSheet, View, Dimensions, Text } from 'react-native';
 import MapViewDirections from 'react-native-maps-directions'
-import key from '../keys'
+//import key from '../keys'
 import GooglePlacesInput from '../components/GooglePlacesInput'
 
 export default class MapScreen extends Component {
@@ -78,7 +78,7 @@ export default class MapScreen extends Component {
           <MapViewDirections 
             origin = {{latitude: this.state.currentLat, longitude: this.state.currentLng}}
             destination = {{latitude: this.state.latitude, longitude: this.state.longitude }}
-            apikey = {key}
+            apikey = {'AIzaSyDhdBOqOwo3CNrYXsne-2yEwqaaZ6MvlWo'}
             strokeWidth = {3}
             strokeColor = 'blue'
           
