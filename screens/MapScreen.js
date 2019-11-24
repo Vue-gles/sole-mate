@@ -33,13 +33,13 @@ export default class MapScreen extends Component {
   }
   handler(name, lat, lng) {
     this.setState({name: name, latitude: lat, longitude: lng})
-    console.log('PARENT STATE', this.state)
+    // console.log('PARENT STATE', this.state)
   }
   componentDidMount() {
     navigator.geolocation.watchPosition(
        (position) => {
-         console.log("wokeeey");
-         console.log(position);
+        //  console.log("wokeeey");
+        //  console.log(position);
          this.setState({
            latitude: position.coords.latitude,
            longitude: position.coords.longitude,
@@ -57,7 +57,7 @@ export default class MapScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <GooglePlacesInput handler={this.handler}/>
+        <GooglePlacesInput currentCoordinates = {{latitude: this.state.currentLat, longitude: this.state.currentLng}}handler={this.handler}/>
         <MapView 
           provider = "google"
           style={styles.mapStyle}

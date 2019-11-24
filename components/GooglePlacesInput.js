@@ -15,8 +15,8 @@ export default class GooglePlacesInput extends Component{
   }
 
   helperFunction(lat, lng){
-    console.log("HELPER",lat, lng, this.state.address)
-    console.log("PROPS",this.props)
+    // console.log("HELPER",lat, lng, this.state.address)
+    // console.log("PROPS",this.props)
     this.props.handler(this.state, lat, lng)
   }
   
@@ -35,7 +35,7 @@ export default class GooglePlacesInput extends Component{
       renderDescription={row => row.description} // custom description render
       onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
       this.setState({address: JSON.stringify(data.description)})
-      console.log("CHILDSTATE", this.state)
+      // console.log("CHILDSTATE", this.state)
       this.helperFunction(details.geometry.location.lat, details.geometry.location.lng)
       }
 
@@ -47,7 +47,7 @@ export default class GooglePlacesInput extends Component{
         // available options: https://developers.google.com/places/web-service/autocomplete
         key: key,
         language: 'en', // language of the results
-        types: 'geocode' // default: 'geocode'
+        // types: 'establishment' && 'geocode' // default: 'geocode'
       }}
       
       styles={{
