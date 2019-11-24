@@ -17,6 +17,7 @@ User.belongsToMany(Run, {
 });
 Run.belongsToMany(User, { through: Request, as: 'Run' });
 Request.belongsTo(Run);
+Request.belongsTo(User, { as: 'Request', foreignKey: 'requesterId' });
 
 /**
  * We'll export all of our models here, so that any time a module needs a model,

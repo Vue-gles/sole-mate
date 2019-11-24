@@ -40,12 +40,12 @@ class IncomingRequests extends React.Component {
               >
                 <Image
                   source={{
-                    uri: notification.run.Creator.imageUrl,
+                    uri: notification.Request.imageUrl,
                   }}
                   style={styles.runImage}
                 />
                 <Text>
-                  {notification.requesterId} would like to run with you
+                  {notification.Request.firstName} would like to run with you
                 </Text>
                 <Button title="✓" />
                 <Button title="X" />

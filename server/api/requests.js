@@ -29,9 +29,12 @@ router.get('/incoming', isUser, async (req, res, next) => {
     const incoming = await Request.findAll({
       include: [
         {
+          model: User,
+          as: 'Request',
+        },
+        {
           model: Run,
           where: { creatorId: req.user.id },
-          include: [{ model: User, as: 'Creator' }],
         },
       ],
     });
