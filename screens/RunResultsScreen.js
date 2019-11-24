@@ -13,6 +13,7 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import { getRuns } from '../store/runs';
 
@@ -36,12 +37,20 @@ class RunResultsScreen extends React.Component {
         {this.props.runs.map(run => {
           return (
             <View key={run.id} style={styles.runAd}>
+              <Image
+                source={{
+                  uri: run.Creator.imageUrl,
+                }}
+                style={styles.runImage}
+              />
+              <Text>Creator Name: {run.Creator.firstName}</Text>
               <Text>Run ID: {run.id}</Text>
               <Text>Location: {run.locationName}</Text>
+              <Text>Date: {moment(run.startTimeframe).format('MMMM Do')}</Text>
               <Text>
-                Timeframe: {run.startTimeframe} - {run.endTimeframe}
+                Time: {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
+                {moment(run.endTimeframe).format('h:mm:ss a')}
               </Text>
-              <Text>Creator ID: {run.creatorId}</Text>
             </View>
           );
         })}
@@ -53,6 +62,13 @@ class RunResultsScreen extends React.Component {
 const styles = StyleSheet.create({
   runAd: {
     padding: 10,
+  },
+  runImage: {
+    width: 100,
+    height: 80,
+    resizeMode: 'contain',
+    marginTop: 3,
+    marginLeft: -10,
   },
 });
 
