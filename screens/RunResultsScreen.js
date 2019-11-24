@@ -6,12 +6,14 @@ import {
   Image,
   Platform,
   ScrollView,
+  SafeAreaView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
+import Constants from 'expo-constants';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
@@ -33,39 +35,49 @@ class RunResultsScreen extends React.Component {
 
   render() {
     return (
-      <View>
-        {this.props.runs.map(run => {
-          return (
-            <View key={run.id} style={styles.runAd}>
-              <Image
-                source={{
-                  uri: run.Creator.imageUrl,
-                }}
-                style={styles.runImage}
-              />
-              <Text>Creator Name: {run.Creator.firstName}</Text>
-              <Text>Run ID: {run.id}</Text>
-              <Text>Location: {run.locationName}</Text>
-              <Text>Date: {moment(run.startTimeframe).format('MMMM Do')}</Text>
-              <Text>
-                Time: {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
-                {moment(run.endTimeframe).format('h:mm:ss a')}
-              </Text>
-            </View>
-          );
-        })}
-      </View>
+      <SafeAreaView style={styles.container}>
+        <ScrollView style={styles.scrollView}>
+          {this.props.runs.map(run => {
+            return (
+              <View key={run.id} style={styles.runAd}>
+                <Image
+                  source={{
+                    uri: run.Creator.imageUrl,
+                  }}
+                  style={styles.runImage}
+                />
+                <Text>Creator Name: {run.Creator.firstName}</Text>
+                <Text>Location: {run.locationName}</Text>
+                <Text>
+                  Date: {moment(run.startTimeframe).format('MMMM Do')}
+                </Text>
+                <Text>
+                  Time: {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
+                  {moment(run.endTimeframe).format('h:mm:ss a')}
+                </Text>
+              </View>
+            );
+          })}
+        </ScrollView>
+      </SafeAreaView>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop: Constants.statusBarHeight,
+  },
   runAd: {
     padding: 10,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   runImage: {
-    width: 100,
-    height: 80,
+    width: 150,
+    height: 110,
     resizeMode: 'contain',
     marginTop: 3,
     marginLeft: -10,
