@@ -1,22 +1,24 @@
 import React, {Component} from 'react';
 import MapView, { Marker } from 'react-native-maps';
-import { StyleSheet, View, Dimensions } from 'react-native';
+import { StyleSheet, View, Dimensions, Text } from 'react-native';
 import MapViewDirections from 'react-native-maps-directions'
 import key from '../keys'
+import GooglePlacesInput from '../components/GooglePlacesInput'
 
-export default class Map extends Component {
+export default class MapScreen extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       latitude : 40.7128,
       longitude : -74.0060,
-      error : null
+      error : null,
+      markers: []
     };
   }
 
   componentDidMount() {
-    navigator.geolocation.getCurrentPosition(
+    navigator.geolocation.watchPosition(
        (position) => {
          console.log("wokeeey");
          console.log(position);
@@ -34,6 +36,7 @@ export default class Map extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <Text>IS THIS SHOWING?</Text>
         <MapView 
           provider = "google"
           style={styles.mapStyle}
@@ -45,6 +48,7 @@ export default class Map extends Component {
           }}>
           <Marker coordinate={this.state} />
           <Marker coordinate = {{latitude: 40.7128, longitude: -74.0060 }} />
+          
           <MapViewDirections 
             origin = {this.state}
             destination = {{latitude: 40.7128, longitude: -74.0060 }}
@@ -58,6 +62,9 @@ export default class Map extends Component {
     );
   }
 }
+MapScreen.navigationOptions = {
+  title: 'Map',
+};
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -67,6 +74,6 @@ const styles = StyleSheet.create({
   },
   mapStyle: {
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
+    height: Dimensions.get('window').height/2,
   },
 });
