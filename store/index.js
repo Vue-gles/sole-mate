@@ -6,11 +6,13 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import user from './user';
 import runs from './runs';
 import singleRun from './singleRun';
+import notifications from './notifications';
 
 const rootReducer = combineReducers({
   user: user,
   runs: runs,
   singleRun: singleRun,
+  notifications: notifications,
 });
 const middleware = composeWithDevTools(
   // applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))

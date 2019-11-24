@@ -18,6 +18,8 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { NativeRouter, Route, Link } from 'react-router-native';
 
+import { getNotifications } from '../store/notifications';
+
 class IncomingRequests extends React.Component {
   constructor(props) {
     super(props);
@@ -33,11 +35,15 @@ class IncomingRequests extends React.Component {
 }
 
 const mapState = state => {
-  return {};
+  return {
+    notifications: state.notifications,
+  };
 };
 
 const mapDispatch = dispatch => {
-  return {};
+  return {
+    getNotifications: (id, method) => dispatch(getNotifications(id, method)),
+  };
 };
 
 export default connect(mapState, mapDispatch)(IncomingRequests);
