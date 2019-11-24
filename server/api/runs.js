@@ -1,12 +1,14 @@
 const router = require('express').Router();
-const { Run } = require('../db');
+const { Run, User } = require('../db');
 const { isAdmin, isUser } = require('../../utils');
 module.exports = router;
 
 // GET /api/runs
 router.get('/', isUser, async (req, res, next) => {
   try {
-    const runs = await Run.findAll();
+    const runs = await Run.findAll({
+      include: [{ model: User, as: 'Creator' }],
+    });
     if (runs) {
       res.send(runs);
     } else {
@@ -20,7 +22,9 @@ router.get('/', isUser, async (req, res, next) => {
 // GET /api/runs/:runId
 router.get('/:runId', isUser, async (req, res, next) => {
   try {
-    const run = await Run.findByPk(req.params.runId);
+    const run = await Run.findByPk(req.params.runId, {
+      include: [{ model: User, as: 'Creator' }],
+    });
     if (run) {
       res.send(run);
     } else {

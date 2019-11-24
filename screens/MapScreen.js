@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import { StyleSheet, View, Dimensions } from 'react-native';
+import MapViewDirections from 'react-native-maps-directions'
+import key from '../keys'
+
 
 
 export default class Map extends Component {
@@ -42,7 +45,16 @@ export default class Map extends Component {
             latitudeDelta: 0.0125,
             longitudeDelta: 0.0121 
           }}>
-          <Marker coordinate={this.state}></Marker>
+          <Marker coordinate={this.state} />
+          <Marker coordinate = {{latitude: 40.7128, longitude: -74.0060 }} />
+          <MapViewDirections 
+            origin = {this.state}
+            destination = {{latitude: 40.7128, longitude: -74.0060 }}
+            apikey = {key}
+            strokeWidth = {3}
+            strokeColor = 'blue'
+          
+          />
         </MapView>
       </View>
     );

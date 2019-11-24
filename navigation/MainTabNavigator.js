@@ -8,7 +8,7 @@ import {
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
-import RunResultsScreen from '../screens/RunResultsScreen';
+import RunTab from '../screens/RunTab';
 import SettingsScreen from '../screens/SettingsScreen';
 import MapScreen from '../screens/MapScreen';
 
@@ -36,14 +36,14 @@ HomeStack.navigationOptions = {
 
 HomeStack.path = '';
 
-const RunResultsStack = createStackNavigator(
+const RunTabStack = createStackNavigator(
   {
-    RunResults: RunResultsScreen,
+    RunTab: RunTab,
   },
   config
 );
 
-RunResultsStack.navigationOptions = {
+RunTabStack.navigationOptions = {
   tabBarLabel: 'Runs',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
@@ -53,7 +53,7 @@ RunResultsStack.navigationOptions = {
   ),
 };
 
-RunResultsStack.path = '';
+RunTabStack.path = '';
 
 const SettingsStack = createStackNavigator(
   {
@@ -95,7 +95,7 @@ MapStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
-  RunResultsStack,
+  RunTabStack,
   SettingsStack,
   MapStack,
 });

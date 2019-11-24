@@ -22,6 +22,10 @@ class HomeScreen extends Component {
   constructor(props) {
     super(props);
   }
+  static navigationOptions = {
+    title: 'Home',
+  };
+
   _signOutAsync = async () => {
     await this.props.logout();
     if (this.props.user && !this.props.user.id) {
@@ -39,66 +43,31 @@ class HomeScreen extends Component {
         >
           <View style={styles.welcomeContainer}>
             <Image
-              source={
-                {
-                  uri:
-                    'https://p7.hiclipart.com/preview/751/476/837/running-silhouette-clip-art-silhouette.jpg',
-                }
-                // __DEV__
-                //   ? require('../assets/images/robot-dev.png')
-                //   : require('../assets/images/robot-prod.png')
-              }
+              source={{
+                uri:
+                  'https://p7.hiclipart.com/preview/751/476/837/running-silhouette-clip-art-silhouette.jpg',
+              }}
               style={styles.welcomeImage}
             />
-            <Text style={styles.getStartedText}>
-              Sole-Mate
-              {/* {users[1].email} */}
-            </Text>
+            <Text style={styles.getStartedText}>SoleMate</Text>
           </View>
 
           <View style={styles.getStartedContainer}>
-            <Button title="Now" onPress={() => navigate('Settings')} />
-            <Button title="Later" onPress={() => navigate('Settings')} />
-
-            <Text style={styles.getStartedText}>
-              Is it working???? It is working!!!Why is it crashing!
-            </Text>
+            <Text>Welcome, {this.props.user.firstName}!</Text>
+            <Button title="Run Now" onPress={() => navigate('Settings')} />
+            <Button title="Run Later" onPress={() => navigate('Settings')} />
 
             <Button
               title="Actually, sign me out :)"
               onPress={this._signOutAsync}
             />
           </View>
-
-          <View style={styles.helpContainer}>
-            <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
-              <Text style={styles.helpLinkText}>
-                Help, it didn’t automatically reload!
-              </Text>
-            </TouchableOpacity>
-          </View>
         </ScrollView>
-
-        <View style={styles.tabBarInfoContainer}>
-          {/* <Text style={styles.tabBarInfoText}>
-          This is a tab bar. You can edit it in:
-        </Text>
-
-        <View
-          style={[styles.codeHighlightContainer, styles.navigationFilename]}
-        >
-          <MonoText style={styles.codeHighlightText}>
-            navigation/MainTabNavigator.js
-          </MonoText>
-        </View> */}
-        </View>
       </View>
     );
   }
 }
-HomeScreen.navigationOptions = {
-  header: null,
-};
+
 function DevelopmentModeNotice() {
   if (__DEV__) {
     const learnMoreButton = (
