@@ -4,8 +4,6 @@ import { StyleSheet, View, Dimensions } from 'react-native';
 import MapViewDirections from 'react-native-maps-directions'
 import key from '../keys'
 
-
-
 export default class Map extends Component {
   constructor(props) {
     super(props);
