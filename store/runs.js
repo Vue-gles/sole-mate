@@ -20,7 +20,7 @@ export const getRuns = () => async dispatch => {
 };
 
 // REDUCER
-export default runs = (state = {}, action) => {
+export default runs = (state = [], action) => {
   switch (action.type) {
     case GOT_RUNS:
       return action.runs;

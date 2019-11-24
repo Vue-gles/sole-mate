@@ -33,11 +33,28 @@ class RunResultsScreen extends React.Component {
   render() {
     return (
       <View>
-        <Text>All runs</Text>
+        {this.props.runs.map(run => {
+          return (
+            <View key={run.id} style={styles.runAd}>
+              <Text>Run ID: {run.id}</Text>
+              <Text>Location: {run.locationName}</Text>
+              <Text>
+                Timeframe: {run.startTimeframe} - {run.endTimeframe}
+              </Text>
+              <Text>Creator ID: {run.creatorId}</Text>
+            </View>
+          );
+        })}
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  runAd: {
+    padding: 10,
+  },
+});
 
 const mapState = state => {
   return {
