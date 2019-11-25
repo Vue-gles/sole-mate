@@ -17,7 +17,7 @@ const rootReducer = combineReducers({
   incoming: incoming,
 });
 const middleware = composeWithDevTools(
-  // applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
+  //applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
   applyMiddleware(thunkMiddleware)
 );
 const store = createStore(rootReducer, middleware);

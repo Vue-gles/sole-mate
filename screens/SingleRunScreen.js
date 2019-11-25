@@ -19,11 +19,13 @@ import moment from 'moment';
 import { Link } from 'react-router-native';
 
 import { removeSingleRun, getSingleRun } from '../store/singleRun';
+import { makeRequest } from '../store/outgoing';
 
 class SingleRunScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.clickHandler = this.clickHandler.bind(this);
+    this.backHandler = this.backHandler.bind(this);
+    this.requestHandler = this.requestHandler.bind(this);
     console.log('SingleRun View -------------------->');
   }
 
@@ -32,8 +34,12 @@ class SingleRunScreen extends React.Component {
     this.props.getSingleRun(runId);
   }
 
-  clickHandler() {
+  backHandler() {
     this.props.back();
+  }
+
+  requestHandler() {
+    this.props.request(this.props.run.id);
   }
 
   render() {
@@ -55,8 +61,8 @@ class SingleRunScreen extends React.Component {
               Time: {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
               {moment(run.endTimeframe).format('h:mm:ss a')}
             </Text>
-            <Button title="Request Run" />
-            <Link to="/" onPress={this.clickHandler}>
+            <Button title="Request Run" onPress={this.requestHandler} />
+            <Link to="/" onPress={this.backHandler}>
               <Text>Back</Text>
             </Link>
           </View>
@@ -92,6 +98,7 @@ const mapDispatch = dispatch => {
   return {
     getSingleRun: id => dispatch(getSingleRun(id)),
     back: () => dispatch(removeSingleRun()),
+    request: runId => dispatch(makeRequest(runId)),
   };
 };
 
