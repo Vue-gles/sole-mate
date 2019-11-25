@@ -2,10 +2,13 @@ import React, {Component} from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import { StyleSheet, View, Dimensions, Text } from 'react-native';
 import MapViewDirections from 'react-native-maps-directions'
-import key from '../keys'
+//import key from '../keys'
 import GooglePlacesInput from '../components/GooglePlacesInput'
+import { connect } from 'react-redux';
 
-export default class MapScreen extends Component {
+import { setCurrentLatThunk,setCurrentLongThunk } from '../store/currentCoord';
+
+class MapScreen extends Component {
   constructor(props) {
     super(props);
 
@@ -51,8 +54,13 @@ export default class MapScreen extends Component {
          });
        },
        (error) => this.setState({ error: error.message }),
-       { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 },
+       { enableHighAccuracy: true, timeout: 200000, maximumAge: 1000 },
      );
+       console.log('currnet lat: ',this.state.currentLat)
+       console.log('currnet long: ',this.state.currentLng)
+     this.props.setCurrentLong({currentLong:this.state.currentLng})
+     this.props.setCurrentLat({currentLat:this.state.currentLat})
+
    }
 
   render() {
@@ -94,7 +102,7 @@ export default class MapScreen extends Component {
           <MapViewDirections 
             origin = {{latitude: this.state.currentLat, longitude: this.state.currentLng}}
             destination = {{latitude: this.state.latitude, longitude: this.state.longitude }}
-            apikey = {key}
+            apikey = {'AIzaSyDhdBOqOwo3CNrYXsne-2yEwqaaZ6MvlWo'}
             strokeWidth = {3}
             strokeColor = 'blue'
           
@@ -120,3 +128,18 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height * 0.6,
   },
 });
+
+const mapState = state => {
+  return {
+    currentCoords: state.currentCoords
+  };
+};
+
+const mapDispatch = dispatch => {
+  return {
+    setCurrentLong:(long)=>dispatch(setCurrentLongThunk(long)),
+    setCurrentLat:(lat)=>dispatch(setCurrentLatThunk(lat))
+  }
+};
+
+export default connect(mapState, mapDispatch)(MapScreen);
