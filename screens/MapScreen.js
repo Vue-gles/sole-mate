@@ -33,6 +33,8 @@ export default class MapScreen extends Component {
   }
   handler(name, lat, lng) {
     this.setState({name: name, latitude: lat, longitude: lng})
+
+   
     // console.log('PARENT STATE', this.state)
   }
   componentDidMount() {
@@ -78,11 +80,11 @@ export default class MapScreen extends Component {
           loadingEnabled = {true}
           loadingIndicatorColor = 'orange'
           loadingBackgroundColor = 'purple'
-
+         
           >
             
-          <Marker pinColor = 'blue' coordinate={{latitude: this.state.latitude, longitude: this.state.longitude}} />
-          {/* <Marker pinColor = 'green' coordinate={{latitude: this.state.currentLat, longitude: this.state.currentLng}} />  */}
+          <Marker pinColor = 'green' coordinate={{latitude: this.state.latitude, longitude: this.state.longitude}} />
+          
           
           {this.state.markers.map((marker) => {
             console.log("MARKER",marker)
@@ -110,11 +112,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
+    // alignItems: 'center',
     justifyContent: 'center',
   },
   mapStyle: {
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height/2,
+    height: Dimensions.get('window').height * 0.6,
   },
 });

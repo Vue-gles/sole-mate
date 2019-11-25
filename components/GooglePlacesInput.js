@@ -3,8 +3,8 @@ import { View, Image, Text } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import key from '../keys'
  
-const homePlace = { description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
-const workPlace = { description: 'Work', geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }};
+const homePlace = { description: 'Home', geometry: { location: { lat: 40.771209, lng:  -73.9673991 } }};
+const workPlace = { description: 'Work', geometry: { location: { lat: 40.7050758, lng: -74.0091604 } }};
 
  
 export default class GooglePlacesInput extends Component{
@@ -16,14 +16,14 @@ export default class GooglePlacesInput extends Component{
   }
 
   helperFunction(lat, lng){
-    // console.log("HELPER",lat, lng, this.state.address)
+    console.log("HELPER",lat, lng, this.state.address)
     // console.log("PROPS",this.props)
     this.props.handler(this.state, lat, lng)
   }
   
 
   render(){
-    console.log("CHILD PROPS", this.props)
+    // console.log("CHILD PROPS", this.props)
     const currentLocation = { description: 'Current Location', geometry: 
 { location: 
   { lat: this.props.currentCoordinates.latitude, 
@@ -41,7 +41,6 @@ export default class GooglePlacesInput extends Component{
       renderDescription={row => row.description} // custom description render
       onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
       this.setState({address: JSON.stringify(data.description)})
-      // console.log("CHILDSTATE", this.state)
       this.helperFunction(details.geometry.location.lat, details.geometry.location.lng)
       }
 
@@ -58,7 +57,8 @@ export default class GooglePlacesInput extends Component{
       
       styles={{
         textInputContainer: {
-          width: '100%'
+          width: '100%',
+          height: '35%'
         },
         description: {
           fontWeight: 'bold'
