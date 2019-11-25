@@ -16,6 +16,7 @@ const setCurrentLong=(long)=>({
 export const setCurrentLatThunk=(lat)=>async dispatch=>{
     try{
         const {data}=await axios.put(`${process.env.BACKEND_HOST}/api/users/lat`,lat)
+        console.log('thunk logs: ',data)
         dispatch(setCurrentLat(data))
     }catch(err){
         console.log('Error:', err);
@@ -25,6 +26,7 @@ export const setCurrentLatThunk=(lat)=>async dispatch=>{
 export const setCurrentLongThunk=(long)=>async dispatch=>{
     try{
         const {data}=await axios.put(`${process.env.BACKEND_HOST}/api/users/long`,long)
+        console.log('thunk logs: ',data)
         dispatch(setCurrentLong(data))
     }catch(err){
         console.log('Error:', err);

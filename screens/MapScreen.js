@@ -56,9 +56,10 @@ class MapScreen extends Component {
        (error) => this.setState({ error: error.message }),
        { enableHighAccuracy: true, timeout: 200000, maximumAge: 1000 },
      );
-
-     this.props.setCurrentLong(this.state.currentLng)
-     this.props.setCurrentLat(this.state.currentLat)
+       console.log('currnet lat: ',this.state.currentLat)
+       console.log('currnet long: ',this.state.currentLng)
+     this.props.setCurrentLong({currentLong:this.state.currentLng})
+     this.props.setCurrentLat({currentLat:this.state.currentLat})
 
    }
 
