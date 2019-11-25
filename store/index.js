@@ -8,7 +8,7 @@ import runs from './runs';
 import singleRun from './singleRun';
 import outgoing from './outgoing';
 import incoming from './incoming';
-import currentCoords from '.currentCoord'
+import currentCoords from './currentCoord'
 
 const rootReducer = combineReducers({
   user: user,
