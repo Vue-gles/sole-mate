@@ -9,7 +9,7 @@ const users = [
     email: 'jhawth@gmail.com',
     password: '1234',
     imageUrl:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbDSCyuGMXp-0GmBh_W_ij8vYWAa_Z8WZf9K0oS5EbXE6MurCxPQ&s',
+      'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/lrg-dsc01551-jpg-1572380102.jpg?crop=0.668xw:1.00xh;0.316xw,0&resize=360:*',
     defaultAddress: '792 Sterling Street',
     avePace: 6,
     avgMileage: 8,
@@ -22,7 +22,7 @@ const users = [
     email: 'bebobags@aol.com',
     password: '1234',
     imageUrl:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbDSCyuGMXp-0GmBh_W_ij8vYWAa_Z8WZf9K0oS5EbXE6MurCxPQ&s',
+      'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/img-4551-jpg-1566239018.jpg?crop=1.00xw:0.670xh;0,0.293xh&resize=360:*',
     defaultAddress: '35 Irving Street',
     avePace: 6,
     avgMileage: 8,
@@ -35,7 +35,7 @@ const users = [
     email: 'bob@email.com',
     password: '1234',
     imageUrl:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbDSCyuGMXp-0GmBh_W_ij8vYWAa_Z8WZf9K0oS5EbXE6MurCxPQ&s',
+      'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/img-2327-1559154410.jpg?crop=1.00xw:0.810xh;0,0.00775xh&resize=360:*',
     defaultAddress: '4 Broadway Ave.',
     avePace: 7,
     avgMileage: 3,
@@ -49,7 +49,7 @@ const users = [
     email: 'lauren@email.com',
     password: '1234',
     imageUrl:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbDSCyuGMXp-0GmBh_W_ij8vYWAa_Z8WZf9K0oS5EbXE6MurCxPQ&s',
+      'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/unknown-5-1557341297.jpeg?crop=0.670xw:1.00xh;0.269xw,0&resize=360:*',
     defaultAddress: '20 2nd Avenue',
     avePace: 10,
     avgMileage: 2,
@@ -62,7 +62,7 @@ const users = [
     email: 'jacob@email.com',
     password: '1234',
     imageUrl:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbDSCyuGMXp-0GmBh_W_ij8vYWAa_Z8WZf9K0oS5EbXE6MurCxPQ&s',
+      'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/unknown-1573850426.jpeg?crop=0.782xw:1.00xh;0.111xw,0&resize=360:*',
     defaultAddress: '20 41st Street',
     avePace: 7,
     avgMileage: 7,
@@ -75,7 +75,7 @@ const users = [
     email: 'dan@yahoo.com',
     password: '1234',
     imageUrl:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbDSCyuGMXp-0GmBh_W_ij8vYWAa_Z8WZf9K0oS5EbXE6MurCxPQ&s',
+      'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/boa-boa-patitucci-trail-dan6524-rgb-1280x850-half-vincentviet-1-1573670157.jpg?crop=0.663xw:1.00xh;0.179xw,0&resize=360:*',
     defaultAddress: '20 1st Street',
     avePace: 5,
     avgMileage: 20,
@@ -88,7 +88,7 @@ const users = [
     email: 'richieS@aol.com',
     password: '1234',
     imageUrl:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbDSCyuGMXp-0GmBh_W_ij8vYWAa_Z8WZf9K0oS5EbXE6MurCxPQ&s',
+      'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/screen-shot-2019-03-12-at-5-29-18-pm-1552426177.png?crop=1.00xw:0.671xh;0,0.0565xh&resize=360:*',
     defaultAddress: '20 49th Street',
     avePace: 9,
     avgMileage: 10,
@@ -160,9 +160,24 @@ const requests = [
     requesterId: 3,
   },
   {
+    status: 'denied',
+    runId: 5,
+    requesterId: 3,
+  },
+  {
     status: 'pending',
     runId: 4,
-    requesterId: 1,
+    requesterId: 2,
+  },
+  {
+    status: 'pending',
+    runId: 4,
+    requesterId: 6,
+  },
+  {
+    status: 'pending',
+    runId: 4,
+    requesterId: 5,
   },
   {
     status: 'pending',

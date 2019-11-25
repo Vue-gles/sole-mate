@@ -33,12 +33,13 @@ export default class MapScreen extends Component {
   }
   handler(name, lat, lng) {
     this.setState({name: name, latitude: lat, longitude: lng})
+
+   
     // console.log('PARENT STATE', this.state)
   }
   componentDidMount() {
     navigator.geolocation.watchPosition(
        (position) => {
-        //  console.log("wokeeey");
         //  console.log(position);
          this.setState({
            latitude: position.coords.latitude,
@@ -55,9 +56,12 @@ export default class MapScreen extends Component {
    }
 
   render() {
+    
     return (
       <View style={styles.container}>
-        <GooglePlacesInput currentCoordinates = {{latitude: this.state.currentLat, longitude: this.state.currentLng}}handler={this.handler}/>
+        <GooglePlacesInput currentCoordinates = 
+        {{latitude: this.state.currentLat, longitude: this.state.currentLng}} 
+        handler={this.handler}/>
         <MapView 
           provider = "google"
           style={styles.mapStyle}
@@ -67,12 +71,24 @@ export default class MapScreen extends Component {
             latitudeDelta: 0.0125,
             longitudeDelta: 0.0121
           }}
-          onPress = {this.handlePress}>
-          <Marker pinColor = 'blue' coordinate={{latitude: this.state.latitude, longitude: this.state.longitude}} />
-          <Marker pinColor = 'green' coordinate={{latitude: this.state.currentLat, longitude: this.state.currentLng}} /> 
+          onPress = {this.handlePress}
+          showsUserLocation={true}
+          showsCompass = {true}
+          followsUserLocation = {true}
+          showsScale = {true}
+          showsMyLocationButton = {true}	
+          loadingEnabled = {true}
+          loadingIndicatorColor = 'orange'
+          loadingBackgroundColor = 'purple'
+         
+          >
+            
+          <Marker pinColor = 'green' coordinate={{latitude: this.state.latitude, longitude: this.state.longitude}} />
+          
           
           {this.state.markers.map((marker) => {
-            return <Marker key = {marker.latitude} {...marker} />
+            console.log("MARKER",marker)
+            return <Marker key = {marker.coordinate.latitude * marker.coordinate.longitude/3.14159265358979323} {...marker} />
           })}
           
           <MapViewDirections 
@@ -83,6 +99,7 @@ export default class MapScreen extends Component {
             strokeColor = 'blue'
           
           />
+          
         </MapView>
       </View>
     );
@@ -95,11 +112,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
+    // alignItems: 'center',
     justifyContent: 'center',
   },
   mapStyle: {
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height/2,
+    height: Dimensions.get('window').height * 0.6,
   },
 });

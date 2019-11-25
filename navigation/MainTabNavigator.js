@@ -10,6 +10,7 @@ import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import RunTab from '../screens/RunTab';
 import SettingsScreen from '../screens/SettingsScreen';
+import NotificationsScreen from '../screens/NotificationsScreen';
 import MapScreen from '../screens/MapScreen';
 
 const config = Platform.select({
@@ -55,24 +56,24 @@ RunTabStack.navigationOptions = {
 
 RunTabStack.path = '';
 
-const SettingsStack = createStackNavigator(
+const NotificationsStack = createStackNavigator(
   {
-    Settings: SettingsScreen,
+    Notifications: NotificationsScreen,
   },
   config
 );
 
-SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
+NotificationsStack.navigationOptions = {
+  tabBarLabel: 'Notifications',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
+      name={Platform.OS === 'ios' ? 'ios-notifications' : 'md-notifications'}
     />
   ),
 };
 
-SettingsStack.path = '';
+NotificationsStack.path = '';
 
 const MapStack = createStackNavigator(
   {
@@ -96,7 +97,7 @@ MapStack.path = '';
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   RunTabStack,
-  SettingsStack,
+  NotificationsStack,
   MapStack,
 });
 
