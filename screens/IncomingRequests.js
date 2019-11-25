@@ -23,19 +23,20 @@ import { getIncoming, updateIncoming } from '../store/incoming';
 class IncomingRequests extends React.Component {
   constructor(props) {
     super(props);
-    this.acceptHandler = this.acceptHandler.bind(this);
-    this.denyHandler = this.denyHandler.bind(this);
+    this.requestUpdateHandler = this.requestUpdateHandler.bind(this);
     console.log('Incoming View -------------------->');
   }
   async componentDidMount() {
     await this.props.getIncoming();
   }
-  acceptHandler(evt) {
+  requestUpdateHandler(runId, requesterId, status) {
     //runId, requesterId, status
     //this.props.update()
     //console.log('what up evt', evt);
+    this.props.update(runId, requesterId, status)
+    
+
   }
-  denyHandler() {}
   render() {
     return (
       <SafeAreaView style={styles.container}>
@@ -55,8 +56,8 @@ class IncomingRequests extends React.Component {
                 <Text>
                   {notification.Request.firstName} would like to run with you
                 </Text>
-                <Button title="✓" onPress={this.acceptHandler} />
-                <Button name={notification.runId} title="X" />
+                <Button title="✓" onPress={() => this.requestUpdateHandler(notification.runId, notification.requesterId, 'accepted')} />
+                <Button title="X" onPress={() => this.requestUpdateHandler(notification.runId, notification.requesterId, 'rejected')}/>
               </View>
             );
           })}
@@ -96,8 +97,9 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     getIncoming: () => dispatch(getIncoming()),
-    update: (runId, requesterId, status) =>
-      dispatch(updateIncoming(runId, requesterId, status)),
+    update: (runId, requesterId, status) =>{
+      console.log(`OKAY, HERE WE GO PLEASE WORK: runId: ${runId} requester: ${requesterId} status: ${status}`)
+      dispatch(updateIncoming(runId, requesterId, status))},
   };
 };
 
