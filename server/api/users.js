@@ -16,3 +16,37 @@ router.get('/', isAdmin, async (req, res, next) => {
     next(err);
   }
 });
+
+router.put('/lat',async(req,res,next)=>{
+  try{
+    const user=await User.findAll({
+      where:{
+       id:req.user.id 
+      }
+    })
+    const {currentLat}=req.body
+    const updated=await user.updated({
+      currentLat
+    })
+    res.json(updated)
+  }catch(err){
+    next(err)
+  }
+})
+
+router.put('/long',async(req,res,next)=>{
+  try{
+    const user=await User.findAll({
+      where:{
+       id:req.user.id 
+      }
+    })
+    const {currentLong}=req.body
+    const updated=await user.updated({
+      currentLong
+    })
+    res.json(updated)
+  }catch(err){
+    next(err)
+  }
+})
