@@ -1,3 +1,5 @@
+const { User, Run, Request } = require('../db')
+
 module.exports = io => {
   io.on('connection', socket => {
     console.log(

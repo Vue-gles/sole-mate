@@ -1,4 +1,5 @@
 import axios from 'axios';
+import socket from '../socket'
 
 // ACTION TYPE
 const GOT_INCOMING = 'GOT_INCOMING';
@@ -25,19 +26,22 @@ export const getIncoming = () => async dispatch => {
     console.log('Error:', err);
   }
 };
-export const updateIncoming = (runId, requesterId, status) => 
-
-{ return async dispatch => {
+export const updateIncoming = (
+  runId,
+  requesterId,
+  status
+) => async dispatch => {
   try {
-    console.log(`runID and the rest are, ${runId}, ${requesterId}, ${status}`)
     const { data } = await axios.put(
       `${process.env.BACKEND_HOST}/api/requests`,
       { runId, requesterId, status }
     );
     dispatch(updatedIncoming(data));
+    // socket.emit('request-update', data)
+
   } catch (err) {
     console.log('Error:', err);
-  }}
+  }
 };
 
 // INITIAL STATE
