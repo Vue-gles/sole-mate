@@ -47,6 +47,7 @@ class SignInScreen extends React.Component {
   };
 
   render() {
+    const { navigate } = this.props.navigation;
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
@@ -74,6 +75,7 @@ class SignInScreen extends React.Component {
               style={styles.input}
             />
             <Button title="Sign In" onPress={this.submitHandler} />
+            <Button title="Create New User" onPress={() => navigate('SignUp')} />
             {this.props.error && this.props.error.response && (
               <Text style={styles.error}>
                 {' '}
