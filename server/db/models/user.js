@@ -59,6 +59,12 @@ const User = db.define('user', {
       notEmpty: true,
     },
   },
+  currentLat: {
+    type: Sequelize.FLOAT,
+  },
+  currentLong: {
+    type: Sequelize.FLOAT,
+  },
   imageUrl: {
     type: Sequelize.STRING,
     defaultValue: '/no_photo.png', // need this file to exist in /public folder
