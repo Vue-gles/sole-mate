@@ -1,6 +1,8 @@
 const axios = require('axios');
 const { User, Run, Request } = require('../db');
 
+///// BACKEND
+
 module.exports = io => {
   io.on('connection', socket => {
     console.log(
@@ -12,8 +14,12 @@ module.exports = io => {
     });
 
     socket.on('requestUpdate', () => {
-      console.log(`--------------->>>>>>>>> Updated an incoming request`);
-      socket.broadcast.emit('getUpdate');
+      console.log(`Backend: requestUpdate received`);
+      socket.broadcast.emit('requestUpdated');
+    });
+
+    socket.on('newRequest', () => {
+      console.log('Backend: newRequest received');
     });
   });
 };

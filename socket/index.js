@@ -2,6 +2,8 @@ import io from 'socket.io-client';
 import store from '../store';
 import { getOutgoing } from '../store/outgoing';
 
+///// FRONTEND
+
 // //TAKE THIS OUT SOON
 require('../secrets');
 
@@ -11,8 +13,8 @@ socket.on('connect', () => {
   console.log('Now connected to socket server');
 });
 
-socket.on('getUpdate', () => {
-  console.log('get data from backend');
+socket.on('requestUpdated', () => {
+  console.log('Frontend: requestUpdated received');
   store.dispatch(getOutgoing());
 });
 
