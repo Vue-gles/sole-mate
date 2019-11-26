@@ -21,17 +21,17 @@ import { Link } from 'react-router-native';
 
 import { getRuns } from '../store/runs';
 
-class RunResultsScreen extends React.Component {
+class UpcomingRuns extends React.Component {
   constructor(props) {
     super(props);
   }
 
   componentDidMount() {
-    this.props.getRuns('potential');
+    this.props.getRuns('upcoming');
   }
 
   render() {
-    console.log('RunResults ------------->');
+    console.log('UpcomingRuns ------------->');
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
@@ -96,4 +96,4 @@ const mapDispatch = dispatch => {
   };
 };
 
-export default connect(mapState, mapDispatch)(RunResultsScreen);
+export default connect(mapState, mapDispatch)(UpcomingRuns);

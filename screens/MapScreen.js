@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import { StyleSheet, View, Dimensions, Text } from 'react-native';
 import MapViewDirections from 'react-native-maps-directions'
@@ -14,32 +14,32 @@ class MapScreen extends Component {
 
     this.state = {
       name: '',
-      latitude : 40.7128,
-      longitude : -74.0060,
-      error : null,
+      latitude: 40.7128,
+      longitude: -74.006,
+      error: null,
       markers: [],
       currentLat: 40.7128,
-      currentLng: -74.0060
+      currentLng: -74.006,
     };
-    this.handlePress = this.handlePress.bind(this)
-    this.handler = this.handler.bind(this)
+    this.handlePress = this.handlePress.bind(this);
+    this.handler = this.handler.bind(this);
   }
-  handlePress (evt) {
+  handlePress(evt) {
     this.setState({
       markers: [
         ...this.state.markers,
         {
-          coordinate: evt.nativeEvent.coordinate
-        }
-      ]
-    })
+          coordinate: evt.nativeEvent.coordinate,
+        },
+      ],
+    });
   }
   handler(name, lat, lng) {
     this.setState({name: name, latitude: lat, longitude: lng})
   }
   componentDidMount() {
     navigator.geolocation.watchPosition(
-       (position) => {
+      position => {
         //  console.log(position);
          this.setState({
            latitude: position.coords.latitude,
@@ -57,39 +57,53 @@ class MapScreen extends Component {
    }
 
   render() {
-    
     return (
       <View style={styles.container}>
-        <GooglePlacesInput currentCoordinates = 
-        {{latitude: this.state.currentLat, longitude: this.state.currentLng}} 
-        handler={this.handler}/>
-        <MapView 
-          provider = "google"
+        <GooglePlacesInput
+          currentCoordinates={{
+            latitude: this.state.currentLat,
+            longitude: this.state.currentLng,
+          }}
+          handler={this.handler}
+        />
+        <MapView
+          provider="google"
           style={styles.mapStyle}
           region={{
             latitude: this.state.latitude,
             longitude: this.state.longitude,
             latitudeDelta: 0.0125,
-            longitudeDelta: 0.0121
+            longitudeDelta: 0.0121,
           }}
-          onPress = {this.handlePress}
+          onPress={this.handlePress}
           showsUserLocation={true}
-          showsCompass = {true}
-          followsUserLocation = {true}
-          showsScale = {true}
-          showsMyLocationButton = {true}	
-          loadingEnabled = {true}
-          loadingIndicatorColor = 'orange'
-          loadingBackgroundColor = 'purple'
-         
-          >
-            
-          <Marker pinColor = 'green' coordinate={{latitude: this.state.latitude, longitude: this.state.longitude}} />
-          
-          
-          {this.state.markers.map((marker) => {
-            console.log("MARKER",marker)
-            return <Marker key = {marker.coordinate.latitude * marker.coordinate.longitude/3.14159265358979323} {...marker} />
+          showsCompass={true}
+          followsUserLocation={true}
+          showsScale={true}
+          showsMyLocationButton={true}
+          loadingEnabled={true}
+          loadingIndicatorColor="orange"
+          loadingBackgroundColor="purple"
+        >
+          <Marker
+            pinColor="green"
+            coordinate={{
+              latitude: this.state.latitude,
+              longitude: this.state.longitude,
+            }}
+          />
+
+          {this.state.markers.map(marker => {
+            console.log('MARKER', marker);
+            return (
+              <Marker
+                key={
+                  (marker.coordinate.latitude * marker.coordinate.longitude) /
+                  3.14159265358979323
+                }
+                {...marker}
+              />
+            );
           })}
           
           <MapViewDirections 
@@ -100,7 +114,6 @@ class MapScreen extends Component {
             strokeColor = 'blue'
           
           />
-          
         </MapView>
       </View>
     );
@@ -124,7 +137,7 @@ const styles = StyleSheet.create({
 
 const mapState = state => {
   return {
-    currentCoords: state.currentCoords
+    currentCoords: state.currentCoords,
   };
 };
 

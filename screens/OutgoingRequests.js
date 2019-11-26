@@ -32,35 +32,43 @@ class OutgoingRequests extends React.Component {
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
-          {this.props.notifications.map(notification => {
-            return (
-              <View
-                style={styles.notification}
-                key={`${notification.requesterId}${notification.runId}`}
-              >
-                <Image
-                  source={{
-                    uri: notification.run.Creator.imageUrl,
-                  }}
-                  style={styles.runImage}
-                />
-                {notification.status === 'pending' ? (
-                  <Text>
-                    {notification.run.Creator.firstName} hasn't responded to
-                    your request yet.
-                  </Text>
-                ) : notification.status === 'accepted' ? (
-                  <Text>
-                    {notification.run.Creator.firstName} accepted your request.
-                  </Text>
-                ) : (
-                  <Text>
-                    {notification.run.Creator.firstName} isn't available to run.
-                  </Text>
-                )}
-              </View>
-            );
-          })}
+          {this.props.notifications && this.props.notifications.length ? (
+            this.props.notifications.map(notification => {
+              return (
+                <View
+                  style={styles.notification}
+                  key={`${notification.requesterId}${notification.runId}`}
+                >
+                  <Image
+                    source={{
+                      uri: notification.run.Creator.imageUrl,
+                    }}
+                    style={styles.runImage}
+                  />
+                  {notification.status === 'pending' ? (
+                    <Text>
+                      {notification.run.Creator.firstName} hasn't responded to
+                      your request yet.
+                    </Text>
+                  ) : notification.status === 'accepted' ? (
+                    <Text>
+                      {notification.run.Creator.firstName} accepted your
+                      request.
+                    </Text>
+                  ) : (
+                    <Text>
+                      {notification.run.Creator.firstName} isn't available to
+                      run.
+                    </Text>
+                  )}
+                </View>
+              );
+            })
+          ) : (
+            <View style={styles.notification}>
+              <Text>No outgoing notifications</Text>
+            </View>
+          )}
         </ScrollView>
       </SafeAreaView>
     );

@@ -59,6 +59,7 @@ export const auth = (inputs, method) => async dispatch => {
       bio,
     });
   } catch (authError) {
+    console.log('error ----->>>>>>>', res);
     return dispatch(getUser({ error: authError }));
   }
 

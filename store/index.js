@@ -19,8 +19,8 @@ const rootReducer = combineReducers({
   currentCoords:currentCoords,
 });
 const middleware = composeWithDevTools(
-  //applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
-  applyMiddleware(thunkMiddleware)
+  applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
+  //applyMiddleware(thunkMiddleware)
 );
 const store = createStore(rootReducer, middleware);
 
