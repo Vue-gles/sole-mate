@@ -20,6 +20,9 @@ const Run = db.define('run', {
     allowNull: false,
     defaultValue: Sequelize.NOW,
   },
+  partnerId: {
+    type: Sequelize.INTEGER,
+  },
 });
 
 module.exports = Run;

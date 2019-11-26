@@ -79,21 +79,25 @@ Request.updateRequestStatus = function(runId, requesterId, status) {
       },
     }
   );
-    // If user accepts a partner, reject all requests for that run
   if (status === 'accepted') {
-    const Op = Sequelize.Op
-    Request.update({status: 'rejected'}, {
-      where: {
-        runId: runId,
-        requesterId: {
-          [Op.ne]: requesterId
-        }
+    // Add partnerId to scheduled run
+    Run.findByPk(runId).then(run => run.update({ partnerId: requesterId }));
+
+    // If user accepts a partner, reject all other requests for that run
+    const Op = Sequelize.Op;
+    Request.update(
+      { status: 'rejected' },
+      {
+        where: {
+          runId: runId,
+          requesterId: {
+            [Op.ne]: requesterId,
+          },
+        },
       }
-    })
+    );
   }
   return updatedRequest;
 };
-
-
 
 module.exports = Request;
