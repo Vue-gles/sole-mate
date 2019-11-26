@@ -42,7 +42,7 @@ router.post('/',async(req,res,next)=>{
   }
 })
 
-router.put('/current',async(req,res,next)=>{
+router.put('/current',isUser,async(req,res,next)=>{
   try{
     const user=await User.findOne({
       where:{
