@@ -32,6 +32,9 @@ router.post('/',async(req,res,next)=>{
       goal,
       bio,
     })
+    if(!newuser){
+      res.status(401).send('Wrong infromation. Try again or gtfo');
+    }
     res.status(201)
     res.send(newuser)
   }catch(err){

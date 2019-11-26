@@ -65,19 +65,20 @@ class SignUpFormScreen extends React.Component {
       };
       this.props.createUser(inputs);
     }
-    if (this.props.user && this.props.user.id) {
-      this.props.navigation.navigate('AuthLoading');
-    }
+    // if (this.props.user && this.props.user.id) {
+    //   this.props.navigation.navigate('AuthLoading');
+    // }
+    // this.props.navigation.navigate('AuthLoading');
   };
 
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <View style={styles.container}>
+      // <View style={styles.container}>
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
-          {/* <View style={styles.container}> */}
-          <Button title="Go Back to Login Screen" onPress={() => navigate('AuthLoading')} />
+          <View style={styles.container}>
+          {/* <Button title="Go Back to Login Screen" onPress={() => navigate('AuthLoading')} /> */}
             <Image
               source={{
                 uri:
@@ -86,7 +87,7 @@ class SignUpFormScreen extends React.Component {
               style={styles.welcomeImage}
             />
             <Text style={styles.getStartedText}>Sole-Mate</Text>
-            <Text style={styles.getStartedText}>CREATE NEW USER SCREEN WORKS</Text>
+            <Text style={styles.getStartedText}>Sign Up</Text>
             <TextInput
               value={this.state.email}
               onChangeText={email => this.setState({ email })}
@@ -135,13 +136,13 @@ class SignUpFormScreen extends React.Component {
               placeholder={'Average Mileage'}
               style={styles.input}
             />
-            {/* <TextInput
+            <TextInput
               value={this.state.goal}
               onChangeText={goal => this.setState({ goal })}
               placeholder={'Goal'}
               style={styles.input}
-            /> */}
-            <Picker
+            />
+            {/* <Picker
               selectedValue={this.state.goal}
               style={{height: 50, width: 100}}
               onValueChange={(itemValue, itemIndex) =>
@@ -150,7 +151,7 @@ class SignUpFormScreen extends React.Component {
               <Picker.Item label="fitness" value="fitness" />
               <Picker.Item label="hobby" value="hobby" />
               <Picker.Item label="weightloss" value="weightloss" />
-            </Picker>
+            </Picker> */}
             <TextInput
               value={this.state.bio}
               onChangeText={bio => this.setState({ bio })}
@@ -158,16 +159,17 @@ class SignUpFormScreen extends React.Component {
               style={styles.input}
             />
             <Button title="Sign Up" onPress={this.submitHandler} />
+            <Button title="Go Back to Login Screen" onPress={() => navigate('AuthLoading')} />
             {this.props.error && this.props.error.response && (
               <Text style={styles.error}>
                 {' '}
                 {this.props.error.response.data}{' '}
               </Text>
             )}
-          {/* </View> */}
+          </View>
         </ScrollView>
       </SafeAreaView>
-      </View>
+      // {/* </View> */}
     );
   }
 }
