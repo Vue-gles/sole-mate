@@ -1,31 +1,15 @@
 import axios from 'axios'
 
-const SET_CURRENT_LAT='SET_CURRENT_LAT'
-const SET_CURRENT_LONG='SET_CURRENT_LONG'
+const SET_CURRENT_COORDS='SET_CURRENT_COORDS'
 
-const setCurrentLat=(lat)=>({
-    type:SET_CURRENT_LAT,
-    lat
+const setCurrentCoords=(coords)=>({
+    type:SET_CURRENT_COORDS,
+    coords
 })
 
-const setCurrentLong=(long)=>({
-    type:SET_CURRENT_LONG,
-    long
-})
-
-export const setCurrentLatThunk=(lat)=>async dispatch=>{
+export const setCurrentCoordsThunk=(coords)=>async dispatch=>{
     try{
-        const {data}=await axios.put(`${process.env.BACKEND_HOST}/api/users/lat`,lat)
-        console.log('thunk logs: ',data)
-        dispatch(setCurrentLat(data))
-    }catch(err){
-        console.log('Error:', err);
-    }
-}
-
-export const setCurrentLongThunk=(long)=>async dispatch=>{
-    try{
-        const {data}=await axios.put(`${process.env.BACKEND_HOST}/api/users/long`,long)
+        const {data}=await axios.put(`${process.env.BACKEND_HOST}/api/users/current`,coords)
         console.log('thunk logs: ',data)
         dispatch(setCurrentLong(data))
     }catch(err){
@@ -37,10 +21,10 @@ let initialState=[null,null]
 
 export default currentCoords=(state=initialState,action)=>{
     switch(action.type){
-        case SET_CURRENT_LAT:
-            return state[0]=action.lat
-        case SET_CURRENT_LONG:
-            return state[1]=action.long
+        case SET_CURRENT_COORDS:
+            state[0]=action.lat
+            state[1]=action.long
+            return state
         default:
             return state
     }
