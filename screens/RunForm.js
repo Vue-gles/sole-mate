@@ -3,8 +3,9 @@ import { Button, View, ScrollView, StyleSheet, TextInput } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { Text } from 'react-native-elements';
 import TimePicker from 'react-native-simple-time-picker';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
-import GooglePlacesInput from '../components/GooglePlacesInput'
+import GooglePlacesInput from '../components/GooglePlacesInput';
 
 export default class DateTimePickerTester extends Component {
   constructor(props) {
@@ -65,9 +66,9 @@ export default class DateTimePickerTester extends Component {
     this.hideTimePicker();
   };
 
-  handleAddressChange(address) {
+  handleAddressChange(lat, long, address) {
     this.setState({ address });
-    console.log(this.state)
+    console.log(this.state);
   }
 
   render() {
@@ -77,11 +78,71 @@ export default class DateTimePickerTester extends Component {
           <Text style={styles.header}>Create a run for others to see</Text>
           <View>
             <Text style={styles.text}>Where would you like to start?</Text>
-            <TextInput
+            {/* <TextInput
               style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
               onChangeText={address => this.handleAddressChange(address)}
               value={this.state.address}
+            /> */}
+
+            <GooglePlacesAutocomplete
+              placeholder="Search"
+              minLength={1} // minimum length of text to search
+              autoFocus={true}
+              returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
+              listViewDisplayed="auto" // true/false/undefined
+              fetchDetails={true}
+              renderDescription={row => row.description} // custom description render
+              onPress={(data, details = null) => {
+                // 'details' is provided when fetchDetails = true
+                this.setState({ address: JSON.stringify(data.description) });
+                this.helperFunction(
+                  details.geometry.location.lat,
+                  details.geometry.location.lng
+                );
+              }}
+              getDefaultValue={() => ''}
+              query={{
+                // available options: https://developers.google.com/places/web-service/autocomplete
+                key: 'AIzaSyB8h51dc-77FRjuPf81ZUWyvmeasWNnqXc',
+                language: 'en', // language of the results
+                // types: 'establishment' && 'geocode' // default: 'geocode'
+              }}
+              styles={{
+                textInputContainer: {
+                  width: '100%',
+                  height: '35%',
+                },
+                description: {
+                  fontWeight: 'bold',
+                },
+                predefinedPlacesDescription: {
+                  color: '#1faadb',
+                },
+              }}
+              // currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
+              // currentLocationLabel="Current location"
+
+              nearbyPlacesAPI="GooglePlacesSearch" // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
+              GoogleReverseGeocodingQuery={
+                {
+                  // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
+                }
+              }
+              GooglePlacesSearchQuery={{
+                // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
+                rankby: 'distance',
+                types: 'food',
+              }}
+              filterReverseGeocodingByTypes={[
+                'locality',
+                'administrative_area_level_3',
+              ]} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
+
+              debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
+
+              //   renderRightButton={() => <Text>Custom text after the input</Text>}
             />
+
           </View>
           <View>
             <Button
@@ -96,35 +157,31 @@ export default class DateTimePickerTester extends Component {
               minimumDate={new Date()}
             />
           </View>
-            <Button
-              title="Start Time"
-              onPress={this.showStartTimePicker}
-              style={styles.button}
-            />
-            <DateTimePicker
-              mode={'time'}
-              isVisible={this.state.isStartTimePickerVisible}
-              onConfirm={this.handleStartTimePicked}
-              onCancel={this.hideStartTimePicker}
-            />
-
-
-            <Button
-              title="End Time"
-              onPress={this.showEndTimePicker}
-              style={styles.button}
-            />
-            <DateTimePicker
-              mode={'time'}
-              isVisible={this.state.isEndTimePickerVisible}
-              onConfirm={this.handleEndTimePicked}
-              onCancel={this.hideEndTimePicker}
-            />
+          <Button
+            title="Start Time"
+            onPress={this.showStartTimePicker}
+            style={styles.button}
+          />
+          <DateTimePicker
+            mode={'time'}
+            isVisible={this.state.isStartTimePickerVisible}
+            onConfirm={this.handleStartTimePicked}
+            onCancel={this.hideStartTimePicker}
+          />
 
           <Button
-          title='Submit'
-
+            title="End Time"
+            onPress={this.showEndTimePicker}
+            style={styles.button}
           />
+          <DateTimePicker
+            mode={'time'}
+            isVisible={this.state.isEndTimePickerVisible}
+            onConfirm={this.handleEndTimePicked}
+            onCancel={this.hideEndTimePicker}
+          />
+
+          <Button title="Submit" />
         </View>
       </ScrollView>
     );
