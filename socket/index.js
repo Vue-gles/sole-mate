@@ -1,6 +1,7 @@
 import io from 'socket.io-client';
 import store from '../store';
 import { getOutgoing } from '../store/outgoing';
+import { getIncoming } from '../store/incoming';
 
 ///// FRONTEND
 
@@ -16,6 +17,11 @@ socket.on('connect', () => {
 socket.on('requestUpdated', () => {
   console.log('Frontend: requestUpdated received');
   store.dispatch(getOutgoing());
+});
+
+socket.on('newRequestReceived', () => {
+  console.log('Frontend: newRequestReceived');
+  store.dispatch(getIncoming());
 });
 
 socket.on('disconnect', () => {

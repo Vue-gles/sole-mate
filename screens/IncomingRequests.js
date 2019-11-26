@@ -26,7 +26,7 @@ class IncomingRequests extends React.Component {
   constructor(props) {
     super(props);
     this.requestUpdateHandler = this.requestUpdateHandler.bind(this);
-    //console.log('Incoming View -------------------->');
+    console.log('Incoming View -------------------->');
   }
   async componentDidMount() {
     await this.props.getIncoming();

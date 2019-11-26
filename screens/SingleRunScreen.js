@@ -40,8 +40,9 @@ class SingleRunScreen extends React.Component {
     this.props.back();
   }
 
-  requestHandler() {
-    this.props.request(this.props.run.id);
+  async requestHandler() {
+    await this.props.request(this.props.run.id);
+    socket.emit('newRequest');
   }
 
   render() {

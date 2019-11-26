@@ -6,7 +6,6 @@ const { isAdmin, isUser } = require('../../utils');
 // GET /api/requests/outgoing
 router.get('/outgoing', isUser, async (req, res, next) => {
   try {
-    console.log('/outgoing route for:', req.user.id);
     const outgoing = await Request.getOutgoing(req.user.id);
     if (outgoing) {
       res.send(outgoing);

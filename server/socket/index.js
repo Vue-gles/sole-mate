@@ -20,6 +20,7 @@ module.exports = io => {
 
     socket.on('newRequest', () => {
       console.log('Backend: newRequest received');
+      socket.broadcast.emit('newRequestReceived');
     });
   });
 };

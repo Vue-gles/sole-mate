@@ -18,7 +18,6 @@ const updatedIncoming = notifications => ({
 // THUNK CREATOR
 export const getIncoming = () => async dispatch => {
   try {
-    //console.log('Is getIncoming running?');
     const { data } = await axios.get(
       `${process.env.BACKEND_HOST}/api/requests/incoming`
     );
@@ -38,7 +37,6 @@ export const updateIncoming = (
       { runId, requesterId, status }
     );
     dispatch(updatedIncoming(data));
-    // socket.emit('requestUpdate', data);
   } catch (err) {
     console.log('Error:', err);
   }
