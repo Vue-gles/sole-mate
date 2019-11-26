@@ -11,6 +11,7 @@ import {
   View,
   Button,
 } from 'react-native';
+import TabBarIcon from '../components/TabBarIcon'
 
 import { connect } from 'react-redux';
 import { logout } from '../store/user';
@@ -23,8 +24,9 @@ class HomeScreen extends Component {
     super(props);
   }
   static navigationOptions = {
-    title: 'Home',
+    title: 'Home'
   };
+  
 
   _signOutAsync = async () => {
     await this.props.logout();
