@@ -4,34 +4,19 @@
 //   FormLabel,
 //   FormInput,
 //   FormValidationMessage,
-//   Button
-// } from 'react-native-elements'; 
-// import DateTimePicker from '@react-native-community/datetimepicker';
+// } from 'react-native-elements';
 
 // export default class RunForm extends React.Component {
 //   constructor() {
 //     super();
 //     this.state = {
-//         date: new Date('2019-06-12T14:42:42'),
-//         mode: 'date',
-//         show: false,
+//         address: '',
+//         startTime: '',
+//         endTime: ''
 //     }
-//     this.show = this.show.bind(this)
-//     this.timepicker = this.timepicker.bind(this)
-//   }
-//   timepicker() {
-//       this.show('time')
-//   }
-
-//   show = mode => {
-//     this.setState({
-//       show: true,
-//       mode,
-//     });
 //   }
 
 //   render() {
-//       const {show, date, mode} = this.state
 //     return (
 //       <ScrollView>
 //         <Text>Post your run below</Text>
@@ -40,59 +25,89 @@
 //               placeholder={'Something'}
 //               style={styles.input}
 //             />
-        
-//         <View>
-//           <Button onPress={this.datepicker} title="Show date picker!" />
-//         </View>
-//         <View>
-//           <Button onPress={this.timepicker} title="Show time picker!" />
-//         </View>
-//         { show && <DateTimePicker value={date}
-//                     mode={mode}
-//                     is24Hour={true}
-//                     display="default"
-//                     onChange={this.setDate} />
-//         }
+
 //       </ScrollView>
 //     );
 //   }
 // }
 
-import React, { Component } from "react";
-import { Button, View } from "react-native";
-import DateTimePicker from "react-native-modal-datetime-picker";
- 
+import React, { Component } from 'react';
+import { Button, View, ScrollView } from 'react-native';
+import DateTimePicker from 'react-native-modal-datetime-picker';
+import { Text } from 'react-native-elements';
+import { TextInput } from 'react-native-gesture-handler';
+import TimePicker from 'react-native-simple-time-picker';
+
 export default class DateTimePickerTester extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isDateTimePickerVisible: false
+      isDateTimePickerVisible: false,
+      isTimePickerVisible: false,
+      date: new Date(),
+      startTime: new Date(),
+      endTime: new Date()
     };
   }
- 
+
   showDateTimePicker = () => {
     this.setState({ isDateTimePickerVisible: true });
   };
- 
+
   hideDateTimePicker = () => {
     this.setState({ isDateTimePickerVisible: false });
   };
- 
+
   handleDatePicked = date => {
-    console.log("A date has been picked: ", date);
+    console.log('A date has been picked: ', date);
+    this.setState({ date });
     this.hideDateTimePicker();
   };
- 
+
+  showTimePicker = () => {
+    this.setState({ isTimePickerVisible: true });
+  };
+
+  hideTimePicker = () => {
+    this.setState({ isTimePickerVisible: false });
+  };
+
+  handleTimePicked = time => {
+    console.log('A date has been picked: ', date);
+    this.setState({ startTime });
+    this.hideTimePicker();
+  };
+
+  handleEndTimePicked(endTime) {
+      this.setState({endTime})
+      this.hideDateTimePicker
+  }
+
+
   render() {
     return (
-      <>
-        <Button title="Show DatePicker" onPress={this.showDateTimePicker} />
-        <DateTimePicker
-          isVisible={this.state.isDateTimePickerVisible}
-          onConfirm={this.handleDatePicked}
-          onCancel={this.hideDateTimePicker}
-        />
-      </>
+      <ScrollView>
+        <View>
+          <Button title="Choose a date" onPress={this.showDateTimePicker} />
+          <DateTimePicker
+
+            isVisible={this.state.isDateTimePickerVisible}
+            onConfirm={this.handleDatePicked}
+            onCancel={this.hideDateTimePicker}
+            minimumDate={new Date()}
+          />
+        </View>
+        <View>
+          <Button title="Start" onPress={this.showTimePicker} />
+          <DateTimePicker
+            mode={'time'}
+            isVisible={this.state.isTimePickerVisible}
+            onConfirm={this.handleTimePicked}
+            onCancel={this.hideTimePicker}
+          />
+        </View>
+
+      </ScrollView>
     );
   }
 }
