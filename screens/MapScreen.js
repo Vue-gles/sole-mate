@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import { StyleSheet, View, Dimensions, Text } from 'react-native';
-
-import MapViewDirections from 'react-native-maps-directions';
-//import key from '../keys'
-import GooglePlacesInput from '../components/GooglePlacesInput';
+import MapViewDirections from 'react-native-maps-directions'
+import key from '../keys'
+import GooglePlacesInput from '../components/GooglePlacesInput'
 import { connect } from 'react-redux';
 
-import { setCurrentLatThunk, setCurrentLongThunk } from '../store/currentCoord';
+import { setCurrentCoordsThunk } from '../store/currentCoord';
 
 class MapScreen extends Component {
   constructor(props) {
@@ -36,31 +35,26 @@ class MapScreen extends Component {
     });
   }
   handler(name, lat, lng) {
-    this.setState({ name: name, latitude: lat, longitude: lng });
-
-    console.log('PARENT STATE', this.state);
+    this.setState({name: name, latitude: lat, longitude: lng})
   }
   componentDidMount() {
     navigator.geolocation.watchPosition(
       position => {
         //  console.log(position);
-        this.setState({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          currentLat: position.coords.latitude,
-          currentLng: position.coords.longitude,
-
-          error: null,
-        });
-      },
-      error => this.setState({ error: error.message }),
-      { enableHighAccuracy: true, timeout: 200000, maximumAge: 1000 }
-    );
-    console.log('currnet lat: ', this.state.currentLat);
-    console.log('currnet long: ', this.state.currentLng);
-    this.props.setCurrentLong({ currentLong: this.state.currentLng });
-    this.props.setCurrentLat({ currentLat: this.state.currentLat });
-  }
+         this.setState({
+           latitude: position.coords.latitude,
+           longitude: position.coords.longitude,
+           currentLat: position.coords.latitude,
+           currentLng: position.coords.longitude,
+           
+           error: null,
+         });
+       },
+       (error) => this.setState({ error: error.message }),
+       { enableHighAccuracy: true, timeout: 200000, maximumAge: 1000 },
+     );
+       this.props.setCurrentCoords({currentLat:this.state.currentLat,currentLong:this.state.currentLng})
+   }
 
   render() {
     return (
@@ -111,19 +105,14 @@ class MapScreen extends Component {
               />
             );
           })}
-
-          <MapViewDirections
-            origin={{
-              latitude: this.state.currentLat,
-              longitude: this.state.currentLng,
-            }}
-            destination={{
-              latitude: this.state.latitude,
-              longitude: this.state.longitude,
-            }}
-            apikey={'AIzaSyDhdBOqOwo3CNrYXsne-2yEwqaaZ6MvlWo'}
-            strokeWidth={3}
-            strokeColor="blue"
+          
+          <MapViewDirections 
+            origin = {{latitude: this.state.currentLat, longitude: this.state.currentLng}}
+            destination = {{latitude: this.state.latitude, longitude: this.state.longitude }}
+            apikey = {key}
+            strokeWidth = {3}
+            strokeColor = 'blue'
+          
           />
         </MapView>
       </View>
@@ -154,9 +143,8 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    setCurrentLong: long => dispatch(setCurrentLongThunk(long)),
-    setCurrentLat: lat => dispatch(setCurrentLatThunk(lat)),
-  };
+    setCurrentCoords:(coords)=>dispatch(setCurrentCoordsThunk(coords)),
+  }
 };
 
 export default connect(mapState, mapDispatch)(MapScreen);
