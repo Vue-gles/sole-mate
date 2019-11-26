@@ -33,34 +33,56 @@ class IncomingRequests extends React.Component {
     //runId, requesterId, status
     //this.props.update()
     //console.log('what up evt', evt);
-    this.props.update(runId, requesterId, status)
-    
-
+    this.props.update(runId, requesterId, status);
   }
   render() {
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
-          {this.props.notifications.map(notification => {
-            return (
-              <View
-                style={styles.notification}
-                key={`${notification.requesterId}${notification.runId}`}
-              >
-                <Image
-                  source={{
-                    uri: notification.Request.imageUrl,
-                  }}
-                  style={styles.runImage}
-                />
-                <Text>
-                  {notification.Request.firstName} would like to run with you
-                </Text>
-                <Button title="✓" onPress={() => this.requestUpdateHandler(notification.runId, notification.requesterId, 'accepted')} />
-                <Button title="X" onPress={() => this.requestUpdateHandler(notification.runId, notification.requesterId, 'rejected')}/>
-              </View>
-            );
-          })}
+          {this.props.notifications && this.props.notifications.length ? (
+            this.props.notifications.map(notification => {
+              return (
+                <View
+                  style={styles.notification}
+                  key={`${notification.requesterId}${notification.runId}`}
+                >
+                  <Image
+                    source={{
+                      uri: notification.Request.imageUrl,
+                    }}
+                    style={styles.runImage}
+                  />
+                  <Text>
+                    {notification.Request.firstName} would like to run with you
+                  </Text>
+                  <Button
+                    title="✓"
+                    onPress={() =>
+                      this.requestUpdateHandler(
+                        notification.runId,
+                        notification.requesterId,
+                        'accepted'
+                      )
+                    }
+                  />
+                  <Button
+                    title="X"
+                    onPress={() =>
+                      this.requestUpdateHandler(
+                        notification.runId,
+                        notification.requesterId,
+                        'rejected'
+                      )
+                    }
+                  />
+                </View>
+              );
+            })
+          ) : (
+            <View style={styles.notification}>
+              <Text>No incoming notifications</Text>
+            </View>
+          )}
         </ScrollView>
       </SafeAreaView>
     );
@@ -97,9 +119,12 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     getIncoming: () => dispatch(getIncoming()),
-    update: (runId, requesterId, status) =>{
-      console.log(`OKAY, HERE WE GO PLEASE WORK: runId: ${runId} requester: ${requesterId} status: ${status}`)
-      dispatch(updateIncoming(runId, requesterId, status))},
+    update: (runId, requesterId, status) => {
+      console.log(
+        `OKAY, HERE WE GO PLEASE WORK: runId: ${runId} requester: ${requesterId} status: ${status}`
+      );
+      dispatch(updateIncoming(runId, requesterId, status));
+    },
   };
 };
 
