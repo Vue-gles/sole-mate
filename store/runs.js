@@ -10,9 +10,11 @@ const gotRuns = runs => ({
 });
 
 // THUNK CREATORS
-export const getRuns = () => async dispatch => {
+export const getRuns = type => async dispatch => {
   try {
-    const { data } = await axios.get(`${process.env.BACKEND_HOST}/api/runs`);
+    const { data } = await axios.get(
+      `${process.env.BACKEND_HOST}/api/runs?type=${type}`
+    );
     dispatch(gotRuns(data));
   } catch (err) {
     console.log('Error:', err);

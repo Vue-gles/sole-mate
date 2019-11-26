@@ -6,7 +6,9 @@ import key from '../keys'
 import GooglePlacesInput from '../components/GooglePlacesInput'
 import { getDistance } from  'geolib'
 import { connect } from 'react-redux';
-import { setCurrentLatThunk,setCurrentLongThunk } from '../store/currentCoord';
+// import { setCurrentLat,setCurrentLong } from '../store/currentCoord';
+
+import { setCurrentCoordsThunk } from '../store/currentCoord';
 
 const circleColor = 'rgba(204, 255, 255, 0.2)'
 const circle2Color = 'rgba(225, 204, 153, 0.5)'
@@ -197,8 +199,8 @@ class MapScreen extends Component {
     );
     console.log('currnet lat: ',this.state.currentLat)
     console.log('currnet long: ',this.state.currentLng)
-  this.props.setCurrentLong({currentLong:this.state.currentLng})
-  this.props.setCurrentLat({currentLat:this.state.currentLat})
+  // this.props.setCurrentLong({currentLong:this.state.currentLng})
+  // this.props.setCurrentLat({currentLat:this.state.currentLat})
   }
 
   onRegionChangeHandler(evt) {
@@ -215,10 +217,10 @@ class MapScreen extends Component {
       markers: [
         ...this.state.markers,
         {
-          coordinate: evt.nativeEvent.coordinate
-        }
-      ]
-    })
+          coordinate: evt.nativeEvent.coordinate,
+        },
+      ],
+    });
   }
 
   render() {
@@ -368,14 +370,13 @@ const styles = StyleSheet.create({
 });
 const mapState = state => {
   return {
-    currentCoords: state.currentCoords
+    currentCoords: state.currentCoords,
   };
 };
 
 const mapDispatch = dispatch => {
   return {
-    setCurrentLong:(long)=>dispatch(setCurrentLongThunk(long)),
-    setCurrentLat:(lat)=>dispatch(setCurrentLatThunk(lat))
+    setCurrentCoords:(coords)=>dispatch(setCurrentCoordsThunk(coords)),
   }
 };
 
