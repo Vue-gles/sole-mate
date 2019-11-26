@@ -7,6 +7,7 @@ import {
   Image,
   Platform,
   ScrollView,
+  SafeAreaView,
   StyleSheet,
   Text,
   TextInput,
@@ -47,29 +48,41 @@ class SignInScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Image
-          source={{
-            uri:
-              'https://p7.hiclipart.com/preview/751/476/837/running-silhouette-clip-art-silhouette.jpg',
-          }}
-          style={styles.welcomeImage}
-        />
-        <Text style={styles.getStartedText}>Sole-Mate</Text>
-        <TextInput
-          value={this.state.email}
-          onChangeText={email => this.setState({ email })}
-          placeholder={'Email'}
-          style={styles.input}
-        />
-        <TextInput
-          value={this.state.password}
-          onChangeText={password => this.setState({ password })}
-          placeholder={'Password'}
-          style={styles.input}
-        />
-        <Button title="Sign In" onPress={this.submitHandler} />
-      </View>
+      <SafeAreaView style={styles.container}>
+        <ScrollView style={styles.scrollView}>
+          <View style={styles.container}>
+            <Image
+              source={{
+                uri:
+                  'https://p7.hiclipart.com/preview/751/476/837/running-silhouette-clip-art-silhouette.jpg',
+              }}
+              style={styles.welcomeImage}
+            />
+            <Text style={styles.getStartedText}>Sole-Mate</Text>
+            <TextInput
+              value={this.state.email}
+              onChangeText={email =>
+                this.setState({ email: email.toLowerCase() })
+              }
+              placeholder={'Email'}
+              style={styles.input}
+            />
+            <TextInput
+              value={this.state.password}
+              onChangeText={password => this.setState({ password })}
+              placeholder={'Password'}
+              style={styles.input}
+            />
+            <Button title="Sign In" onPress={this.submitHandler} />
+            {this.props.error && this.props.error.response && (
+              <Text style={styles.error}>
+                {' '}
+                {this.props.error.response.data}{' '}
+              </Text>
+            )}
+          </View>
+        </ScrollView>
+      </SafeAreaView>
     );
   }
 }
@@ -79,10 +92,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    paddingTop: 100,
   },
   input: {
     width: 200,
     height: 44,
+    marginTop: 10,
     padding: 10,
     borderWidth: 1,
     borderColor: 'black',
@@ -95,6 +110,9 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     marginTop: 3,
     marginLeft: -10,
+  },
+  error: {
+    color: `#eb4034`,
   },
 });
 

@@ -30,9 +30,6 @@ class IncomingRequests extends React.Component {
     await this.props.getIncoming();
   }
   requestUpdateHandler(runId, requesterId, status) {
-    //runId, requesterId, status
-    //this.props.update()
-    //console.log('what up evt', evt);
     this.props.update(runId, requesterId, status);
   }
   render() {
@@ -120,9 +117,6 @@ const mapDispatch = dispatch => {
   return {
     getIncoming: () => dispatch(getIncoming()),
     update: (runId, requesterId, status) => {
-      console.log(
-        `OKAY, HERE WE GO PLEASE WORK: runId: ${runId} requester: ${requesterId} status: ${status}`
-      );
       dispatch(updateIncoming(runId, requesterId, status));
     },
   };

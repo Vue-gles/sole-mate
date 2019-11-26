@@ -25,19 +25,21 @@ export const getIncoming = () => async dispatch => {
     console.log('Error:', err);
   }
 };
-export const updateIncoming = (runId, requesterId, status) => 
-
-{ return async dispatch => {
-  try {
-    console.log(`runID and the rest are, ${runId}, ${requesterId}, ${status}`)
-    const { data } = await axios.put(
-      `${process.env.BACKEND_HOST}/api/requests`,
-      { runId, requesterId, status }
-    );
-    dispatch(updatedIncoming(data));
-  } catch (err) {
-    console.log('Error:', err);
-  }}
+export const updateIncoming = (runId, requesterId, status) => {
+  return async dispatch => {
+    try {
+      const {
+        data,
+      } = await axios.put(`${process.env.BACKEND_HOST}/api/requests`, {
+        runId,
+        requesterId,
+        status,
+      });
+      dispatch(updatedIncoming(data));
+    } catch (err) {
+      console.log('Error:', err);
+    }
+  };
 };
 
 // INITIAL STATE
