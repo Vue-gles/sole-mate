@@ -11,7 +11,10 @@ export default class DateTimePickerTester extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      address: '',
+      street: '',
+      city: '',
+      state: '',
+      country: '',
       isDateTimePickerVisible: false,
       isStartTimePickerVisible: false,
       isEndTimePickerVisible: false,
@@ -66,8 +69,15 @@ export default class DateTimePickerTester extends Component {
     this.hideTimePicker();
   };
 
-  handleAddressChange(lat, long, address) {
-    this.setState({ address });
+  helperFunction(address) {
+      address = address.split(', ')
+      const street = address[0].slice(1, address[0].length)
+      const city = address[1]
+      const state = address[2]
+      const country = address[3].slice(0, address[3].length - 2)
+
+     this.setState({street, city, state, country})
+
     console.log(this.state);
   }
 
@@ -94,16 +104,12 @@ export default class DateTimePickerTester extends Component {
               renderDescription={row => row.description} // custom description render
               onPress={(data, details = null) => {
                 // 'details' is provided when fetchDetails = true
-                this.setState({ address: JSON.stringify(data.description) });
-                this.helperFunction(
-                  details.geometry.location.lat,
-                  details.geometry.location.lng
-                );
+                this.helperFunction(JSON.stringify(data.description));
               }}
               getDefaultValue={() => ''}
               query={{
                 // available options: https://developers.google.com/places/web-service/autocomplete
-                key: 'AIzaSyB8h51dc-77FRjuPf81ZUWyvmeasWNnqXc',
+                key: 'AIzaSyCsvXupdbHjZEmJ_tDboG904WYkXBQTC8E',
                 language: 'en', // language of the results
                 // types: 'establishment' && 'geocode' // default: 'geocode'
               }}
@@ -137,12 +143,10 @@ export default class DateTimePickerTester extends Component {
                 'locality',
                 'administrative_area_level_3',
               ]} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
-
               debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
 
               //   renderRightButton={() => <Text>Custom text after the input</Text>}
             />
-
           </View>
           <View>
             <Button
@@ -181,7 +185,7 @@ export default class DateTimePickerTester extends Component {
             onCancel={this.hideEndTimePicker}
           />
 
-          <Button title="Submit" />
+          <Button title="Submit"/>
         </View>
       </ScrollView>
     );
