@@ -6,18 +6,13 @@ const { isAdmin, isUser } = require('../../utils');
 module.exports = router;
 
 // GET /api/runs
-// Get future runs without a partner
 router.get('/', isUser, async (req, res, next) => {
   try {
-    const currentTime = new Date();
-    const runs = await Run.findAll({
-      where: {
-        creatorId: { [Op.ne]: req.user.id },
-        endTimeframe: { [Op.gt]: currentTime },
-        partnerId: { [Op.is]: null },
-      },
-      include: [{ model: User, as: 'Creator' }],
-    });
+    const { type } = req.query;
+    let runs;
+    if (type === 'potential') runs = await Run.getPotentialRuns(req.user.id);
+    if (type === 'upcoming') runs = await Run.getUpcomingRuns(req.user.id);
+    if (type === 'past') runs = await Run.getPastRuns(req.user.id);
     if (runs) {
       res.send(runs);
     } else {

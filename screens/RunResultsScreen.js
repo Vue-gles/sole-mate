@@ -27,7 +27,7 @@ class RunResultsScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getRuns();
+    this.props.getRuns('potential');
   }
 
   render() {
@@ -92,7 +92,7 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    getRuns: () => dispatch(getRuns()),
+    getRuns: type => dispatch(getRuns(type)),
   };
 };
 
