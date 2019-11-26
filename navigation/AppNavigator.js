@@ -7,6 +7,7 @@ import AuthLoadingScreen from '../screens/AuthLoadingScreen';
 import SignInScreen from '../screens/SignInScreen';
 
 import { MonoText } from '../components/StyledText';
+import SignUpFormScreen from '../screens/SignUpFormScreen';
 
 const AuthStack = createStackNavigator({ SignIn: SignInScreen });
 
@@ -17,7 +18,8 @@ export default createAppContainer(
       // Read more at https://reactnavigation.org/docs/en/auth-flow.html
       AuthLoading: AuthLoadingScreen,
       Main: MainTabNavigator,
-      Auth: AuthStack
+      Auth: AuthStack,
+      SignUp:SignUpFormScreen
     },
     {
       initialRouteName: 'AuthLoading',
