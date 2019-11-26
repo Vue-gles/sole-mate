@@ -18,6 +18,8 @@ import Constants from 'expo-constants';
 import moment from 'moment';
 import { Link } from 'react-router-native';
 
+import socket from '../socket/index';
+
 import { removeSingleRun, getSingleRun } from '../store/singleRun';
 import { makeRequest } from '../store/outgoing';
 

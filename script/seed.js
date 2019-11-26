@@ -99,6 +99,12 @@ const users = [
 
 const runs = [
   {
+    locationName: '666 Sockets St',
+    startTimeframe: new Date('2019-12-22 08:00:00'),
+    endTimeframe: new Date('2019-12-22 12:00:00'),
+    creatorId: 6,
+  },
+  {
     locationName: '123 Main St',
     startTimeframe: new Date('2019-12-22 08:00:00'),
     endTimeframe: new Date('2019-12-22 12:00:00'),
