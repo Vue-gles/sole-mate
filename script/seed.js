@@ -1,6 +1,6 @@
 'use strict';
 
-const { db, User, Run } = require('../server/db');
+const { db, User, Run, Message } = require('../server/db');
 
 const users = [
   {
@@ -150,41 +150,65 @@ const runs = [
 
 const requests = [
   {
-    status: 'pending',
     runId: 1,
     requesterId: 4,
   },
   {
-    status: 'pending',
     runId: 2,
     requesterId: 3,
   },
   {
-    status: 'denied',
     runId: 5,
     requesterId: 3,
   },
   {
-    status: 'pending',
     runId: 4,
     requesterId: 2,
   },
   {
-    status: 'pending',
     runId: 4,
     requesterId: 6,
   },
   {
-    status: 'pending',
     runId: 4,
     requesterId: 5,
   },
   {
-    status: 'pending',
     runId: 2,
     requesterId: 4,
   },
 ];
+const messages=[{
+  content:'hi',
+  receiverId:1,
+  senderId:2
+},
+{
+  content:'hijnj',
+  receiverId:1,
+  senderId:3
+},
+{
+  content:'bye',
+  receiverId:3,
+  senderId:2
+},
+{
+  content:'hiiiii',
+  receiverId:4,
+  senderId:2
+},
+{
+  content:'hiasdad',
+  receiverId:3,
+  senderId:6
+},
+{
+  content:'bye',
+  receiverId:6,
+  senderId:3
+}
+]
 
 async function seed() {
   await db.sync({ force: true });
@@ -196,6 +220,11 @@ async function seed() {
   for (let i = 0; i < requests.length; i++) {
     const user = await User.findByPk(requests[i].requesterId);
     await user.addRequest(requests[i].runId);
+  }
+
+  for (let i = 0; i < messages.length; i++) {
+    const user = await User.findByPk(messages[i].senderId);
+    await user.addSender(messages[i].receiverId);
   }
 
   console.log(`seeded successfully`);

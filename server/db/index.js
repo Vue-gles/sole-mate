@@ -1,5 +1,5 @@
 const db = require('./db');
-const { User, Run, Request } = require('./models');
+const { User, Run, Request,Message } = require('./models');
 
 // register models
 require('./models');
@@ -9,4 +9,5 @@ module.exports = {
   User,
   Run,
   Request,
+  Message
 };
