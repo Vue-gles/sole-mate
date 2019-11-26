@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import MapView, { Marker, Callout, Circle, Polyline  } from 'react-native-maps';
 import { StyleSheet, View, Dimensions, Text, Button} from 'react-native';
-import MapViewDirections from 'react-native-maps-directions'
-import key from '../keys'
+// import MapViewDirections from 'react-native-maps-directions'
+// import key from '../keys'
 import GooglePlacesInput from '../components/GooglePlacesInput'
 import { getDistance } from  'geolib'
 import { connect } from 'react-redux';
-// import { setCurrentLat,setCurrentLong } from '../store/currentCoord';
+
 
 import { setCurrentCoordsThunk } from '../store/currentCoord';
 
@@ -121,7 +121,7 @@ class MapScreen extends Component {
         loc = {latitude: position.coords.latitude, longitude: position.coords.longitude}
         let distance = 0
         if (this.state.coordinates.length > 0) {
-          distance = getDistance(this.state.coordinates[this.state.coordinates.length-1], loc) * 0.000621371
+          distance = getDistance(this.state.coordinates[this.state.coordinates.length-1], loc, accuracy = 1) * 0.000621371
         }
         this.setState({
           coordinates: [...this.state.coordinates, loc],
@@ -334,7 +334,7 @@ class MapScreen extends Component {
           />
           <Text>Distance: </Text>
           <Text>
-            {this.state.distance.toFixed(2)}
+            {this.state.distance.toFixed(5)}
           </Text>
         </View>
       </View>
@@ -356,7 +356,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'stretch',
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height * 0.6
+    height: Dimensions.get('window').height * 0.67
   },
   rowButtonStyle: {
     flex: 1,
