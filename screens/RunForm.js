@@ -44,6 +44,7 @@ export default class DateTimePickerTester extends Component {
     this.state = {
       isDateTimePickerVisible: false,
       isTimePickerVisible: false,
+      isEndTimePickerVisible: false,
       date: new Date(),
       startTime: new Date(),
       endTime: new Date()
@@ -78,11 +79,19 @@ export default class DateTimePickerTester extends Component {
     this.hideTimePicker();
   };
 
-  handleEndTimePicked(endTime) {
-      this.setState({endTime})
-      this.hideDateTimePicker
-  }
+  showEndTimePicker = () => {
+    this.setState({ isEndTimePickerVisible: true });
+  };
 
+  hideEndTimePicker = () => {
+    this.setState({ isEndTimePickerVisible: false });
+  };
+
+  handleEndTimePicked = endTime => {
+    console.log('A date has been picked: ', date);
+    this.setState({ endTime });
+    this.hideTimePicker();
+  };
 
   render() {
     return (
@@ -98,12 +107,21 @@ export default class DateTimePickerTester extends Component {
           />
         </View>
         <View>
-          <Button title="Start" onPress={this.showTimePicker} />
+          <Button title="Start Time" onPress={this.showTimePicker} />
           <DateTimePicker
             mode={'time'}
             isVisible={this.state.isTimePickerVisible}
             onConfirm={this.handleTimePicked}
             onCancel={this.hideTimePicker}
+          />
+        </View>
+        <View>
+        <Button title="End Time" onPress={this.showTimePicker} />
+          <DateTimePicker
+            mode={'time'}
+            isVisible={this.state.isEndTimePickerVisible}
+            onConfirm={this.handleEndTimePicked}
+            onCancel={this.hideEndTimePicker}
           />
         </View>
 
