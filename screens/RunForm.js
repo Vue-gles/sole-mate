@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Button, View, ScrollView, StyleSheet, TextInput } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { Text } from 'react-native-elements';
-import TimePicker from 'react-native-simple-time-picker';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import {connect} from 'react-redux'
 
