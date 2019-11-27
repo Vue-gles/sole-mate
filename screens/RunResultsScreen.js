@@ -68,12 +68,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: Constants.statusBarHeight,
+    backgroundColor:"#4d4dff",
   },
   runAd: {
     padding: 10,
     flex: 1,
+    // width:200,
+    // padding:20,
     justifyContent: 'center',
     alignItems: 'center',
+    alignSelf:'center',
+    backgroundColor:"#228b22",
+    borderWidth: 1,
+    borderColor: 'black',
   },
   runImage: {
     width: 150,
@@ -81,6 +88,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     marginTop: 3,
     marginLeft: -10,
+    // backgroundColor:"#ff4dff"
   },
 });
 
