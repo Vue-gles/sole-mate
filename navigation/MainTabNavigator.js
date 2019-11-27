@@ -5,6 +5,7 @@ import {
   createBottomTabNavigator,
 } from 'react-navigation';
 
+
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
@@ -12,6 +13,7 @@ import RunTab from '../screens/RunTab';
 import SettingsScreen from '../screens/SettingsScreen';
 import NotificationsScreen from '../screens/NotificationsScreen';
 import MapScreen from '../screens/MapScreen';
+import ScheduleScreen from '../screens/ScheduleScreen';
 import RunForm from '../screens/RunForm'
 
 const config = Platform.select({
@@ -98,13 +100,34 @@ MapStack.navigationOptions = {
 
 MapStack.path = '';
 
+const ScheduleStack = createStackNavigator(
+  {
+    Home: ScheduleScreen,
+  },
+  config
+);
+
+ScheduleStack.navigationOptions = {
+  tabBarLabel: 'Schedule',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === 'ios' ? `ios-journal` : 'md-journal'}
+    />
+  ),
+};
+
+ScheduleStack.path = '';
+
+
+
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   RunTabStack,
   NotificationsStack,
   MapStack,
+  ScheduleStack
 });
 
 tabNavigator.path = '';
-
 export default tabNavigator;
