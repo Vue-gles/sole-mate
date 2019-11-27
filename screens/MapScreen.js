@@ -169,7 +169,6 @@ class MapScreen extends Component {
   }
 
   clearTracking() {
-    // if you the mock data
     dataIndex = -1
     this.setState({
       coordinates: [],
@@ -232,17 +231,17 @@ class MapScreen extends Component {
                   : {latitude: this.state.currentLat, longitude: this.state.currentLng}
 
   let searchedRegion = this.state.handlerEnabled ? {
-    latitude: this.state.latitude,
+        latitude: this.state.latitude,
         longitude: this.state.longitude,
-        latitudeDelta: 0.0125,
-        longitudeDelta: 0.0121
+        latitudeDelta: 0.0110,
+        longitudeDelta: 0.0110
   } :
     
       {
         latitude: this.state.currentLat,
         longitude: this.state.currentLng,
-        latitudeDelta: 0.0125,
-        longitudeDelta: 0.0121
+        latitudeDelta: 0.0110,
+        longitudeDelta: 0.0110
       }
   console.log("SEARCHED REGION",searchedRegion)
     
@@ -255,6 +254,7 @@ class MapScreen extends Component {
         <MapView
           provider="google"
           style={styles.mapStyle}
+          type = 'retro'
           onRegionChange={this.onRegionChangeHandler} 
           region={searchedRegion}
           onPress = {this.handlePress}
@@ -264,8 +264,8 @@ class MapScreen extends Component {
           showsScale = {true}
           showsMyLocationButton = {true}	
           loadingEnabled = {true}
-          loadingIndicatorColor = 'orange'
-          loadingBackgroundColor = 'purple'
+          loadingIndicatorColor = 'green'
+          loadingBackgroundColor = 'green'
         >
           {this.state.handlerEnabled === false}
           {/* bigger circle must be rendered frist */}
@@ -290,11 +290,11 @@ class MapScreen extends Component {
             console.log("MARKER",marker)
             return <Marker key = {marker.coordinate.latitude * marker.coordinate.longitude/3.14159265358979323} {...marker} />
           })}
-          <Marker coordinate={currLoc}>
+          {/* <Marker coordinate={currLoc}>
             <Callout>
               <Text>My current location</Text>
             </Callout>
-          </Marker>
+          </Marker> */}
           
           {
             notRenderDirection ? null :
@@ -334,8 +334,9 @@ class MapScreen extends Component {
           />
           <Text>Distance: </Text>
           <Text>
-            {this.state.distance.toFixed(5)}
+            {this.state.distance.toFixed(2)}
           </Text>
+          
         </View>
       </View>
     );
@@ -347,7 +348,7 @@ MapScreen.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#228b22",
     alignItems: "center",
     justifyContent: "center"
   },
@@ -355,8 +356,9 @@ const styles = StyleSheet.create({
     flex: 2,
     justifyContent: 'center',
     alignItems: 'stretch',
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height * 0.67
+    width: Dimensions.get('window').width * 0.9,
+    height: Dimensions.get('window').height * 0.67,
+    padding: '5%'
   },
   rowButtonStyle: {
     flex: 1,
