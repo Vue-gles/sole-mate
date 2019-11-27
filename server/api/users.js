@@ -17,6 +17,31 @@ router.get('/', isAdmin, async (req, res, next) => {
   }
 });
 
+router.post('/',async(req,res,next)=>{
+  try{
+    const {email,password,firstName,lastName,defaultAddress,imageUrl,avgPace,avgMileage,goal,bio}=req.body
+    const newuser=await User.create({
+      email,
+      password,
+      firstName,
+      lastName,
+      defaultAddress,
+      imageUrl,
+      avgPace,
+      avgMileage,
+      goal,
+      bio,
+    })
+    if(!newuser){
+      res.status(401).send('Wrong infromation. Try again or gtfo');
+    }
+    res.status(201)
+    res.send(newuser)
+  }catch(err){
+    next(err)
+  }
+})
+
 router.put('/current',async(req,res,next)=>{
   try{
     const user=await User.findOne({

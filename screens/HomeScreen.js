@@ -19,6 +19,7 @@ import { logout } from '../store/user';
 import { MonoText } from '../components/StyledText';
 import { NavigationEvents } from 'react-navigation';
 
+
 class HomeScreen extends Component {
   constructor(props) {
     super(props);
@@ -57,7 +58,7 @@ class HomeScreen extends Component {
           <View style={styles.getStartedContainer}>
             <Text>Welcome, {this.props.user.firstName}!</Text>
             <Button title="Run Now" onPress={() => navigate('Settings')} />
-            <Button title="Run Later" onPress={() => navigate('Settings')} />
+            <Button title="Run Later" onPress={() => this.props.navigation.navigate('RunForm')} />
 
             <Button
               title="Actually, sign me out :)"

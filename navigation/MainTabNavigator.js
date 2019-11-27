@@ -14,6 +14,7 @@ import SettingsScreen from '../screens/SettingsScreen';
 import NotificationsScreen from '../screens/NotificationsScreen';
 import MapScreen from '../screens/MapScreen';
 import ScheduleScreen from '../screens/ScheduleScreen';
+import RunForm from '../screens/RunForm'
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -23,8 +24,11 @@ const config = Platform.select({
 const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
-  },
-  config
+    RunForm: RunForm
+  }, {
+    initialRouteName: 'Home'
+  }
+  
 );
 
 HomeStack.navigationOptions = {

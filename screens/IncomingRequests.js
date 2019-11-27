@@ -18,6 +18,8 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { NativeRouter, Route, Link } from 'react-router-native';
 
+import socket from '../socket/index';
+
 import { getIncoming, updateIncoming } from '../store/incoming';
 
 class IncomingRequests extends React.Component {
@@ -29,8 +31,9 @@ class IncomingRequests extends React.Component {
   async componentDidMount() {
     await this.props.getIncoming();
   }
-  requestUpdateHandler(runId, requesterId, status) {
-    this.props.update(runId, requesterId, status);
+  async requestUpdateHandler(runId, requesterId, status) {
+    await this.props.update(runId, requesterId, status);
+    socket.emit('requestUpdate');
   }
   render() {
     return (

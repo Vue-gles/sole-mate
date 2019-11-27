@@ -356,9 +356,8 @@ const styles = StyleSheet.create({
     flex: 2,
     justifyContent: 'center',
     alignItems: 'stretch',
-    width: Dimensions.get('window').width * 0.9,
-    height: Dimensions.get('window').height * 0.67,
-    padding: '5%'
+    width: Dimensions.get('window').width * 0.97,
+    height: Dimensions.get('window').height * 0.70,
   },
   rowButtonStyle: {
     flex: 1,

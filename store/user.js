@@ -6,6 +6,7 @@ import axios from 'axios';
 const GET_USER = 'GET_USER';
 const REMOVE_USER = 'REMOVE_USER';
 const UPDATE_USER = 'UPDATE_USER';
+const CREATE_USER='CREATE_USER'
 
 /**
  * INITIAL STATE
@@ -18,6 +19,7 @@ const defaultUser = {};
 const getUser = user => ({ type: GET_USER, user });
 const removeUser = () => ({ type: REMOVE_USER });
 const updateUser = updatedUser => ({ type: UPDATE_USER, updatedUser });
+const createUser=user=>({type: CREATE_USER,user})
 
 /**
  * THUNK CREATORS
@@ -91,6 +93,17 @@ export const update = userInfo => async dispatch => {
   }
 };
 
+export const createUserThunk=user=>async dispatch=>{
+  try{
+    const { data } = await axios.post(
+      `${process.env.BACKEND_HOST}/api/users`,user
+    );
+    dispatch(createUser(data))
+  }catch(err){
+    console.log(err)
+  }
+}
+
 /**
  * REDUCER
  */
@@ -102,6 +115,8 @@ export default function(state = defaultUser, action) {
       return defaultUser;
     case UPDATE_USER:
       return action.updatedUser;
+    case CREATE_USER:
+      return action.user
     default:
       return state;
   }
