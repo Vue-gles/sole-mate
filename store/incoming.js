@@ -1,4 +1,5 @@
 import axios from 'axios';
+// import socket from '../socket';
 
 // ACTION TYPE
 const GOT_INCOMING = 'GOT_INCOMING';
@@ -25,28 +26,27 @@ export const getIncoming = () => async dispatch => {
     console.log('Error:', err);
   }
 };
-export const updateIncoming = (runId, requesterId, status) => {
-  return async dispatch => {
-    try {
-      const {
-        data,
-      } = await axios.put(`${process.env.BACKEND_HOST}/api/requests`, {
-        runId,
-        requesterId,
-        status,
-      });
-      dispatch(updatedIncoming(data));
-    } catch (err) {
-      console.log('Error:', err);
-    }
-  };
+export const updateIncoming = (
+  runId,
+  requesterId,
+  status
+) => async dispatch => {
+  try {
+    const { data } = await axios.put(
+      `${process.env.BACKEND_HOST}/api/requests`,
+      { runId, requesterId, status }
+    );
+    dispatch(updatedIncoming(data));
+  } catch (err) {
+    console.log('Error:', err);
+  }
 };
 
 // INITIAL STATE
 const initialState = [];
 
 // REDUCER
-export default notifications = (state = initialState, action) => {
+export default incoming = (state = initialState, action) => {
   switch (action.type) {
     case GOT_INCOMING:
       return action.notifications;
