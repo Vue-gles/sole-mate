@@ -4,17 +4,22 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import { Text } from 'react-native-elements';
 import TimePicker from 'react-native-simple-time-picker';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import {connect} from 'react-redux'
 
 import GooglePlacesInput from '../components/GooglePlacesInput';
+import {createRunThunk} from '../store/runs'
 
-export default class DateTimePickerTester extends Component {
+class RunForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+        creatorId: NaN,
       street: '',
       city: '',
       state: '',
       country: '',
+      lattitude: '',
+      longitude: '',
       isDateTimePickerVisible: false,
       isStartTimePickerVisible: false,
       isEndTimePickerVisible: false,
@@ -23,6 +28,9 @@ export default class DateTimePickerTester extends Component {
       endTime: new Date(),
     };
   }
+
+
+
 
   //DATE PICKER
   showDateTimePicker = () => {
@@ -34,7 +42,6 @@ export default class DateTimePickerTester extends Component {
   };
 
   handleDatePicked = date => {
-    console.log('A date has been picked: ', date);
     this.setState({ date });
     this.hideDateTimePicker();
   };
@@ -66,22 +73,26 @@ export default class DateTimePickerTester extends Component {
   handleEndTimePicked = endTime => {
     endTime = endTime.getHours();
     this.setState({ endTime });
-    this.hideTimePicker();
+    this.hideEndTimePicker();
   };
 
-  helperFunction(address) {
+  locationHandler(lattitude, longitude, address) {
       address = address.split(', ')
       const street = address[0].slice(1, address[0].length)
       const city = address[1]
       const state = address[2]
       const country = address[3].slice(0, address[3].length - 2)
 
-     this.setState({street, city, state, country})
+     this.setState({lattitude, longitude, street, city, state, country})
 
-    console.log(this.state);
+  }
+
+submitHandler(){
+      this.props.createRun(this.state)
   }
 
   render() {
+
     return (
       <ScrollView>
         <View>
@@ -104,7 +115,7 @@ export default class DateTimePickerTester extends Component {
               renderDescription={row => row.description} // custom description render
               onPress={(data, details = null) => {
                 // 'details' is provided when fetchDetails = true
-                this.helperFunction(JSON.stringify(data.description));
+                this.locationHandler(details.geometry.location.lat, details.geometry.location.lng, JSON.stringify(data.description));
               }}
               getDefaultValue={() => ''}
               query={{
@@ -185,12 +196,34 @@ export default class DateTimePickerTester extends Component {
             onCancel={this.hideEndTimePicker}
           />
 
-          <Button title="Submit"/>
+          <Button title="Submit" 
+            onPress={() => {
+                this.setState({creatorId: this.props.userId})
+                this.submitHandler()
+            }
+                
+            }
+          />
         </View>
       </ScrollView>
     );
   }
 }
+
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        createRun: (runInfo) => dispatch(createRunThunk(runInfo))
+    }
+}
+
+const mapStateToProps = (state) => {
+    return {
+        userId: state.user.id
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(RunForm)
 
 const styles = StyleSheet.create({
   container: {
@@ -210,3 +243,5 @@ const styles = StyleSheet.create({
     height: 50,
   },
 });
+
+

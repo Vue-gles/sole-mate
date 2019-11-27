@@ -18,6 +18,7 @@ import { logout } from '../store/user';
 import { MonoText } from '../components/StyledText';
 import { NavigationEvents } from 'react-navigation';
 
+
 class HomeScreen extends Component {
   constructor(props) {
     super(props);
