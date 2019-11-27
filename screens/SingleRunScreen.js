@@ -18,6 +18,8 @@ import Constants from 'expo-constants';
 import moment from 'moment';
 import { Link } from 'react-router-native';
 
+import socket from '../socket/index';
+
 import { removeSingleRun, getSingleRun } from '../store/singleRun';
 import { makeRequest } from '../store/outgoing';
 
@@ -38,8 +40,9 @@ class SingleRunScreen extends React.Component {
     this.props.back();
   }
 
-  requestHandler() {
-    this.props.request(this.props.run.id);
+  async requestHandler() {
+    await this.props.request(this.props.run.id);
+    socket.emit('newRequest');
   }
 
   render() {

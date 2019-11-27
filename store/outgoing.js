@@ -17,6 +17,7 @@ const madeRequest = notifications => ({
 // THUNK CREATOR
 export const getOutgoing = () => async dispatch => {
   try {
+    //console.log('Is getOutgoing running?');
     const { data } = await axios.get(
       `${process.env.BACKEND_HOST}/api/requests/outgoing`
     );
@@ -42,7 +43,7 @@ export const makeRequest = runId => async dispatch => {
 const initialState = [];
 
 // REDUCER
-export default notifications = (state = initialState, action) => {
+export default outgoing = (state = initialState, action) => {
   switch (action.type) {
     case GOT_OUTGOING:
       return action.notifications;
