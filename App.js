@@ -6,8 +6,8 @@ import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Provider } from 'react-redux';
 
-import AppNavigator from './navigation/AppNavigator';
-import store from './store';
+import AppNavigator from './client/navigation/AppNavigator';
+import store from './client/store';
 
 if (process.env.NODE_ENV !== 'production') require('./secrets');
 
