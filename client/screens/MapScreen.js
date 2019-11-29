@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import MapView, { Marker, Callout, Circle, Polyline  } from 'react-native-maps';
-import { StyleSheet, View, Dimensions, Text, Button} from 'react-native';
+import { StyleSheet, View, Dimensions, Text, Button, ScrollView} from 'react-native';
 // import MapViewDirections from 'react-native-maps-directions'
 // import key from '../keys'
 import GooglePlacesInput from '../components/GooglePlacesInput'
@@ -95,6 +95,8 @@ class MapScreen extends Component {
     this.getCurrentLocationMock = this.getCurrentLocationMock.bind(this);
     this.handlePress = this.handlePress.bind(this)
     this.handler = this.handler.bind(this)
+    this.clearTracking = this.clearTracking.bind(this)
+    this.saveTracking = this.saveTracking.bind(this)
   }
 
   getCurrentLocationMock() {
@@ -169,6 +171,15 @@ class MapScreen extends Component {
   }
 
   clearTracking() {
+    dataIndex = -1
+    this.setState({
+      coordinates: [],
+      distance: 0,
+      clearButtonDisabled: true,
+      handlerEnabled: false
+    })
+  }
+  saveTracking() {
     dataIndex = -1
     this.setState({
       coordinates: [],
@@ -335,8 +346,17 @@ class MapScreen extends Component {
             disabled={this.state.clearButtonDisabled}
             onPress={() => this.clearTracking()}
           />
+          <Button 
+            title="Save"
+            
+            ref={ref => {
+              this.saveButton = ref;
+            }} 
+            disabled={this.state.clearButtonDisabled}
+            onPress={() => this.saveTracking()}
+          />
           <Text style={styles.distanceTextStyle}>{this.state.distance.toFixed(2)} miles</Text>
-       
+            
           
         </View>
       </View>

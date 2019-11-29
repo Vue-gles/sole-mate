@@ -30,14 +30,17 @@ export const getRuns = type => async dispatch => {
 export const createRunThunk = runInfo => {
   return async (dispatch) => {
     try {
-      const {street, city, state, country, lattitude, longitude, endTime, startTime, date, creatorId} = runInfo
+      const {street, city, state, country, lattitude, longitude, endTime, startTime, prefferedMileage, date, creatorId} = runInfo
       const {data} = await axios.post(`${process.env.BACKEND_HOST}/api/runs`, {
-        locationName: street,
+        street,
+        city,
+        state,
+        lat: lattitude,
+        long: longitude,
         startTimeframe: startTime,
         endTimeframe: endTime,
-        creatorId: 1
+        prefferedMileage
       })
-      console.log('YAYYYY I GOT BACK DATA AND IT IS', data)
       dispatch(madeNewRun(data))
     } catch (err) {
       console.log('Error:', err)

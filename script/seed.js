@@ -1,6 +1,7 @@
 'use strict';
 
-const { db, User, Run } = require('../server/db');
+const { db, User, Run, Message, Request } = require('../server/db');
+const axios = require('axios');
 
 const users = [
   {
@@ -99,111 +100,174 @@ const users = [
 
 const runs = [
   {
-    locationName: '123 Main St',
+    street: '123 Main St',
+    city: 'New York',
+    state: 'NY',
     startTimeframe: new Date('2019-12-22 08:00:00'),
     endTimeframe: new Date('2019-12-22 12:00:00'),
+    prefferedMileage: 3,
     creatorId: 1,
   },
   {
-    locationName: '456 Fall Rd',
+    street: '456 Fall Rd',
+    city: 'New York',
+    state: 'NY',
     startTimeframe: new Date('2019-12-10 12:00:00'),
     endTimeframe: new Date('2019-12-10 16:00:00'),
+    prefferedMileage: 5,
     creatorId: 1,
   },
   {
-    locationName: '88 Hopewell Ave',
+    street: '88 Hopewell Ave',
+    city: 'New York',
+    state: 'NY',
     startTimeframe: new Date('2019-12-08 16:00:00'),
     endTimeframe: new Date('2019-12-08 20:00:00'),
+    prefferedMileage: 2,
     creatorId: 2,
   },
   {
-    locationName: '1 Benford Dr',
+    street: '1 Benford Dr',
+    city: 'New York',
+    state: 'NY',
     startTimeframe: new Date('2019-12-06 20:00:00'),
     endTimeframe: new Date('2019-12-06 24:00:00'),
+    prefferedMileage: 6,
     creatorId: 3,
   },
   {
-    locationName: '15 Hanover Ct',
+    street: '15 Hanover Ct',
+    city: 'New York',
+    state: 'NY',
     startTimeframe: new Date('2019-12-08 08:00:00'),
     endTimeframe: new Date('2019-12-08 12:00:00'),
+    prefferedMileage: 6,
     creatorId: 4,
   },
   {
-    locationName: '101 Lily Ln',
+    street: '101 Lily Ln',
+    city: 'New York',
+    state: 'NY',
     startTimeframe: new Date('2019-12-04 08:00:00'),
     endTimeframe: new Date('2019-12-04 12:00:00'),
+    prefferedMileage: 5,
     creatorId: 5,
   },
   {
-    locationName: '33 Wythe Ave',
+    street: '33 Wythe Ave',
+    city: 'New York',
+    state: 'NY',
     startTimeframe: new Date('2019-12-22 12:00:00'),
     endTimeframe: new Date('2019-12-22 16:00:00'),
+    prefferedMileage: 8,
     creatorId: 5,
   },
   {
-    locationName: '77 Lucky St',
+    street: '77 Lucky St',
+    city: 'New York',
+    state: 'NY',
     startTimeframe: new Date('2019-12-22 20:00:00'),
     endTimeframe: new Date('2019-12-22 24:00:00'),
+    prefferedMileage: 6,
     creatorId: 1,
   },
   {
-    locationName: '666 Sockets St',
+    street: '666 Sockets St',
+    city: 'New York',
+    state: 'NY',
     startTimeframe: new Date('2019-12-22 08:00:00'),
     endTimeframe: new Date('2019-12-22 12:00:00'),
+    prefferedMileage: 7,
     creatorId: 6,
   },
 ];
 
 const requests = [
   {
-    status: 'pending',
     runId: 1,
     requesterId: 4,
   },
   {
-    status: 'pending',
     runId: 2,
     requesterId: 3,
   },
   {
-    status: 'denied',
     runId: 5,
     requesterId: 3,
   },
   {
-    status: 'pending',
     runId: 4,
     requesterId: 2,
   },
   {
-    status: 'pending',
     runId: 4,
     requesterId: 6,
   },
   {
-    status: 'pending',
     runId: 4,
     requesterId: 5,
   },
   {
-    status: 'pending',
     runId: 2,
     requesterId: 4,
   },
 ];
+const messages = [
+  {
+    content: 'how was your day?',
+    receiverId: 1,
+    senderId: 3,
+  },
+  {
+    content: 'do you want to run?',
+    receiverId: 3,
+    senderId: 1,
+  },
+  {
+    content: 'lets run in central park',
+    receiverId: 1,
+    senderId: 3,
+  },
+  {
+    content: 'Can we reschedule our run?',
+    receiverId: 4,
+    senderId: 2,
+  },
+  {
+    content: `I'm on my way!`,
+    receiverId: 3,
+    senderId: 6,
+  },
+  {
+    content: 'See you soon!',
+    receiverId: 6,
+    senderId: 3,
+  },
+];
 
 async function seed() {
-  await db.sync({ force: true });
-  console.log('db synced!');
-  await User.bulkCreate(users);
-  await Run.bulkCreate(runs);
-
-  // iterate over requests array to make requests on run ads
-  for (let i = 0; i < requests.length; i++) {
-    const user = await User.findByPk(requests[i].requesterId);
-    await user.addRequest(requests[i].runId);
+  try {
+    await db.sync({ force: true });
+    console.log('db synced!');
+    await User.bulkCreate(users, { ignoreDuplicates: true });
+    await Run.bulkCreate(runs, { ignoreDuplicates: true });
+    await Request.bulkCreate(requests);
+    await Message.bulkCreate(messages);
+  } catch (error) {
+    console.log('error:', error);
   }
 
+  // iterate over requests array to make requests on run ads
+  /*
+  for (let i = 0; i < requests.length; i++) {
+    try {
+      const user = await User.findByPk(requests[i].requesterId);
+      await user.addRequest(requests[i].runId);
+    } catch (error) {
+      console.log('error:', error);
+    }
+  }
+*/
   console.log(`seeded successfully`);
 }
 
@@ -217,18 +281,42 @@ async function runSeed() {
   } catch (err) {
     console.error(err);
     process.exitCode = 1;
-  } finally {
-    console.log('closing db connection');
-    await db.close();
-    console.log('db connection closed');
+    // } finally {
+    //   console.log('closing db connection');
+    //   await db.close();
+    //   console.log('db connection closed');
+    // }
+  }
+}
+async function updateRuns() {
+  try {
+    const allRuns = await Run.findAll();
+    await allRuns.forEach(async run => {
+      if (!run.lat || !run.long) {
+        const fullAddress = `${run.street}, ${run.city}, ${run.state}`;
+        const { data } = await axios.get(
+          `https://maps.googleapis.com/maps/api/geocode/json?address=${fullAddress}&key=${process.env.GOOGLE_API_KEY}`
+        );
+        const lat = data.results[0].geometry.location.lat;
+        const long = data.results[0].geometry.location.lng;
+        console.log('WE GOT IT AND IT IS: ', lat, long);
+        await run.update({ lat: lat, long: long });
+      }
+    });
+  } catch (error) {
+    console.error('UPDATING ERROR WAS:>> ', error);
   }
 }
 
+async function closeDb() {
+  await db.close();
+}
 // Execute the `seed` function, IF we ran this module directly (`node seed`).
 // `Async` functions always return a promise, so we can use `catch` to handle
 // any errors that might occur inside of `seed`.
 if (module === require.main) {
   runSeed();
+  updateRuns();
 }
 
 // we export the seed function for testing purposes (see `./seed.spec.js`)
