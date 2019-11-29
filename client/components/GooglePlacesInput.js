@@ -43,9 +43,10 @@ export default class GooglePlacesInput extends Component {
         minLength={1} // minimum length of text to search
         autoFocus={true}
         returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
-        listViewDisplayed="auto" // true/false/undefined
+        listViewDisplayed={false} // true/false/undefined
         fetchDetails={true}
         renderDescription={row => row.description} // custom description render
+      
         onPress={(data, details = null) => {
           // 'details' is provided when fetchDetails = true
           this.setState({ address: JSON.stringify(data.description) });
@@ -63,14 +64,31 @@ export default class GooglePlacesInput extends Component {
         }}
         styles={{
           textInputContainer: {
+            // display: 'flex',
             width: '100%',
-            height: '35%',
+            height: '15%',
+      
+            backgroundColor: 'dodgerblue',
+            opacity: '0.5',
+            
+            // position: 'absolute'
           },
           description: {
             fontWeight: 'bold',
+            height: '240%',
+            margin: '-4%',
+            backgroundColor: 'whitesmoke',
+            color:'black',
+            padding: '4%',
+       
+            
+            
+            // position: 'absolute'
           },
           predefinedPlacesDescription: {
-            color: '#1faadb',
+           
+            color: 'black',
+            // position: 'absolute'
           },
         }}
         // currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
@@ -98,6 +116,7 @@ export default class GooglePlacesInput extends Component {
         debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
         renderLeftButton={() => <Image source={require('./TabBarIcon')} />}
         //   renderRightButton={() => <Text>Custom text after the input</Text>}
+        enablePoweredByContainer={false}
       />
     );
   }
