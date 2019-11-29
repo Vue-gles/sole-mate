@@ -72,3 +72,16 @@ Message.getThreadMessages = function(userId, partnerId) {
     console.log('Error:', error);
   }
 };
+
+Message.sendMessage = function(senderId, receiverId, content) {
+  try {
+    const newMessage = Message.create({
+      senderId,
+      receiverId,
+      content,
+    });
+    return newMessage;
+  } catch (error) {
+    console.log('Error:', error);
+  }
+};

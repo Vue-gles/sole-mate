@@ -29,3 +29,21 @@ router.get('/:partnerId', isUser, async (req, res, next) => {
     next(err);
   }
 });
+
+// POST /api/messages/:partnerId
+router.post('/:partnerId', isUser, async (req, res, next) => {
+  try {
+    await Message.sendMessage(
+      req.user.id,
+      req.params.partnerId,
+      req.body.content
+    );
+    const updatedMessages = await Message.getThreadMessages(
+      req.user.id,
+      req.params.partnerId
+    );
+    res.status(201).send(updatedMessages);
+  } catch (err) {
+    next(err);
+  }
+});
