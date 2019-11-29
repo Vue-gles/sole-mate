@@ -71,9 +71,9 @@ router.put('/route', isUser, async (req,res,next) => {
        creatorId:req.user.id 
       }
     })
-    //  const {route}=req.body
+     const {route}=req.body
     const updated=await run.update({
-      route:req.body,
+      route:route,
     })
     console.log('ROUTES API',req.body)
     res.json(updated)
@@ -89,9 +89,9 @@ router.put('/distance', isUser, async (req,res,next) => {
        creatorId:req.user.id 
       }
     })
-    //  const {distance}=req.body
+     const {distance}=req.body
     const updated=await run.update({
-      distance: req.body
+      distance: distance
     })
     console.log('DISTANCE API',req.body)
     res.json(updated)
