@@ -53,28 +53,27 @@ export const createRunThunk = runInfo => {
     }
   }
 }
+
 export const updateRoute = runInfo => async dispatch => {
   try {
     const {data} = await axios.put(`${process.env.BACKEND_HOST}/api/runs/route`,
     {
       route: runInfo
     }
-      
     );
     dispatch(updateRun(data));
   } catch (error) {
     console.error(error);
   }
 };
+
 export const updateDistance = runInfo => async dispatch => {
   try {
-    console.log("UPDATEDISTANCETHUNKDATA", runInfo)
     const {data} = await axios.put(`${process.env.BACKEND_HOST}/api/runs/distance`,
       {
         distance: runInfo
       }
     );
-    
     dispatch(updateRun(data));
   } catch (error) {
     console.error(error);
