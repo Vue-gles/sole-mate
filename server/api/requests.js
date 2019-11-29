@@ -37,7 +37,8 @@ router.get('/incoming', isUser, async (req, res, next) => {
 router.put('/', isUser, async (req, res, next) => {
   try {
     const { runId, requesterId, status } = req.body;
-    await Request.updateRequestStatus(runId, requesterId, status);
+    console.log('runId:', runId, 'requesterId', requesterId, 'status', status);
+    await Request.updateRequestStatus(req.user.id, runId, requesterId, status);
     const incoming = await Request.getIncoming(req.user.id);
     res.send(incoming);
   } catch (error) {
