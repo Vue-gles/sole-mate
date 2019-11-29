@@ -327,7 +327,8 @@ class MapScreen extends Component {
             onPress={() => this.stopTracking()}
             />
           <Button 
-            title="Clear" 
+            title="Clear"
+            
             ref={ref => {
               this.clearButton = ref;
             }} 
