@@ -63,3 +63,21 @@ router.post('/', isUser, async (req, res, next) => {
     next(err);
   }
 });
+// PUT /api/runs
+router.put('/', isUser, async (req,res,next) => {
+  try {
+    const run = await Run.findOne({
+      where:{
+       creatorId:req.user.id 
+      }
+    })
+    //  const {route}=req.body
+    const updated=await run.update({
+      route:req.body,
+    })
+    console.log('ROUTES API',req.body)
+    res.json(updated)
+  } catch(err) {
+    next(err)
+  }
+})

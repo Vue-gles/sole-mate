@@ -8,7 +8,7 @@ import { getDistance } from  'geolib'
 import { connect } from 'react-redux';
 
 
-import { setCurrentCoordsThunk } from '../store/currentCoord';
+import { update } from '../store/runs';
 
 const circleColor = 'rgba(204, 255, 255, 0.2)'
 const circle2Color = 'rgba(225, 204, 153, 0.5)'
@@ -179,8 +179,17 @@ class MapScreen extends Component {
       handlerEnabled: false
     })
   }
+
   saveTracking() {
     dataIndex = -1
+    bigArr = [];
+    this.state.coordinates.map((obj) => {
+      smallArr = []
+      smallArr.push(obj.latitude)
+      smallArr.push(obj.longitude)
+      bigArr.push(smallArr)
+    })
+    this.props.update(bigArr)
     this.setState({
       coordinates: [],
       distance: 0,
@@ -415,6 +424,7 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     setCurrentCoords:(coords)=>dispatch(setCurrentCoordsThunk(coords)),
+    update:(route) => dispatch(update(route))
   }
 };
 

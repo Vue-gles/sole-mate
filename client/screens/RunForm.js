@@ -14,7 +14,7 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import { connect } from 'react-redux';
 import Constants from 'expo-constants'
 import { createRunThunk } from '../store/runs';
-import '../../keys'
+// import '../../keys'
 
 class RunForm extends Component {
   constructor(props) {

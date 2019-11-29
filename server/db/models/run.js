@@ -3,7 +3,7 @@ const db = require('../db');
 const { Op } = require('sequelize');
 const User = require('./user');
 const axios = require('axios');
-require('../../../keys');
+// require('../../../keys');
 
 const Run = db.define(
   'run',
@@ -52,7 +52,7 @@ const Run = db.define(
       type: Sequelize.INTEGER,
     },
     route: {
-      type: Sequelize.ARRAY(Sequelize.FLOAT),
+      type: Sequelize.ARRAY(Sequelize.STRING),
     },
     prefferedMileage: {
       type: Sequelize.INTEGER,
@@ -62,23 +62,23 @@ const Run = db.define(
       },
     },
   },
-  {
-    hooks: {
-      //this doesn't work yet
-      beforeValidate: async function(run) {
-        if (!run.lat || !run.long) {
-          const fullAddress = `${run.street}, ${run.city}, ${run.state}`;
-          const {data} = await axios.get(
-            `https://maps.googleapis.com/maps/api/geocode/json?address=${fullAddress}&key=${process.env.GOOGLE_API_KEY}`
-          );
-          const lat = data.results[0].geometry.location.lat;
-          const long = data.results[0].geometry.location.lng;
-          run.lat = lat;
-          run.long = long;
-        }
-      },
-    },
-  }
+  // {
+  //   hooks: {
+  //     //this doesn't work yet
+  //     beforeValidate: async function(run) {
+  //       if (!run.lat || !run.long) {
+  //         const fullAddress = `${run.street}, ${run.city}, ${run.state}`;
+  //         const {data} = await axios.get(
+  //           `https://maps.googleapis.com/maps/api/geocode/json?address=${fullAddress}&key=${process.env.GOOGLE_API_KEY}`
+  //         );
+  //         const lat = data.results[0].geometry.location.lat;
+  //         const long = data.results[0].geometry.location.lng;
+  //         run.lat = lat;
+  //         run.long = long;
+  //       }
+  //     },
+  //   },
+  // }
 );
 
 Run.getPotentialRuns = function(userId) {
