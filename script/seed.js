@@ -1,6 +1,6 @@
 'use strict';
 
-const { db, User, Run, Message } = require('../server/db');
+const { db, User, Run, Message, Request } = require('../server/db');
 const axios = require('axios');
 
 const users = [
@@ -251,12 +251,14 @@ async function seed() {
     console.log('db synced!');
     await User.bulkCreate(users, { ignoreDuplicates: true });
     await Run.bulkCreate(runs, { ignoreDuplicates: true });
+    await Request.bulkCreate(requests);
     await Message.bulkCreate(messages);
   } catch (error) {
     console.log('error:', error);
   }
 
   // iterate over requests array to make requests on run ads
+  /*
   for (let i = 0; i < requests.length; i++) {
     try {
       const user = await User.findByPk(requests[i].requesterId);
@@ -265,7 +267,7 @@ async function seed() {
       console.log('error:', error);
     }
   }
-
+*/
   console.log(`seeded successfully`);
 }
 

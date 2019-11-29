@@ -11,6 +11,7 @@ const Message = require('./message');
  */
 
 //User has many Runs association
+/*
 User.hasMany(Run, { as: 'Creator', foreignKey: 'creatorId' });
 Run.belongsTo(User, { as: 'Creator', foreignKey: 'creatorId' });
 
@@ -23,8 +24,23 @@ User.belongsToMany(Run, {
 Run.belongsToMany(User, { through: Request, as: 'Run' });
 Request.belongsTo(Run);
 Request.belongsTo(User, { as: 'Request', foreignKey: 'requesterId' });
+*/
 
-//Message Join Table
+// User and Runs associations
+User.hasMany(Run, { as: 'Creator', foreignKey: 'creatorId' });
+User.hasMany(Run, { as: 'Partner', foreignKey: 'partnerId' });
+Run.belongsTo(User, { as: 'Creator', foreignKey: 'creatorId' });
+Run.belongsTo(User, { as: 'Partner', foreignKey: 'partnerId' });
+
+// User and Requests associations
+User.hasMany(Request, { as: 'Requester', foreignKey: 'requesterId' });
+Request.belongsTo(User, { as: 'Requester', foreignKey: 'requesterId' });
+
+// Run and Requests associations
+Run.hasMany(Request);
+Request.belongsTo(Run);
+
+// User and Message associations
 User.hasMany(Message, {
   as: 'Receiver',
   foreignKey: 'receiverId',
