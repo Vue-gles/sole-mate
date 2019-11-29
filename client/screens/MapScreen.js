@@ -198,8 +198,7 @@ class MapScreen extends Component {
     );
     console.log('currnet lat: ',this.state.currentLat)
     console.log('currnet long: ',this.state.currentLng)
-  // this.props.setCurrentLong({currentLong:this.state.currentLng})
-  // this.props.setCurrentLat({currentLat:this.state.currentLat})
+
   }
 
   onRegionChangeHandler(evt) {
@@ -248,9 +247,9 @@ class MapScreen extends Component {
   
     return (
       <View style={styles.container}>
-        <GooglePlacesInput currentCoordinates = 
+        {/* <GooglePlacesInput currentCoordinates = 
         {{latitude: this.state.latitude, longitude: this.state.longitude}} 
-        handler={this.handler}/>
+        handler={this.handler}/> */}
         <MapView
           provider="google"
           style={styles.mapStyle}
@@ -267,6 +266,9 @@ class MapScreen extends Component {
           loadingIndicatorColor = 'green'
           loadingBackgroundColor = 'green'
         >
+          <GooglePlacesInput currentCoordinates = 
+        {{latitude: this.state.latitude, longitude: this.state.longitude}} 
+        handler={this.handler}/>
           {this.state.handlerEnabled === false}
           {/* bigger circle must be rendered frist */}
           <Circle
@@ -300,8 +302,8 @@ class MapScreen extends Component {
             notRenderDirection ? null :
            <Polyline
             coordinates= {this.state.coordinates}
-            strokeColor="hotpink"
-            strokeWidth={6}
+            strokeColor="dodgerblue"
+            strokeWidth={5}
           />
           }
 
@@ -332,10 +334,8 @@ class MapScreen extends Component {
             disabled={this.state.clearButtonDisabled}
             onPress={() => this.clearTracking()}
           />
-          <Text>Distance: </Text>
-          <Text>
-            {this.state.distance.toFixed(2)}
-          </Text>
+          <Text style={styles.distanceTextStyle}>{this.state.distance.toFixed(2)} miles</Text>
+       
           
         </View>
       </View>
@@ -348,25 +348,41 @@ MapScreen.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#228b22",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    backgroundColor: 'dodgerblue',
+    opacity: 0.8
   },
   mapStyle: {
-    flex: 2,
+    flex: 7,
     justifyContent: 'center',
     alignItems: 'stretch',
-    width: Dimensions.get('window').width * 0.97,
-    height: Dimensions.get('window').height * 0.70,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+ 
   },
   rowButtonStyle: {
     flex: 1,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    backgroundColor: 'green',
+    borderColor: 'white',
+    borderWidth: 2,
+    borderRadius: 12,
+   
+    fontSize: 24,
+    fontWeight: 'bold',
+    overflow: 'hidden',
+    padding: 12,
+    textAlign:'center',
+    opacity: 0.9,
+  
   },
   distanceTextStyle: {
     fontWeight: 'bold',
-    color: 'red',
+    color: 'yellow',
     textAlignVertical: 'bottom',
+    padding: '4%'
+  
   }
 });
 const mapState = state => {
