@@ -4,13 +4,35 @@ const { Op } = require('sequelize');
 const User = require('./user');
 
 const Run = db.define('run', {
-  locationName: {
+  street: {
     type: Sequelize.STRING,
     allowNull: false,
     defaultValue: 'Prospect Park, Brooklyn, NY',
     validate: {
       notEmpty: true,
     },
+  },
+  city: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    defaultValue: 'Brooklyn',
+    validate: {
+      notEmpty: true
+    }
+  },
+  state: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    defaultValue: 'NY',
+    validate: {
+      notEmpty: true
+    }
+  },
+  lat: {
+    type: Sequelize.FLOAT
+  },
+  long: {
+    type: Sequelize.FLOAT
   },
   startTimeframe: {
     type: Sequelize.DATE,
@@ -25,7 +47,18 @@ const Run = db.define('run', {
   partnerId: {
     type: Sequelize.INTEGER,
   },
+  route: {
+    type: Sequelize.ARRAY(Sequelize.FLOAT)
+  }, 
+  prefferedMileage: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+    }
+  }
 });
+
 
 module.exports = Run;
 
