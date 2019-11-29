@@ -212,37 +212,38 @@ const requests = [
     requesterId: 4,
   },
 ];
-const messages=[{
-  content:'hi',
-  receiverId:1,
-  senderId:2
-},
-{
-  content:'hijnj',
-  receiverId:1,
-  senderId:3
-},
-{
-  content:'bye',
-  receiverId:3,
-  senderId:2
-},
-{
-  content:'hiiiii',
-  receiverId:4,
-  senderId:2
-},
-{
-  content:'hiasdad',
-  receiverId:3,
-  senderId:6
-},
-{
-  content:'bye',
-  receiverId:6,
-  senderId:3
-}
-]
+const messages = [
+  {
+    content: 'hi',
+    receiverId: 1,
+    senderId: 2,
+  },
+  {
+    content: 'hijnj',
+    receiverId: 1,
+    senderId: 3,
+  },
+  {
+    content: 'bye',
+    receiverId: 3,
+    senderId: 2,
+  },
+  {
+    content: 'hiiiii',
+    receiverId: 4,
+    senderId: 2,
+  },
+  {
+    content: 'hiasdad',
+    receiverId: 3,
+    senderId: 6,
+  },
+  {
+    content: 'bye',
+    receiverId: 6,
+    senderId: 3,
+  },
+];
 
 async function seed() {
   await db.sync({ force: true });
@@ -256,13 +257,10 @@ async function seed() {
     await user.addRequest(requests[i].runId);
   }
 
-<<<<<<< HEAD
   for (let i = 0; i < messages.length; i++) {
     const user = await User.findByPk(messages[i].senderId);
     await user.addSender(messages[i].receiverId);
   }
-=======
->>>>>>> a10e3e88fcabee9a7693a925d677b3a440350007
 
   console.log(`seeded successfully`);
 }
@@ -277,12 +275,12 @@ async function runSeed() {
   } catch (err) {
     console.error(err);
     process.exitCode = 1;
-  // } finally {
-  //   console.log('closing db connection');
-  //   await db.close();
-  //   console.log('db connection closed');
-  // }
-}
+    // } finally {
+    //   console.log('closing db connection');
+    //   await db.close();
+    //   console.log('db connection closed');
+    // }
+  }
 }
 async function updateRuns() {
   try {
@@ -295,17 +293,17 @@ async function updateRuns() {
         );
         const lat = data.results[0].geometry.location.lat;
         const long = data.results[0].geometry.location.lng;
-        console.log('WE GOT IT AND IT IS: ', lat, long)
-        await run.update({ lat:lat, long:long });
+        console.log('WE GOT IT AND IT IS: ', lat, long);
+        await run.update({ lat: lat, long: long });
       }
     });
   } catch (error) {
-    console.error('UPDATING ERROR WAS:>> ', error)
+    console.error('UPDATING ERROR WAS:>> ', error);
   }
 }
 
-async function closeDb () {
-  await db.close()
+async function closeDb() {
+  await db.close();
 }
 // Execute the `seed` function, IF we ran this module directly (`node seed`).
 // `Async` functions always return a promise, so we can use `catch` to handle
