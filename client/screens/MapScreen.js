@@ -8,7 +8,7 @@ import { getDistance } from  'geolib'
 import { connect } from 'react-redux';
 
 
-import { update } from '../store/runs';
+import { updateRoute, updateDistance } from '../store/runs';
 
 const circleColor = 'rgba(204, 255, 255, 0.2)'
 const circle2Color = 'rgba(225, 204, 153, 0.5)'
@@ -189,7 +189,9 @@ class MapScreen extends Component {
       smallArr.push(obj.longitude)
       bigArr.push(smallArr)
     })
-    this.props.update(bigArr)
+    this.props.updateRoute(bigArr)
+    console.log("DISTANCE", this.state.distance.toFixed(2))
+    this.props.updateDistance(this.state.distance.toFixed(2))
     this.setState({
       coordinates: [],
       distance: 0,
@@ -424,7 +426,9 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     setCurrentCoords:(coords)=>dispatch(setCurrentCoordsThunk(coords)),
-    update:(route) => dispatch(update(route))
+    updateRoute:(route) => dispatch(updateRoute(route)),
+    updateDistance:(distance) => dispatch(updateDistance(distance))
+    
   }
 };
 

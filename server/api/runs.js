@@ -63,8 +63,8 @@ router.post('/', isUser, async (req, res, next) => {
     next(err);
   }
 });
-// PUT /api/runs
-router.put('/', isUser, async (req,res,next) => {
+// PUT /api/runs/route
+router.put('/route', isUser, async (req,res,next) => {
   try {
     const run = await Run.findOne({
       where:{
@@ -76,6 +76,24 @@ router.put('/', isUser, async (req,res,next) => {
       route:req.body,
     })
     console.log('ROUTES API',req.body)
+    res.json(updated)
+  } catch(err) {
+    next(err)
+  }
+})
+// PUT /api/runs/distance
+router.put('/distance', isUser, async (req,res,next) => {
+  try {
+    const run = await Run.findOne({
+      where:{
+       creatorId:req.user.id 
+      }
+    })
+    //  const {distance}=req.body
+    const updated=await run.update({
+      distance: req.body
+    })
+    console.log('DISTANCE API',req.body)
     res.json(updated)
   } catch(err) {
     next(err)
