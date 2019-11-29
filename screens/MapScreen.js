@@ -348,7 +348,7 @@ MapScreen.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#228b22",
+    backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center"
   },
