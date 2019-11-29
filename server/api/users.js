@@ -54,7 +54,25 @@ router.put('/current',isUser,async(req,res,next)=>{
       currentLong:currentLong,
       currentLat: currentLat
     })
-    console.log('req.body',req.body)
+    // console.log('req.body',req.body)
+    res.json(updated)
+  }catch(err){
+    next(err)
+  }
+})
+
+router.put('/',isUser,async(req,res,next)=>{
+  try{
+    const user=await User.findOne({
+      where:{
+       id:req.user.id 
+      }
+    })
+     const {route}=req.body
+    const updated=await user.update({
+      route:route,
+    })
+    console.log('ROUTES API',req.body)
     res.json(updated)
   }catch(err){
     next(err)

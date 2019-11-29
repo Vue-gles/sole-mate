@@ -64,14 +64,10 @@ export default class GooglePlacesInput extends Component {
         }}
         styles={{
           textInputContainer: {
-            // display: 'flex',
             width: '100%',
             height: '15%',
-      
             backgroundColor: 'dodgerblue',
             opacity: '0.5',
-            
-            // position: 'absolute'
           },
           description: {
             fontWeight: 'bold',
@@ -80,23 +76,13 @@ export default class GooglePlacesInput extends Component {
             backgroundColor: 'whitesmoke',
             color:'black',
             padding: '4%',
-       
-            
-            
-            // position: 'absolute'
           },
-          predefinedPlacesDescription: {
-           
+          predefinedPlacesDescription: {      
             color: 'black',
-            // position: 'absolute'
           },
         }}
         // currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
         // currentLocationLabel="Current location"
-        currentLocationCoordinates={{
-          latitude: this.props.currentCoordinates.latitude,
-          latitude: this.props.currentCoordinates.longitude,
-        }}
         nearbyPlacesAPI="GooglePlacesSearch" // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
         GoogleReverseGeocodingQuery={
           {
