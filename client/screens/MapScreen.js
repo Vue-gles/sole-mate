@@ -1,14 +1,10 @@
 import React, {Component} from 'react';
-import MapView, { Marker, Callout, Circle, Polyline  } from 'react-native-maps';
+import MapView, { Marker, Circle, Polyline  } from 'react-native-maps';
 import { StyleSheet, View, Dimensions, Text, Button} from 'react-native';
-// import MapViewDirections from 'react-native-maps-directions'
-// import key from '../keys'
 import GooglePlacesInput from '../components/GooglePlacesInput'
 import { getDistance } from  'geolib'
 import { connect } from 'react-redux';
-
-
-import { setCurrentCoordsThunk } from '../store/currentCoord';
+import { updateRoute, updateDistance } from '../store/runs';
 
 const circleColor = 'rgba(204, 255, 255, 0.2)'
 const circle2Color = 'rgba(225, 204, 153, 0.5)'
@@ -95,6 +91,8 @@ class MapScreen extends Component {
     this.getCurrentLocationMock = this.getCurrentLocationMock.bind(this);
     this.handlePress = this.handlePress.bind(this)
     this.handler = this.handler.bind(this)
+    this.clearTracking = this.clearTracking.bind(this)
+    this.saveTracking = this.saveTracking.bind(this)
   }
 
   getCurrentLocationMock() {
@@ -178,11 +176,28 @@ class MapScreen extends Component {
     })
   }
 
+  saveTracking() {
+    dataIndex = -1
+    bigArr = [];
+    this.state.coordinates.map((obj) => {
+      smallArr = []
+      smallArr.push(obj.latitude)
+      smallArr.push(obj.longitude)
+      bigArr.push(smallArr)
+    })
+    this.props.updateRoute(bigArr)
+    this.props.updateDistance(this.state.distance.toFixed(2))
+    this.setState({
+      coordinates: [],
+      distance: 0,
+      clearButtonDisabled: true,
+      handlerEnabled: false
+    })
+  }
+
   componentDidMount() {
     navigator.geolocation.watchPosition(
       position => {
-        console.log("wokeeey");
-        console.log(position);
         this.setState({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
@@ -196,8 +211,6 @@ class MapScreen extends Component {
       error => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 200000, maximumAge: 1000 }
     );
-    console.log('currnet lat: ',this.state.currentLat)
-    console.log('currnet long: ',this.state.currentLng)
 
   }
 
@@ -226,9 +239,6 @@ class MapScreen extends Component {
     console.log("render() is called: ");
     console.log(this.state.coordinates);
 
-    let currLoc = this.state.coordinates.length > 0 ?  this.state.coordinates[0] 
-                  : {latitude: this.state.currentLat, longitude: this.state.currentLng}
-
   let searchedRegion = this.state.handlerEnabled ? {
         latitude: this.state.latitude,
         longitude: this.state.longitude,
@@ -247,9 +257,6 @@ class MapScreen extends Component {
   
     return (
       <View style={styles.container}>
-        {/* <GooglePlacesInput currentCoordinates = 
-        {{latitude: this.state.latitude, longitude: this.state.longitude}} 
-        handler={this.handler}/> */}
         <MapView
           provider="google"
           style={styles.mapStyle}
@@ -266,46 +273,40 @@ class MapScreen extends Component {
           loadingIndicatorColor = 'green'
           loadingBackgroundColor = 'green'
         >
-          <GooglePlacesInput currentCoordinates = 
-        {{latitude: this.state.latitude, longitude: this.state.longitude}} 
-        handler={this.handler}/>
+        <GooglePlacesInput currentCoordinates = 
+          {{latitude: this.state.latitude, longitude: this.state.longitude}} 
+          handler={this.handler}/>
           {this.state.handlerEnabled === false}
           {/* bigger circle must be rendered frist */}
-          <Circle
-            ref={ref => {
-              this.circle2 = ref;
-            }}
-            center={{latitude: this.state.currentLat, longitude: this.state.currentLng}}
-            radius={radius_2}
-            fillColor={circle2Color}
-          />
-          <Circle
-            ref={ref => {
-              this.circle = ref;
-            }}
-            center={{latitude: this.state.currentLat, longitude: this.state.currentLng}}
-            radius={radius_1}
-            fillColor={circleColor}
-          />
-          <Marker pinColor = 'green' coordinate={{latitude: this.state.latitude, longitude: this.state.longitude}} />
-          {this.state.markers.map((marker) => {
-            console.log("MARKER",marker)
-            return <Marker key = {marker.coordinate.latitude * marker.coordinate.longitude/3.14159265358979323} {...marker} />
-          })}
-          {/* <Marker coordinate={currLoc}>
-            <Callout>
-              <Text>My current location</Text>
-            </Callout>
-          </Marker> */}
-          
-          {
-            notRenderDirection ? null :
-           <Polyline
-            coordinates= {this.state.coordinates}
-            strokeColor="dodgerblue"
-            strokeWidth={5}
-          />
-          }
+        <Circle
+          ref={ref => {
+            this.circle2 = ref;
+          }}
+          center={{latitude: this.state.currentLat, longitude: this.state.currentLng}}
+          radius={radius_2}
+          fillColor={circle2Color}
+        />
+        <Circle
+          ref={ref => {
+            this.circle = ref;
+          }}
+          center={{latitude: this.state.currentLat, longitude: this.state.currentLng}}
+          radius={radius_1}
+          fillColor={circleColor}
+        />
+        <Marker pinColor = 'green' coordinate={{latitude: this.state.latitude, longitude: this.state.longitude}} />
+        {this.state.markers.map((marker) => {
+          console.log("MARKER",marker)
+          return <Marker key = {marker.coordinate.latitude * marker.coordinate.longitude/3.14159265358979323} {...marker} />
+        })}
+        {
+        notRenderDirection ? null :
+        <Polyline
+          coordinates= {this.state.coordinates}
+          strokeColor="dodgerblue"
+          strokeWidth={5}
+        />
+        }
 
         </MapView>
 
@@ -327,16 +328,24 @@ class MapScreen extends Component {
             onPress={() => this.stopTracking()}
             />
           <Button 
-            title="Clear" 
+            title="Clear"
+            
             ref={ref => {
               this.clearButton = ref;
             }} 
             disabled={this.state.clearButtonDisabled}
             onPress={() => this.clearTracking()}
           />
-          <Text style={styles.distanceTextStyle}>{this.state.distance.toFixed(2)} miles</Text>
-       
-          
+          <Button 
+            title="Save"
+            
+            ref={ref => {
+              this.saveButton = ref;
+            }} 
+            disabled={this.state.clearButtonDisabled}
+            onPress={() => this.saveTracking()}
+          />
+          <Text style={styles.distanceTextStyle}>{this.state.distance.toFixed(2)} miles</Text> 
         </View>
       </View>
     );
@@ -394,6 +403,9 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     setCurrentCoords:(coords)=>dispatch(setCurrentCoordsThunk(coords)),
+    updateRoute:(route) => dispatch(updateRoute(route)),
+    updateDistance:(distance) => dispatch(updateDistance(distance))
+    
   }
 };
 
