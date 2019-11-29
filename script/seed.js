@@ -1,6 +1,6 @@
 'use strict';
 
-const { db, User, Run } = require('../server/db');
+const { db, User, Run, Message, Request } = require('../server/db');
 const axios = require('axios');
 
 const users = [
@@ -184,55 +184,90 @@ const runs = [
 
 const requests = [
   {
-    status: 'pending',
     runId: 1,
     requesterId: 4,
   },
   {
-    status: 'pending',
     runId: 2,
     requesterId: 3,
   },
   {
-    status: 'denied',
     runId: 5,
     requesterId: 3,
   },
   {
-    status: 'pending',
     runId: 4,
     requesterId: 2,
   },
   {
-    status: 'pending',
     runId: 4,
     requesterId: 6,
   },
   {
-    status: 'pending',
     runId: 4,
     requesterId: 5,
   },
   {
-    status: 'pending',
     runId: 2,
     requesterId: 4,
   },
 ];
+const messages = [
+  {
+    content: 'how was your day?',
+    receiverId: 1,
+    senderId: 3,
+  },
+  {
+    content: 'do you want to run?',
+    receiverId: 3,
+    senderId: 1,
+  },
+  {
+    content: 'lets run in central park',
+    receiverId: 1,
+    senderId: 3,
+  },
+  {
+    content: 'Can we reschedule our run?',
+    receiverId: 4,
+    senderId: 2,
+  },
+  {
+    content: `I'm on my way!`,
+    receiverId: 3,
+    senderId: 6,
+  },
+  {
+    content: 'See you soon!',
+    receiverId: 6,
+    senderId: 3,
+  },
+];
 
 async function seed() {
-  await db.sync({ force: true });
-  console.log('db synced!');
-  await User.bulkCreate(users, { ignoreDuplicates: true });
-  await Run.bulkCreate(runs, { ignoreDuplicates: true });
-
-  // iterate over requests array to make requests on run ads
-  for (let i = 0; i < requests.length; i++) {
-    const user = await User.findByPk(requests[i].requesterId);
-    await user.addRequest(requests[i].runId);
+  try {
+    await db.sync({ force: true });
+    console.log('db synced!');
+    await User.bulkCreate(users, { ignoreDuplicates: true });
+    await Run.bulkCreate(runs, { ignoreDuplicates: true });
+    await Request.bulkCreate(requests);
+    await Message.bulkCreate(messages);
+  } catch (error) {
+    console.log('error:', error);
   }
 
-
+  // iterate over requests array to make requests on run ads
+  /*
+  for (let i = 0; i < requests.length; i++) {
+    try {
+      const user = await User.findByPk(requests[i].requesterId);
+      await user.addRequest(requests[i].runId);
+    } catch (error) {
+      console.log('error:', error);
+    }
+  }
+*/
   console.log(`seeded successfully`);
 }
 
@@ -246,12 +281,12 @@ async function runSeed() {
   } catch (err) {
     console.error(err);
     process.exitCode = 1;
-  // } finally {
-  //   console.log('closing db connection');
-  //   await db.close();
-  //   console.log('db connection closed');
-  // }
-}
+    // } finally {
+    //   console.log('closing db connection');
+    //   await db.close();
+    //   console.log('db connection closed');
+    // }
+  }
 }
 async function updateRuns() {
   try {
@@ -264,17 +299,17 @@ async function updateRuns() {
         );
         const lat = data.results[0].geometry.location.lat;
         const long = data.results[0].geometry.location.lng;
-        console.log('WE GOT IT AND IT IS: ', lat, long)
-        await run.update({ lat:lat, long:long });
+        console.log('WE GOT IT AND IT IS: ', lat, long);
+        await run.update({ lat: lat, long: long });
       }
     });
   } catch (error) {
-    console.error('UPDATING ERROR WAS:>> ', error)
+    console.error('UPDATING ERROR WAS:>> ', error);
   }
 }
 
-async function closeDb () {
-  await db.close()
+async function closeDb() {
+  await db.close();
 }
 // Execute the `seed` function, IF we ran this module directly (`node seed`).
 // `Async` functions always return a promise, so we can use `catch` to handle
