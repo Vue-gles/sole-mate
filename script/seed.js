@@ -251,6 +251,7 @@ async function seed() {
     console.log('db synced!');
     await User.bulkCreate(users, { ignoreDuplicates: true });
     await Run.bulkCreate(runs, { ignoreDuplicates: true });
+    await Message.bulkCreate(messages);
   } catch (error) {
     console.log('error:', error);
   }
@@ -264,24 +265,6 @@ async function seed() {
       console.log('error:', error);
     }
   }
-
-  try {
-    await Message.bulkCreate(messages);
-  } catch (error) {
-    console.log('Messages seed error:', error);
-  }
-
-  /*
-  for (let i = 0; i < messages.length; i++) {
-    try {
-      const user = await User.findByPk(messages[i].senderId);
-      const message = await user.addSender(messages[i].receiverId);
-      //.log('--------> message', message[0]);
-      await message[0].update({ content: messages[i].content });
-    } catch (error) {
-      console.log('Messages seed error:', error);
-    }
-  }*/
 
   console.log(`seeded successfully`);
 }

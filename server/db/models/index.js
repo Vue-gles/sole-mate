@@ -14,7 +14,7 @@ const Message = require('./message');
 User.hasMany(Run, { as: 'Creator', foreignKey: 'creatorId' });
 Run.belongsTo(User, { as: 'Creator', foreignKey: 'creatorId' });
 
-//Requests join table association
+//Requests Join Table
 User.belongsToMany(Run, {
   through: Request,
   as: 'Request',
@@ -32,18 +32,6 @@ User.hasMany(Message, {
 User.hasMany(Message, { as: 'Sender', foreignKey: 'senderId' });
 Message.belongsTo(User, { as: 'Receiver', foreignKey: 'receiverId' });
 Message.belongsTo(User, { as: 'Sender', foreignKey: 'senderId' });
-// User.belongsToMany(User,{
-//   through: Message,
-//   as: 'Receiver',
-//   foreignKey: 'receiverId'
-// })
-// User.belongsToMany(User,{
-//   through: Message,
-//   as: 'Sender',
-//   foreignKey:'senderId'
-// })
-// Message.belongsTo(User);
-// Message.belongsTo(User, { as: 'Receiver', foreignKey: 'creatorId' });
 
 /**
  * We'll export all of our models here, so that any time a module needs a model,
