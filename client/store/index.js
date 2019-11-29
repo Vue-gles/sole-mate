@@ -9,6 +9,7 @@ import singleRun from './singleRun';
 import outgoing from './outgoing';
 import incoming from './incoming';
 import currentCoords from './currentCoord';
+import messageThreads from './messageThreads';
 
 const rootReducer = combineReducers({
   user: user,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   outgoing: outgoing,
   incoming: incoming,
   currentCoords: currentCoords,
+  messageThreads: messageThreads,
 });
 const middleware = composeWithDevTools(
   //applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
