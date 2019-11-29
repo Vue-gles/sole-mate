@@ -15,3 +15,17 @@ router.get('/', isUser, async (req, res, next) => {
     next(err);
   }
 });
+
+// GET /api/messages/:partnerId
+// Returns all messages between user and another person
+router.get('/:partnerId', isUser, async (req, res, next) => {
+  try {
+    const messages = await Message.getThreadMessages(
+      req.user.id,
+      req.params.partnerId
+    );
+    res.send(messages);
+  } catch (err) {
+    next(err);
+  }
+});

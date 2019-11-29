@@ -28,6 +28,7 @@ Message.getAllMessages = function(userId) {
         { model: User, as: 'Sender', foreignKey: 'senderId' },
         { model: User, as: 'Receiver', foreignKey: 'receiverId' },
       ],
+      order: [['createdAt', 'DESC']],
     });
     return messages;
   } catch (error) {
@@ -52,4 +53,22 @@ Message.getAllThreads = function(messages, userId) {
     }
   });
   return threads;
+};
+
+Message.getThreadMessages = function(userId, partnerId) {
+  try {
+    const messages = Message.findAll({
+      where: {
+        [Op.or]: [
+          { senderId: userId, receiverId: partnerId },
+          { senderId: partnerId, receiverId: userId },
+        ],
+      },
+      include: [{ model: User, as: 'Sender', foreignKey: 'senderId' }],
+      order: [['createdAt', 'ASC']],
+    });
+    return messages;
+  } catch (error) {
+    console.log('Error:', error);
+  }
 };
