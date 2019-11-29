@@ -37,7 +37,9 @@ class SingleMessageThread extends React.Component {
 }
 
 const mapState = state => {
-  return {};
+  return {
+    singleThread: state.singleMessageThread,
+  };
 };
 
 const mapDispatch = dispatch => {

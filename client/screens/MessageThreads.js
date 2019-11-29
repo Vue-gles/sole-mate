@@ -11,6 +11,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import Constants from 'expo-constants';
@@ -22,6 +23,7 @@ import { getMessageThreads } from '../store/messageThreads';
 class MessageThreads extends React.Component {
   constructor(props) {
     super(props);
+    this.clickHandler = this.clickHandler.bind(this);
     console.log('MessageThreads View -------------------->');
   }
   static navigationOptions = {
@@ -32,6 +34,10 @@ class MessageThreads extends React.Component {
     await this.props.getThreads();
   }
 
+  clickHandler(partnerId) {
+    this.props.navigation.navigate('SingleThread');
+  }
+
   render() {
     return (
       <SafeAreaView style={styles.container}>
@@ -39,15 +45,20 @@ class MessageThreads extends React.Component {
           {this.props.threads && this.props.threads.length ? (
             this.props.threads.map(thread => {
               return (
-                <View key={thread.id} style={styles.thread}>
-                  <Image
-                    source={{
-                      uri: thread.imageUrl,
-                    }}
-                    style={styles.userImage}
-                  />
-                  <Text>Message thread with {thread.firstName}</Text>
-                </View>
+                <TouchableWithoutFeedback
+                  key={thread.id}
+                  onPress={() => this.clickHandler(thread.id)}
+                >
+                  <View style={styles.thread}>
+                    <Image
+                      source={{
+                        uri: thread.imageUrl,
+                      }}
+                      style={styles.userImage}
+                    />
+                    <Text>Message thread with {thread.firstName}</Text>
+                  </View>
+                </TouchableWithoutFeedback>
               );
             })
           ) : (
