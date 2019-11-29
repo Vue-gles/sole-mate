@@ -10,22 +10,6 @@ const Message = require('./message');
  *    BlogPost.belongsTo(User)
  */
 
-//User has many Runs association
-/*
-User.hasMany(Run, { as: 'Creator', foreignKey: 'creatorId' });
-Run.belongsTo(User, { as: 'Creator', foreignKey: 'creatorId' });
-
-//Requests Join Table
-User.belongsToMany(Run, {
-  through: Request,
-  as: 'Request',
-  foreignKey: 'requesterId',
-});
-Run.belongsToMany(User, { through: Request, as: 'Run' });
-Request.belongsTo(Run);
-Request.belongsTo(User, { as: 'Request', foreignKey: 'requesterId' });
-*/
-
 // User and Runs associations
 User.hasMany(Run, { as: 'Creator', foreignKey: 'creatorId' });
 User.hasMany(Run, { as: 'Partner', foreignKey: 'partnerId' });

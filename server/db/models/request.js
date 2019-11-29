@@ -36,7 +36,7 @@ Request.getIncoming = function(creatorId) {
       include: [
         {
           model: User,
-          as: 'Request',
+          as: 'Requester',
         },
         {
           model: Run,
