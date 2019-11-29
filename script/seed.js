@@ -214,53 +214,74 @@ const requests = [
 ];
 const messages = [
   {
-    content: 'hi',
-    receiverId: 1,
-    senderId: 2,
-  },
-  {
-    content: 'hijnj',
+    content: 'how was your day?',
     receiverId: 1,
     senderId: 3,
   },
   {
-    content: 'bye',
+    content: 'do you want to run?',
     receiverId: 3,
-    senderId: 2,
+    senderId: 1,
   },
   {
-    content: 'hiiiii',
+    content: 'lets run in central park',
+    receiverId: 1,
+    senderId: 3,
+  },
+  {
+    content: 'Can we reschedule our run?',
     receiverId: 4,
     senderId: 2,
   },
   {
-    content: 'hiasdad',
+    content: `I'm on my way!`,
     receiverId: 3,
     senderId: 6,
   },
   {
-    content: 'bye',
+    content: 'See you soon!',
     receiverId: 6,
     senderId: 3,
   },
 ];
 
 async function seed() {
-  await db.sync({ force: true });
-  console.log('db synced!');
-  await User.bulkCreate(users, { ignoreDuplicates: true });
-  await Run.bulkCreate(runs, { ignoreDuplicates: true });
+  try {
+    await db.sync({ force: true });
+    console.log('db synced!');
+    await User.bulkCreate(users, { ignoreDuplicates: true });
+    await Run.bulkCreate(runs, { ignoreDuplicates: true });
+  } catch (error) {
+    console.log('error:', error);
+  }
 
   // iterate over requests array to make requests on run ads
   for (let i = 0; i < requests.length; i++) {
-    const user = await User.findByPk(requests[i].requesterId);
-    await user.addRequest(requests[i].runId);
+    try {
+      const user = await User.findByPk(requests[i].requesterId);
+      await user.addRequest(requests[i].runId);
+    } catch (error) {
+      console.log('error:', error);
+    }
   }
 
-  for (let i = 0; i < messages.length; i++) {
-    const user = await User.findByPk(messages[i].senderId);
-    await user.addSender(messages[i].receiverId);
+  try {
+    await Message.bulkCreate(messages);
+  } catch (error) {
+    console.log('Messages seed error:', error);
   }
+
+  /*
+  for (let i = 0; i < messages.length; i++) {
+    try {
+      const user = await User.findByPk(messages[i].senderId);
+      const message = await user.addSender(messages[i].receiverId);
+      //.log('--------> message', message[0]);
+      await message[0].update({ content: messages[i].content });
+    } catch (error) {
+      console.log('Messages seed error:', error);
+    }
+  }*/
 
   console.log(`seeded successfully`);
 }
