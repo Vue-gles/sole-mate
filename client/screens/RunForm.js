@@ -24,7 +24,6 @@ class RunForm extends Component {
       street: '',
       city: '',
       state: '',
-      country: '',
       lattitude: '',
       longitude: '',
       isDateTimePickerVisible: false,
@@ -33,7 +32,7 @@ class RunForm extends Component {
       date: new Date(),
       startTime: new Date(),
       endTime: new Date(),
-      mileage: 0,
+      prefferedMileage: 0,
     };
   }
 
@@ -86,9 +85,8 @@ class RunForm extends Component {
     const street = address[0].slice(1, address[0].length);
     const city = address[1];
     const state = address[2];
-    const country = address[3].slice(0, address[3].length - 2);
 
-    this.setState({ lattitude, longitude, street, city, state, country });
+    this.setState({ lattitude, longitude, street, city, state});
   }
 
   submitHandler() {
@@ -170,7 +168,7 @@ class RunForm extends Component {
           <Text>How many miles would you like to run?</Text>
           <RNPickerSelect
             style={styles.picker}
-            onValueChange={(value) => console.log(value)}
+            onValueChange={(value) => this.setState({prefferedMileage: value})}
             items={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
               .map(mile => { return {label: `${mile}`, value: mile }})}
           />

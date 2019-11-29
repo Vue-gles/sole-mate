@@ -42,11 +42,16 @@ router.get('/:runId', isUser, async (req, res, next) => {
 // POST /api/runs
 router.post('/', isUser, async (req, res, next) => {
   try {
-    const { locationName, startTimeframe, endTimeframe } = req.body;
+    const { street, city, state, lat, long, prefferedMileage, locationName, startTimeframe, endTimeframe } = req.body;
     const newRun = await Run.create({
-      locationName,
+      street,
+      city,
+      state,
+      lat,
+      long,
       startTimeframe,
       endTimeframe,
+      prefferedMileage,
       creatorId: req.user.id,
     });
     if (newRun) {
