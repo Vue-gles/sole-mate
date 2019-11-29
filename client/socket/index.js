@@ -6,7 +6,7 @@ import { getIncoming } from '../store/incoming';
 ///// FRONTEND
 
 // //TAKE THIS OUT SOON
-require('../secrets');
+require('../../secrets');
 
 const socket = io(process.env.BACKEND_HOST);
 
