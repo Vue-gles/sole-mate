@@ -19,6 +19,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 
 import { getMessageThreads } from '../store/messageThreads';
+import { getMessages } from '../store/singleMessageThread';
 
 class MessageThreads extends React.Component {
   constructor(props) {
@@ -35,6 +36,7 @@ class MessageThreads extends React.Component {
   }
 
   clickHandler(partnerId) {
+    this.props.getMessages(partnerId);
     this.props.navigation.navigate('SingleThread');
   }
 
@@ -104,6 +106,7 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     getThreads: () => dispatch(getMessageThreads()),
+    getMessages: id => dispatch(getMessages(id)),
   };
 };
 

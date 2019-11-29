@@ -22,23 +22,76 @@ class SingleMessageThread extends React.Component {
     super(props);
     console.log('Single MessageThread View -------------------->');
   }
-
-  static navigationOptions = {
-    title: 'Messages',
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: navigation.getParam('partnerName', 'Messages'),
+    };
   };
+
+  componentDidUpdate() {
+    console.log('this.props.messages', this.props.messages);
+    if (this.props.messages && this.props.messages.Sender) {
+      this.props.navigation.setParams({
+        partnerName: this.props.messages.Sender.firstName,
+      });
+    }
+  }
 
   render() {
     return (
-      <View>
-        <Text>Single Message Thread View</Text>
-      </View>
+      <SafeAreaView style={styles.container}>
+        <ScrollView style={styles.scrollView}>
+          {this.props.messages && this.props.messages.length ? (
+            this.props.messages.map(message => {
+              return (
+                <View key={message.id} style={styles.message}>
+                  <Image
+                    source={{
+                      uri: message.Sender.imageUrl,
+                    }}
+                    style={styles.userImage}
+                  />
+                  <Text>{message.content}</Text>
+                </View>
+              );
+            })
+          ) : (
+            <View style={styles.message}>
+              <Text>No messages</Text>
+            </View>
+          )}
+        </ScrollView>
+      </SafeAreaView>
     );
   }
 }
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: Constants.statusBarHeight,
+  },
+  message: {
+    padding: 10,
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  userImage: {
+    width: 60,
+    height: 60,
+    resizeMode: 'contain',
+    marginTop: 3,
+    marginLeft: -10,
+    borderRadius: 60 / 2,
+    overflow: 'hidden',
+  },
+});
+
 const mapState = state => {
   return {
-    singleThread: state.singleMessageThread,
+    messages: state.singleMessageThread,
   };
 };
 
