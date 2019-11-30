@@ -27,7 +27,7 @@ class PastRunsScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getRuns('past');
+    this.props.getRuns('upcoming');
   }
 
   render() {
