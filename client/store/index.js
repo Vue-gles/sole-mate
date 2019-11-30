@@ -11,6 +11,7 @@ import incoming from './incoming';
 import currentCoords from './currentCoord';
 import messageThreads from './messageThreads';
 import singleMessageThread from './singleMessageThread';
+import partner from './partner';
 
 const rootReducer = combineReducers({
   user: user,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   currentCoords: currentCoords,
   messageThreads: messageThreads,
   singleMessageThread: singleMessageThread,
+  partner: partner,
 });
 const middleware = composeWithDevTools(
   //applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
