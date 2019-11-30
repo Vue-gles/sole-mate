@@ -50,7 +50,7 @@ class SingleMessageThread extends React.Component {
     console.log('this.state', this.state);
     if (this.state.content) {
       await this.props.sendMessage(this.props.partner.id, this.state.content);
-      socket.emit('newMessage');
+      socket.emit('newMessage', this.props.partner.id);
       this.setState({ content: '' });
     }
   };

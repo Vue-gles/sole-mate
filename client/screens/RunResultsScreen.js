@@ -83,7 +83,7 @@ class RunResultsScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: Constants.statusBarHeight,
+    paddingTop: Constants.statusBarHeight,
   },
   runAd: {
     padding: 10,
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
     resizeMode: 'contain',
-    marginTop: 3,
+    paddingTop: 3,
     marginLeft: -10,
     borderRadius: 150 / 2,
     overflow: 'hidden',

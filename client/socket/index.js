@@ -2,6 +2,8 @@ import io from 'socket.io-client';
 import store from '../store';
 import { getOutgoing } from '../store/outgoing';
 import { getIncoming } from '../store/incoming';
+import { getMessageThreads } from '../store/messageThreads';
+import { getMessages } from '../store/singleMessageThread';
 
 ///// FRONTEND
 
@@ -24,8 +26,15 @@ socket.on('newRequestReceived', () => {
   store.dispatch(getIncoming());
 });
 
-socket.on('newMessageReceived', () => {
-  console.log('Frontend: newMessageReceived');
+socket.on('newMessageReceived', partnerId => {
+  console.log('Frontend: newMessageReceived', partnerId);
+  const state = store.getState();
+  if (state.user && state.user.id === partnerId_) {
+    store.dispatch(getMessageThreads());
+    if (state.partner && state.partner.id) {
+      store.dispatch(getMessages(state.partner.id));
+    }
+  }
 });
 
 socket.on('disconnect', () => {
