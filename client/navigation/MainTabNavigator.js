@@ -5,7 +5,6 @@ import {
   createBottomTabNavigator,
 } from 'react-navigation';
 
-
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
@@ -14,7 +13,9 @@ import SettingsScreen from '../screens/SettingsScreen';
 import NotificationsScreen from '../screens/NotificationsScreen';
 import MapScreen from '../screens/MapScreen';
 import ScheduleScreen from '../screens/ScheduleScreen';
-import RunForm from '../screens/RunForm'
+import RunForm from '../screens/RunForm';
+import MessageThreads from '../screens/MessageThreads';
+import SingleMessageThread from '../screens/SingleMessageThread';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -24,11 +25,11 @@ const config = Platform.select({
 const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
-    RunForm: RunForm
-  }, {
-    initialRouteName: 'Home'
+    RunForm: RunForm,
+  },
+  {
+    initialRouteName: 'Home',
   }
-  
 );
 
 HomeStack.navigationOptions = {
@@ -119,14 +120,36 @@ ScheduleStack.navigationOptions = {
 
 ScheduleStack.path = '';
 
+const MessageStack = createStackNavigator(
+  {
+    Threads: MessageThreads,
+    SingleThread: SingleMessageThread,
+  },
+  {
+    initialRouteName: 'Threads',
+  }
+);
 
+MessageStack.navigationOptions = {
+  title: 'Messages',
+  tabBarLabel: 'Messages',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === 'ios' ? `ios-text` : 'md-text'}
+    />
+  ),
+};
+
+MessageStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   RunTabStack,
   NotificationsStack,
   MapStack,
-  ScheduleStack
+  ScheduleStack,
+  MessageStack,
 });
 
 tabNavigator.path = '';
