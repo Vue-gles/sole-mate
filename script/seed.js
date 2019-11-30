@@ -256,18 +256,6 @@ async function seed() {
   } catch (error) {
     console.log('error:', error);
   }
-
-  // iterate over requests array to make requests on run ads
-  /*
-  for (let i = 0; i < requests.length; i++) {
-    try {
-      const user = await User.findByPk(requests[i].requesterId);
-      await user.addRequest(requests[i].runId);
-    } catch (error) {
-      console.log('error:', error);
-    }
-  }
-*/
   console.log(`seeded successfully`);
 }
 

@@ -25,10 +25,7 @@ Run.hasMany(Request);
 Request.belongsTo(Run);
 
 // User and Message associations
-User.hasMany(Message, {
-  as: 'Receiver',
-  foreignKey: 'receiverId',
-});
+User.hasMany(Message, { as: 'Receiver', foreignKey: 'receiverId' });
 User.hasMany(Message, { as: 'Sender', foreignKey: 'senderId' });
 Message.belongsTo(User, { as: 'Receiver', foreignKey: 'receiverId' });
 Message.belongsTo(User, { as: 'Sender', foreignKey: 'senderId' });
