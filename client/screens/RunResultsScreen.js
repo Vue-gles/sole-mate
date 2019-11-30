@@ -28,6 +28,10 @@ class RunResultsScreen extends React.Component {
     this.clickHandler = this.clickHandler.bind(this);
   }
 
+  static navigationOptions = {
+    title: 'Run Results',
+  };
+
   componentDidMount() {
     this.props.getRuns('potential');
   }

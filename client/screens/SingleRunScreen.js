@@ -29,6 +29,21 @@ class SingleRunScreen extends React.Component {
     console.log('SingleRun View -------------------->');
   }
 
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: navigation.getParam('creatorName', 'Run Results'),
+    };
+  };
+
+  componentDidMount() {
+    if (this.props.run && this.props.run.Creator) {
+      const { firstName, lastName } = this.props.run.Creator;
+      this.props.navigation.setParams({
+        creatorName: `${firstName} ${lastName}`,
+      });
+    }
+  }
+
   async requestHandler() {
     await this.props.request(this.props.run.id);
     socket.emit('newRequest');

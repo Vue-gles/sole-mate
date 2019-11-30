@@ -60,7 +60,9 @@ class MessageThreads extends React.Component {
                       }}
                       style={styles.userImage}
                     />
-                    <Text>Message thread with {thread.firstName}</Text>
+                    <Text>
+                      Message thread with {thread.firstName} {thread.lastName}
+                    </Text>
                   </View>
                 </TouchableWithoutFeedback>
               );

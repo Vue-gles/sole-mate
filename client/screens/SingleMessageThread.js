@@ -39,8 +39,9 @@ class SingleMessageThread extends React.Component {
 
   componentDidMount() {
     if (this.props.partner && this.props.partner.firstName) {
+      const { firstName, lastName } = this.props.partner;
       this.props.navigation.setParams({
-        partnerName: this.props.partner.firstName,
+        partnerName: `${firstName} ${lastName}`,
       });
     }
   }
