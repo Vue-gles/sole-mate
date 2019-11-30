@@ -12,22 +12,29 @@ import {
   TextInput,
   TouchableOpacity,
   TouchableHighlight,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import Constants from 'expo-constants';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { Link } from 'react-router-native';
 
 import { getRuns } from '../store/runs';
+import { getSingleRun } from '../store/singleRun';
 
 class RunResultsScreen extends React.Component {
   constructor(props) {
     super(props);
+    this.clickHandler = this.clickHandler.bind(this);
   }
 
   componentDidMount() {
     this.props.getRuns('potential');
+  }
+
+  async clickHandler(id) {
+    await this.props.getSingleRun(id);
+    this.props.navigation.navigate('SingleRun');
   }
 
   render() {
@@ -37,7 +44,10 @@ class RunResultsScreen extends React.Component {
         <ScrollView style={styles.scrollView}>
           {this.props.runs.map(run => {
             return (
-              <Link to={`/runs/${run.id}`} key={run.id}>
+              <TouchableWithoutFeedback
+                key={run.id}
+                onPress={() => this.clickHandler(run.id)}
+              >
                 <View style={styles.runAd}>
                   <Image
                     source={{
@@ -55,7 +65,7 @@ class RunResultsScreen extends React.Component {
                     {moment(run.endTimeframe).format('h:mm:ss a')}
                   </Text>
                 </View>
-              </Link>
+              </TouchableWithoutFeedback>
             );
           })}
         </ScrollView>
@@ -95,6 +105,7 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     getRuns: type => dispatch(getRuns(type)),
+    getSingleRun: id => dispatch(getSingleRun(id)),
   };
 };
 
