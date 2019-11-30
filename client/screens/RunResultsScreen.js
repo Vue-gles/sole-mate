@@ -60,7 +60,9 @@ class RunResultsScreen extends React.Component {
                     style={styles.runImage}
                   />
                   <Text>Creator Name: {run.Creator.firstName}</Text>
-                  <Text>Location: {run.locationName}</Text>
+                  <Text>
+                    Location: {run.street}, {run.city}, {run.state}
+                  </Text>
                   <Text>
                     Date: {moment(run.startTimeframe).format('MMMM Do')}
                   </Text>

@@ -61,16 +61,23 @@ class SingleRunScreen extends React.Component {
               }}
               style={styles.runImage}
             />
-            <Text>Creator Name: {run.Creator.firstName}</Text>
-            <Text>Avg Pace: {run.Creator.avgPace}</Text>
-            <Text>Avg Mileage: {run.Creator.avgMileage}</Text>
-            <Text>Bio: {run.Creator.bio}</Text>
-            <Text>Location: {run.locationName}</Text>
-            <Text>Date: {moment(run.startTimeframe).format('MMMM Do')}</Text>
-            <Text>
-              Time: {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
-              {moment(run.endTimeframe).format('h:mm:ss a')}
-            </Text>
+            <View style={styles.subContainer}>
+              <Text>About {run.Creator.firstName}:</Text>
+              <Text>Avg Pace: {run.Creator.avgPace} mph</Text>
+              <Text>Avg Mileage: {run.Creator.avgMileage} miles</Text>
+              <Text>Bio: {run.Creator.bio}</Text>
+            </View>
+            <View style={styles.subContainer}>
+              <Text>About Run:</Text>
+              <Text>
+                Location: {run.street}, {run.city}, {run.state}
+              </Text>
+              <Text>Date: {moment(run.startTimeframe).format('MMMM Do')}</Text>
+              <Text>
+                Time: {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
+                {moment(run.endTimeframe).format('h:mm:ss a')}
+              </Text>
+            </View>
             <Button title="Request Run" onPress={this.requestHandler} />
           </View>
         )}
@@ -83,6 +90,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: Constants.statusBarHeight,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  subContainer: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
