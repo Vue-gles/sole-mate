@@ -16,6 +16,7 @@ import ScheduleScreen from '../screens/ScheduleScreen';
 import RunForm from '../screens/RunForm';
 import MessageThreads from '../screens/MessageThreads';
 import SingleMessageThread from '../screens/SingleMessageThread';
+import RunNowForm from '../screens/RunNowForm'
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -26,6 +27,7 @@ const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
     RunForm: RunForm,
+    RunNowForm: RunNowForm
   },
   {
     initialRouteName: 'Home',

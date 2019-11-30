@@ -34,6 +34,7 @@ class RunResultsScreen extends React.Component {
     console.log('RunResults ------------->');
     return (
       <SafeAreaView style={styles.container}>
+
         <ScrollView style={styles.scrollView}>
           {this.props.runs.map(run => {
             return (
@@ -51,8 +52,8 @@ class RunResultsScreen extends React.Component {
                     Date: {moment(run.startTimeframe).format('MMMM Do')}
                   </Text>
                   <Text>
-                    Time: {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
-                    {moment(run.endTimeframe).format('h:mm:ss a')}
+                    Time: {moment(run.startTimeframe).format('h:mm a')} -{' '}
+                    {moment(run.endTimeframe).format('h:mm a')}
                   </Text>
                 </View>
               </Link>

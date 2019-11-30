@@ -57,7 +57,7 @@ class HomeScreen extends Component {
 
           <View style={styles.getStartedContainer}>
             <Text>Welcome, {this.props.user.firstName}!</Text>
-            <Button title="Run Now" onPress={() => navigate('Settings')} />
+            <Button title="Run Now" onPress={() => this.props.navigation.navigate('RunNowForm')} />
             <Button title="Run Later" onPress={() => this.props.navigation.navigate('RunForm')} />
 
             <Button

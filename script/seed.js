@@ -2,6 +2,7 @@
 
 const { db, User, Run, Message, Request } = require('../server/db');
 const axios = require('axios');
+require('../keys')
 
 const users = [
   {
