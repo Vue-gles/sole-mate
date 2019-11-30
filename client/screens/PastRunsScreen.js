@@ -27,15 +27,15 @@ class PastRunsScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getRuns('upcoming');
+    this.props.getRuns('past');
   }
 
   render() {
     console.log("PASTRUNSPROPS", this.props)
     console.log('PastRuns ------------->');
 
-    if(this.props.runs.length > 0){
-      return (
+    return ((this.props.runs.length > 0)?
+    
         <SafeAreaView style={styles.container}>
           <ScrollView style={styles.scrollView}>
           
@@ -64,12 +64,10 @@ class PastRunsScreen extends React.Component {
             })}
           </ScrollView>
         </SafeAreaView>
-      ); 
-    }else{
-      return(
+    :
         <Text>No past runs</Text>
-      ) 
-    }
+      
+    )
   }
 }
 

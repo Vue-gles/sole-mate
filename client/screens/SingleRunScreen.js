@@ -88,6 +88,8 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     marginTop: 30,
     marginLeft: -10,
+    borderRadius: 300 / 2,
+    overflow: 'hidden',
   },
 });
 

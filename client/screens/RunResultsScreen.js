@@ -77,10 +77,12 @@ const styles = StyleSheet.create({
   },
   runImage: {
     width: 150,
-    height: 110,
+    height: 150,
     resizeMode: 'contain',
     marginTop: 3,
     marginLeft: -10,
+    borderRadius: 150 / 2,
+    overflow: 'hidden',
   },
 });
 

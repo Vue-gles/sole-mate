@@ -34,8 +34,8 @@ class UpcomingRunsScreen extends React.Component {
     console.log("UPCOMING RUNS PROPS", this.props)
     console.log('Upcoming Runs ------------->');
 
-    if(this.props.runs.length > 0){
-      return (
+    return (this.props.runs.length > 0 ?
+     
         <SafeAreaView style={styles.container}>
           <ScrollView style={styles.scrollView}>
           
@@ -64,12 +64,11 @@ class UpcomingRunsScreen extends React.Component {
             })}
           </ScrollView>
         </SafeAreaView>
-      ); 
-    }else{
-      return(
+      :
+     
         <Text>No upcoming runs</Text>
-      ) 
-    }
+      
+    )
   }
 }
 
