@@ -19,6 +19,7 @@ socket.on('connect', () => {
 socket.on('requestUpdated', () => {
   console.log('Frontend: requestUpdated received');
   store.dispatch(getOutgoing());
+  store.dispatch(getMessageThreads());
 });
 
 socket.on('newRequestReceived', () => {
