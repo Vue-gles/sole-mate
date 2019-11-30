@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Button,
   Image,
   ScrollView,
   SafeAreaView,
@@ -17,7 +18,19 @@ import { getUpcomingRunsThunk } from '../store/upcomingRuns';
 class UpcomingRunsScreen extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      uniqueValue: 1
+    }
+    this.forceRemount = this.forceRemount
   }
+  forceRemount = () => {
+    console.log("WORKING?")
+    this.setState({
+
+      uniqueValue: this.state.uniqueValue + 1
+    })
+  }
+  
 
   componentDidMount() {
     console.log("COMPONENT MOUNTED")
@@ -31,9 +44,9 @@ class UpcomingRunsScreen extends React.Component {
 
     return (this.props.upcomingRuns.length ?
      
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView key={this.state.uniqueValue} style={styles.container}>
           <ScrollView style={styles.scrollView}>
-          
+          <Button title = 'update' onPress={this.forceRemount} />
             {this.props.upcomingRuns.map(run => {
               return (
                 <Link to={`/runs/${run.id}`} key={run.id}>
