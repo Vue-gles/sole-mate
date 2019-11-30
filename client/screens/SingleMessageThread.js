@@ -39,8 +39,9 @@ class SingleMessageThread extends React.Component {
 
   componentDidMount() {
     if (this.props.partner && this.props.partner.firstName) {
+      const { firstName, lastName } = this.props.partner;
       this.props.navigation.setParams({
-        partnerName: this.props.partner.firstName,
+        partnerName: `${firstName} ${lastName}`,
       });
     }
   }
@@ -49,7 +50,7 @@ class SingleMessageThread extends React.Component {
     console.log('this.state', this.state);
     if (this.state.content) {
       await this.props.sendMessage(this.props.partner.id, this.state.content);
-      socket.emit('newMessage');
+      socket.emit('newMessage', this.props.partner.id);
       this.setState({ content: '' });
     }
   };

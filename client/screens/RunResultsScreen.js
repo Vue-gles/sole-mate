@@ -28,6 +28,10 @@ class RunResultsScreen extends React.Component {
     this.clickHandler = this.clickHandler.bind(this);
   }
 
+  static navigationOptions = {
+    title: 'Run Results',
+  };
+
   componentDidMount() {
     this.props.getRuns('potential');
   }
@@ -56,7 +60,9 @@ class RunResultsScreen extends React.Component {
                     style={styles.runImage}
                   />
                   <Text>Creator Name: {run.Creator.firstName}</Text>
-                  <Text>Location: {run.locationName}</Text>
+                  <Text>
+                    Location: {run.street}, {run.city}, {run.state}
+                  </Text>
                   <Text>
                     Date: {moment(run.startTimeframe).format('MMMM Do')}
                   </Text>
@@ -77,7 +83,7 @@ class RunResultsScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: Constants.statusBarHeight,
+    paddingTop: Constants.statusBarHeight,
   },
   runAd: {
     padding: 10,
@@ -89,7 +95,7 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
     resizeMode: 'contain',
-    marginTop: 3,
+    paddingTop: 3,
     marginLeft: -10,
     borderRadius: 150 / 2,
     overflow: 'hidden',

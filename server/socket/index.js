@@ -23,9 +23,9 @@ module.exports = io => {
       socket.broadcast.emit('newRequestReceived');
     });
 
-    socket.on('newMessage', () => {
-      console.log('Backend: newMessage received');
-      socket.broadcast.emit('newMessageReceived');
+    socket.on('newMessage', partnerId => {
+      console.log('Backend: newMessage received', partnerId);
+      socket.broadcast.emit('newMessageReceived', partnerId);
     });
   });
 };
