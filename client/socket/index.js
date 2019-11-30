@@ -29,7 +29,7 @@ socket.on('newRequestReceived', () => {
 socket.on('newMessageReceived', partnerId => {
   console.log('Frontend: newMessageReceived', partnerId);
   const state = store.getState();
-  if (state.user && state.user.id === partnerId_) {
+  if (state.user && state.user.id === partnerId) {
     store.dispatch(getMessageThreads());
     if (state.partner && state.partner.id) {
       store.dispatch(getMessages(state.partner.id));
