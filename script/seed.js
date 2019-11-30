@@ -277,7 +277,7 @@ async function seed() {
 async function runSeed() {
   console.log('seeding...');
   try {
-    await seed();
+    await seed({force: true});
   } catch (err) {
     console.error(err);
     process.exitCode = 1;
@@ -297,10 +297,12 @@ async function updateRuns() {
         const { data } = await axios.get(
           `https://maps.googleapis.com/maps/api/geocode/json?address=${fullAddress}&key=${process.env.GOOGLE_API_KEY}`
         );
+
+        console.log(data.results[0].geometry.location)
         const lat = data.results[0].geometry.location.lat;
-        const long = data.results[0].geometry.location.lng;
-        console.log('WE GOT IT AND IT IS: ', lat, long);
-        await run.update({ lat: lat, long: long });
+        const long = data.results[0].geometry.location.lng
+        run.lat = lat; run.long = long;
+        await run.save()
       }
     });
   } catch (error) {
@@ -308,9 +310,7 @@ async function updateRuns() {
   }
 }
 
-async function closeDb() {
-  await db.close();
-}
+
 // Execute the `seed` function, IF we ran this module directly (`node seed`).
 // `Async` functions always return a promise, so we can use `catch` to handle
 // any errors that might occur inside of `seed`.

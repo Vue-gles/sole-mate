@@ -111,7 +111,7 @@ class RunForm extends Component {
               minLength={1} // minimum length of text to search
               autoFocus={true}
               returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
-              listViewDisplayed="auto" // true/false/undefined
+              listViewDisplayed="false" // true/false/undefined
               fetchDetails={true}
               renderDescription={row => row.description} // custom description render
               onPress={(data, details = null) => {
