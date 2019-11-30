@@ -24,9 +24,7 @@ class UpcomingRunsScreen extends React.Component {
     this.forceRemount = this.forceRemount
   }
   forceRemount = () => {
-    console.log("WORKING?")
     this.setState({
-
       uniqueValue: this.state.uniqueValue + 1
     })
   }
@@ -43,14 +41,13 @@ class UpcomingRunsScreen extends React.Component {
     
 
     return (this.props.upcomingRuns.length ?
-     
         <SafeAreaView key={this.state.uniqueValue} style={styles.container}>
           <ScrollView style={styles.scrollView}>
-          <Button title = 'update' onPress={this.forceRemount} />
             {this.props.upcomingRuns.map(run => {
               return (
-                <Link to={`/runs/${run.id}`} key={run.id}>
-                  <View style={styles.runAd}>
+                // <Link to={`/runs/${run.id}`} key={run.id}>
+                  <View style={styles.runAd} key={run.id} >
+                    <Button onPress={this.forceRemount} title = "update"/>
                     <Image
                       source={{
                         uri: run.Creator.imageUrl,
@@ -67,7 +64,7 @@ class UpcomingRunsScreen extends React.Component {
                       {moment(run.endTimeframe).format('h:mm:ss a')}
                     </Text>
                   </View>
-                </Link>
+                // </Link>
               );
             })}
           </ScrollView>
@@ -92,12 +89,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   runImage: {
-    width: 150,
-    height: 110,
+    width: 100,
+    height: 100,
     resizeMode: 'contain',
     marginTop: 3,
     marginLeft: -10,
-  },
+    borderRadius: 60 / 2,
+    overflow: 'hidden',
+    padding: '14%'
+  }
 });
 
 const mapState = state => {
