@@ -18,6 +18,10 @@ import Constants from 'expo-constants';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
+import socket from '../socket/index';
+
+import { sendMessage } from '../store/singleMessageThread';
+
 class SingleMessageThread extends React.Component {
   constructor(props) {
     super(props);
@@ -33,17 +37,21 @@ class SingleMessageThread extends React.Component {
     };
   };
 
-  componentDidUpdate() {
-    // console.log('this.props.messages', this.props.messages);
-    if (this.props.messages && this.props.messages.Sender) {
+  componentDidMount() {
+    if (this.props.partner && this.props.partner.firstName) {
       this.props.navigation.setParams({
-        partnerName: this.props.messages.Sender.firstName,
+        partnerName: this.props.partner.firstName,
       });
     }
   }
 
-  submitHandler = () => {
+  submitHandler = async () => {
     console.log('this.state', this.state);
+    if (this.state.content) {
+      await this.props.sendMessage(this.props.partner.id, this.state.content);
+      socket.emit('newMessage');
+      this.setState({ content: '' });
+    }
   };
   render() {
     return (
@@ -83,23 +91,25 @@ class SingleMessageThread extends React.Component {
               <Text>No messages</Text>
             </View>
           )}
-          <KeyboardAvoidingView
-            style={styles.keyboard}
-            behavior="padding"
-            enabled
-          >
-            <TextInput
-              value={this.state.content}
-              onChangeText={content => this.setState({ content })}
-              placeholder={'Text Message'}
-              style={styles.input}
-            ></TextInput>
-            <Button
-              title="↑"
-              onPress={this.submitHandler}
-              style={styles.submit}
-            />
-          </KeyboardAvoidingView>
+          <View style={styles.bottom}>
+            <KeyboardAvoidingView
+              style={styles.keyboard}
+              behavior="padding"
+              enabled
+            >
+              <TextInput
+                value={this.state.content}
+                onChangeText={content => this.setState({ content })}
+                placeholder={'Text Message'}
+                style={styles.input}
+              ></TextInput>
+              <Button
+                title="↑"
+                onPress={this.submitHandler}
+                style={styles.submit}
+              />
+            </KeyboardAvoidingView>
+          </View>
         </ScrollView>
       </SafeAreaView>
     );
@@ -148,10 +158,13 @@ const styles = StyleSheet.create({
     borderRadius: 40 / 2,
     overflow: 'hidden',
   },
+  bottom: {
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
   keyboard: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'flex-end',
     alignItems: 'center',
   },
   input: {
@@ -176,11 +189,14 @@ const mapState = state => {
   return {
     messages: state.singleMessageThread,
     user: state.user,
+    partner: state.partner,
   };
 };
 
 const mapDispatch = dispatch => {
-  return {};
+  return {
+    sendMessage: (id, content) => dispatch(sendMessage(id, content)),
+  };
 };
 
 export default connect(mapState, mapDispatch)(SingleMessageThread);
