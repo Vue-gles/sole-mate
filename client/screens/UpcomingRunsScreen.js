@@ -19,7 +19,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { Link } from 'react-router-native';
 
-import { getRuns } from '../store/runs';
+import { getUpcomingRunsThunk } from '../store/upcomingRuns';
 
 class UpcomingRunsScreen extends React.Component {
   constructor(props) {
@@ -27,19 +27,21 @@ class UpcomingRunsScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getRuns('upcoming');
+    console.log("COMPONENT MOUNTED")
+    this.props.getUpcomingRuns('upcoming');
   }
   
   render() {
-    console.log("UPCOMING RUNS PROPS", this.props)
     console.log('Upcoming Runs ------------->');
+    console.log("UPCOMING RUNS PROPS", this.props)
+    
 
-    return (this.props.runs.length > 0 ?
+    return (this.props.upcomingRuns.length ?
      
         <SafeAreaView style={styles.container}>
           <ScrollView style={styles.scrollView}>
           
-            {this.props.runs.map(run => {
+            {this.props.upcomingRuns.map(run => {
               return (
                 <Link to={`/runs/${run.id}`} key={run.id}>
                   <View style={styles.runAd}>
@@ -94,13 +96,13 @@ const styles = StyleSheet.create({
 
 const mapState = state => {
   return {
-    runs: state.runs,
+    upcomingRuns: state.upcomingRuns,
   };
 };
 
 const mapDispatch = dispatch => {
   return {
-    getRuns: type => dispatch(getRuns(type)),
+    getUpcomingRuns: type => dispatch(getUpcomingRunsThunk(type)),
   };
 };
 

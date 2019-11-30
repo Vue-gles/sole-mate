@@ -20,6 +20,7 @@ import moment from 'moment';
 
 import { getMessageThreads } from '../store/messageThreads';
 import { getMessages } from '../store/singleMessageThread';
+import { getPartner } from '../store/partner';
 
 class MessageThreads extends React.Component {
   constructor(props) {
@@ -35,8 +36,9 @@ class MessageThreads extends React.Component {
     await this.props.getThreads();
   }
 
-  clickHandler(partnerId) {
-    this.props.getMessages(partnerId);
+  async clickHandler(partnerId) {
+    await this.props.getMessages(partnerId);
+    await this.props.getPartner(partnerId);
     this.props.navigation.navigate('SingleThread');
   }
 
@@ -107,6 +109,7 @@ const mapDispatch = dispatch => {
   return {
     getThreads: () => dispatch(getMessageThreads()),
     getMessages: id => dispatch(getMessages(id)),
+    getPartner: id => dispatch(getPartner(id)),
   };
 };
 

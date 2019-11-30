@@ -24,6 +24,10 @@ socket.on('newRequestReceived', () => {
   store.dispatch(getIncoming());
 });
 
+socket.on('newMessageReceived', () => {
+  console.log('Frontend: newMessageReceived');
+});
+
 socket.on('disconnect', () => {
   console.log('connection to server lost.');
 });
