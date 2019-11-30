@@ -80,9 +80,9 @@ class RunForm extends Component {
       const street = address[0].slice(1, address[0].length)
       const city = address[1]
       const state = address[2]
-      const country = address[3].slice(0, address[3].length - 2)
+      // const country = address[3].slice(0, address[3].length - 2)
 
-     this.setState({lattitude, longitude, street, city, state, country})
+     this.setState({lattitude, longitude, street, city, state})
 
   }
 

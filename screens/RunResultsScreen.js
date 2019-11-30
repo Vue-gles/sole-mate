@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: Constants.statusBarHeight,
-    backgroundColor:"#4d4dff",
+    // backgroundColor:"#4d4dff",
   },
   runAd: {
     padding: 10,
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf:'center',
-    backgroundColor:"#228b22",
+    backgroundColor:"#4d4dff",
     borderWidth: 1,
     borderColor: 'black',
   },

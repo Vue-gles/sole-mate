@@ -9,7 +9,7 @@ import SignInScreen from '../screens/SignInScreen';
 import { MonoText } from '../components/StyledText';
 import SignUpFormScreen from '../screens/SignUpFormScreen';
 
-const AuthStack = createStackNavigator({ SignIn: SignInScreen });
+const AuthStack = createStackNavigator({ SignIn: SignInScreen,SignUp:SignUpFormScreen });
 
 export default createAppContainer(
   createSwitchNavigator(
@@ -19,7 +19,7 @@ export default createAppContainer(
       AuthLoading: AuthLoadingScreen,
       Main: MainTabNavigator,
       Auth: AuthStack,
-      SignUp:SignUpFormScreen
+      
     },
     {
       initialRouteName: 'AuthLoading',
