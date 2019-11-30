@@ -1,17 +1,10 @@
 import React from 'react';
 import {
-  AsyncStorage,
-  Button,
-  StatusBar,
   Image,
-  Platform,
   ScrollView,
   SafeAreaView,
   StyleSheet,
   Text,
-  TextInput,
-  TouchableOpacity,
-  TouchableHighlight,
   View,
 } from 'react-native';
 import Constants from 'expo-constants';
