@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { Run, User } = require('../db');
-const { Op } = require('sequelize');
+const sequelize = require('sequelize');
 
 const { isAdmin, isUser } = require('../../utils');
 module.exports = router;
@@ -8,7 +8,8 @@ module.exports = router;
 // GET /api/runs
 router.get('/', isUser, async (req, res, next) => {
   try {
-    const { type } = req.query;
+    console.log('REQ.QUERY', req.query)
+    const { type, distance } = req.query;
     let runs;
     if (type === 'potential') runs = await Run.getPotentialRuns(req.user.id);
     if (type === 'upcoming') runs = await Run.getUpcomingRuns(req.user.id);
@@ -22,6 +23,30 @@ router.get('/', isUser, async (req, res, next) => {
     next(err);
   }
 });
+
+router.get('/location', (req, res, next) => {
+  const Op = sequelize.Op
+
+var lat = req.body.lat
+var lng = req.body.long
+console.log('LOG IS: ', req.body)
+var attributes = Object.keys(Run.tableAttributes);
+console.log('attributes are: ', attributes)
+var location = sequelize.literal(`ST_GeomFromText('POINT(${lng} ${lat})')`);
+console.log('LOCATION IS>>>>', location)
+var distance = sequelize.fn('ST_Distance', sequelize.literal('location'), location);
+console.log("DISTANCE IS: ", distance)
+attributes.push([distance,'distance']);
+
+Run.findAll({
+  attributes: attributes,
+  where: sequelize.where(distance, {[Op.lte]: 10}),
+  logging: console.log
+})
+.then(function(instance){
+  return res.send(instance);
+})
+})
 
 // GET /api/runs/:runId
 router.get('/:runId', isUser, async (req, res, next) => {

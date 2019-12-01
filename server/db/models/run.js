@@ -38,6 +38,9 @@ const Run = db.define(
     long: {
       type: Sequelize.FLOAT,
     },
+    location: {
+      type: Sequelize.GEOMETRY
+    },
     startTimeframe: {
       type: Sequelize.DATE,
       allowNull: false,
@@ -84,13 +87,14 @@ const Run = db.define(
   // }
 );
 
+
 Run.getPotentialRuns = function(userId) {
   const currentTime = new Date();
   const runs = Run.findAll({
     where: {
       creatorId: { [Op.ne]: userId },
       endTimeframe: { [Op.gt]: currentTime },
-      partnerId: { [Op.is]: null },
+      partnerId: { [Op.is]: null }
     },
     include: [{ model: User, as: 'Creator' }],
   });
