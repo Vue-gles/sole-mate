@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const db = require('../db');
 const { Op } = require('sequelize');
 const User = require('./user');
-const axios = require('axios');
+//const axios = require('axios');
 // require('../../../keys');
 
 const Run = db.define(
@@ -55,7 +55,7 @@ const Run = db.define(
       type: Sequelize.ARRAY(Sequelize.STRING),
     },
     distance: {
-      type: Sequelize.FLOAT
+      type: Sequelize.FLOAT,
     },
     prefferedMileage: {
       type: Sequelize.INTEGER,
@@ -64,7 +64,7 @@ const Run = db.define(
         notEmpty: true,
       },
     },
-  },
+  }
   // {
   //   hooks: {
   //     //this doesn't work yet

@@ -20,6 +20,7 @@ import moment from 'moment';
 
 import { getMessageThreads } from '../store/messageThreads';
 import { getMessages } from '../store/singleMessageThread';
+import { getPartner } from '../store/partner';
 
 class MessageThreads extends React.Component {
   constructor(props) {
@@ -35,8 +36,9 @@ class MessageThreads extends React.Component {
     await this.props.getThreads();
   }
 
-  clickHandler(partnerId) {
-    this.props.getMessages(partnerId);
+  async clickHandler(partnerId) {
+    await this.props.getMessages(partnerId);
+    await this.props.getPartner(partnerId);
     this.props.navigation.navigate('SingleThread');
   }
 
@@ -58,7 +60,9 @@ class MessageThreads extends React.Component {
                       }}
                       style={styles.userImage}
                     />
-                    <Text>Message thread with {thread.firstName}</Text>
+                    <Text>
+                      Message thread with {thread.firstName} {thread.lastName}
+                    </Text>
                   </View>
                 </TouchableWithoutFeedback>
               );
@@ -83,15 +87,15 @@ const styles = StyleSheet.create({
     padding: 10,
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'flex-start',
     alignItems: 'center',
   },
   userImage: {
     width: 60,
     height: 60,
     resizeMode: 'contain',
-    marginTop: 3,
-    marginLeft: -10,
+    margin: 5,
+    marginRight: 15,
     borderRadius: 60 / 2,
     overflow: 'hidden',
   },
@@ -107,6 +111,7 @@ const mapDispatch = dispatch => {
   return {
     getThreads: () => dispatch(getMessageThreads()),
     getMessages: id => dispatch(getMessages(id)),
+    getPartner: id => dispatch(getPartner(id)),
   };
 };
 
