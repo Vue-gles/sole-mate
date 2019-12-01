@@ -2,7 +2,7 @@
 
 const { db, User, Run, Message, Request } = require('../server/db');
 const axios = require('axios');
-require('../keys')
+require('../keys');
 
 const users = [
   {
@@ -137,6 +137,24 @@ const runs = [
     creatorId: 3,
   },
   {
+    street: '1 Broad Street',
+    city: 'Chicago',
+    state: 'IL',
+    startTimeframe: new Date('2019-12-06 20:00:00'),
+    endTimeframe: new Date('2019-12-06 24:00:00'),
+    prefferedMileage: 6,
+    creatorId: 2,
+  },
+  {
+    street: '1 Main Street',
+    city: 'Chicago',
+    state: 'IL',
+    startTimeframe: new Date('2019-12-06 20:00:00'),
+    endTimeframe: new Date('2019-12-06 24:00:00'),
+    prefferedMileage: 6,
+    creatorId: 4,
+  },
+  {
     street: '15 Hanover Ct',
     city: 'New York',
     state: 'NY',
@@ -266,7 +284,7 @@ async function seed() {
 async function runSeed() {
   console.log('seeding...');
   try {
-    await seed({force: true});
+    await seed({ force: true });
   } catch (err) {
     console.error(err);
     process.exitCode = 1;
@@ -287,18 +305,25 @@ async function updateRuns() {
           `https://maps.googleapis.com/maps/api/geocode/json?address=${fullAddress}&key=${process.env.GOOGLE_API_KEY}`
         );
 
-        console.log(data.results[0].geometry.location)
+        console.log(data.results[0].geometry.location);
         const lat = data.results[0].geometry.location.lat;
-        const long = data.results[0].geometry.location.lng
-        run.lat = lat; run.long = long;
-        await run.save()
+        const long = data.results[0].geometry.location.lng;
+        // run.lat = lat;
+        // run.long = long;
+        // const location = {
+        //   type: 'Point',
+        //   coordinates: [long, lat],
+        //   crs: { type: 'name', properties: { name: 'EPSG:4326'} }
+        // }
+        //got to point where I think my route is working but I am unable to load any data into the location column. Everytime I do, I get this error
+        // that says I need to get ST_GeomFromGeoJSON but I don't know how
+        await run.update({lat, long})
       }
     });
   } catch (error) {
     console.error('UPDATING ERROR WAS:>> ', error);
   }
 }
-
 
 // Execute the `seed` function, IF we ran this module directly (`node seed`).
 // `Async` functions always return a promise, so we can use `catch` to handle
