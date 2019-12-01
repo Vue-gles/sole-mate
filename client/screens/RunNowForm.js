@@ -9,6 +9,7 @@ import {
   Button,
 } from 'react-native';
 import PlacesAutocomplete from './PlacesAutocomplete';
+import Slider from 'react-native-slider';
 import Constants from 'expo-constants';
 
 // import TempGoogleInput from '../components/TempGoogleInput'
@@ -23,6 +24,7 @@ export default class RunNowForm extends React.Component {
       state: '',
       lattitude: 0,
       longitude: 0,
+      maxDistance: 20,
     };
     this.locationHandler = this.locationHandler.bind(this);
     this.handler = this.handler.bind(this);
@@ -48,18 +50,23 @@ export default class RunNowForm extends React.Component {
   }
 
   render() {
-    // let lat, long;
-    // const geoInfo = navigator.geolocation.getCurrentPosition(position => {
-    //   lat = position.latitude;
-    //   long = position.longitude;
-    //   console.log('made it');
-    // });
-
     return (
       <ScrollView>
         <Text>Where would you like to start your run?</Text>
         <View style={styles.container}>
           <PlacesAutocomplete locationHandler={this.locationHandler} />
+        </View>
+        <View style={styles.container}>
+          <Slider
+            style={{ width: 300 }}
+            step={1}
+            minimumValue={18}
+            maximumValue={71}
+            value={this.state.maxDistance}
+            onValueChange={val => this.setState({ maxDistance: val })}
+            onSlidingComplete={val => this.getVal(val)}
+          />
+          <Text>Value: {this.state.value}</Text>
         </View>
       </ScrollView>
     );
@@ -68,8 +75,11 @@ export default class RunNowForm extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    justifyContent: 'center',
+    alignItems: 'stretch',
+    flex: 1,
+    marginLeft: 10,
+    marginRight: 10,
   },
   item: {
     flex: 2,
