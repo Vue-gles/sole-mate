@@ -1,17 +1,10 @@
 import React from 'react';
 import {
-  AsyncStorage,
-  Button,
-  StatusBar,
   Image,
-  Platform,
   ScrollView,
   SafeAreaView,
   StyleSheet,
   Text,
-  TextInput,
-  TouchableOpacity,
-  TouchableHighlight,
   View,
 } from 'react-native';
 import Constants from 'expo-constants';
@@ -19,7 +12,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { Link } from 'react-router-native';
 
-import { getRuns } from '../store/runs';
+import { getPastRunsThunk } from '../store/pastRuns';
 
 class PastRunsScreen extends React.Component {
   constructor(props) {
@@ -27,19 +20,21 @@ class PastRunsScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getRuns('upcoming');
+    console.log("COMPONENT MOUNTED")
+    this.props.getPastRuns('past');
   }
-
+  
   render() {
-    console.log("PASTRUNSPROPS", this.props)
-    console.log('PastRuns ------------->');
+    console.log('Past Runs ------------->');
+    console.log("PAST RUNS PROPS", this.props)
+    
 
-    if(this.props.runs.length > 0){
-      return (
+    return (this.props.pastRuns.length > 0 ?
+     
         <SafeAreaView style={styles.container}>
           <ScrollView style={styles.scrollView}>
           
-            {this.props.runs.map(run => {
+            {this.props.pastRuns.map(run => {
               return (
                 <Link to={`/runs/${run.id}`} key={run.id}>
                   <View style={styles.runAd}>
@@ -64,12 +59,11 @@ class PastRunsScreen extends React.Component {
             })}
           </ScrollView>
         </SafeAreaView>
-      ); 
-    }else{
-      return(
+      :
+     
         <Text>No past runs</Text>
-      ) 
-    }
+      
+    )
   }
 }
 
@@ -95,13 +89,13 @@ const styles = StyleSheet.create({
 
 const mapState = state => {
   return {
-    runs: state.runs,
+    pastRuns: state.pastRuns,
   };
 };
 
 const mapDispatch = dispatch => {
   return {
-    getRuns: type => dispatch(getRuns(type)),
+    getPastRuns: type => dispatch(getPastRunsThunk(type)),
   };
 };
 

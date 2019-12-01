@@ -1,17 +1,11 @@
 import React from 'react';
 import {
-  AsyncStorage,
   Button,
-  StatusBar,
   Image,
-  Platform,
   ScrollView,
   SafeAreaView,
   StyleSheet,
   Text,
-  TextInput,
-  TouchableOpacity,
-  TouchableHighlight,
   View,
 } from 'react-native';
 import Constants from 'expo-constants';
@@ -19,30 +13,41 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { Link } from 'react-router-native';
 
-import { getRuns } from '../store/runs';
+import { getUpcomingRunsThunk } from '../store/upcomingRuns';
 
 class UpcomingRunsScreen extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      uniqueValue: 1
+    }
+    this.forceRemount = this.forceRemount
   }
+  forceRemount = () => {
+    this.setState({
+      uniqueValue: this.state.uniqueValue + 1
+    })
+  }
+  
 
   componentDidMount() {
-    this.props.getRuns('upcoming');
+    console.log("COMPONENT MOUNTED")
+    this.props.getUpcomingRuns('upcoming');
   }
   
   render() {
-    console.log("UPCOMING RUNS PROPS", this.props)
     console.log('Upcoming Runs ------------->');
+    console.log("UPCOMING RUNS PROPS", this.props)
+    
 
-    if(this.props.runs.length > 0){
-      return (
-        <SafeAreaView style={styles.container}>
+    return (this.props.upcomingRuns.length ?
+        <SafeAreaView key={this.state.uniqueValue} style={styles.container}>
           <ScrollView style={styles.scrollView}>
-          
-            {this.props.runs.map(run => {
+            {this.props.upcomingRuns.map(run => {
               return (
-                <Link to={`/runs/${run.id}`} key={run.id}>
-                  <View style={styles.runAd}>
+                // <Link to={`/runs/${run.id}`} key={run.id}>
+                  <View style={styles.runAd} key={run.id} >
+                    <Button onPress={this.forceRemount} title = "update"/>
                     <Image
                       source={{
                         uri: run.Creator.imageUrl,
@@ -59,17 +64,16 @@ class UpcomingRunsScreen extends React.Component {
                       {moment(run.endTimeframe).format('h:mm:ss a')}
                     </Text>
                   </View>
-                </Link>
+                // </Link>
               );
             })}
           </ScrollView>
         </SafeAreaView>
-      ); 
-    }else{
-      return(
+      :
+     
         <Text>No upcoming runs</Text>
-      ) 
-    }
+      
+    )
   }
 }
 
@@ -85,23 +89,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   runImage: {
-    width: 150,
-    height: 110,
+    width: 100,
+    height: 100,
     resizeMode: 'contain',
     marginTop: 3,
     marginLeft: -10,
-  },
+    borderRadius: 60 / 2,
+    overflow: 'hidden',
+    padding: '14%'
+  }
 });
 
 const mapState = state => {
   return {
-    runs: state.runs,
+    upcomingRuns: state.upcomingRuns,
   };
 };
 
 const mapDispatch = dispatch => {
   return {
-    getRuns: type => dispatch(getRuns(type)),
+    getUpcomingRuns: type => dispatch(getUpcomingRunsThunk(type)),
   };
 };
 

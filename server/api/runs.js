@@ -68,7 +68,7 @@ router.put('/route', isUser, async (req,res,next) => {
   try {
     const run = await Run.findOne({
       where:{
-       creatorId:req.user.id 
+       creatorId: req.user.id 
       }
     })
     const {route} = req.body
@@ -89,7 +89,7 @@ router.put('/distance', isUser, async (req,res,next) => {
       }
     })
     const {distance} = req.body
-    const updated=await run.update({
+    const updated = await run.update({
       distance: distance
     })
     res.json(updated)

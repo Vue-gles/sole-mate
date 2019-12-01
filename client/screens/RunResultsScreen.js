@@ -42,7 +42,7 @@ class RunResultsScreen extends React.Component {
   }
 
   render() {
-    console.log('RunResults ------------->');
+    // console.log('RunResults ------------->');
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
