@@ -1,19 +1,9 @@
-
 import React from 'react';
-import {
-  
-  Platform
-  
-} from 'react-native';
-import {
- 
-  createMaterialTopTabNavigator,
+import { Platform } from 'react-native';
+import { createMaterialTopTabNavigator } from 'react-navigation';
 
-} from 'react-navigation';
-
-
-import UpcomingRunsScreen from './UpcomingRunsScreen'
-import PastRunsScreen from './PastRunsScreen'
+import UpcomingRunsScreen from './UpcomingRunsScreen';
+import PastRunsScreen from './PastRunsScreen';
 const config = Platform.select({
   web: { headerMode: 'screen' },
   default: {},
@@ -32,7 +22,7 @@ const ScheduleScreen = createMaterialTopTabNavigator(
       activeTintColor: '#FFFFFF',
       inactiveTintColor: '#e8e8e8',
       style: {
-        backgroundColor: '#1E90FF',
+        backgroundColor: '#21752B',
       },
       labelStyle: {
         textAlign: 'center',

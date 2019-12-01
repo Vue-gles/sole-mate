@@ -108,6 +108,7 @@ class SingleMessageThread extends React.Component {
                 title="↑"
                 onPress={this.submitHandler}
                 style={styles.submit}
+                color={'#0F3E15'}
               />
             </KeyboardAvoidingView>
           </View>
@@ -144,7 +145,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   userMsg: {
-    backgroundColor: '#2063ab',
+    backgroundColor: '#21752B',
     color: 'white',
     marginRight: 5,
     padding: 10,

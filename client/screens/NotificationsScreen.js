@@ -39,7 +39,7 @@ const NotificationScreen = createMaterialTopTabNavigator(
       activeTintColor: '#FFFFFF',
       inactiveTintColor: '#e8e8e8',
       style: {
-        backgroundColor: '#3a5299',
+        backgroundColor: '#21752B',
       },
       labelStyle: {
         textAlign: 'center',

@@ -31,7 +31,7 @@ class SingleRunScreen extends React.Component {
 
   static navigationOptions = ({ navigation }) => {
     return {
-      title: navigation.getParam('creatorName', 'Run Results'),
+      title: navigation.getParam('creatorName', 'Runs'),
     };
   };
 

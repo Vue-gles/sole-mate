@@ -9,7 +9,22 @@ import SignInScreen from '../screens/SignInScreen';
 import { MonoText } from '../components/StyledText';
 import SignUpFormScreen from '../screens/SignUpFormScreen';
 
-const AuthStack = createStackNavigator({ SignIn: SignInScreen });
+const AuthStack = createStackNavigator(
+  { SignIn: SignInScreen },
+  {
+    defaultNavigationOptions: {
+      title: 'Sign In',
+      headerStyle: {
+        backgroundColor: 'forestgreen',
+      },
+      headerTintColor: '#0F3E15',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        color: '#fff',
+      },
+    },
+  }
+);
 
 export default createAppContainer(
   createSwitchNavigator(
@@ -19,7 +34,7 @@ export default createAppContainer(
       AuthLoading: AuthLoadingScreen,
       Main: MainTabNavigator,
       Auth: AuthStack,
-      SignUp:SignUpFormScreen
+      SignUp: SignUpFormScreen,
     },
     {
       initialRouteName: 'AuthLoading',

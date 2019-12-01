@@ -20,6 +20,8 @@ import { auth } from '../store/user';
 
 import { MonoText } from '../components/StyledText';
 
+import logo from '../../assets/images/logo.png';
+
 class SignInScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -28,10 +30,6 @@ class SignInScreen extends React.Component {
       password: '',
     };
   }
-
-  static navigationOptions = {
-    title: 'Sign in to SoleMate',
-  };
 
   submitHandler = async () => {
     if (this.state.email && this.state.password) {
@@ -52,14 +50,8 @@ class SignInScreen extends React.Component {
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
           <View style={styles.container}>
-            <Image
-              source={{
-                uri:
-                  'https://p7.hiclipart.com/preview/751/476/837/running-silhouette-clip-art-silhouette.jpg',
-              }}
-              style={styles.welcomeImage}
-            />
-            <Text style={styles.getStartedText}>Sole-Mate</Text>
+            <Text style={styles.brandName}>SoleMate</Text>
+            <Image source={logo} style={styles.welcomeImage} />
             <TextInput
               value={this.state.email}
               onChangeText={email =>
@@ -74,10 +66,15 @@ class SignInScreen extends React.Component {
               placeholder={'Password'}
               style={styles.input}
             />
-            <Button title="Sign In" onPress={this.submitHandler} />
+            <Button
+              title="Sign In"
+              onPress={this.submitHandler}
+              color={'#0F3E15'}
+            />
             <Button
               title="Create New User"
               onPress={() => navigate('SignUp')}
+              color={'#0F3E15'}
             />
             {this.props.error && this.props.error.response && (
               <Text style={styles.error}>
@@ -99,6 +96,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingTop: 100,
   },
+  brandName: {
+    fontSize: 50,
+    color: 'forestgreen',
+  },
   input: {
     width: 200,
     height: 44,
@@ -110,8 +111,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   welcomeImage: {
-    width: 100,
-    height: 80,
+    width: 200,
+    height: 200,
     resizeMode: 'contain',
     marginTop: 3,
     marginLeft: -10,

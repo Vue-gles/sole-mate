@@ -28,10 +28,6 @@ class RunResultsScreen extends React.Component {
     this.clickHandler = this.clickHandler.bind(this);
   }
 
-  static navigationOptions = {
-    title: 'Run Results',
-  };
-
   componentDidMount() {
     this.props.getRuns('potential');
   }
@@ -57,7 +53,6 @@ class RunResultsScreen extends React.Component {
                     source={{
                       uri: run.Creator.imageUrl,
                     }}
-                    style={styles.runImage}
                   />
                   <Text>Creator Name: {run.Creator.firstName}</Text>
                   <Text>
