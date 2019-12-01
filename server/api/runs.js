@@ -6,16 +6,15 @@ const { calculateDistance } = require('../../utils');
 const { isAdmin, isUser } = require('../../utils');
 module.exports = router;
 
-// GET /api/runs
-// Sample url: /api/runs?type=potential&distance=3000&lat=40.71624740000001&long=-73.998268
+// GET /api/runs -- Sample url: /api/runs?type=potential&distance=3000&lat=40.71624740000001&long=-73.998268
 router.get('/', async (req, res, next) => {
   try {
     console.log('REQ.QUERY', req.query);
     const { type } = req.query;
     let runs;
     if (type === 'potential') {
-      // const maxDistance = req.query.distance ? req.query.distance : undefined
-      runs = await Run.getPotentialRuns(req.user.id, +req.query.maxDistance, +req.query.lat, +req.query.long)
+      const maxDistance = req.query.distance ? req.query.distance : undefined
+      runs = await Run.getPotentialRuns(req.user.id, maxDistance, req.query.lat, req.query.long)
     }
     if (type === 'upcoming') runs = await Run.getUpcomingRuns(req.user.id);
     if (type === 'past') runs = await Run.getPastRuns(req.user.id);
@@ -29,51 +28,6 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.get('/location', async (req, res, next) => {
-  try {
-    const Op = sequelize.Op;
-
-    var lat = req.body.lat;
-    var long = req.body.long;
-
-    const allRuns = await Run.findAll();
-    const runsWithinDistance = allRuns.filter(run => {
-      const distance = calculateDistance(lat, long, run.lat, run.long);
-      console.log(
-        'The distance is ------->',
-        lat,
-        long,
-        run.lat,
-        run.long,
-        distance
-      );
-      if (distance < 0.5) {
-        return run;
-      }
-    });
-    res.send(runsWithinDistance);
-  } catch (error) {
-    next(error);
-  }
-
-  // console.log('LOG IS: ', req.body)
-  // var attributes = Object.keys(Run.tableAttributes);
-  // console.log('attributes are: ', attributes)
-  // var location = sequelize.literal(`ST_GeomFromText('POINT(${lng} ${lat})')`);
-  // console.log('LOCATION IS>>>>', location)
-  // var distance = sequelize.fn('ST_Distance', sequelize.literal('location'), location);
-  // console.log("DISTANCE IS: ", distance)
-  // attributes.push([distance,'distance']);
-
-  // Run.findAll({
-  //   attributes: attributes,
-  //   where: sequelize.where(distance, {[Op.lte]: 100}),
-  //   logging: console.log
-  // })
-  // .then(function(instance){
-  //   return res.send(instance);
-  // })
-});
 
 // GET /api/runs/:runId
 router.get('/:runId', isUser, async (req, res, next) => {

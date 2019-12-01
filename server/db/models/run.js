@@ -70,6 +70,7 @@ const Run = db.define(
 
 
 Run.getPotentialRuns = function(userId, maxDistance, lat, long) {
+  console.log('ARE WE EVEN HERE???')
   const currentTime = new Date();
   const runs = Run.findAll({
     where: {
@@ -79,7 +80,10 @@ Run.getPotentialRuns = function(userId, maxDistance, lat, long) {
     },
     include: [{ model: User, as: 'Creator' }],
   });
-  if (!maxDistance) return runs;
+  if (!maxDistance) {
+    console.log('HOW ABOUT HEREEE', maxDistance)
+    return runs
+  }
   else {
     const runsWithinDistance = runs.filter( run => {
       const distanceBetweenPoints = calculateDistance(lat, long, run.lat, run.long)
