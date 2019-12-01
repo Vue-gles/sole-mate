@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 const GOT_RUN_COORDINATES = 'GOT_COORDINATES';
 
 const gotRunCoordinates = runCoordinates => {
@@ -10,6 +12,13 @@ const gotRunCoordinates = runCoordinates => {
 const initialState = {
   runCoordinates: [],
 };
+
+
+const getRunCoordinatesThunk = () => {
+    return async dispatch => {
+        const 
+    }
+}
 
 export default formInfo = (state = initialState, action) => {
   switch (action.type) {

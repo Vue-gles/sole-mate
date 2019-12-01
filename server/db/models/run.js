@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const db = require('../db');
 const { Op } = require('sequelize');
 const User = require('./user');
-const axios = require('axios');
+//const axios = require('axios');
 // require('../../../keys');
 const {calculateDistance} = require('../../../utils')
 
@@ -56,7 +56,7 @@ const Run = db.define(
       type: Sequelize.ARRAY(Sequelize.STRING),
     },
     distance: {
-      type: Sequelize.FLOAT
+      type: Sequelize.FLOAT,
     },
     prefferedMileage: {
       type: Sequelize.INTEGER,
@@ -70,7 +70,6 @@ const Run = db.define(
 
 
 Run.getPotentialRuns = function(userId, maxDistance, lat, long) {
-  console.log('ARE WE EVEN HERE???')
   const currentTime = new Date();
   const runs = Run.findAll({
     where: {
@@ -81,7 +80,6 @@ Run.getPotentialRuns = function(userId, maxDistance, lat, long) {
     include: [{ model: User, as: 'Creator' }],
   });
   if (!maxDistance) {
-    console.log('HOW ABOUT HEREEE', maxDistance)
     return runs
   }
   else {

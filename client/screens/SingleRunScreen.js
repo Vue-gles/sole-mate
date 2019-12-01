@@ -16,7 +16,6 @@ import {
 import { connect } from 'react-redux';
 import Constants from 'expo-constants';
 import moment from 'moment';
-import { Link } from 'react-router-native';
 
 import socket from '../socket/index';
 
@@ -26,18 +25,23 @@ import { makeRequest } from '../store/outgoing';
 class SingleRunScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.backHandler = this.backHandler.bind(this);
     this.requestHandler = this.requestHandler.bind(this);
     console.log('SingleRun View -------------------->');
   }
 
-  componentDidMount() {
-    const { runId } = this.props.match.params;
-    this.props.getSingleRun(runId);
-  }
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: navigation.getParam('creatorName', 'Run Results'),
+    };
+  };
 
-  backHandler() {
-    this.props.back();
+  componentDidMount() {
+    if (this.props.run && this.props.run.Creator) {
+      const { firstName, lastName } = this.props.run.Creator;
+      this.props.navigation.setParams({
+        creatorName: `${firstName} ${lastName}`,
+      });
+    }
   }
 
   async requestHandler() {
@@ -57,17 +61,24 @@ class SingleRunScreen extends React.Component {
               }}
               style={styles.runImage}
             />
-            <Text>Creator Name: {run.Creator.firstName}</Text>
-            <Text>Location: {run.locationName}</Text>
-            <Text>Date: {moment(run.startTimeframe).format('MMMM Do')}</Text>
-            <Text>
-              Time: {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
-              {moment(run.endTimeframe).format('h:mm:ss a')}
-            </Text>
+            <View style={styles.subContainer}>
+              <Text>About {run.Creator.firstName}:</Text>
+              <Text>Avg Pace: {run.Creator.avgPace} mph</Text>
+              <Text>Avg Mileage: {run.Creator.avgMileage} miles</Text>
+              <Text>Bio: {run.Creator.bio}</Text>
+            </View>
+            <View style={styles.subContainer}>
+              <Text>About Run:</Text>
+              <Text>
+                Location: {run.street}, {run.city}, {run.state}
+              </Text>
+              <Text>Date: {moment(run.startTimeframe).format('MMMM Do')}</Text>
+              <Text>
+                Time: {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
+                {moment(run.endTimeframe).format('h:mm:ss a')}
+              </Text>
+            </View>
             <Button title="Request Run" onPress={this.requestHandler} />
-            <Link to="/" onPress={this.backHandler}>
-              <Text>Back</Text>
-            </Link>
           </View>
         )}
       </View>
@@ -79,6 +90,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: Constants.statusBarHeight,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  subContainer: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },

@@ -8,7 +8,8 @@ import {
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
-import RunTab from '../screens/RunTab';
+import RunResultsScreen from '../screens/RunResultsScreen';
+import SingleRunScreen from '../screens/SingleRunScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import NotificationsScreen from '../screens/NotificationsScreen';
 import MapScreen from '../screens/MapScreen';
@@ -48,9 +49,12 @@ HomeStack.path = '';
 
 const RunTabStack = createStackNavigator(
   {
-    RunTab: RunTab,
+    RunResults: RunResultsScreen,
+    SingleRun: SingleRunScreen,
   },
-  config
+  {
+    initialRouteName: 'RunResults',
+  }
 );
 
 RunTabStack.navigationOptions = {

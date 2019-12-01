@@ -83,11 +83,11 @@ router.post('/', isUser, async (req, res, next) => {
 router.put('/route', isUser, async (req, res, next) => {
   try {
     const run = await Run.findOne({
-      where: {
-        creatorId: req.user.id,
-      },
-    });
-    const { route } = req.body;
+      where:{
+       creatorId: req.user.id 
+      }
+    })
+    const {route} = req.body
     const updated = await run.update({
       route: route,
     });
@@ -100,16 +100,16 @@ router.put('/route', isUser, async (req, res, next) => {
 router.put('/distance', isUser, async (req, res, next) => {
   try {
     const run = await Run.findOne({
-      where: {
-        creatorId: req.user.id,
-      },
-    });
-    const { distance } = req.body;
+      where:{
+       creatorId:req.user.id 
+      }
+    })
+    const {distance} = req.body
     const updated = await run.update({
-      distance: distance,
-    });
-    res.json(updated);
-  } catch (err) {
-    next(err);
+      distance: distance
+    })
+    res.json(updated)
+  } catch(err) {
+    next(err)
   }
 });

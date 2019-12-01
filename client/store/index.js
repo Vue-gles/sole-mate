@@ -12,6 +12,9 @@ import currentCoords from './currentCoord';
 import messageThreads from './messageThreads';
 import singleMessageThread from './singleMessageThread';
 import formInfo from './formInfo'
+import partner from './partner';
+import upcomingRuns from './upcomingRuns'
+import pastRuns from './pastRuns'
 
 const rootReducer = combineReducers({
   user: user,
@@ -22,7 +25,10 @@ const rootReducer = combineReducers({
   currentCoords: currentCoords,
   messageThreads: messageThreads,
   singleMessageThread: singleMessageThread,
-  formInfo: formInfo
+  formInfo: formInfo,
+  partner: partner,
+  upcomingRuns: upcomingRuns,
+  pastRuns: pastRuns
 });
 const middleware = composeWithDevTools(
   //applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))

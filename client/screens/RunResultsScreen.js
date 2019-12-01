@@ -12,33 +12,47 @@ import {
   TextInput,
   TouchableOpacity,
   TouchableHighlight,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import Constants from 'expo-constants';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { Link } from 'react-router-native';
 
 import { getRuns } from '../store/runs';
+import { getSingleRun } from '../store/singleRun';
 
 class RunResultsScreen extends React.Component {
   constructor(props) {
     super(props);
+    this.clickHandler = this.clickHandler.bind(this);
   }
+
+  static navigationOptions = {
+    title: 'Run Results',
+  };
 
   componentDidMount() {
     this.props.getRuns('potential');
   }
 
+  async clickHandler(id) {
+    await this.props.getSingleRun(id);
+    this.props.navigation.navigate('SingleRun');
+  }
+
   render() {
-    console.log('RunResults ------------->');
+    // console.log('RunResults ------------->');
     return (
       <SafeAreaView style={styles.container}>
 
         <ScrollView style={styles.scrollView}>
           {this.props.runs.map(run => {
             return (
-              <Link to={`/runs/${run.id}`} key={run.id}>
+              <TouchableWithoutFeedback
+                key={run.id}
+                onPress={() => this.clickHandler(run.id)}
+              >
                 <View style={styles.runAd}>
                   <Image
                     source={{
@@ -47,7 +61,9 @@ class RunResultsScreen extends React.Component {
                     style={styles.runImage}
                   />
                   <Text>Creator Name: {run.Creator.firstName}</Text>
-                  <Text>Location: {run.locationName}</Text>
+                  <Text>
+                    Location: {run.street}, {run.city}, {run.state}
+                  </Text>
                   <Text>
                     Date: {moment(run.startTimeframe).format('MMMM Do')}
                   </Text>
@@ -56,7 +72,7 @@ class RunResultsScreen extends React.Component {
                     {moment(run.endTimeframe).format('h:mm a')}
                   </Text>
                 </View>
-              </Link>
+              </TouchableWithoutFeedback>
             );
           })}
         </ScrollView>
@@ -68,7 +84,7 @@ class RunResultsScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: Constants.statusBarHeight,
+    paddingTop: Constants.statusBarHeight,
   },
   runAd: {
     padding: 10,
@@ -80,7 +96,7 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
     resizeMode: 'contain',
-    marginTop: 3,
+    paddingTop: 3,
     marginLeft: -10,
     borderRadius: 150 / 2,
     overflow: 'hidden',
@@ -96,6 +112,7 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     getRuns: type => dispatch(getRuns(type)),
+    getSingleRun: id => dispatch(getSingleRun(id)),
   };
 };
 
