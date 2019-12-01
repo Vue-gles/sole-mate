@@ -7,7 +7,7 @@ const { isAdmin, isUser } = require('../../utils');
 module.exports = router;
 
 // GET /api/runs -- Sample url: /api/runs?type=potential&distance=3000&lat=40.71624740000001&long=-73.998268
-router.get('/', async (req, res, next) => {
+router.get('/', isUser, async (req, res, next) => {
   try {
     console.log('REQ.QUERY', req.query);
     const { type } = req.query;
