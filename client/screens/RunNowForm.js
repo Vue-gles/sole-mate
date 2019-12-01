@@ -1,126 +1,97 @@
-import React from 'react'
-import {View, ScrollView, Image, Text, StyleSheet, Dimensions} from 'react-native'
-import MapView, { Marker, Circle, Polyline  } from 'react-native-maps';
+import React, { Component } from 'react';
+import {
+  View,
+  ScrollView,
+  Image,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Button,
+} from 'react-native';
+import PlacesAutocomplete from './PlacesAutocomplete';
+import Constants from 'expo-constants';
 
-
+// import TempGoogleInput from '../components/TempGoogleInput'
+// import GooglePlacesInput from '../components/GooglePlacesInput';
 
 export default class RunNowForm extends React.Component {
-    constructor() {
-        super()
-        this.state = {
-            street: '',
-            city: '',
-            state: '',
-            lat: '',
-            long: ''
-        }
-        this.locationHandler=this.locationHandler.bind(this)
-    }
-    
-    locationHandler(lat, long, address) {
-        address = address.split(', ');
-        const street = address[0].slice(1, address[0].length);
-        const city = address[1];
-        const state = address[2];
-    
-        this.setState({ lat, long, street, city, state});
-      }
+  constructor(props) {
+    super(props);
+    this.state = {
+      street: '',
+      city: '',
+      state: '',
+      lattitude: 0,
+      longitude: 0,
+    };
+    this.locationHandler = this.locationHandler.bind(this);
+    this.handler = this.handler.bind(this);
+  }
 
-      handlePress (evt) {
-        this.setState({
-          markers: [
-            ...this.state.markers,
-            {
-              coordinate: evt.nativeEvent.coordinate,
-            },
-          ],
-        });
-      }
+  locationHandler(lattitude, longitude, address) {
+    address = address.split(', ');
+    const street = address[0].slice(1, address[0].length);
+    const city = address[1];
+    const state = address[2];
 
-      onRegionChangeHandler(evt) {
-        this.circle2.setNativeProps({ fillColor: circle2Color });
-        this.circle.setNativeProps({ fillColor: circleColor });
-      }
-    
-    render() {
-        let searchedRegion = this.state.handlerEnabled ? {
-            latitude: this.state.latitude,
-            longitude: this.state.longitude,
-            latitudeDelta: 0.0110,
-            longitudeDelta: 0.0110
-      } :
-        
-          {
-            latitude: this.state.currentLat,
-            longitude: this.state.currentLng,
-            latitudeDelta: 0.0110,
-            longitudeDelta: 0.0110
-          }
-        return (
-            <View>
-                <MapView
-          provider="google"
-          style={styles.mapStyle}
-          type = 'retro'
-          onRegionChange={this.onRegionChangeHandler} 
-          region={searchedRegion}
-          onPress = {this.handlePress}
-          showsUserLocation={true}
-          showsCompass = {true}
-          followsUserLocation = {true}
-          showsScale = {true}
-          showsMyLocationButton = {true}	
-          loadingEnabled = {true}
-          loadingIndicatorColor = 'green'
-          loadingBackgroundColor = 'green'
-        />
-            </View>
-        )
-    }
+    this.setState({ lattitude, longitude, street, city, state });
+  }
+
+  handler(name, lat, long) {
+    this.setState({ latitude: lat, longitude: lng });
+  }
+
+  getLocation() {
+    navigator.geolocation.getCurrentPosition(position => {
+      console.log('IT ISSSsss', position);
+    });
+  }
+
+  render() {
+    // let lat, long;
+    // const geoInfo = navigator.geolocation.getCurrentPosition(position => {
+    //   lat = position.latitude;
+    //   long = position.longitude;
+    //   console.log('made it');
+    // });
+
+    return (
+      <ScrollView>
+        <Text>Where would you like to start your run?</Text>
+        <View style={styles.container}>
+          <PlacesAutocomplete locationHandler={this.locationHandler} />
+        </View>
+      </ScrollView>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: "center",
-      justifyContent: "center",
-      backgroundColor: 'dodgerblue',
-      opacity: 0.8
-    },
-    mapStyle: {
-      flex: 7,
-      justifyContent: 'center',
-      alignItems: 'stretch',
-      width: Dimensions.get('window').width,
-      height: Dimensions.get('window').height,
-   
-    },
-    rowButtonStyle: {
-      flex: 1,
-      flexDirection: 'row',
-      backgroundColor: 'green',
-      borderColor: 'white',
-      borderWidth: 2,
-      borderRadius: 12,
-     
-      fontSize: 24,
-      fontWeight: 'bold',
-      overflow: 'hidden',
-      padding: 12,
-      textAlign:'center',
-      opacity: 0.9,
-    
-    },
-    distanceTextStyle: {
-      fontWeight: 'bold',
-      color: 'yellow',
-      textAlignVertical: 'bottom',
-      padding: '4%'
-    
-    }
-  });
-// import React, { Component } from 'react';
-// import { View, StyleSheet, ScrollView } from 'react-native';
+  container: {
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  item: {
+    flex: 2,
+    paddingTop: Constants.statusBarHeight,
+  },
+  header: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 20,
+    borderBottomEndRadius: 30,
+    height: 100,
+  },
+  text: {
+    textAlign: 'center',
+    fontSize: 15,
+    height: 50,
+  },
+  picker: {
+    alignSelf: 'center',
+    fontSize: 15,
+  },
+});
 
 // import t from 'tcomb-form-native'; // 0.6.9
 
@@ -143,7 +114,7 @@ const styles = StyleSheet.create({
 // }
 
 // export default class App extends Component {
-  
+
 //     onChange(value) {
 //         console.log(value)
 //       }
@@ -152,10 +123,10 @@ const styles = StyleSheet.create({
 //     return (
 //     <ScrollView>
 //         <View style={styles.container}>
-//         <Form type={User} 
+//         <Form type={User}
 //         onChange={this.onChange}
 //         options={options}
-//         /> 
+//         />
 //       </View>
 //     </ScrollView>
 //     );

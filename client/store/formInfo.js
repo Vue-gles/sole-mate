@@ -14,11 +14,11 @@ const initialState = {
 };
 
 
-const getRunCoordinatesThunk = () => {
-    return async dispatch => {
-        const 
-    }
-}
+// const getRunCoordinatesThunk = () => {
+//     return async dispatch => {
+//         const 
+//     }
+// }
 
 export default formInfo = (state = initialState, action) => {
   switch (action.type) {

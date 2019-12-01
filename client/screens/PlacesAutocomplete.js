@@ -4,17 +4,30 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import '../../keys'
 
 export default  PlacesAutoComplete = (props) => {
+
+  let currentLocation = {
+    description: 'Current Location',
+    geometry: {
+      location: {
+        lat: 0,
+        lng: 0,
+      },
+    },
+  }
+  navigator.geolocation.getCurrentPosition(position => {
+    currentLocation.geometry.location.lat = position.lattitude
+    currentLocation.geometry.location.lng = position.longitude
+  })
     return (
         <GooglePlacesAutocomplete
-        placeholder="Search"
-        minLength={1} // minimum length of text to search
+        placeholder="Where would you like to start?"
+        minLength={1} 
         autoFocus={true}
-        returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
-        listViewDisplayed="false" // true/false/undefined
+        returnKeyType={'search'} 
+        listViewDisplayed="false"
         fetchDetails={true}
-        renderDescription={row => row.description} // custom description render
+        renderDescription={row => row.description} 
         onPress={(data, details = null) => {
-          // 'details' is provided when fetchDetails = true
           props.locationHandler(
             details.geometry.location.lat,
             details.geometry.location.lng,
@@ -23,10 +36,8 @@ export default  PlacesAutoComplete = (props) => {
         }}
         getDefaultValue={() => ''}
         query={{
-          // available options: https://developers.google.com/places/web-service/autocomplete
           key: process.env.GOOGLE_API_KEY,
           language: 'en', // language of the results
-          // types: 'establishment' && 'geocode' // default: 'geocode'
         }}
         styles={{
           textInputContainer: {
@@ -40,17 +51,13 @@ export default  PlacesAutoComplete = (props) => {
             color: '#1faadb',
           },
         }}
-        // currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
-        // currentLocationLabel="Current location"
-        
-        nearbyPlacesAPI="GooglePlacesSearch" // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
+
+        nearbyPlacesAPI="GooglePlacesSearch" 
         GoogleReverseGeocodingQuery={
           {
-            // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
           }
         }
         GooglePlacesSearchQuery={{
-          // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
           rankby: 'distance',
           types: 'food',
         }}
@@ -59,6 +66,7 @@ export default  PlacesAutoComplete = (props) => {
           'administrative_area_level_3',
         ]} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
         debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
+        predefinedPlaces={[currentLocation]}
         
         //   renderRightButton={() => <Text>Custom text after the input</Text>}
         />

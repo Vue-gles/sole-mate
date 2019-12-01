@@ -12,9 +12,9 @@ import RNPickerSelect from 'react-native-picker-select';
 import { Text } from 'react-native-elements';
 
 import { connect } from 'react-redux';
-import Constants from 'expo-constants'
+import Constants from 'expo-constants';
 import { createRunThunk } from '../store/runs';
-import PlacesAutocomplete from './PlacesAutocomplete'
+import PlacesAutocomplete from './PlacesAutocomplete';
 // import '../../keys'
 
 class RunForm extends Component {
@@ -34,21 +34,29 @@ class RunForm extends Component {
       endTime: new Date(),
       prefferedMileage: 0,
     };
-    this.locationHandler=this.locationHandler.bind(this)
+    this.locationHandler = this.locationHandler.bind(this);
   }
 
-  showDateTimePicker = () => {this.setState({ isDateTimePickerVisible: true })};
+  showDateTimePicker = () => {
+    this.setState({ isDateTimePickerVisible: true });
+  };
 
-  hideDateTimePicker = () => {this.setState({ isDateTimePickerVisible: false })};
+  hideDateTimePicker = () => {
+    this.setState({ isDateTimePickerVisible: false });
+  };
 
   handleDatePicked = date => {
     this.setState({ date });
     this.hideDateTimePicker();
   };
 
-  showEndTimePicker = () => {this.setState({ isEndTimePickerVisible: true })};
+  showEndTimePicker = () => {
+    this.setState({ isEndTimePickerVisible: true });
+  };
 
-  hideEndTimePicker = () => {this.setState({ isEndTimePickerVisible: false })};
+  hideEndTimePicker = () => {
+    this.setState({ isEndTimePickerVisible: false });
+  };
 
   handleEndTimePicked = endTime => {
     endTime = endTime.getHours();
@@ -62,7 +70,7 @@ class RunForm extends Component {
     const city = address[1];
     const state = address[2];
 
-    this.setState({ lattitude, longitude, street, city, state});
+    this.setState({ lattitude, longitude, street, city, state });
   }
 
   submitHandler() {
@@ -78,15 +86,18 @@ class RunForm extends Component {
             <Text style={styles.text}>Where would you like to start?</Text>
           </View>
           <View style={styles.item}>
-          <Text>How many miles would you like to run?</Text>
-          <RNPickerSelect
-            style={styles.picker}
-            onValueChange={(value) => this.setState({prefferedMileage: value})}
-            items={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
-              .map(mile => { return {label: `${mile}`, value: mile }})}
-          />
+            <Text>How many miles would you like to run?</Text>
+            <RNPickerSelect
+              style={styles.picker}
+              onValueChange={value =>
+                this.setState({ prefferedMileage: value })
+              }
+              items={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26].map(mile => {
+                return { label: `${mile}`, value: mile };
+              })}
+            />
           </View>
-            <PlacesAutocomplete locationHandler={this.locationHandler}/>
+          <PlacesAutocomplete locationHandler={this.locationHandler} />
 
           <View style={styles.item}>
             <Button
@@ -95,7 +106,7 @@ class RunForm extends Component {
               style={styles.button}
             />
             <DateTimePicker
-              mode='datetime'
+              mode="datetime"
               minuteInterval={30}
               isVisible={this.state.isDateTimePickerVisible}
               onConfirm={this.handleDatePicked}
@@ -104,19 +115,19 @@ class RunForm extends Component {
             />
           </View>
           <View style={styles.item}>
-          <Button
-            title="Choose and end time"
-            onPress={this.showEndTimePicker}
-            style={styles.button}
-          />
-          <DateTimePicker
-            mode={'time'}
-            isVisible={this.state.isEndTimePickerVisible}
-            onConfirm={this.handleEndTimePicked}
-            onCancel={this.hideEndTimePicker}
-            date={new Date}
-            minuteInterval={30}
-          />
+            <Button
+              title="Choose and end time"
+              onPress={this.showEndTimePicker}
+              style={styles.button}
+            />
+            <DateTimePicker
+              mode={'time'}
+              isVisible={this.state.isEndTimePickerVisible}
+              onConfirm={this.handleEndTimePicked}
+              onCancel={this.hideEndTimePicker}
+              date={new Date()}
+              minuteInterval={30}
+            />
           </View>
           <Button
             title="Submit"
@@ -125,8 +136,6 @@ class RunForm extends Component {
               this.submitHandler();
             }}
           />
-
-          
         </View>
       </ScrollView>
     );
@@ -150,11 +159,11 @@ export default connect(mapStateToProps, mapDispatchToProps)(RunForm);
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'space-around',
-    alignItems: "center"
+    alignItems: 'center',
   },
   item: {
     flex: 2,
-    paddingTop: Constants.statusBarHeight
+    paddingTop: Constants.statusBarHeight,
   },
   header: {
     textAlign: 'center',
@@ -171,5 +180,5 @@ const styles = StyleSheet.create({
   picker: {
     alignSelf: 'center',
     fontSize: 15,
-  }
+  },
 });
