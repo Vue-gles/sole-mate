@@ -21,22 +21,22 @@ import { auth } from '../store/user';
 
 import { MonoText } from '../components/StyledText';
 
-import {update} from '../store/user'
+import {updateProfile} from '../store/user'
 
 class ProfileForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
+      email: this.props.user.email,
       password: '',
-      firstName:'',
-      lastName:'',
-      defaultAddress:'',
-      imageUrl:'',
-      avgPace:null,
-      avgMileage:null,
-      goal:'SELECT',
-      bio:'',
+      firstName:this.props.user.firstName,
+      lastName:this.props.user.lastName,
+      defaultAddress:this.props.user.defaultAddress,
+      imageUrl:this.props.user.imageUrl,
+      avgPace:String(this.props.user.avgPace),
+      avgMileage:String(this.props.user.avgPace),
+      goal:this.props.user.goal,
+      bio:this.props.user.bio,
     };
   }
 
@@ -64,11 +64,9 @@ class ProfileForm extends React.Component {
         bio: this.state.bio,
       };
       this.props.update(inputs);
+      this.props.navigation.navigate('AuthLoading')
     }
-    // if (this.props.user && this.props.user.id) {
-    //   this.props.navigation.navigate('AuthLoading');
-    // }
-    // this.props.navigation.navigate('AuthLoading');
+   
   };
 
   render() {
@@ -162,7 +160,7 @@ class ProfileForm extends React.Component {
               placeholder={'Biography'}
               style={styles.input}
             />
-            <Button title="Sign Up" onPress={this.submitHandler} />
+            <Button title="Update" onPress={this.submitHandler} />
             <Button title="Go Back to Home Screen" onPress={() => navigate('AuthLoading')} />
             {this.props.error && this.props.error.response && (
               <Text style={styles.error}>
@@ -217,7 +215,7 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    update:(user)=>dispatch(update(user))
+    update:(user)=>dispatch(updateProfile(user))
   };
 };
 

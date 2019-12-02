@@ -46,6 +46,26 @@ class SignUpFormScreen extends React.Component {
 
   
   submitHandler = async () => {
+    if(this.state.email==='')
+      alert("Please enter an email")
+    if(this.state.password==='')
+      alert("Please enter a password")
+    if(this.state.firstName==='')
+      alert("Please enter a first name")
+    if(this.state.lastName==='')
+      alert("Please enter a last name")
+    if(this.state.defaultAddress==='')
+      alert("Please enter a address")
+    if(this.state.imageUrl==='')
+      alert("Please enter a imageUrl")
+    if(this.state.avgPace==='')
+      alert("Please enter an average Pace")
+    if(this.state.avgPace==='')
+      alert("Please enter an average mileage")
+    if(this.state.goal==='')
+      alert("Please enter a goal")
+    if(this.state.bio==='')
+      alert("Please enter a bio")
     if (this.state.email && this.state.password
       && this.state.firstName && this.state.lastName
       && this.state.defaultAddress && this.state.imageUrl
@@ -64,11 +84,8 @@ class SignUpFormScreen extends React.Component {
         bio: this.state.bio,
       };
       this.props.createUser(inputs);
+      this.props.navigation.navigate('AuthLoading')
     }
-    // if (this.props.user && this.props.user.id) {
-    //   this.props.navigation.navigate('AuthLoading');
-    // }
-    // this.props.navigation.navigate('AuthLoading');
   };
 
   render() {
@@ -143,16 +160,16 @@ class SignUpFormScreen extends React.Component {
               placeholder={'Goal'}
               style={styles.input}
             />
-            {/* <Picker
+            <Picker
               selectedValue={this.state.goal}
-              style={{height: 50, width: 100}}
+              style={{width: 100}}
               onValueChange={(itemValue, itemIndex) =>
                 this.setState({goal: itemValue})
               }>
               <Picker.Item label="fitness" value="fitness" />
               <Picker.Item label="hobby" value="hobby" />
               <Picker.Item label="weightloss" value="weightloss" />
-            </Picker> */}
+            </Picker>
             <TextInput
               value={this.state.bio}
               onChangeText={bio => this.setState({ bio })}

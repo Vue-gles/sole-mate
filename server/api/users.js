@@ -94,6 +94,44 @@ router.put('/current', isUser, async (req, res, next) => {
   }
 });
 
+router.put('/profile', isUser, async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        id: req.user.id,
+      },
+    });
+    const {
+      email,
+      password,
+      firstName,
+      lastName,
+      defaultAddress,
+      imageUrl,
+      avgPace,
+      avgMileage,
+      goal,
+      bio,
+    } = req.body;
+    const updated = await user.update({
+      email,
+      password,
+      firstName,
+      lastName,
+      defaultAddress,
+      imageUrl,
+      avgPace,
+      avgMileage,
+      goal,
+      bio,
+    });
+    console.log('ROUTES API', req.body);
+    res.json(updated);
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.put('/', isUser, async (req, res, next) => {
   try {
     const user = await User.findOne({
