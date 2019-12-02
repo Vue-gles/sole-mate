@@ -15,7 +15,8 @@ module.exports = io => {
 
     socket.on('requestUpdate', () => {
       console.log(`Backend: requestUpdate received`);
-      socket.broadcast.emit('requestUpdated');
+      io.emit('requestUpdated');
+
     });
 
     socket.on('newRequest', () => {
