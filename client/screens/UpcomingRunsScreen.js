@@ -54,7 +54,7 @@ class UpcomingRunsScreen extends React.Component {
                 ></Button>
           {this.props.upcomingRuns.map(run => {
             return (
-              // <Link to={`/runs/${run.id}`} key={run.id}>
+              
               <View style={styles.runAd} key={run.id}>
                 <Image
                   source={{
