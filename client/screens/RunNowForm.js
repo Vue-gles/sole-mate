@@ -8,14 +8,17 @@ import {
   Dimensions,
   Button,
 } from 'react-native';
-import PlacesAutocomplete from './PlacesAutocomplete';
 import Slider from 'react-native-slider';
 import Constants from 'expo-constants';
+import {connect} from 'react-redux'
+
+import PlacesAutocomplete from './PlacesAutocomplete';
+import { gotRunNowFormInfo } from '../store/formInfo';
 
 // import TempGoogleInput from '../components/TempGoogleInput'
 // import GooglePlacesInput from '../components/GooglePlacesInput';
 
-export default class RunNowForm extends React.Component {
+class RunNowForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,7 +27,7 @@ export default class RunNowForm extends React.Component {
       state: '',
       lattitude: 0,
       longitude: 0,
-      maxDistance: 20,
+      maxDistance: 30,
     };
     this.locationHandler = this.locationHandler.bind(this);
     this.handler = this.handler.bind(this);
@@ -52,31 +55,55 @@ export default class RunNowForm extends React.Component {
   render() {
     return (
       <ScrollView>
-        <Text>Where would you like to start your run?</Text>
+        <Text style={styles.header}>
+          Where would you like to start your run?
+        </Text>
         <View style={styles.container}>
           <PlacesAutocomplete locationHandler={this.locationHandler} />
         </View>
         <View style={styles.container}>
           <Slider
-            style={{ width: 300 }}
-            step={1}
-            minimumValue={18}
-            maximumValue={71}
+            style={(styles.container, { width: 250, alignSelf: 'center' })}
+            step={0.2}
+            minimumValue={0.2}
+            maximumValue={100}
             value={this.state.maxDistance}
             onValueChange={val => this.setState({ maxDistance: val })}
-            onSlidingComplete={val => this.getVal(val)}
+            onSlidingComplete={this.getMaxDistance}
           />
-          <Text>Value: {this.state.value}</Text>
+          <Text style={styles.container}>
+            Find runs within {this.state.maxDistance.toFixed(1)} miles
+          </Text>
+        </View>
+        <View>
+          <Button
+            title="Find runs near you"
+            onPress={() => {
+              this.props.setRunNowFormInfo(this.state.latitude, this.state.longitude, this.state.maxDistance)
+              this.props.navigation.navigate('RunResults')
+            }}
+          />
         </View>
       </ScrollView>
     );
   }
 }
 
+const mapDispatchToProps = dispatch => {
+  return {
+    setRunNowFormInfo: (lat, long, maxDistance) =>
+      dispatch(gotRunNowFormInfo({lat, long, maxDistance})),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(RunNowForm)
+
+
+
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
-    alignItems: 'stretch',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     flex: 1,
     marginLeft: 10,
     marginRight: 10,
@@ -96,10 +123,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 15,
     height: 50,
-  },
-  picker: {
-    alignSelf: 'center',
-    fontSize: 15,
   },
 });
 

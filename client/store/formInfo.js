@@ -1,29 +1,26 @@
-import axios from 'axios'
+import axios from 'axios';
 
-const GOT_RUN_COORDINATES = 'GOT_COORDINATES';
+const GOT_RUN_NOW_FORM_INFO = 'GOT_RUN_NOW_FORM_INFO';
 
-const gotRunCoordinates = runCoordinates => {
+export const gotRunNowFormInfo = runNowInfo => {
   return {
-    type: GOT_RUN_COORDINATES,
-    runCoordinates,
+    type: GOT_RUN_NOW_FORM_INFO,
+    runNowInfo,
   };
 };
 
 const initialState = {
-  runCoordinates: [],
+  runNowInfo: {
+    lat: 50,
+    long: 50,
+    maxDistance: 0,
+  },
 };
-
-
-// const getRunCoordinatesThunk = () => {
-//     return async dispatch => {
-//         const 
-//     }
-// }
 
 export default formInfo = (state = initialState, action) => {
   switch (action.type) {
-    case GOT_RUN_COORDINATES:
-      return { ...state, runCoordinates: action.runCoordinates };
+    case GOT_RUN_NOW_FORM_INFO:
+      return { ...state, runNowInfo: action.runNowInfo };
     default:
       return state;
   }
