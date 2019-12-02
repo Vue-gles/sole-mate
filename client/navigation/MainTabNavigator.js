@@ -29,6 +29,8 @@ const config = Platform.select({
 const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
+    Profile:ProfileScreen,
+    ProfileForm:ProfileForm,
     RunForm: RunForm,
     RunNowForm: RunNowForm
   },
