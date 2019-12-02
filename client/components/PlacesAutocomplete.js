@@ -37,7 +37,7 @@ export default  PlacesAutoComplete = (props) => {
         getDefaultValue={() => ''}
         query={{
           key: process.env.GOOGLE_API_KEY,
-          language: 'en', // language of the results
+          language: 'en', 
         }}
         styles={{
           textInputContainer: {
@@ -53,10 +53,6 @@ export default  PlacesAutoComplete = (props) => {
         }}
 
         nearbyPlacesAPI="GooglePlacesSearch" 
-        GoogleReverseGeocodingQuery={
-          {
-          }
-        }
         GooglePlacesSearchQuery={{
           rankby: 'distance',
           types: 'food',
@@ -67,9 +63,7 @@ export default  PlacesAutoComplete = (props) => {
         ]} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
         debounce={0} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
         predefinedPlaces={[currentLocation]}
-        
-        //   renderRightButton={() => <Text>Custom text after the input</Text>}
-        />
+                />
     )
     
 }

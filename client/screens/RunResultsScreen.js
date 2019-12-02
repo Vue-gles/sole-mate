@@ -33,7 +33,6 @@ class RunResultsScreen extends React.Component {
   };
 
   componentDidMount() {
-    console.log('Weve got form info and its.....',this.props.runNowInfo.maxDistance)
     this.props.getRuns('potential', this.props.runNowInfo.maxDistance, this.props.runNowInfo.lat, this.props.runNowInfo.long);
   }
 

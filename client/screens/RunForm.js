@@ -15,7 +15,6 @@ import { connect } from 'react-redux';
 import Constants from 'expo-constants';
 import { createRunThunk } from '../store/runs';
 import PlacesAutocomplete from '../components/PlacesAutocomplete';
-// import '../../keys'
 
 class RunForm extends Component {
   constructor(props) {

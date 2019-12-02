@@ -15,9 +15,6 @@ import {connect} from 'react-redux'
 import PlacesAutocomplete from '../components/PlacesAutocomplete';
 import { gotRunNowFormInfo } from '../store/formInfo';
 
-// import TempGoogleInput from '../components/TempGoogleInput'
-// import GooglePlacesInput from '../components/GooglePlacesInput';
-
 class RunNowForm extends React.Component {
   constructor(props) {
     super(props);

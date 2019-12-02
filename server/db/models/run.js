@@ -2,8 +2,6 @@ const Sequelize = require('sequelize');
 const db = require('../db');
 const { Op } = require('sequelize');
 const User = require('./user');
-//const axios = require('axios');
-// require('../../../keys');
 const {calculateDistance} = require('../../../utils')
 
 const Run = db.define(
@@ -85,7 +83,7 @@ Run.getPotentialRuns = function(userId, maxDistance, lat, long) {
   else {
     const runsWithinDistance = runs.filter( run => {
       const distanceBetweenPoints = calculateDistance(lat, long, run.lat, run.long)
-      if (distanceBetweenPoints < maxDistance) return run
+      return distanceBetweenPoints < maxDistance
     })
     return runsWithinDistance
   }
