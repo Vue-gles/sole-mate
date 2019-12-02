@@ -46,14 +46,8 @@ class UpcomingRunsScreen extends React.Component {
     return this.props.upcomingRuns.length ? (
       <SafeAreaView key={this.state.uniqueValue} style={styles.container}>
         <ScrollView style={styles.scrollView}>
-         <Button
-                  onPress={this.forceRemount}
-                  title="update"
-                  color={'#0F3E15'}
-                ></Button>
           {this.props.upcomingRuns.map(run => {
             return (
-              
               <View style={styles.runAd} key={run.id}>
                 <Image
                   source={{
@@ -83,20 +77,17 @@ class UpcomingRunsScreen extends React.Component {
                   onPress={() => this.clickHandler(run.id)}
                   color={'#0F3E15'}
                 />
-                
               </View>
-              // <Button
-              //     onPress={this.forceRemount}
-              //     title="update"
-              //     color={'#0F3E15'}
-              //   ></Button>
-              // </Link>
             );
           })}
         </ScrollView>
       </SafeAreaView>
     ) : (
-      <Text>No upcoming runs</Text>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.runAd}>
+          <Text style={styles.name}>No upcoming runs</Text>
+        </View>
+      </SafeAreaView>
     );
   }
 }
@@ -141,7 +132,7 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     getUpcomingRuns: type => dispatch(getUpcomingRunsThunk(type)),
-    getSingleRun: id => dispatch(getSingleRun(id))
+    getSingleRun: id => dispatch(getSingleRun(id)),
   };
 };
 

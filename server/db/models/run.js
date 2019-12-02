@@ -100,7 +100,7 @@ Run.getUpcomingRuns = function(userId) {
   const runs = Run.findAll({
     where: {
       endTimeframe: { [Op.gt]: currentTime },
-      isComplete: { [Op.is]: false },
+      isComplete: false,
       [Op.or]: [
         {
           creatorId: userId,
@@ -120,15 +120,23 @@ Run.getPastRuns = function(userId) {
   const runs = Run.findAll({
     where: {
       [Op.or]: [
-        { endTimeframe: { [Op.lte]: currentTime } },
-        { isComplete: { [Op.is]: false } },
-      ],
-      [Op.or]: [
         {
           creatorId: userId,
+          [Op.or]: [
+            {
+              endTimeframe: { [Op.lte]: currentTime },
+            },
+            { isComplete: true },
+          ],
         },
         {
           partnerId: userId,
+          [Op.or]: [
+            {
+              endTimeframe: { [Op.lte]: currentTime },
+            },
+            { isComplete: true },
+          ],
         },
       ],
     },

@@ -11,10 +11,10 @@ import incoming from './incoming';
 import currentCoords from './currentCoord';
 import messageThreads from './messageThreads';
 import singleMessageThread from './singleMessageThread';
-import formInfo from './formInfo'
+import formInfo from './formInfo';
 import partner from './partner';
-import upcomingRuns from './upcomingRuns'
-import pastRuns from './pastRuns'
+import upcomingRuns from './upcomingRuns';
+import pastRuns from './pastRuns';
 
 const rootReducer = combineReducers({
   user: user,
@@ -28,11 +28,11 @@ const rootReducer = combineReducers({
   formInfo: formInfo,
   partner: partner,
   upcomingRuns: upcomingRuns,
-  pastRuns: pastRuns
+  pastRuns: pastRuns,
 });
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
-  // applyMiddleware(thunkMiddleware)
+  //applyMiddleware(thunkMiddleware)
 );
 const store = createStore(rootReducer, middleware);
 
