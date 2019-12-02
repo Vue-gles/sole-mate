@@ -9,50 +9,21 @@ import { updateRoute, updateDistance } from '../store/runs';
 const demoMode = true;
 
 const data = [
-  {
-    latitude: 40.276141,
-    longitude: -74.592255,
-  },
-  {
-    latitude: 40.276386,
-    longitude: -74.592501,
-  },
-  {
-    latitude: 40.276976,
-    longitude: -74.593167,
-  },
-  {
-    latitude: 40.276444,
-    longitude: -74.593918,
-  },
-  {
-    latitude: 40.275625,
-    longitude: -74.594883,
-  },
-  {
-    latitude: 40.273684,
-    longitude: -74.595895,
-  },
-  {
-    latitude: 40.27177,
-    longitude: -74.59691,
-  },
-  {
-    latitude: 40.270652,
-    longitude: -74.593449,
-  },
-  {
-    latitude: 40.270652,
-    longitude: -74.593449,
-  },
-  {
-    latitude: 40.268052,
-    longitude: -74.589062,
-  },
-  {
-    latitude: 40.267023,
-    longitude: -74.587219,
-  },
+  { latitude: 40.7048122617505, longitude: -74.00922672983373 },
+  { latitude: 40.7048122617505, longitude: -74.00922672983373 },
+  { latitude: 40.704709131146245, longitude: -74.009193160318 },
+  { latitude: 40.70475566262779, longitude: -74.00922734268705 },
+  { latitude: 40.70478099151111, longitude: -74.00925000112234 },
+  { latitude: 40.704836250219714, longitude: -74.00917575894216 },
+  { latitude: 40.704836250219714, longitude: -74.00917575894216 },
+  { latitude: 40.704836250219714, longitude: -74.00917575894216 },
+  { latitude: 40.70483872327929, longitude: -74.00923824126313 },
+  { latitude: 40.70483872327929, longitude: -74.00923824126313 },
+  { latitude: 40.70483872327929, longitude: -74.00923824126313 },
+  { latitude: 40.704780505809374, longitude: -74.00927106474569 },
+  { latitude: 40.704780505809374, longitude: -74.00927106474569 },
+  { latitude: 40.704853430060055, longitude: -74.00926297135064 },
+  { latitude: 40.704853430060055, longitude: -74.00926297135064 },
 ];
 let dataIndex = -1;
 
@@ -67,8 +38,8 @@ class MapScreen extends Component {
       distance: 0,
       error: null,
       markers: [],
-      currentLat: 40.27177,
-      currentLng: -74.594883,
+      currentLat: 40.704836250219714,
+      currentLng: -74.00923824126313,
       coordinates: data,
       startButtonDisabled: false,
       stopButtonDisabled: true,
@@ -79,9 +50,6 @@ class MapScreen extends Component {
     this.handler = this.handler.bind(this);
   }
 
- 
-
-
   handler(name, lat, lng) {
     this.state.handlerEnabled = true;
     this.setState({ name: name, latitude: lat, longitude: lng });
@@ -91,12 +59,12 @@ class MapScreen extends Component {
     const notRenderDirection =
       this.state.latitude == 0 || this.state.coordinates.length == 0;
 
-    let searchedRegion =  {
-          latitude: this.state.currentLat,
-          longitude: this.state.currentLng,
-          latitudeDelta: 0.016,
-          longitudeDelta: 0.016,
-        };
+    let searchedRegion = {
+      latitude: this.state.currentLat,
+      longitude: this.state.currentLng,
+      latitudeDelta: 0.016,
+      longitudeDelta: 0.016,
+    };
 
     return (
       <View style={styles.container}>
@@ -118,7 +86,7 @@ class MapScreen extends Component {
           {
             <Polyline
               coordinates={this.state.coordinates}
-              strokeColor="dodgerblue"
+              strokeColor="forestgreen"
               strokeWidth={5}
             />
           }
