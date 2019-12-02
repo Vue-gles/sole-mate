@@ -24,6 +24,7 @@ class UpcomingRunsScreen extends React.Component {
     this.forceRemount = this.forceRemount;
   }
   forceRemount = () => {
+    this.props.getUpcomingRuns('upcoming');
     this.setState({
       uniqueValue: this.state.uniqueValue + 1,
     });
@@ -67,12 +68,19 @@ class UpcomingRunsScreen extends React.Component {
                   {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
                   {moment(run.endTimeframe).format('h:mm:ss a')}
                 </Text>
+
                 <Button
-                  onPress={this.forceRemount}
-                  title="update"
+                  title="Start Run"
+                  onPress={() => this.props.navigation.navigate('Map')}
                   color={'#0F3E15'}
                 />
+                
               </View>
+              // <Button
+              //     onPress={this.forceRemount}
+              //     title="update"
+              //     color={'#0F3E15'}
+              //   ></Button>
               // </Link>
             );
           })}
