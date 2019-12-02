@@ -46,19 +46,31 @@ class OutgoingRequests extends React.Component {
                     style={styles.runImage}
                   />
                   {notification.status === 'pending' ? (
-                    <Text>
-                      {notification.run.Creator.firstName} hasn't responded to
-                      your request yet.
+                    <Text style={styles.status}>
+                      {notification.run.Creator.firstName}{' '}
+                      {notification.run.Creator.lastName} hasn't responded to
+                      your request to run on{' '}
+                      {moment(notification.run.startTimeframe).format(
+                        'MMMM Do'
+                      )}
                     </Text>
                   ) : notification.status === 'accepted' ? (
-                    <Text>
-                      {notification.run.Creator.firstName} accepted your
-                      request.
+                    <Text style={styles.status}>
+                      {notification.run.Creator.firstName}{' '}
+                      {notification.run.Creator.lastName} accepted your request
+                      to run on{' '}
+                      {moment(notification.run.startTimeframe).format(
+                        'MMMM Do'
+                      )}
                     </Text>
                   ) : (
-                    <Text>
-                      {notification.run.Creator.firstName} isn't available to
-                      run.
+                    <Text style={styles.status}>
+                      {notification.run.Creator.firstName}{' '}
+                      {notification.run.Creator.lastName} isn't available to run
+                      on{' '}
+                      {moment(notification.run.startTimeframe).format(
+                        'MMMM Do'
+                      )}
                     </Text>
                   )}
                 </View>
@@ -78,7 +90,7 @@ class OutgoingRequests extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: Constants.statusBarHeight,
+    paddingTop: Constants.statusBarHeight,
   },
   notification: {
     padding: 10,
@@ -86,6 +98,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
+  },
+  status: {
+    width: 250,
   },
   runImage: {
     width: 60,

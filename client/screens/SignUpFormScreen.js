@@ -21,7 +21,7 @@ import { auth } from '../store/user';
 
 import { MonoText } from '../components/StyledText';
 
-import {createUserThunk} from '../store/user'
+import { createUserThunk } from '../store/user';
 
 class SignUpFormScreen extends React.Component {
   constructor(props) {
@@ -29,14 +29,14 @@ class SignUpFormScreen extends React.Component {
     this.state = {
       email: '',
       password: '',
-      firstName:'',
-      lastName:'',
-      defaultAddress:'',
-      imageUrl:'',
-      avgPace:null,
-      avgMileage:null,
-      goal:'',
-      bio:'',
+      firstName: '',
+      lastName: '',
+      defaultAddress: '',
+      imageUrl: '',
+      avgPace: null,
+      avgMileage: null,
+      goal: '',
+      bio: '',
     };
   }
 
@@ -44,7 +44,6 @@ class SignUpFormScreen extends React.Component {
     title: 'SignUp',
   };
 
-  
   submitHandler = async () => {
     if(this.state.email==='')
       alert("Please enter an email")
@@ -96,7 +95,7 @@ class SignUpFormScreen extends React.Component {
       <SafeAreaView style={styles.container}>
         {/* <ScrollView style={styles.scrollView}> */}
           <View style={styles.container}>
-          {/* <Button title="Go Back to Login Screen" onPress={() => navigate('AuthLoading')} /> */}
+            {/* <Button title="Go Back to Login Screen" onPress={() => navigate('AuthLoading')} /> */}
             <Image
               source={{
                 uri:
@@ -177,7 +176,10 @@ class SignUpFormScreen extends React.Component {
               style={styles.input}
             />
             <Button title="Sign Up" onPress={this.submitHandler} />
-            <Button title="Go Back to Login Screen" onPress={() => navigate('AuthLoading')} />
+            <Button
+              title="Go Back to Login Screen"
+              onPress={() => navigate('AuthLoading')}
+            />
             {this.props.error && this.props.error.response && (
               <Text style={styles.error}>
                 {' '}
@@ -232,7 +234,7 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     signin: (inputs, method) => dispatch(auth(inputs, method)),
-    createUser:(user)=>dispatch(createUserThunk(user))
+    createUser: user => dispatch(createUserThunk(user)),
   };
 };
 

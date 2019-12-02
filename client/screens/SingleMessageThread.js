@@ -39,8 +39,9 @@ class SingleMessageThread extends React.Component {
 
   componentDidMount() {
     if (this.props.partner && this.props.partner.firstName) {
+      const { firstName, lastName } = this.props.partner;
       this.props.navigation.setParams({
-        partnerName: this.props.partner.firstName,
+        partnerName: `${firstName} ${lastName}`,
       });
     }
   }
@@ -49,69 +50,77 @@ class SingleMessageThread extends React.Component {
     console.log('this.state', this.state);
     if (this.state.content) {
       await this.props.sendMessage(this.props.partner.id, this.state.content);
-      socket.emit('newMessage');
+      socket.emit('newMessage', this.props.partner.id);
       this.setState({ content: '' });
     }
   };
   render() {
     return (
-      <SafeAreaView style={styles.container}>
-        <ScrollView style={styles.scrollView}>
-          {this.props.messages && this.props.messages.length ? (
-            this.props.messages.map(message => {
-              return (
-                <View
-                  key={message.id}
-                  style={
-                    message.Sender.id === this.props.user.id
-                      ? styles.user
-                      : styles.partner
-                  }
-                >
-                  <Image
-                    source={{
-                      uri: message.Sender.imageUrl,
-                    }}
-                    style={styles.userImage}
-                  />
-                  <Text
-                    style={
-                      message.Sender.id === this.props.user.id
-                        ? styles.userMsg
-                        : styles.partnerMsg
-                    }
-                  >
-                    {message.content}
-                  </Text>
-                </View>
-              );
-            })
-          ) : (
-            <View style={styles.message}>
-              <Text>No messages</Text>
-            </View>
-          )}
-          <View style={styles.bottom}>
-            <KeyboardAvoidingView
-              style={styles.keyboard}
-              behavior="padding"
-              enabled
+      <View style={styles.container}>
+        <KeyboardAvoidingView
+          style={styles.msgContainer}
+          behavior="padding"
+          enabled
+        >
+          <SafeAreaView>
+            <ScrollView
+              ref={ref => (this.scrollView = ref)}
+              onContentSizeChange={(contentWidth, contentHeight) => {
+                this.scrollView.scrollToEnd({ animated: true });
+              }}
             >
-              <TextInput
-                value={this.state.content}
-                onChangeText={content => this.setState({ content })}
-                placeholder={'Text Message'}
-                style={styles.input}
-              ></TextInput>
-              <Button
-                title="↑"
-                onPress={this.submitHandler}
-                style={styles.submit}
-              />
-            </KeyboardAvoidingView>
+              {this.props.messages && this.props.messages.length ? (
+                this.props.messages.map(message => {
+                  return (
+                    <View
+                      key={message.id}
+                      style={
+                        message.Sender.id === this.props.user.id
+                          ? styles.user
+                          : styles.partner
+                      }
+                    >
+                      <Image
+                        source={{
+                          uri: message.Sender.imageUrl,
+                        }}
+                        style={styles.userImage}
+                      />
+                      <Text
+                        style={
+                          message.Sender.id === this.props.user.id
+                            ? styles.userMsg
+                            : styles.partnerMsg
+                        }
+                      >
+                        {message.content}
+                      </Text>
+                    </View>
+                  );
+                })
+              ) : (
+                <View style={styles.message}>
+                  <Text>No messages</Text>
+                </View>
+              )}
+            </ScrollView>
+          </SafeAreaView>
+        </KeyboardAvoidingView>
+
+        <View style={styles.bottomView}>
+          <View style={styles.keyboard}>
+            <TextInput
+              value={this.state.content}
+              onChangeText={content => this.setState({ content })}
+              placeholder={'Text Message'}
+              style={styles.input}
+            ></TextInput>
+            <View style={styles.btnContainer}>
+              <Button title="↑ " onPress={this.submitHandler} color={'white'} />
+            </View>
           </View>
-        </ScrollView>
-      </SafeAreaView>
+        </View>
+      </View>
     );
   }
 }
@@ -119,8 +128,11 @@ class SingleMessageThread extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Constants.statusBarHeight,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingTop: Platform.OS === 'ios' ? 20 : 0,
   },
+  msgContainer: { width: '100%', height: '95%', marginTop: -20 },
   partner: {
     padding: 10,
     flex: 1,
@@ -143,7 +155,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   userMsg: {
-    backgroundColor: '#2063ab',
+    backgroundColor: '#21752B',
     color: 'white',
     marginRight: 5,
     padding: 10,
@@ -154,17 +166,22 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     resizeMode: 'contain',
-    marginTop: 3,
     borderRadius: 40 / 2,
     overflow: 'hidden',
   },
-  bottom: {
-    flex: 1,
-    justifyContent: 'flex-end',
+  bottomView: {
+    width: '100%',
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: 0,
   },
   keyboard: {
-    flex: 1,
+    width: '100%',
     flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     alignItems: 'center',
   },
   input: {
@@ -177,11 +194,16 @@ const styles = StyleSheet.create({
     margin: 10,
     flex: 1,
   },
-  submit: {
-    borderRadius: 20,
+  btnContainer: {
+    marginRight: 10,
+    paddingLeft: 3,
+    paddingRight: 3,
+    borderRadius: 60,
     overflow: 'hidden',
-    backgroundColor: '#2063ab',
-    color: 'white',
+    backgroundColor: '#124D1A',
+  },
+  textStyle: {
+    fontSize: 22,
   },
 });
 

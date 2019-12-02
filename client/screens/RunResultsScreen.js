@@ -29,7 +29,7 @@ class RunResultsScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getRuns('potential');
+    this.props.getRuns('potential', this.props.runNowInfo.maxDistance, this.props.runNowInfo.lat, this.props.runNowInfo.long);
   }
 
   async clickHandler(id) {
@@ -38,9 +38,9 @@ class RunResultsScreen extends React.Component {
   }
 
   render() {
-    console.log('RunResults ------------->');
     return (
       <SafeAreaView style={styles.container}>
+
         <ScrollView style={styles.scrollView}>
           {this.props.runs.map(run => {
             return (
@@ -55,14 +55,21 @@ class RunResultsScreen extends React.Component {
                     }}
                     style={styles.runImage}
                   />
-                  <Text>Creator Name: {run.Creator.firstName}</Text>
-                  <Text>Location: {run.locationName}</Text>
-                  <Text>
-                    Date: {moment(run.startTimeframe).format('MMMM Do')}
+                  <Text style={styles.name}>
+                    {run.Creator.firstName} {run.Creator.lastName}
                   </Text>
-                  <Text>
-                    Time: {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
-                    {moment(run.endTimeframe).format('h:mm:ss a')}
+                  <Text style={styles.details}>
+                    {run.prefferedMileage} mile(s)
+                  </Text>
+                  <Text style={styles.details}>
+                    {run.street}, {run.city}, {run.state}
+                  </Text>
+                  <Text style={styles.details}>
+                    {moment(run.startTimeframe).format('MMMM Do')}
+                  </Text>
+                  <Text style={styles.details}>
+                    {moment(run.startTimeframe).format('h:mm a')} -
+                    {moment(run.endTimeframe).format('h:mm a')}
                   </Text>
                 </View>
               </TouchableWithoutFeedback>
@@ -77,8 +84,7 @@ class RunResultsScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: Constants.statusBarHeight,
-    // backgroundColor:"#4d4dff",
+    paddingTop: Constants.statusBarHeight,
   },
   runAd: {
     padding: 10,
@@ -92,11 +98,19 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'black',
   },
+  name: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#303731',
+  },
+  details: {
+    color: '#525E54',
+  },
   runImage: {
     width: 150,
     height: 150,
     resizeMode: 'contain',
-    marginTop: 3,
+    paddingTop: 3,
     marginLeft: -10,
     // backgroundColor:"#ff4dff"
     borderRadius: 150 / 2,
@@ -107,12 +121,13 @@ const styles = StyleSheet.create({
 const mapState = state => {
   return {
     runs: state.runs,
+    runNowInfo: state.formInfo.runNowInfo
   };
 };
 
 const mapDispatch = dispatch => {
   return {
-    getRuns: type => dispatch(getRuns(type)),
+    getRuns: (type, maxDistance, lat, long) => dispatch(getRuns(type, maxDistance, lat, long)),
     getSingleRun: id => dispatch(getSingleRun(id)),
   };
 };

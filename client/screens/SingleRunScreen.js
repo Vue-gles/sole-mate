@@ -29,6 +29,21 @@ class SingleRunScreen extends React.Component {
     console.log('SingleRun View -------------------->');
   }
 
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: navigation.getParam('creatorName', 'Runs'),
+    };
+  };
+
+  componentDidMount() {
+    if (this.props.run && this.props.run.Creator) {
+      const { firstName, lastName } = this.props.run.Creator;
+      this.props.navigation.setParams({
+        creatorName: `${firstName} ${lastName}`,
+      });
+    }
+  }
+
   async requestHandler() {
     await this.props.request(this.props.run.id);
     socket.emit('newRequest');
@@ -46,17 +61,39 @@ class SingleRunScreen extends React.Component {
               }}
               style={styles.runImage}
             />
-            <Text>Creator Name: {run.Creator.firstName}</Text>
-            <Text>Avg Pace: {run.Creator.avgPace}</Text>
-            <Text>Avg Mileage: {run.Creator.avgMileage}</Text>
-            <Text>Bio: {run.Creator.bio}</Text>
-            <Text>Location: {run.locationName}</Text>
-            <Text>Date: {moment(run.startTimeframe).format('MMMM Do')}</Text>
-            <Text>
-              Time: {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
-              {moment(run.endTimeframe).format('h:mm:ss a')}
-            </Text>
-            <Button title="Request Run" onPress={this.requestHandler} />
+            <View style={styles.btnContainer}>
+              <Button
+                title="Request Run"
+                onPress={this.requestHandler}
+                color={'white'}
+              />
+            </View>
+            <View style={styles.subContainer}>
+              <Text style={styles.header}>
+                {run.Creator.firstName} {run.Creator.lastName}{' '}
+              </Text>
+              <Text style={styles.details}>{run.Creator.bio}</Text>
+              <Text style={styles.details}>
+                Avg. Pace {run.Creator.avgPace} mph
+              </Text>
+              <Text style={styles.details}>
+                Avg. Mileage {run.Creator.avgMileage} miles
+              </Text>
+            </View>
+            <View style={styles.subContainer}>
+              <Text style={styles.header}>Run Details</Text>
+              <Text style={styles.details}>{run.prefferedMileage} mile(s)</Text>
+              <Text style={styles.details}>
+                {run.street}, {run.city}, {run.state}
+              </Text>
+              <Text style={styles.details}>
+                {moment(run.startTimeframe).format('MMMM Do')}
+              </Text>
+              <Text style={styles.details}>
+                {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
+                {moment(run.endTimeframe).format('h:mm:ss a')}
+              </Text>
+            </View>
           </View>
         )}
       </View>
@@ -68,16 +105,33 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: Constants.statusBarHeight,
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  subContainer: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
+  header: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#303731',
+  },
+  details: {
+    color: '#525E54',
+  },
   runImage: {
-    width: 300,
-    height: 300,
-    resizeMode: 'contain',
-    marginTop: 30,
-    marginLeft: -10,
-    borderRadius: 300 / 2,
+    width: 200,
+    height: 200,
+    borderRadius: 200 / 2,
+    overflow: 'hidden',
+  },
+  btnContainer: {
+    backgroundColor: '#124D1A',
+    padding: 5,
+    marginTop: 15,
+    borderRadius: 10,
     overflow: 'hidden',
   },
 });
