@@ -2,8 +2,7 @@ const Sequelize = require('sequelize');
 const db = require('../db');
 const { Op } = require('sequelize');
 const User = require('./user');
-//const axios = require('axios');
-// require('../../../keys');
+const {calculateDistance} = require('../../../utils')
 
 const Run = db.define(
   'run',
@@ -64,37 +63,30 @@ const Run = db.define(
         notEmpty: true,
       },
     },
-  }
-  // {
-  //   hooks: {
-  //     //this doesn't work yet
-  //     beforeValidate: async function(run) {
-  //       if (!run.lat || !run.long) {
-  //         const fullAddress = `${run.street}, ${run.city}, ${run.state}`;
-  //         const {data} = await axios.get(
-  //           `https://maps.googleapis.com/maps/api/geocode/json?address=${fullAddress}&key=${process.env.GOOGLE_API_KEY}`
-  //         );
-  //         const lat = data.results[0].geometry.location.lat;
-  //         const long = data.results[0].geometry.location.lng;
-  //         run.lat = lat;
-  //         run.long = long;
-  //       }
-  //     },
-  //   },
-  // }
+  }, 
 );
 
-Run.getPotentialRuns = function(userId) {
+
+Run.getPotentialRuns = function(userId, maxDistance, lat, long) {
   const currentTime = new Date();
   const runs = Run.findAll({
     where: {
       creatorId: { [Op.ne]: userId },
       endTimeframe: { [Op.gt]: currentTime },
-      partnerId: { [Op.is]: null },
+      partnerId: { [Op.is]: null }
     },
     include: [{ model: User, as: 'Creator' }],
   });
-  return runs;
+  if (!maxDistance) {
+    return runs
+  }
+  else {
+    const runsWithinDistance = runs.filter( run => {
+      const distanceBetweenPoints = calculateDistance(lat, long, run.lat, run.long)
+      return distanceBetweenPoints < maxDistance
+    })
+    return runsWithinDistance
+  }
 };
 
 Run.getUpcomingRuns = function(userId) {

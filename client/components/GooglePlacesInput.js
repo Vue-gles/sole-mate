@@ -31,15 +31,15 @@ export default class GooglePlacesInput extends Component {
       description: 'Current Location',
       geometry: {
         location: {
-          lat: this.props.currentCoordinates.latitude,
-          lng: this.props.currentCoordinates.longitude,
+          lat: '',
+          lng: '',
         },
       },
     };
 
     return (
       <GooglePlacesAutocomplete
-        placeholder="Search"
+        placeholder="Where would you like to start?"
         minLength={1} // minimum length of text to search
         autoFocus={true}
         returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype

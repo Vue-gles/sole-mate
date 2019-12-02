@@ -29,7 +29,7 @@ class RunResultsScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getRuns('potential');
+    this.props.getRuns('potential', this.props.runNowInfo.maxDistance, this.props.runNowInfo.lat, this.props.runNowInfo.long);
   }
 
   async clickHandler(id) {
@@ -38,9 +38,9 @@ class RunResultsScreen extends React.Component {
   }
 
   render() {
-    // console.log('RunResults ------------->');
     return (
       <SafeAreaView style={styles.container}>
+
         <ScrollView style={styles.scrollView}>
           {this.props.runs.map(run => {
             return (
@@ -68,8 +68,8 @@ class RunResultsScreen extends React.Component {
                     {moment(run.startTimeframe).format('MMMM Do')}
                   </Text>
                   <Text style={styles.details}>
-                    {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
-                    {moment(run.endTimeframe).format('h:mm:ss a')}
+                    {moment(run.startTimeframe).format('h:mm a')} -
+                    {moment(run.endTimeframe).format('h:mm a')}
                   </Text>
                 </View>
               </TouchableWithoutFeedback>
@@ -114,12 +114,13 @@ const styles = StyleSheet.create({
 const mapState = state => {
   return {
     runs: state.runs,
+    runNowInfo: state.formInfo.runNowInfo
   };
 };
 
 const mapDispatch = dispatch => {
   return {
-    getRuns: type => dispatch(getRuns(type)),
+    getRuns: (type, maxDistance, lat, long) => dispatch(getRuns(type, maxDistance, lat, long)),
     getSingleRun: id => dispatch(getSingleRun(id)),
   };
 };

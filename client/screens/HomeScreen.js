@@ -54,7 +54,7 @@ class HomeScreen extends Component {
               <View style={styles.btnContainer}>
                 <Button
                   title="Run Now"
-                  onPress={() => navigate('Settings')}
+                  onPress={() => this.props.navigation.navigate('RunNowForm')}
                   color={'white'}
                 />
               </View>
