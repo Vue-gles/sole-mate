@@ -4,6 +4,8 @@ import { getOutgoing } from '../store/outgoing';
 import { getIncoming } from '../store/incoming';
 import { getMessageThreads } from '../store/messageThreads';
 import { getMessages } from '../store/singleMessageThread';
+import { getUpcomingRunsThunk } from '../store/upcomingRuns';
+
 
 ///// FRONTEND
 
@@ -20,6 +22,8 @@ socket.on('requestUpdated', () => {
   console.log('Frontend: requestUpdated received');
   store.dispatch(getOutgoing());
   store.dispatch(getMessageThreads());
+  store.dispatch(getUpcomingRunsThunk('upcoming'))
+  
 });
 
 socket.on('newRequestReceived', () => {
