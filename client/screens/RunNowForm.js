@@ -14,6 +14,7 @@ import {connect} from 'react-redux'
 
 import PlacesAutocomplete from '../components/PlacesAutocomplete';
 import { gotRunNowFormInfo } from '../store/formInfo';
+import { getRuns } from '../store/runs';
 
 class RunNowForm extends React.Component {
   constructor(props) {
@@ -87,6 +88,8 @@ const mapDispatchToProps = dispatch => {
   return {
     setRunNowFormInfo: (lat, long, maxDistance) =>
       dispatch(gotRunNowFormInfo({lat, long, maxDistance})),
+      getRuns: (type, maxDistance, lat, long) =>
+      dispatch(getRuns(type, maxDistance, lat, long))
   };
 };
 

@@ -19,8 +19,10 @@ import Constants from 'expo-constants';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
+
 import { getRuns } from '../store/runs';
 import { getSingleRun } from '../store/singleRun';
+import {calculateDistance} from '../../utils'
 
 class RunResultsScreen extends React.Component {
   constructor(props) {
@@ -43,6 +45,7 @@ class RunResultsScreen extends React.Component {
   }
 
   render() {
+    console.log('props are....',this.props)
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
@@ -74,6 +77,9 @@ class RunResultsScreen extends React.Component {
                   <Text style={styles.details}>
                     {moment(run.startTimeframe).format('h:mm a')} -
                     {moment(run.endTimeframe).format('h:mm a')}
+                  </Text>
+                  <Text style={styles.details}>
+                    {this.props.runNowInfo.maxDistance ? calculateDistance(run.lat, run.long, this.props.runNowInfo.lat, this.props.runNowInfo.long).toFixed(1) + ' miles away' : null } 
                   </Text>
                 </View>
               </TouchableWithoutFeedback>
