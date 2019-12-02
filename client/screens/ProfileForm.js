@@ -21,9 +21,9 @@ import { auth } from '../store/user';
 
 import { MonoText } from '../components/StyledText';
 
-import {createUserThunk} from '../store/user'
+import {update} from '../store/user'
 
-class SignUpFormScreen extends React.Component {
+class ProfileForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -35,13 +35,13 @@ class SignUpFormScreen extends React.Component {
       imageUrl:'',
       avgPace:null,
       avgMileage:null,
-      goal:'',
+      goal:'SELECT',
       bio:'',
     };
   }
 
   static navigationOptions = {
-    title: 'SignUp',
+    title: 'ProfleForm',
   };
 
   
@@ -63,7 +63,7 @@ class SignUpFormScreen extends React.Component {
         goal: this.state.goal,
         bio: this.state.bio,
       };
-      this.props.createUser(inputs);
+      this.props.update(inputs);
     }
     // if (this.props.user && this.props.user.id) {
     //   this.props.navigation.navigate('AuthLoading');
@@ -74,9 +74,10 @@ class SignUpFormScreen extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
-      // <View style={styles.container}>
+        <ScrollView>
+      <View style={styles.container}>
       <SafeAreaView style={styles.container}>
-        <ScrollView style={styles.scrollView}>
+        {/* <ScrollView style={styles.scrollView}> */}
           <View style={styles.container}>
           {/* <Button title="Go Back to Login Screen" onPress={() => navigate('AuthLoading')} /> */}
             <Image
@@ -87,7 +88,7 @@ class SignUpFormScreen extends React.Component {
               style={styles.welcomeImage}
             />
             <Text style={styles.getStartedText}>Sole-Mate</Text>
-            <Text style={styles.getStartedText}>Sign Up</Text>
+            <Text style={styles.getStartedText}>Edit Profile</Text>
             <TextInput
               value={this.state.email}
               onChangeText={email => this.setState({ email })}
@@ -130,28 +131,31 @@ class SignUpFormScreen extends React.Component {
               placeholder={'Average Pace'}
               style={styles.input}
             />
+            
             <TextInput
               value={this.state.avgMileage}
               onChangeText={avgMileage => this.setState({ avgMileage })}
               placeholder={'Average Mileage'}
               style={styles.input}
             />
-            <TextInput
+            {/* <TextInput
               value={this.state.goal}
               onChangeText={goal => this.setState({ goal })}
               placeholder={'Goal'}
               style={styles.input}
-            />
-            {/* <Picker
+            /> */}
+            <Text>Choose a goal:</Text>
+            <Picker
               selectedValue={this.state.goal}
-              style={{height: 50, width: 100}}
+              style={{ width: 80}}
               onValueChange={(itemValue, itemIndex) =>
                 this.setState({goal: itemValue})
               }>
               <Picker.Item label="fitness" value="fitness" />
               <Picker.Item label="hobby" value="hobby" />
               <Picker.Item label="weightloss" value="weightloss" />
-            </Picker> */}
+            </Picker>
+            
             <TextInput
               value={this.state.bio}
               onChangeText={bio => this.setState({ bio })}
@@ -159,7 +163,7 @@ class SignUpFormScreen extends React.Component {
               style={styles.input}
             />
             <Button title="Sign Up" onPress={this.submitHandler} />
-            <Button title="Go Back to Login Screen" onPress={() => navigate('AuthLoading')} />
+            <Button title="Go Back to Home Screen" onPress={() => navigate('AuthLoading')} />
             {this.props.error && this.props.error.response && (
               <Text style={styles.error}>
                 {' '}
@@ -167,9 +171,10 @@ class SignUpFormScreen extends React.Component {
               </Text>
             )}
           </View>
-        </ScrollView>
+        {/* </ScrollView> */}
       </SafeAreaView>
-      // {/* </View> */}
+       </View>
+       </ScrollView>
     );
   }
 }
@@ -212,9 +217,8 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    signin: (inputs, method) => dispatch(auth(inputs, method)),
-    createUser:(user)=>dispatch(createUserThunk(user))
+    update:(user)=>dispatch(update(user))
   };
 };
 
-export default connect(mapState, mapDispatch)(SignUpFormScreen);
+export default connect(mapState, mapDispatch)(ProfileForm);

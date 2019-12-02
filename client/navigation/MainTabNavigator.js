@@ -8,11 +8,17 @@ import {
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
-import RunTab from '../screens/RunTab';
+import RunResultsScreen from '../screens/RunResultsScreen';
+import SingleRunScreen from '../screens/SingleRunScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import NotificationsScreen from '../screens/NotificationsScreen';
 import MapScreen from '../screens/MapScreen';
-import RunForm from '../screens/RunForm'
+import ScheduleScreen from '../screens/ScheduleScreen';
+import RunForm from '../screens/RunForm';
+import MessageThreads from '../screens/MessageThreads';
+import SingleMessageThread from '../screens/SingleMessageThread';
+import ProfileScreen from '../screens/ProfileScreen';
+import ProfileForm from '../screens/ProfileForm';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -22,11 +28,13 @@ const config = Platform.select({
 const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
-    RunForm: RunForm
-  }, {
-    initialRouteName: 'Home'
+    RunForm: RunForm,
+    Profile:ProfileScreen,
+    ProfileForm: ProfileForm
+  },
+  {
+    initialRouteName: 'Home',
   }
-  
 );
 
 HomeStack.navigationOptions = {
@@ -43,9 +51,12 @@ HomeStack.path = '';
 
 const RunTabStack = createStackNavigator(
   {
-    RunTab: RunTab,
+    RunResults: RunResultsScreen,
+    SingleRun: SingleRunScreen,
   },
-  config
+  {
+    initialRouteName: 'RunResults',
+  }
 );
 
 RunTabStack.navigationOptions = {
@@ -98,13 +109,57 @@ MapStack.navigationOptions = {
 
 MapStack.path = '';
 
+const ScheduleStack = createStackNavigator(
+  {
+    Home: ScheduleScreen,
+  },
+  config
+);
+
+ScheduleStack.navigationOptions = {
+  tabBarLabel: 'Schedule',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === 'ios' ? `ios-journal` : 'md-journal'}
+    />
+  ),
+};
+
+ScheduleStack.path = '';
+
+const MessageStack = createStackNavigator(
+  {
+    Threads: MessageThreads,
+    SingleThread: SingleMessageThread,
+  },
+  {
+    initialRouteName: 'Threads',
+  }
+);
+
+MessageStack.navigationOptions = {
+  title: 'Messages',
+  tabBarLabel: 'Messages',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === 'ios' ? `ios-text` : 'md-text'}
+    />
+  ),
+};
+
+MessageStack.path = '';
+
+
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   RunTabStack,
   NotificationsStack,
   MapStack,
+  ScheduleStack,
+  MessageStack,
 });
 
 tabNavigator.path = '';
-
 export default tabNavigator;

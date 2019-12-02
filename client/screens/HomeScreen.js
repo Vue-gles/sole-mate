@@ -11,6 +11,7 @@ import {
   View,
   Button,
 } from 'react-native';
+import TabBarIcon from '../components/TabBarIcon'
 
 import { connect } from 'react-redux';
 import { logout } from '../store/user';
@@ -24,8 +25,9 @@ class HomeScreen extends Component {
     super(props);
   }
   static navigationOptions = {
-    title: 'Home',
+    title: 'Home'
   };
+  
 
   _signOutAsync = async () => {
     await this.props.logout();
@@ -57,6 +59,7 @@ class HomeScreen extends Component {
             <Text>Welcome, {this.props.user.firstName}!</Text>
             <Button title="Run Now" onPress={() => navigate('Settings')} />
             <Button title="Run Later" onPress={() => this.props.navigation.navigate('RunForm')} />
+            <Button title="My Profile" onPress={() => this.props.navigation.navigate('Profile')} />
 
             <Button
               title="Actually, sign me out :)"

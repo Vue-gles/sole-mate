@@ -1,14 +1,10 @@
 import React, {Component} from 'react';
-import MapView, { Marker, Callout, Circle, Polyline  } from 'react-native-maps';
+import MapView, { Marker, Circle, Polyline  } from 'react-native-maps';
 import { StyleSheet, View, Dimensions, Text, Button} from 'react-native';
-// import MapViewDirections from 'react-native-maps-directions'
-// import key from '../keys'
 import GooglePlacesInput from '../components/GooglePlacesInput'
 import { getDistance } from  'geolib'
 import { connect } from 'react-redux';
-
-
-import { setCurrentCoordsThunk } from '../store/currentCoord';
+import { updateRoute, updateDistance } from '../store/runs';
 
 const circleColor = 'rgba(204, 255, 255, 0.2)'
 const circle2Color = 'rgba(225, 204, 153, 0.5)'
@@ -95,6 +91,8 @@ class MapScreen extends Component {
     this.getCurrentLocationMock = this.getCurrentLocationMock.bind(this);
     this.handlePress = this.handlePress.bind(this)
     this.handler = this.handler.bind(this)
+    this.clearTracking = this.clearTracking.bind(this)
+    this.saveTracking = this.saveTracking.bind(this)
   }
 
   getCurrentLocationMock() {
@@ -169,8 +167,26 @@ class MapScreen extends Component {
   }
 
   clearTracking() {
-    // if you the mock data
     dataIndex = -1
+    this.setState({
+      coordinates: [],
+      distance: 0,
+      clearButtonDisabled: true,
+      handlerEnabled: false
+    })
+  }
+
+  saveTracking() {
+    dataIndex = -1
+    bigArr = [];
+    this.state.coordinates.map((obj) => {
+      smallArr = []
+      smallArr.push(obj.latitude)
+      smallArr.push(obj.longitude)
+      bigArr.push(smallArr)
+    })
+    this.props.updateRoute(bigArr)
+    this.props.updateDistance(this.state.distance.toFixed(2))
     this.setState({
       coordinates: [],
       distance: 0,
@@ -182,8 +198,6 @@ class MapScreen extends Component {
   componentDidMount() {
     navigator.geolocation.watchPosition(
       position => {
-        console.log("wokeeey");
-        console.log(position);
         this.setState({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
@@ -197,10 +211,7 @@ class MapScreen extends Component {
       error => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 200000, maximumAge: 1000 }
     );
-    console.log('currnet lat: ',this.state.currentLat)
-    console.log('currnet long: ',this.state.currentLng)
-  // this.props.setCurrentLong({currentLong:this.state.currentLng})
-  // this.props.setCurrentLat({currentLat:this.state.currentLat})
+
   }
 
   onRegionChangeHandler(evt) {
@@ -228,33 +239,28 @@ class MapScreen extends Component {
     console.log("render() is called: ");
     console.log(this.state.coordinates);
 
-    let currLoc = this.state.coordinates.length > 0 ?  this.state.coordinates[0] 
-                  : {latitude: this.state.currentLat, longitude: this.state.currentLng}
-
   let searchedRegion = this.state.handlerEnabled ? {
-    latitude: this.state.latitude,
+        latitude: this.state.latitude,
         longitude: this.state.longitude,
-        latitudeDelta: 0.0125,
-        longitudeDelta: 0.0121
+        latitudeDelta: 0.0110,
+        longitudeDelta: 0.0110
   } :
     
       {
         latitude: this.state.currentLat,
         longitude: this.state.currentLng,
-        latitudeDelta: 0.0125,
-        longitudeDelta: 0.0121
+        latitudeDelta: 0.0110,
+        longitudeDelta: 0.0110
       }
   console.log("SEARCHED REGION",searchedRegion)
     
   
     return (
       <View style={styles.container}>
-        <GooglePlacesInput currentCoordinates = 
-        {{latitude: this.state.latitude, longitude: this.state.longitude}} 
-        handler={this.handler}/>
         <MapView
           provider="google"
           style={styles.mapStyle}
+          type = 'retro'
           onRegionChange={this.onRegionChangeHandler} 
           region={searchedRegion}
           onPress = {this.handlePress}
@@ -264,46 +270,43 @@ class MapScreen extends Component {
           showsScale = {true}
           showsMyLocationButton = {true}	
           loadingEnabled = {true}
-          loadingIndicatorColor = 'orange'
-          loadingBackgroundColor = 'purple'
+          loadingIndicatorColor = 'green'
+          loadingBackgroundColor = 'green'
         >
+        <GooglePlacesInput currentCoordinates = 
+          {{latitude: this.state.latitude, longitude: this.state.longitude}} 
+          handler={this.handler}/>
           {this.state.handlerEnabled === false}
           {/* bigger circle must be rendered frist */}
-          <Circle
-            ref={ref => {
-              this.circle2 = ref;
-            }}
-            center={{latitude: this.state.currentLat, longitude: this.state.currentLng}}
-            radius={radius_2}
-            fillColor={circle2Color}
-          />
-          <Circle
-            ref={ref => {
-              this.circle = ref;
-            }}
-            center={{latitude: this.state.currentLat, longitude: this.state.currentLng}}
-            radius={radius_1}
-            fillColor={circleColor}
-          />
-          <Marker pinColor = 'green' coordinate={{latitude: this.state.latitude, longitude: this.state.longitude}} />
-          {this.state.markers.map((marker) => {
-            console.log("MARKER",marker)
-            return <Marker key = {marker.coordinate.latitude * marker.coordinate.longitude/3.14159265358979323} {...marker} />
-          })}
-          <Marker coordinate={currLoc}>
-            <Callout>
-              <Text>My current location</Text>
-            </Callout>
-          </Marker>
-          
-          {
-            notRenderDirection ? null :
-           <Polyline
-            coordinates= {this.state.coordinates}
-            strokeColor="hotpink"
-            strokeWidth={6}
-          />
-          }
+        <Circle
+          ref={ref => {
+            this.circle2 = ref;
+          }}
+          center={{latitude: this.state.currentLat, longitude: this.state.currentLng}}
+          radius={radius_2}
+          fillColor={circle2Color}
+        />
+        <Circle
+          ref={ref => {
+            this.circle = ref;
+          }}
+          center={{latitude: this.state.currentLat, longitude: this.state.currentLng}}
+          radius={radius_1}
+          fillColor={circleColor}
+        />
+        <Marker pinColor = 'green' coordinate={{latitude: this.state.latitude, longitude: this.state.longitude}} />
+        {this.state.markers.map((marker) => {
+          console.log("MARKER",marker)
+          return <Marker key = {marker.coordinate.latitude * marker.coordinate.longitude/3.14159265358979323} {...marker} />
+        })}
+        {
+        notRenderDirection ? null :
+        <Polyline
+          coordinates= {this.state.coordinates}
+          strokeColor="dodgerblue"
+          strokeWidth={5}
+        />
+        }
 
         </MapView>
 
@@ -325,17 +328,24 @@ class MapScreen extends Component {
             onPress={() => this.stopTracking()}
             />
           <Button 
-            title="Clear" 
+            title="Clear"
+            
             ref={ref => {
               this.clearButton = ref;
             }} 
             disabled={this.state.clearButtonDisabled}
             onPress={() => this.clearTracking()}
           />
-          <Text>Distance: </Text>
-          <Text>
-            {this.state.distance.toFixed(5)}
-          </Text>
+          <Button 
+            title="Save"
+            
+            ref={ref => {
+              this.saveButton = ref;
+            }} 
+            disabled={this.state.clearButtonDisabled}
+            onPress={() => this.saveTracking()}
+          />
+          <Text style={styles.distanceTextStyle}>{this.state.distance.toFixed(2)} miles</Text> 
         </View>
       </View>
     );
@@ -347,25 +357,41 @@ MapScreen.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    backgroundColor: 'dodgerblue',
+    opacity: 0.8
   },
   mapStyle: {
-    flex: 2,
+    flex: 7,
     justifyContent: 'center',
     alignItems: 'stretch',
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height * 0.67
+    height: Dimensions.get('window').height,
+ 
   },
   rowButtonStyle: {
     flex: 1,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    backgroundColor: 'green',
+    borderColor: 'white',
+    borderWidth: 2,
+    borderRadius: 12,
+   
+    fontSize: 24,
+    fontWeight: 'bold',
+    overflow: 'hidden',
+    padding: 12,
+    textAlign:'center',
+    opacity: 0.9,
+  
   },
   distanceTextStyle: {
     fontWeight: 'bold',
-    color: 'red',
+    color: 'yellow',
     textAlignVertical: 'bottom',
+    padding: '4%'
+  
   }
 });
 const mapState = state => {
@@ -377,6 +403,9 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     setCurrentCoords:(coords)=>dispatch(setCurrentCoordsThunk(coords)),
+    updateRoute:(route) => dispatch(updateRoute(route)),
+    updateDistance:(distance) => dispatch(updateDistance(distance))
+    
   }
 };
 

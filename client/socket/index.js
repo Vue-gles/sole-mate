@@ -6,7 +6,7 @@ import { getIncoming } from '../store/incoming';
 ///// FRONTEND
 
 // //TAKE THIS OUT SOON
-require('../secrets');
+require('../../secrets');
 
 const socket = io(process.env.BACKEND_HOST);
 
@@ -22,6 +22,10 @@ socket.on('requestUpdated', () => {
 socket.on('newRequestReceived', () => {
   console.log('Frontend: newRequestReceived');
   store.dispatch(getIncoming());
+});
+
+socket.on('newMessageReceived', () => {
+  console.log('Frontend: newMessageReceived');
 });
 
 socket.on('disconnect', () => {

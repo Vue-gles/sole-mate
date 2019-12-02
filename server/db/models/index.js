@@ -1,7 +1,7 @@
 const User = require('./user');
 const Run = require('./run');
 const Request = require('./request');
-const Message=require('./message')
+const Message = require('./message');
 
 /**
  * If we had any associations to make, this would be a great place to put them!
@@ -10,35 +10,25 @@ const Message=require('./message')
  *    BlogPost.belongsTo(User)
  */
 
- //User has many Runs association
+// User and Runs associations
 User.hasMany(Run, { as: 'Creator', foreignKey: 'creatorId' });
+User.hasMany(Run, { as: 'Partner', foreignKey: 'partnerId' });
 Run.belongsTo(User, { as: 'Creator', foreignKey: 'creatorId' });
+Run.belongsTo(User, { as: 'Partner', foreignKey: 'partnerId' });
 
-//Requests join table association
-User.belongsToMany(Run, {
-  through: Request,
-  as: 'Request',
-  foreignKey: 'requesterId',
-});
-Run.belongsToMany(User, { through: Request, as: 'Run' });
+// User and Requests associations
+User.hasMany(Request, { as: 'Requester', foreignKey: 'requesterId' });
+Request.belongsTo(User, { as: 'Requester', foreignKey: 'requesterId' });
+
+// Run and Requests associations
+Run.hasMany(Request);
 Request.belongsTo(Run);
-Request.belongsTo(User, { as: 'Request', foreignKey: 'requesterId' });
 
-
-//Message Join Table
-User.belongsToMany(User,{
-  through: Message,
-  as: 'Receiver',
-  foreignKey: 'receiverId'
-})
-User.belongsToMany(User,{
-  through: Message,
-  as: 'Sender',
-  foreignKey:'senderId'
-})
-// Message.belongsTo(User);
-// Message.belongsTo(User, { as: 'Receiver', foreignKey: 'creatorId' });
-
+// User and Message associations
+User.hasMany(Message, { as: 'Receiver', foreignKey: 'receiverId' });
+User.hasMany(Message, { as: 'Sender', foreignKey: 'senderId' });
+Message.belongsTo(User, { as: 'Receiver', foreignKey: 'receiverId' });
+Message.belongsTo(User, { as: 'Sender', foreignKey: 'senderId' });
 
 /**
  * We'll export all of our models here, so that any time a module needs a model,
@@ -50,5 +40,5 @@ module.exports = {
   User,
   Run,
   Request,
-  Message
+  Message,
 };

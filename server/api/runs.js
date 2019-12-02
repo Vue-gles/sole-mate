@@ -42,11 +42,16 @@ router.get('/:runId', isUser, async (req, res, next) => {
 // POST /api/runs
 router.post('/', isUser, async (req, res, next) => {
   try {
-    const { locationName, startTimeframe, endTimeframe } = req.body;
+    const { street, city, state, lat, long, prefferedMileage, locationName, startTimeframe, endTimeframe } = req.body;
     const newRun = await Run.create({
-      locationName,
+      street,
+      city,
+      state,
+      lat,
+      long,
       startTimeframe,
       endTimeframe,
+      prefferedMileage,
       creatorId: req.user.id,
     });
     if (newRun) {
@@ -58,3 +63,37 @@ router.post('/', isUser, async (req, res, next) => {
     next(err);
   }
 });
+// PUT /api/runs/route
+router.put('/route', isUser, async (req,res,next) => {
+  try {
+    const run = await Run.findOne({
+      where:{
+       creatorId:req.user.id 
+      }
+    })
+    const {route} = req.body
+    const updated = await run.update({
+      route: route,
+    })
+    res.json(updated)
+  } catch(err) {
+    next(err)
+  }
+})
+// PUT /api/runs/distance
+router.put('/distance', isUser, async (req,res,next) => {
+  try {
+    const run = await Run.findOne({
+      where:{
+       creatorId:req.user.id 
+      }
+    })
+    const {distance} = req.body
+    const updated=await run.update({
+      distance: distance
+    })
+    res.json(updated)
+  } catch(err) {
+    next(err)
+  }
+})

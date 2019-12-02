@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 const db = require('../db');
 const User = require('./user');
 const Run = require('./run');
+const Message = require('./message');
 
 const Request = db.define('request', {
   status: {
@@ -36,7 +37,7 @@ Request.getIncoming = function(creatorId) {
       include: [
         {
           model: User,
-          as: 'Request',
+          as: 'Requester',
         },
         {
           model: Run,
@@ -67,7 +68,7 @@ Request.addNew = function(requesterId, runId) {
   }
 };
 
-Request.updateRequestStatus = function(runId, requesterId, status) {
+Request.updateRequestStatus = function(creatorId, runId, requesterId, status) {
   const updatedRequest = Request.update(
     {
       status: status,
@@ -82,6 +83,13 @@ Request.updateRequestStatus = function(runId, requesterId, status) {
   if (status === 'accepted') {
     // Add partnerId to scheduled run
     Run.findByPk(runId).then(run => run.update({ partnerId: requesterId }));
+
+    // Start message thread between users
+    Message.create({
+      senderId: creatorId,
+      receiverId: requesterId,
+      content: 'Your run request was accepted!',
+    });
 
     // If user accepts a partner, reject all other requests for that run
     const Op = Sequelize.Op;

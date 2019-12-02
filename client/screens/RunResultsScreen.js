@@ -12,32 +12,42 @@ import {
   TextInput,
   TouchableOpacity,
   TouchableHighlight,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import Constants from 'expo-constants';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { Link } from 'react-router-native';
 
 import { getRuns } from '../store/runs';
+import { getSingleRun } from '../store/singleRun';
 
-class UpcomingRuns extends React.Component {
+class RunResultsScreen extends React.Component {
   constructor(props) {
     super(props);
+    this.clickHandler = this.clickHandler.bind(this);
   }
 
   componentDidMount() {
-    this.props.getRuns('upcoming');
+    this.props.getRuns('potential');
+  }
+
+  async clickHandler(id) {
+    await this.props.getSingleRun(id);
+    this.props.navigation.navigate('SingleRun');
   }
 
   render() {
-    console.log('UpcomingRuns ------------->');
+    console.log('RunResults ------------->');
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
           {this.props.runs.map(run => {
             return (
-              <Link to={`/runs/${run.id}`} key={run.id}>
+              <TouchableWithoutFeedback
+                key={run.id}
+                onPress={() => this.clickHandler(run.id)}
+              >
                 <View style={styles.runAd}>
                   <Image
                     source={{
@@ -55,7 +65,7 @@ class UpcomingRuns extends React.Component {
                     {moment(run.endTimeframe).format('h:mm:ss a')}
                   </Text>
                 </View>
-              </Link>
+              </TouchableWithoutFeedback>
             );
           })}
         </ScrollView>
@@ -68,19 +78,29 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: Constants.statusBarHeight,
+    // backgroundColor:"#4d4dff",
   },
   runAd: {
     padding: 10,
     flex: 1,
+    // width:200,
+    // padding:20,
     justifyContent: 'center',
     alignItems: 'center',
+    alignSelf:'center',
+    backgroundColor:"#4d4dff",
+    borderWidth: 1,
+    borderColor: 'black',
   },
   runImage: {
     width: 150,
-    height: 110,
+    height: 150,
     resizeMode: 'contain',
     marginTop: 3,
     marginLeft: -10,
+    // backgroundColor:"#ff4dff"
+    borderRadius: 150 / 2,
+    overflow: 'hidden',
   },
 });
 
@@ -93,7 +113,8 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     getRuns: type => dispatch(getRuns(type)),
+    getSingleRun: id => dispatch(getSingleRun(id)),
   };
 };
 
-export default connect(mapState, mapDispatch)(UpcomingRuns);
+export default connect(mapState, mapDispatch)(RunResultsScreen);

@@ -1,22 +1,29 @@
 import React, { Component } from 'react';
-import { Button, View, ScrollView, StyleSheet, TextInput } from 'react-native';
+import {
+  Button,
+  View,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+  Picker,
+} from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import RNPickerSelect from 'react-native-picker-select';
 import { Text } from 'react-native-elements';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import {connect} from 'react-redux'
-
-import GooglePlacesInput from '../components/GooglePlacesInput';
-import {createRunThunk} from '../store/runs'
+import { connect } from 'react-redux';
+import Constants from 'expo-constants'
+import { createRunThunk } from '../store/runs';
+// import '../../keys'
 
 class RunForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        creatorId: NaN,
+      creatorId: NaN,
       street: '',
       city: '',
       state: '',
-      country: '',
       lattitude: '',
       longitude: '',
       isDateTimePickerVisible: false,
@@ -25,11 +32,9 @@ class RunForm extends Component {
       date: new Date(),
       startTime: new Date(),
       endTime: new Date(),
+      prefferedMileage: 0,
     };
   }
-
-
-
 
   //DATE PICKER
   showDateTimePicker = () => {
@@ -76,27 +81,24 @@ class RunForm extends Component {
   };
 
   locationHandler(lattitude, longitude, address) {
-      address = address.split(', ')
-      const street = address[0].slice(1, address[0].length)
-      const city = address[1]
-      const state = address[2]
-      // const country = address[3].slice(0, address[3].length - 2)
+    address = address.split(', ');
+    const street = address[0].slice(1, address[0].length);
+    const city = address[1];
+    const state = address[2];
 
-     this.setState({lattitude, longitude, street, city, state})
-
+    this.setState({ lattitude, longitude, street, city, state});
   }
 
-submitHandler(){
-      this.props.createRun(this.state)
+  submitHandler() {
+    this.props.createRun(this.state);
   }
 
   render() {
-
     return (
       <ScrollView>
-        <View>
+        <View style={styles.container}>
           <Text style={styles.header}>Create a run for others to see</Text>
-          <View>
+          <View style={styles.item}>
             <Text style={styles.text}>Where would you like to start?</Text>
             {/* <TextInput
               style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
@@ -114,12 +116,16 @@ submitHandler(){
               renderDescription={row => row.description} // custom description render
               onPress={(data, details = null) => {
                 // 'details' is provided when fetchDetails = true
-                this.locationHandler(details.geometry.location.lat, details.geometry.location.lng, JSON.stringify(data.description));
+                this.locationHandler(
+                  details.geometry.location.lat,
+                  details.geometry.location.lng,
+                  JSON.stringify(data.description)
+                );
               }}
               getDefaultValue={() => ''}
               query={{
                 // available options: https://developers.google.com/places/web-service/autocomplete
-                key: 'AIzaSyCsvXupdbHjZEmJ_tDboG904WYkXBQTC8E',
+                key: process.env.GOOGLE_API_KEY,
                 language: 'en', // language of the results
                 // types: 'establishment' && 'geocode' // default: 'geocode'
               }}
@@ -158,7 +164,16 @@ submitHandler(){
               //   renderRightButton={() => <Text>Custom text after the input</Text>}
             />
           </View>
-          <View>
+          <View style={styles.item}>
+          <Text>How many miles would you like to run?</Text>
+          <RNPickerSelect
+            style={styles.picker}
+            onValueChange={(value) => this.setState({prefferedMileage: value})}
+            items={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+              .map(mile => { return {label: `${mile}`, value: mile }})}
+          />
+          </View>
+          <View style={styles.item}>
             <Button
               title="Choose a date"
               onPress={this.showDateTimePicker}
@@ -171,6 +186,7 @@ submitHandler(){
               minimumDate={new Date()}
             />
           </View>
+          <View style={styles.item}>
           <Button
             title="Start Time"
             onPress={this.showStartTimePicker}
@@ -182,7 +198,8 @@ submitHandler(){
             onConfirm={this.handleStartTimePicked}
             onCancel={this.hideStartTimePicker}
           />
-
+          </View>
+          <View style={styles.item}>
           <Button
             title="End Time"
             onPress={this.showEndTimePicker}
@@ -194,40 +211,44 @@ submitHandler(){
             onConfirm={this.handleEndTimePicked}
             onCancel={this.hideEndTimePicker}
           />
-
-          <Button title="Submit" 
+          </View>
+          <Button
+            title="Submit"
             onPress={() => {
-                this.setState({creatorId: this.props.userId})
-                this.submitHandler()
-            }
-                
-            }
+              this.setState({ creatorId: this.props.userId });
+              this.submitHandler();
+            }}
           />
+
+          
         </View>
       </ScrollView>
     );
   }
 }
 
+const mapDispatchToProps = dispatch => {
+  return {
+    createRun: runInfo => dispatch(createRunThunk(runInfo)),
+  };
+};
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        createRun: (runInfo) => dispatch(createRunThunk(runInfo))
-    }
-}
+const mapStateToProps = state => {
+  return {
+    userId: state.user.id,
+  };
+};
 
-const mapStateToProps = (state) => {
-    return {
-        userId: state.user.id
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(RunForm)
+export default connect(mapStateToProps, mapDispatchToProps)(RunForm);
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: 'space-around',
+    alignItems: "center"
+  },
+  item: {
+    flex: 2,
+    paddingTop: Constants.statusBarHeight
   },
   header: {
     textAlign: 'center',
@@ -241,6 +262,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
     height: 50,
   },
+  picker: {
+    alignSelf: 'center',
+    fontSize: 15,
+  }
 });
-
-

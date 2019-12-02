@@ -16,7 +16,6 @@ import {
 import { connect } from 'react-redux';
 import Constants from 'expo-constants';
 import moment from 'moment';
-import { Link } from 'react-router-native';
 
 import socket from '../socket/index';
 
@@ -26,18 +25,8 @@ import { makeRequest } from '../store/outgoing';
 class SingleRunScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.backHandler = this.backHandler.bind(this);
     this.requestHandler = this.requestHandler.bind(this);
     console.log('SingleRun View -------------------->');
-  }
-
-  componentDidMount() {
-    const { runId } = this.props.match.params;
-    this.props.getSingleRun(runId);
-  }
-
-  backHandler() {
-    this.props.back();
   }
 
   async requestHandler() {
@@ -58,6 +47,9 @@ class SingleRunScreen extends React.Component {
               style={styles.runImage}
             />
             <Text>Creator Name: {run.Creator.firstName}</Text>
+            <Text>Avg Pace: {run.Creator.avgPace}</Text>
+            <Text>Avg Mileage: {run.Creator.avgMileage}</Text>
+            <Text>Bio: {run.Creator.bio}</Text>
             <Text>Location: {run.locationName}</Text>
             <Text>Date: {moment(run.startTimeframe).format('MMMM Do')}</Text>
             <Text>
@@ -65,9 +57,6 @@ class SingleRunScreen extends React.Component {
               {moment(run.endTimeframe).format('h:mm:ss a')}
             </Text>
             <Button title="Request Run" onPress={this.requestHandler} />
-            <Link to="/" onPress={this.backHandler}>
-              <Text>Back</Text>
-            </Link>
           </View>
         )}
       </View>
@@ -88,6 +77,8 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     marginTop: 30,
     marginLeft: -10,
+    borderRadius: 300 / 2,
+    overflow: 'hidden',
   },
 });
 
