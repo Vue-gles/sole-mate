@@ -56,56 +56,50 @@ class SingleMessageThread extends React.Component {
   };
   render() {
     return (
-      <View style={styles.container}>
-        <KeyboardAvoidingView
-          style={styles.msgContainer}
-          behavior="padding"
-          enabled
-        >
-          <SafeAreaView>
-            <ScrollView
-              ref={ref => (this.scrollView = ref)}
-              onContentSizeChange={(contentWidth, contentHeight) => {
-                this.scrollView.scrollToEnd({ animated: true });
-              }}
-            >
-              {this.props.messages && this.props.messages.length ? (
-                this.props.messages.map(message => {
-                  return (
-                    <View
-                      key={message.id}
+      <KeyboardAvoidingView behavior="padding" enabled style={styles.container}>
+        <SafeAreaView style={styles.msgContainer}>
+          <ScrollView
+            ref={ref => (this.scrollView = ref)}
+            onContentSizeChange={(contentWidth, contentHeight) => {
+              this.scrollView.scrollToEnd({ animated: true });
+            }}
+          >
+            {this.props.messages && this.props.messages.length ? (
+              this.props.messages.map(message => {
+                return (
+                  <View
+                    key={message.id}
+                    style={
+                      message.Sender.id === this.props.user.id
+                        ? styles.user
+                        : styles.partner
+                    }
+                  >
+                    <Image
+                      source={{
+                        uri: message.Sender.imageUrl,
+                      }}
+                      style={styles.userImage}
+                    />
+                    <Text
                       style={
                         message.Sender.id === this.props.user.id
-                          ? styles.user
-                          : styles.partner
+                          ? styles.userMsg
+                          : styles.partnerMsg
                       }
                     >
-                      <Image
-                        source={{
-                          uri: message.Sender.imageUrl,
-                        }}
-                        style={styles.userImage}
-                      />
-                      <Text
-                        style={
-                          message.Sender.id === this.props.user.id
-                            ? styles.userMsg
-                            : styles.partnerMsg
-                        }
-                      >
-                        {message.content}
-                      </Text>
-                    </View>
-                  );
-                })
-              ) : (
-                <View style={styles.message}>
-                  <Text>No messages</Text>
-                </View>
-              )}
-            </ScrollView>
-          </SafeAreaView>
-        </KeyboardAvoidingView>
+                      {message.content}
+                    </Text>
+                  </View>
+                );
+              })
+            ) : (
+              <View style={styles.message}>
+                <Text>No messages</Text>
+              </View>
+            )}
+          </ScrollView>
+        </SafeAreaView>
 
         <View style={styles.bottomView}>
           <View style={styles.keyboard}>
@@ -119,8 +113,9 @@ class SingleMessageThread extends React.Component {
               <Button title="↑ " onPress={this.submitHandler} color={'white'} />
             </View>
           </View>
+          <View style={{ flex: 1 }} />
         </View>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }

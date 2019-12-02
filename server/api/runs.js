@@ -94,6 +94,8 @@ router.put('/:runId', isUser, async (req, res, next) => {
       distance,
       isComplete: true,
     });
+    const creator = await User.findByPk(updated.creatorId);
+    updated.dataValues.Creator = creator;
     res.json(updated);
   } catch (err) {
     next(err);
