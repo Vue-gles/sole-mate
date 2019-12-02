@@ -3,17 +3,16 @@ import axios from 'axios';
 // ACTION TYPES
 const GOT_UPCOMING_RUNS = 'GOT__UPCOMING_RUNS';
 
-
 // ACTION CREATORS
 const gotUpcomingRuns = upcomingRuns => ({
   type: GOT_UPCOMING_RUNS,
-  upcomingRuns
+  upcomingRuns,
 });
 
 // THUNK CREATORS
 export const getUpcomingRunsThunk = type => async dispatch => {
   try {
-      console.log("THUUUUUNK")
+    console.log('THUUUUUNK');
     const { data } = await axios.get(
       `${process.env.BACKEND_HOST}/api/runs?type=${type}`
     );
@@ -22,9 +21,6 @@ export const getUpcomingRunsThunk = type => async dispatch => {
     console.log('Error:', err);
   }
 };
-
-
-
 
 // REDUCER
 export default upcomingRuns = (state = [], action) => {

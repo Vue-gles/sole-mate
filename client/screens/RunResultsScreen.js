@@ -93,8 +93,6 @@ const styles = StyleSheet.create({
   runAd: {
     padding: 10,
     flex: 1,
-    // width:200,
-    // padding:20,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -112,7 +110,6 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     paddingTop: 3,
     marginLeft: -10,
-    // backgroundColor:"#ff4dff"
     borderRadius: 150 / 2,
     overflow: 'hidden',
   },
