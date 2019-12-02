@@ -12,6 +12,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  KeyboardAvoidingView,
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -19,6 +20,8 @@ import { connect } from 'react-redux';
 import { auth } from '../store/user';
 
 import { MonoText } from '../components/StyledText';
+
+import logo from '../../assets/images/logo.png';
 
 class SignInScreen extends React.Component {
   constructor(props) {
@@ -28,10 +31,6 @@ class SignInScreen extends React.Component {
       password: '',
     };
   }
-
-  static navigationOptions = {
-    title: 'Sign in to SoleMate',
-  };
 
   submitHandler = async () => {
     if (this.state.email && this.state.password) {
@@ -49,17 +48,11 @@ class SignInScreen extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <SafeAreaView style={styles.container}>
-        <ScrollView style={styles.scrollView}>
-          <View style={styles.container}>
-            <Image
-              source={{
-                uri:
-                  'https://p7.hiclipart.com/preview/751/476/837/running-silhouette-clip-art-silhouette.jpg',
-              }}
-              style={styles.welcomeImage}
-            />
-            <Text style={styles.getStartedText}>Sole-Mate</Text>
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
+        <SafeAreaView style={styles.container}>
+          <View style={styles.inner}>
+            <Text style={styles.brandName}>SoleMate</Text>
+            <Image source={logo} style={styles.welcomeImage} />
             <TextInput
               value={this.state.email}
               onChangeText={email =>
@@ -73,11 +66,17 @@ class SignInScreen extends React.Component {
               onChangeText={password => this.setState({ password })}
               placeholder={'Password'}
               style={styles.input}
+              secureTextEntry={true}
             />
-            <Button title="Sign In" onPress={this.submitHandler} />
+            <Button
+              title="Sign In"
+              onPress={this.submitHandler}
+              color={'#124D1A'}
+            />
             <Button
               title="Create New User"
               onPress={() => navigate('SignUp')}
+              color={'#124D1A'}
             />
             {this.props.error && this.props.error.response && (
               <Text style={styles.error}>
@@ -85,9 +84,10 @@ class SignInScreen extends React.Component {
                 {this.props.error.response.data}{' '}
               </Text>
             )}
+            <View style={{ flex: 1 }} />
           </View>
-        </ScrollView>
-      </SafeAreaView>
+        </SafeAreaView>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -97,7 +97,15 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: 100,
+  },
+  inner: {
+    padding: 24,
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  brandName: {
+    fontSize: 50,
+    color: 'forestgreen',
   },
   input: {
     width: 200,
@@ -110,11 +118,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   welcomeImage: {
-    width: 100,
-    height: 80,
-    resizeMode: 'contain',
+    width: 200,
+    height: 200,
     marginTop: 3,
-    marginLeft: -10,
   },
   error: {
     color: `#eb4034`,
