@@ -47,6 +47,8 @@ class HomeScreen extends Component {
           </View>
 
           <View style={styles.getStartedContainer}>
+            <Text>Welcome, {this.props.user.firstName}!</Text>
+            <Button title="My Profile" onPress={() => this.props.navigation.navigate('Profile')} />
             <Text style={styles.subheader}>
               Welcome, {this.props.user.firstName}!
             </Text>

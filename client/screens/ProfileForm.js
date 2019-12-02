@@ -21,50 +21,31 @@ import { auth } from '../store/user';
 
 import { MonoText } from '../components/StyledText';
 
-import { createUserThunk } from '../store/user';
+import {updateProfile} from '../store/user'
 
-class SignUpFormScreen extends React.Component {
+class ProfileForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
+      email: this.props.user.email,
       password: '',
-      firstName: '',
-      lastName: '',
-      defaultAddress: '',
-      imageUrl: '',
-      avgPace: null,
-      avgMileage: null,
-      goal: '',
-      bio: '',
+      firstName:this.props.user.firstName,
+      lastName:this.props.user.lastName,
+      defaultAddress:this.props.user.defaultAddress,
+      imageUrl:this.props.user.imageUrl,
+      avgPace:String(this.props.user.avgPace),
+      avgMileage:String(this.props.user.avgPace),
+      goal:this.props.user.goal,
+      bio:this.props.user.bio,
     };
   }
 
   static navigationOptions = {
-    title: 'SignUp',
+    title: 'ProfleForm',
   };
 
+  
   submitHandler = async () => {
-    if(this.state.email==='')
-      alert("Please enter an email")
-    if(this.state.password==='')
-      alert("Please enter a password")
-    if(this.state.firstName==='')
-      alert("Please enter a first name")
-    if(this.state.lastName==='')
-      alert("Please enter a last name")
-    if(this.state.defaultAddress==='')
-      alert("Please enter a address")
-    if(this.state.imageUrl==='')
-      alert("Please enter a imageUrl")
-    if(this.state.avgPace===''||Number(this.state.avgPace))
-      alert("Please enter an average Pace")
-    if(this.state.avgMileage===''||Number(this.state.avgPace))
-      alert("Please enter an average mileage")
-    if(this.state.goal==='')
-      alert("Please choose a goal")
-    if(this.state.bio==='')
-      alert("Please enter a bio")
     if (this.state.email && this.state.password
       && this.state.firstName && this.state.lastName
       && this.state.defaultAddress && this.state.imageUrl
@@ -82,20 +63,21 @@ class SignUpFormScreen extends React.Component {
         goal: this.state.goal,
         bio: this.state.bio,
       };
-      this.props.createUser(inputs);
+      this.props.update(inputs);
       this.props.navigation.navigate('AuthLoading')
     }
+   
   };
 
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <ScrollView>
-       <View style={styles.container}>
+        <ScrollView>
+      <View style={styles.container}>
       <SafeAreaView style={styles.container}>
         {/* <ScrollView style={styles.scrollView}> */}
           <View style={styles.container}>
-            {/* <Button title="Go Back to Login Screen" onPress={() => navigate('AuthLoading')} /> */}
+          {/* <Button title="Go Back to Login Screen" onPress={() => navigate('AuthLoading')} /> */}
             <Image
               source={{
                 uri:
@@ -104,7 +86,7 @@ class SignUpFormScreen extends React.Component {
               style={styles.welcomeImage}
             />
             <Text style={styles.getStartedText}>Sole-Mate</Text>
-            <Text style={styles.getStartedText}>Sign Up</Text>
+            <Text style={styles.getStartedText}>Edit Profile</Text>
             <TextInput
               value={this.state.email}
               onChangeText={email => this.setState({ email })}
@@ -147,21 +129,23 @@ class SignUpFormScreen extends React.Component {
               placeholder={'Average Pace'}
               style={styles.input}
             />
+            
             <TextInput
               value={this.state.avgMileage}
               onChangeText={avgMileage => this.setState({ avgMileage })}
               placeholder={'Average Mileage'}
               style={styles.input}
             />
-            <TextInput
+            {/* <TextInput
               value={this.state.goal}
               onChangeText={goal => this.setState({ goal })}
               placeholder={'Goal'}
               style={styles.input}
-            />
+            /> */}
+            <Text>Choose a goal:</Text>
             <Picker
               selectedValue={this.state.goal}
-              style={{width: 100}}
+              style={{ width: 80}}
               onValueChange={(itemValue, itemIndex) =>
                 this.setState({goal: itemValue})
               }>
@@ -169,17 +153,15 @@ class SignUpFormScreen extends React.Component {
               <Picker.Item label="hobby" value="hobby" />
               <Picker.Item label="weightloss" value="weightloss" />
             </Picker>
+            
             <TextInput
               value={this.state.bio}
               onChangeText={bio => this.setState({ bio })}
               placeholder={'Biography'}
               style={styles.input}
             />
-            <Button title="Sign Up" onPress={this.submitHandler} />
-            <Button
-              title="Go Back to Login Screen"
-              onPress={() => navigate('AuthLoading')}
-            />
+            <Button title="Update" onPress={this.submitHandler} />
+            <Button title="Go Back to Home Screen" onPress={() => navigate('AuthLoading')} />
             {this.props.error && this.props.error.response && (
               <Text style={styles.error}>
                 {' '}
@@ -233,9 +215,8 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    signin: (inputs, method) => dispatch(auth(inputs, method)),
-    createUser: user => dispatch(createUserThunk(user)),
+    update:(user)=>dispatch(updateProfile(user))
   };
 };
 
-export default connect(mapState, mapDispatch)(SignUpFormScreen);
+export default connect(mapState, mapDispatch)(ProfileForm);
