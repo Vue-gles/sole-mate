@@ -23,34 +23,53 @@ import { MonoText } from '../components/StyledText';
 
 import { createUserThunk } from '../store/user';
 
-class SignUpFormScreen extends React.Component {
+class SignUpNameForm extends React.Component {
+    
   constructor(props) {
     super(props);
+    const { navigation } = this.props;
     this.state = {
-      email: '',
-      password: ''
+      email: (navigation.getParam('email', 'default value')),
+      password: (navigation.getParam('password', 'default value')),
+      firstName: '',
+      lastName: '',
+      defaultAddress: '',
+      imageUrl: '',
+      
     };
   }
 
   static navigationOptions = {
-    title: 'SignUp',
+    title: 'SignUpName',
   };
 
   submitHandler = async () => {
-    if(this.state.email==='')
-      alert("Please enter an email")
-    if(this.state.password==='')
-      alert("Please enter a password")
-    if (this.state.email && this.state.password) {
-      this.props.navigation.navigate('SignUpName',{
+    if(this.state.firstName==='')
+      alert("Please enter a first name")
+    if(this.state.lastName==='')
+      alert("Please enter a last name")
+    if(this.state.defaultAddress==='')
+      alert("Please enter a address")
+    if(this.state.imageUrl==='')
+      alert("Please enter a imageUrl")
+    if (this.state.firstName && this.state.lastName
+        && this.state.defaultAddress && this.state.imageUrl) {
+        this.props.navigation.navigate('SignUpRun',{
         email:this.state.email,
-        password:this.state.password
+        password:this.state.password,
+        firstName:this.state.firstName,
+        lastName:this.state.lastName,
+        defaultAddress:this.state.defaultAddress,
+        imageUrl:this.state.imageUrl
       })
     }
   };
 
+
   render() {
     const { navigate } = this.props.navigation;
+    const { navigation } = this.props;
+
     return (
       <ScrollView>
        <View style={styles.container}>
@@ -67,19 +86,32 @@ class SignUpFormScreen extends React.Component {
             />
             <Text style={styles.getStartedText}>Sole-Mate</Text>
             <Text style={styles.getStartedText}>Sign Up</Text>
+            <Text>Email From last page:{this.state.email}</Text>
+            <Text>password From last page:{this.state.password}</Text>
             <TextInput
-              value={this.state.email}
-              onChangeText={email => this.setState({ email })}
-              placeholder={'Email'}
+              value={this.state.firstName}
+              onChangeText={firstName => this.setState({ firstName })}
+              placeholder={'First Name'}
               style={styles.input}
             />
             <TextInput
-              value={this.state.password}
-              onChangeText={password => this.setState({ password })}
-              placeholder={'Password'}
+              value={this.state.lastName}
+              onChangeText={lastName => this.setState({ lastName })}
+              placeholder={'Last Name'}
               style={styles.input}
             />
-            
+            <TextInput
+              value={this.state.defaultAddress}
+              onChangeText={defaultAddress => this.setState({ defaultAddress })}
+              placeholder={'Address'}
+              style={styles.input}
+            />
+            <TextInput
+              value={this.state.imageUrl}
+              onChangeText={imageUrl => this.setState({ imageUrl })}
+              placeholder={'Image Url'}
+              style={styles.input}
+            />
             <Button
               title="Next"
               onPress={this.submitHandler}
@@ -146,4 +178,4 @@ const mapDispatch = dispatch => {
   };
 };
 
-export default connect(mapState, mapDispatch)(SignUpFormScreen);
+export default connect(mapState, mapDispatch)(SignUpNameForm);
