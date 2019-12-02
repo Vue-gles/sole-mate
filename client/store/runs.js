@@ -22,11 +22,21 @@ const updateRun = updateRun => ({
 })
 
 // THUNK CREATORS
-export const getRuns = type => async dispatch => {
+export const getRuns = (type, maxDistance, lat, long) => async dispatch => {
   try {
-    const { data } = await axios.get(
-      `${process.env.BACKEND_HOST}/api/runs?type=${type}`
-    );
+    let data;
+    if (!maxDistance) {
+      const response = await axios.get(
+        `${process.env.BACKEND_HOST}/api/runs?type=${type}`
+      );
+      data = response.data
+    } else {
+      const response = await axios.get(
+        `${process.env.BACKEND_HOST}/api/runs?type=${type}&distance=${maxDistance}&lat=${lat}&long=${long}`
+      );
+      data = response.data
+    }
+
     dispatch(gotRuns(data));
   } catch (err) {
     console.log('Error:', err);

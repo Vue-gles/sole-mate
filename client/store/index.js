@@ -11,6 +11,7 @@ import incoming from './incoming';
 import currentCoords from './currentCoord';
 import messageThreads from './messageThreads';
 import singleMessageThread from './singleMessageThread';
+import formInfo from './formInfo'
 import partner from './partner';
 import upcomingRuns from './upcomingRuns'
 import pastRuns from './pastRuns'
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   currentCoords: currentCoords,
   messageThreads: messageThreads,
   singleMessageThread: singleMessageThread,
+  formInfo: formInfo,
   partner: partner,
   upcomingRuns: upcomingRuns,
   pastRuns: pastRuns
