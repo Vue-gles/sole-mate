@@ -12,6 +12,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  KeyboardAvoidingView,
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -52,25 +53,27 @@ class SignInScreen extends React.Component {
           <View style={styles.container}>
             <Text style={styles.brandName}>SoleMate</Text>
             <Image source={logo} style={styles.welcomeImage} />
-            <TextInput
-              value={this.state.email}
-              onChangeText={email =>
-                this.setState({ email: email.toLowerCase() })
-              }
-              placeholder={'Email'}
-              style={styles.input}
-            />
-            <TextInput
-              value={this.state.password}
-              onChangeText={password => this.setState({ password })}
-              placeholder={'Password'}
-              style={styles.input}
-            />
-            <Button
-              title="Sign In"
-              onPress={this.submitHandler}
-              color={'#0F3E15'}
-            />
+            <KeyboardAvoidingView>
+              <TextInput
+                value={this.state.email}
+                onChangeText={email =>
+                  this.setState({ email: email.toLowerCase() })
+                }
+                placeholder={'Email'}
+                style={styles.input}
+              />
+              <TextInput
+                value={this.state.password}
+                onChangeText={password => this.setState({ password })}
+                placeholder={'Password'}
+                style={styles.input}
+              />
+              <Button
+                title="Sign In"
+                onPress={this.submitHandler}
+                color={'#0F3E15'}
+              />
+            </KeyboardAvoidingView>
             <Button
               title="Create New User"
               onPress={() => navigate('SignUp')}

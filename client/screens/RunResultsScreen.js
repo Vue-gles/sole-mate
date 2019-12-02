@@ -53,16 +53,22 @@ class RunResultsScreen extends React.Component {
                     source={{
                       uri: run.Creator.imageUrl,
                     }}
+                    style={styles.runImage}
                   />
-                  <Text>Creator Name: {run.Creator.firstName}</Text>
-                  <Text>
-                    Location: {run.street}, {run.city}, {run.state}
+                  <Text style={styles.name}>
+                    {run.Creator.firstName} {run.Creator.lastName}
                   </Text>
-                  <Text>
-                    Date: {moment(run.startTimeframe).format('MMMM Do')}
+                  <Text style={styles.details}>
+                    {run.prefferedMileage} mile(s)
                   </Text>
-                  <Text>
-                    Time: {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
+                  <Text style={styles.details}>
+                    {run.street}, {run.city}, {run.state}
+                  </Text>
+                  <Text style={styles.details}>
+                    {moment(run.startTimeframe).format('MMMM Do')}
+                  </Text>
+                  <Text style={styles.details}>
+                    {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
                     {moment(run.endTimeframe).format('h:mm:ss a')}
                   </Text>
                 </View>
@@ -85,6 +91,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  name: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#303731',
+  },
+  details: {
+    color: '#525E54',
   },
   runImage: {
     width: 150,

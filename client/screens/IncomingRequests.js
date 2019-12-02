@@ -52,9 +52,11 @@ class IncomingRequests extends React.Component {
                     }}
                     style={styles.runImage}
                   />
-                  <Text>
-                    {notification.Requester.firstName} would like to run with
-                    you
+                  <Text style={styles.status}>
+                    {notification.Requester.firstName}{' '}
+                    {notification.Requester.lastName} would like to join your
+                    run on{' '}
+                    {moment(notification.run.startTimeframe).format('MMMM Do')}
                   </Text>
                   <Button
                     title="✓"
@@ -65,6 +67,7 @@ class IncomingRequests extends React.Component {
                         'accepted'
                       )
                     }
+                    color={'#0F3E15'}
                   />
                   <Button
                     title="X"
@@ -75,6 +78,7 @@ class IncomingRequests extends React.Component {
                         'rejected'
                       )
                     }
+                    color={'#0F3E15'}
                   />
                 </View>
               );
@@ -101,6 +105,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
+  },
+  status: {
+    marginLeft: 5,
+    width: 250,
   },
   runImage: {
     width: 60,
