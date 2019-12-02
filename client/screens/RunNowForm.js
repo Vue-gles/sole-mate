@@ -12,7 +12,7 @@ import Slider from 'react-native-slider';
 import Constants from 'expo-constants';
 import {connect} from 'react-redux'
 
-import PlacesAutocomplete from './PlacesAutocomplete';
+import PlacesAutocomplete from '../components/PlacesAutocomplete';
 import { gotRunNowFormInfo } from '../store/formInfo';
 
 // import TempGoogleInput from '../components/TempGoogleInput'
@@ -60,9 +60,6 @@ class RunNowForm extends React.Component {
   render() {
     return (
       <ScrollView>
-        <Text style={styles.header}>
-          Where would you like to start your run?
-        </Text>
         <View style={styles.container}>
           <PlacesAutocomplete locationHandler={this.locationHandler} />
         </View>
@@ -87,6 +84,7 @@ class RunNowForm extends React.Component {
               this.props.setRunNowFormInfo(this.state.lattitude, this.state.longitude, this.state.maxDistance)
               this.props.navigation.navigate('RunResults')
             }}
+            disabled={this.state.lattitude ? false : true}
           />
         </View>
       </ScrollView>

@@ -14,7 +14,7 @@ import { Text } from 'react-native-elements';
 import { connect } from 'react-redux';
 import Constants from 'expo-constants';
 import { createRunThunk } from '../store/runs';
-import PlacesAutocomplete from './PlacesAutocomplete';
+import PlacesAutocomplete from '../components/PlacesAutocomplete';
 // import '../../keys'
 
 class RunForm extends Component {
