@@ -128,7 +128,9 @@ NotificationsStack.path = '';
 
 const MapStack = createStackNavigator(
   {
-    Map: MapScreen,
+    Schedule: ScheduleScreen,
+    Map: MapScreen
+    
   },
   {
     defaultNavigationOptions: {

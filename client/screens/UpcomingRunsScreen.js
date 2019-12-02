@@ -11,7 +11,7 @@ import {
 import Constants from 'expo-constants';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { Link } from 'react-router-native';
+import { getSingleRun } from '../store/singleRun';
 
 import { getUpcomingRunsThunk } from '../store/upcomingRuns';
 
@@ -24,6 +24,7 @@ class UpcomingRunsScreen extends React.Component {
     this.forceRemount = this.forceRemount;
   }
   forceRemount = () => {
+    this.props.getUpcomingRuns('upcoming');
     this.setState({
       uniqueValue: this.state.uniqueValue + 1,
     });
@@ -33,6 +34,10 @@ class UpcomingRunsScreen extends React.Component {
     console.log('COMPONENT MOUNTED');
     this.props.getUpcomingRuns('upcoming');
   }
+  async clickHandler(id) {
+    await this.props.getSingleRun(id);
+    this.props.navigation.navigate('Map');
+  }
 
   render() {
     console.log('Upcoming Runs ------------->');
@@ -41,9 +46,14 @@ class UpcomingRunsScreen extends React.Component {
     return this.props.upcomingRuns.length ? (
       <SafeAreaView key={this.state.uniqueValue} style={styles.container}>
         <ScrollView style={styles.scrollView}>
+         <Button
+                  onPress={this.forceRemount}
+                  title="update"
+                  color={'#0F3E15'}
+                ></Button>
           {this.props.upcomingRuns.map(run => {
             return (
-              // <Link to={`/runs/${run.id}`} key={run.id}>
+              
               <View style={styles.runAd} key={run.id}>
                 <Image
                   source={{
@@ -67,12 +77,19 @@ class UpcomingRunsScreen extends React.Component {
                   {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
                   {moment(run.endTimeframe).format('h:mm:ss a')}
                 </Text>
+
                 <Button
-                  onPress={this.forceRemount}
-                  title="update"
+                  title="Start Run"
+                  onPress={() => this.clickHandler(run.id)}
                   color={'#0F3E15'}
                 />
+                
               </View>
+              // <Button
+              //     onPress={this.forceRemount}
+              //     title="update"
+              //     color={'#0F3E15'}
+              //   ></Button>
               // </Link>
             );
           })}
@@ -124,6 +141,7 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     getUpcomingRuns: type => dispatch(getUpcomingRunsThunk(type)),
+    getSingleRun: id => dispatch(getSingleRun(id))
   };
 };
 
