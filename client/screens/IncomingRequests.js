@@ -97,7 +97,7 @@ class IncomingRequests extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: Constants.statusBarHeight,
+    paddingTop: Constants.statusBarHeight,
   },
   notification: {
     padding: 10,
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   },
   status: {
     marginLeft: 5,
-    width: 250,
+    width: 200,
   },
   runImage: {
     width: 60,

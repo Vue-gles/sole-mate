@@ -90,7 +90,7 @@ class OutgoingRequests extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: Constants.statusBarHeight,
+    paddingTop: Constants.statusBarHeight,
   },
   notification: {
     padding: 10,
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   status: {
-    width: 300,
+    width: 250,
   },
   runImage: {
     width: 60,

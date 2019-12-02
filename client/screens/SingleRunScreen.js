@@ -120,9 +120,9 @@ const styles = StyleSheet.create({
     color: '#525E54',
   },
   runImage: {
-    width: 300,
-    height: 300,
-    borderRadius: 300 / 2,
+    width: 250,
+    height: 250,
+    borderRadius: 250 / 2,
     overflow: 'hidden',
   },
 });

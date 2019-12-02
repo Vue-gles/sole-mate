@@ -66,6 +66,7 @@ class SignInScreen extends React.Component {
               onChangeText={password => this.setState({ password })}
               placeholder={'Password'}
               style={styles.input}
+              secureTextEntry={true}
             />
             <Button
               title="Sign In"
@@ -119,15 +120,10 @@ const styles = StyleSheet.create({
   welcomeImage: {
     width: 200,
     height: 200,
-    resizeMode: 'contain',
     marginTop: 3,
   },
   error: {
     color: `#eb4034`,
-  },
-  keyboard: {
-    position: 'absolute',
-    top: 0,
   },
 });
 

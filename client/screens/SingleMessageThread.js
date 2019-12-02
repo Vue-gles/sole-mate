@@ -56,64 +56,62 @@ class SingleMessageThread extends React.Component {
   };
   render() {
     return (
-      <SafeAreaView style={styles.container}>
-        <ScrollView style={styles.scrollView}>
-          {this.props.messages && this.props.messages.length ? (
-            this.props.messages.map(message => {
-              return (
-                <View
-                  key={message.id}
-                  style={
-                    message.Sender.id === this.props.user.id
-                      ? styles.user
-                      : styles.partner
-                  }
-                >
-                  <Image
-                    source={{
-                      uri: message.Sender.imageUrl,
-                    }}
-                    style={styles.userImage}
-                  />
-                  <Text
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
+        <SafeAreaView style={styles.container}>
+          <ScrollView style={styles.scrollView}>
+            {this.props.messages && this.props.messages.length ? (
+              this.props.messages.map(message => {
+                return (
+                  <View
+                    key={message.id}
                     style={
                       message.Sender.id === this.props.user.id
-                        ? styles.userMsg
-                        : styles.partnerMsg
+                        ? styles.user
+                        : styles.partner
                     }
                   >
-                    {message.content}
-                  </Text>
-                </View>
-              );
-            })
-          ) : (
-            <View style={styles.message}>
-              <Text>No messages</Text>
-            </View>
-          )}
-          <View style={styles.bottom}>
-            <KeyboardAvoidingView
-              style={styles.keyboard}
-              behavior="padding"
-              enabled
-            >
+                    <Image
+                      source={{
+                        uri: message.Sender.imageUrl,
+                      }}
+                      style={styles.userImage}
+                    />
+                    <Text
+                      style={
+                        message.Sender.id === this.props.user.id
+                          ? styles.userMsg
+                          : styles.partnerMsg
+                      }
+                    >
+                      {message.content}
+                    </Text>
+                  </View>
+                );
+              })
+            ) : (
+              <View style={styles.message}>
+                <Text>No messages</Text>
+              </View>
+            )}
+            <View style={styles.keyboard}>
               <TextInput
                 value={this.state.content}
                 onChangeText={content => this.setState({ content })}
                 placeholder={'Text Message'}
                 style={styles.input}
               ></TextInput>
-              <Button
-                title="↑"
-                onPress={this.submitHandler}
-                style={styles.submit}
-                color={'#0F3E15'}
-              />
-            </KeyboardAvoidingView>
-          </View>
-        </ScrollView>
-      </SafeAreaView>
+              <View style={styles.btnContainer}>
+                <Button
+                  title="↑ "
+                  onPress={this.submitHandler}
+                  color={'white'}
+                />
+              </View>
+            </View>
+            <View style={{ flex: 1 }} />
+          </ScrollView>
+        </SafeAreaView>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -122,6 +120,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: Constants.statusBarHeight,
+    justifyContent: 'space-between',
   },
   partner: {
     padding: 10,
@@ -160,10 +159,6 @@ const styles = StyleSheet.create({
     borderRadius: 40 / 2,
     overflow: 'hidden',
   },
-  bottom: {
-    flex: 1,
-    justifyContent: 'flex-end',
-  },
   keyboard: {
     flex: 1,
     flexDirection: 'row',
@@ -178,12 +173,16 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     margin: 10,
     flex: 1,
+    marginBottom: 36,
   },
-  submit: {
-    borderRadius: 20,
+  btnContainer: {
+    marginTop: -25,
+    marginRight: 10,
+    paddingLeft: 3,
+    paddingRight: 3,
+    borderRadius: 60,
     overflow: 'hidden',
-    backgroundColor: '#2063ab',
-    color: 'white',
+    backgroundColor: '#21752B',
   },
 });
 
