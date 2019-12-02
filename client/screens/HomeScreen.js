@@ -51,21 +51,25 @@ class HomeScreen extends Component {
               Welcome, {this.props.user.firstName}!
             </Text>
             <View style={styles.buttons}>
-              <Button
-                title="Run Now"
-                onPress={() => navigate('Settings')}
-                color={'#0F3E15'}
-              />
-              <Button
-                title="Run Later"
-                onPress={() => this.props.navigation.navigate('RunForm')}
-                color={'#0F3E15'}
-              />
+              <View style={styles.btnContainer}>
+                <Button
+                  title="Run Now"
+                  onPress={() => navigate('Settings')}
+                  color={'white'}
+                />
+              </View>
+              <View style={styles.btnContainer}>
+                <Button
+                  title="Run Later"
+                  onPress={() => this.props.navigation.navigate('RunForm')}
+                  color={'white'}
+                />
+              </View>
 
               <Button
                 title="Sign Out"
                 onPress={this._signOutAsync}
-                color={'#0F3E15'}
+                color={'#124D1A'}
               />
             </View>
           </View>
@@ -207,6 +211,13 @@ const styles = StyleSheet.create({
   },
   buttons: {
     marginTop: 30,
+  },
+  btnContainer: {
+    backgroundColor: '#124D1A',
+    padding: 5,
+    margin: 5,
+    borderRadius: 10,
+    overflow: 'hidden',
   },
 });
 

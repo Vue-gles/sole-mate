@@ -61,6 +61,13 @@ class SingleRunScreen extends React.Component {
               }}
               style={styles.runImage}
             />
+            <View style={styles.btnContainer}>
+              <Button
+                title="Request Run"
+                onPress={this.requestHandler}
+                color={'white'}
+              />
+            </View>
             <View style={styles.subContainer}>
               <Text style={styles.header}>
                 {run.Creator.firstName} {run.Creator.lastName}{' '}
@@ -86,11 +93,6 @@ class SingleRunScreen extends React.Component {
                 {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
                 {moment(run.endTimeframe).format('h:mm:ss a')}
               </Text>
-              <Button
-                title="Request Run"
-                onPress={this.requestHandler}
-                color={'#0F3E15'}
-              />
             </View>
           </View>
         )}
@@ -103,7 +105,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: Constants.statusBarHeight,
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-around',
     alignItems: 'center',
   },
   subContainer: {
@@ -120,9 +122,16 @@ const styles = StyleSheet.create({
     color: '#525E54',
   },
   runImage: {
-    width: 250,
-    height: 250,
-    borderRadius: 250 / 2,
+    width: 200,
+    height: 200,
+    borderRadius: 200 / 2,
+    overflow: 'hidden',
+  },
+  btnContainer: {
+    backgroundColor: '#124D1A',
+    padding: 5,
+    marginTop: 15,
+    borderRadius: 10,
     overflow: 'hidden',
   },
 });

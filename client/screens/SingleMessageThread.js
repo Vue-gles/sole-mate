@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
     paddingRight: 3,
     borderRadius: 60,
     overflow: 'hidden',
-    backgroundColor: '#21752B',
+    backgroundColor: '#124D1A',
   },
 });
 

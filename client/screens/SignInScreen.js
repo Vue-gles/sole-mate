@@ -71,12 +71,12 @@ class SignInScreen extends React.Component {
             <Button
               title="Sign In"
               onPress={this.submitHandler}
-              color={'#0F3E15'}
+              color={'#124D1A'}
             />
             <Button
               title="Create New User"
               onPress={() => navigate('SignUp')}
-              color={'#0F3E15'}
+              color={'#124D1A'}
             />
             {this.props.error && this.props.error.response && (
               <Text style={styles.error}>
