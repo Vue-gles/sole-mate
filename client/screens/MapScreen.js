@@ -114,8 +114,6 @@ class MapScreen extends Component {
     let loc = null
     navigator.geolocation.watchPosition(
       position => {
-        console.log("in getCurrentLocation");
-        console.log(position);
         loc = {latitude: position.coords.latitude, longitude: position.coords.longitude}
         let distance = 0
         if (this.state.coordinates.length > 0) {
@@ -147,7 +145,6 @@ class MapScreen extends Component {
     }
 
     this._interval = setInterval(() => {
-      console.log("in timer");
       if (demoMode) {
         this.getCurrentLocationMock()
       } else {
@@ -187,7 +184,7 @@ class MapScreen extends Component {
     })
     const runId = this.props.currentRun.id
     const distance = this.state.distance.toFixed(2)
-    this.props.saveRun(runId, bigArr,distance)
+    this.props.saveRun(runId, JSON.stringify(bigArr),distance)
     
     this.setState({
       coordinates: [],
@@ -223,7 +220,6 @@ class MapScreen extends Component {
   handler(name, lat, lng) {
     this.state.handlerEnabled = true;
     this.setState({name: name, latitude: lat, longitude: lng})
-    console.log('PARENT STATE', this.state)
   }
   handlePress (evt) {
     this.setState({
@@ -238,8 +234,6 @@ class MapScreen extends Component {
 
   render() {
     const notRenderDirection = this.state.latitude == 0 || this.state.coordinates.length == 0
-    console.log("render() is called: ");
-    console.log(this.state.coordinates);
 
   let searchedRegion = this.state.handlerEnabled ? {
         latitude: this.state.latitude,
@@ -254,7 +248,6 @@ class MapScreen extends Component {
         latitudeDelta: 0.0110,
         longitudeDelta: 0.0110
       }
-  console.log("SEARCHED REGION",searchedRegion)
     
   
     return (
@@ -298,7 +291,6 @@ class MapScreen extends Component {
         />
         <Marker pinColor = 'green' coordinate={{latitude: this.state.latitude, longitude: this.state.longitude}} />
         {this.state.markers.map((marker) => {
-          console.log("MARKER",marker)
           return <Marker key = {marker.coordinate.latitude * marker.coordinate.longitude/3.14159265358979323} {...marker} />
         })}
         {
