@@ -11,7 +11,7 @@ import {
   View,
   Button,
 } from 'react-native';
-import TabBarIcon from '../components/TabBarIcon'
+import TabBarIcon from '../components/TabBarIcon';
 
 import { connect } from 'react-redux';
 import { logout } from '../store/user';
@@ -19,15 +19,12 @@ import { logout } from '../store/user';
 import { MonoText } from '../components/StyledText';
 import { NavigationEvents } from 'react-navigation';
 
+import logo from '../../assets/images/logo.png';
 
 class HomeScreen extends Component {
   constructor(props) {
     super(props);
   }
-  static navigationOptions = {
-    title: 'Home'
-  };
-  
 
   _signOutAsync = async () => {
     await this.props.logout();
@@ -45,25 +42,36 @@ class HomeScreen extends Component {
           contentContainerStyle={styles.contentContainer}
         >
           <View style={styles.welcomeContainer}>
-            <Image
-              source={{
-                uri:
-                  'https://p7.hiclipart.com/preview/751/476/837/running-silhouette-clip-art-silhouette.jpg',
-              }}
-              style={styles.welcomeImage}
-            />
-            <Text style={styles.getStartedText}>SoleMate</Text>
+            <Text style={styles.brandName}>SoleMate</Text>
+            <Image source={logo} style={styles.welcomeImage} />
           </View>
 
           <View style={styles.getStartedContainer}>
-            <Text>Welcome, {this.props.user.firstName}!</Text>
-            <Button title="Run Now" onPress={() => navigate('Settings')} />
-            <Button title="Run Later" onPress={() => this.props.navigation.navigate('RunForm')} />
+            <Text style={styles.subheader}>
+              Welcome, {this.props.user.firstName}!
+            </Text>
+            <View style={styles.buttons}>
+              <View style={styles.btnContainer}>
+                <Button
+                  title="Run Now"
+                  onPress={() => navigate('Settings')}
+                  color={'white'}
+                />
+              </View>
+              <View style={styles.btnContainer}>
+                <Button
+                  title="Run Later"
+                  onPress={() => this.props.navigation.navigate('RunForm')}
+                  color={'white'}
+                />
+              </View>
 
-            <Button
-              title="Actually, sign me out :)"
-              onPress={this._signOutAsync}
-            />
+              <Button
+                title="Sign Out"
+                onPress={this._signOutAsync}
+                color={'#124D1A'}
+              />
+            </View>
           </View>
         </ScrollView>
       </View>
@@ -111,6 +119,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  brandName: {
+    fontSize: 50,
+    color: 'forestgreen',
+  },
   developmentModeText: {
     marginBottom: 20,
     color: 'rgba(0,0,0,0.4)',
@@ -127,8 +139,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   welcomeImage: {
-    width: 100,
-    height: 80,
+    width: 200,
+    height: 200,
     resizeMode: 'contain',
     marginTop: 3,
     marginLeft: -10,
@@ -153,6 +165,10 @@ const styles = StyleSheet.create({
     color: 'rgba(96,100,109, 1)',
     lineHeight: 24,
     textAlign: 'center',
+  },
+  subheader: {
+    fontSize: 20,
+    color: 'forestgreen',
   },
   tabBarInfoContainer: {
     position: 'absolute',
@@ -192,6 +208,16 @@ const styles = StyleSheet.create({
   helpLinkText: {
     fontSize: 14,
     color: '#2e78b7',
+  },
+  buttons: {
+    marginTop: 30,
+  },
+  btnContainer: {
+    backgroundColor: '#124D1A',
+    padding: 5,
+    margin: 5,
+    borderRadius: 10,
+    overflow: 'hidden',
   },
 });
 
