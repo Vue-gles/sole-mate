@@ -58,12 +58,17 @@ class SingleMessageThread extends React.Component {
     return (
       <View style={styles.container}>
         <KeyboardAvoidingView
-          style={{ flex: 1, width: '100%', marginTop: -20 }}
+          style={styles.msgContainer}
           behavior="padding"
           enabled
         >
           <SafeAreaView>
-            <ScrollView>
+            <ScrollView
+              ref={ref => (this.scrollView = ref)}
+              onContentSizeChange={(contentWidth, contentHeight) => {
+                this.scrollView.scrollToEnd({ animated: true });
+              }}
+            >
               {this.props.messages && this.props.messages.length ? (
                 this.props.messages.map(message => {
                   return (
@@ -124,11 +129,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     paddingTop: Platform.OS === 'ios' ? 20 : 0,
-    padding: 0,
-    margin: 0,
   },
+  msgContainer: { width: '100%', height: '95%', marginTop: -20 },
   partner: {
     padding: 10,
     flex: 1,
@@ -189,10 +193,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     margin: 10,
     flex: 1,
-    marginBottom: 36,
   },
   btnContainer: {
-    marginTop: -25,
     marginRight: 10,
     paddingLeft: 3,
     paddingRight: 3,
