@@ -33,7 +33,8 @@ class RunResultsScreen extends React.Component {
   };
 
   componentDidMount() {
-    this.props.getRuns('potential');
+    console.log('Weve got form info and its.....',this.props.runNowInfo.maxDistance)
+    this.props.getRuns('potential', this.props.runNowInfo.maxDistance, this.props.runNowInfo.lat, this.props.runNowInfo.long);
   }
 
   async clickHandler(id) {
@@ -42,7 +43,6 @@ class RunResultsScreen extends React.Component {
   }
 
   render() {
-    // console.log('RunResults ------------->');
     return (
       <SafeAreaView style={styles.container}>
 
@@ -106,12 +106,13 @@ const styles = StyleSheet.create({
 const mapState = state => {
   return {
     runs: state.runs,
+    runNowInfo: state.formInfo.runNowInfo
   };
 };
 
 const mapDispatch = dispatch => {
   return {
-    getRuns: type => dispatch(getRuns(type)),
+    getRuns: (type, maxDistance, lat, long) => dispatch(getRuns(type, maxDistance, lat, long)),
     getSingleRun: id => dispatch(getSingleRun(id)),
   };
 };

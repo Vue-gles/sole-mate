@@ -24,6 +24,7 @@ const updateRun = updateRun => ({
 // THUNK CREATORS
 export const getRuns = (type, maxDistance, lat, long) => async dispatch => {
   try {
+    console.log('All the args are', type, maxDistance, lat, long)
     let data;
     if (!maxDistance) {
       const response = await axios.get(

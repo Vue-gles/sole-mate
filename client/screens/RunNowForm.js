@@ -29,16 +29,21 @@ class RunNowForm extends React.Component {
       longitude: 0,
       maxDistance: 30,
     };
+    
     this.locationHandler = this.locationHandler.bind(this);
     this.handler = this.handler.bind(this);
   }
+
+  static navigationOptions = {
+    title: 'Choose what runs to see',
+  };
 
   locationHandler(lattitude, longitude, address) {
     address = address.split(', ');
     const street = address[0].slice(1, address[0].length);
     const city = address[1];
     const state = address[2];
-
+    console.log('latt is......',lattitude)
     this.setState({ lattitude, longitude, street, city, state });
   }
 
@@ -79,7 +84,7 @@ class RunNowForm extends React.Component {
           <Button
             title="Find runs near you"
             onPress={() => {
-              this.props.setRunNowFormInfo(this.state.latitude, this.state.longitude, this.state.maxDistance)
+              this.props.setRunNowFormInfo(this.state.lattitude, this.state.longitude, this.state.maxDistance)
               this.props.navigation.navigate('RunResults')
             }}
           />
