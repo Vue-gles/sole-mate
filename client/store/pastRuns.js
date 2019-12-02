@@ -2,18 +2,24 @@ import axios from 'axios';
 
 // ACTION TYPES
 const GOT_PAST_RUNS = 'GOT__PAST_RUNS';
-
+const SAVED_RUN = 'SAVED_RUN';
 
 // ACTION CREATORS
 const gotPastRuns = pastRuns => ({
   type: GOT_PAST_RUNS,
-  pastRuns
+  pastRuns,
 });
+
+const savedRun = run => {
+  {
+    type: SAVED_RUN, run;
+  }
+};
 
 // THUNK CREATORS
 export const getPastRunsThunk = type => async dispatch => {
   try {
-      console.log("THUUUUUNK")
+    console.log('THUUUUUNK');
     const { data } = await axios.get(
       `${process.env.BACKEND_HOST}/api/runs?type=${type}`
     );
@@ -23,14 +29,34 @@ export const getPastRunsThunk = type => async dispatch => {
   }
 };
 
-
-
+export const saveRun = (runId, route, distance) => async dispatch => {
+  try {
+    const { data } = await axios.put(
+      `${process.env.BACKEND_HOST}/api/runs/${runId}`,
+      {
+        route,
+        distance,
+      }
+    );
+    dispatch(savedRun(data));
+  } catch (error) {
+    console.log('Error:', err);
+  }
+};
 
 // REDUCER
 export default pastRuns = (state = [], action) => {
   switch (action.type) {
     case GOT_PAST_RUNS:
       return action.pastRuns;
+    case SAVED_RUN:
+      return state.map(run => {
+        if (run.id === action.run.id) {
+          return action.run;
+        } else {
+          return run;
+        }
+      });
     default:
       return state;
   }
