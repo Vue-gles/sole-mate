@@ -175,17 +175,9 @@ class MapScreen extends Component {
 
   saveTracking() {
     dataIndex = -1
-    bigArr = [];
-    this.state.coordinates.map((obj) => {
-      smallArr = []
-      smallArr.push(obj.latitude)
-      smallArr.push(obj.longitude)
-      bigArr.push(smallArr)
-    })
     const runId = this.props.currentRun.id
     const distance = this.state.distance.toFixed(2)
-    this.props.saveRun(runId, JSON.stringify(bigArr),distance)
-    
+    this.props.saveRun(runId, JSON.stringify(this.state.coordinates),distance)
     this.setState({
       coordinates: [],
       distance: 0,

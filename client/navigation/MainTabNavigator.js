@@ -20,7 +20,7 @@ import SingleMessageThread from '../screens/SingleMessageThread';
 import ProfileScreen from '../screens/ProfileScreen';
 import ProfileForm from '../screens/ProfileForm';
 import RunNowForm from '../screens/RunNowForm'
-import NewThing from '../screens/NewThing'
+import PastRouteMap from '../screens/PastRouteMap'
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -34,7 +34,7 @@ const HomeStack = createStackNavigator(
     ProfileForm:ProfileForm,
     RunForm: RunForm,
     RunNowForm: RunNowForm,
-    NewThing: NewThing
+    NewThing: PastRouteMap
   },
   {
     initialRouteName: 'Home',
