@@ -4,7 +4,7 @@ import { StyleSheet, View, Dimensions, Text, Button} from 'react-native';
 import GooglePlacesInput from '../components/GooglePlacesInput'
 import { getDistance } from  'geolib'
 import { connect } from 'react-redux';
-import { updateRoute, updateDistance } from '../store/runs';
+import { saveRun } from '../store/pastRuns';
 
 const circleColor = 'rgba(204, 255, 255, 0.2)'
 const circle2Color = 'rgba(225, 204, 153, 0.5)'
@@ -185,8 +185,10 @@ class MapScreen extends Component {
       smallArr.push(obj.longitude)
       bigArr.push(smallArr)
     })
-    this.props.updateRoute(bigArr)
-    this.props.updateDistance(this.state.distance.toFixed(2))
+    const runId = this.props.currentRun.id
+    const distance = this.state.distance.toFixed(2)
+    this.props.saveRun(runId, bigArr,distance)
+    
     this.setState({
       coordinates: [],
       distance: 0,
@@ -397,14 +399,14 @@ const styles = StyleSheet.create({
 const mapState = state => {
   return {
     currentCoords: state.currentCoords,
+    currentRun: state.singleRun
   };
 };
 
 const mapDispatch = dispatch => {
   return {
     setCurrentCoords:(coords)=>dispatch(setCurrentCoordsThunk(coords)),
-    updateRoute:(route) => dispatch(updateRoute(route)),
-    updateDistance:(distance) => dispatch(updateDistance(distance))
+    saveRun:(id, route, distance) => dispatch(saveRun(id,route,distance)),
     
   }
 };

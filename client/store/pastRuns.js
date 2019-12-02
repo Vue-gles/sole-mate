@@ -40,7 +40,7 @@ export const saveRun = (runId, route, distance) => async dispatch => {
     );
     dispatch(savedRun(data));
   } catch (error) {
-    console.log('Error:', err);
+    console.log('Error:', error);
   }
 };
 
