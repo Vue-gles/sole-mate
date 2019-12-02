@@ -48,32 +48,30 @@ class SignInScreen extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <SafeAreaView style={styles.container}>
-        <ScrollView style={styles.scrollView}>
-          <View style={styles.container}>
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
+        <SafeAreaView style={styles.container}>
+          <View style={styles.inner}>
             <Text style={styles.brandName}>SoleMate</Text>
             <Image source={logo} style={styles.welcomeImage} />
-            <KeyboardAvoidingView>
-              <TextInput
-                value={this.state.email}
-                onChangeText={email =>
-                  this.setState({ email: email.toLowerCase() })
-                }
-                placeholder={'Email'}
-                style={styles.input}
-              />
-              <TextInput
-                value={this.state.password}
-                onChangeText={password => this.setState({ password })}
-                placeholder={'Password'}
-                style={styles.input}
-              />
-              <Button
-                title="Sign In"
-                onPress={this.submitHandler}
-                color={'#0F3E15'}
-              />
-            </KeyboardAvoidingView>
+            <TextInput
+              value={this.state.email}
+              onChangeText={email =>
+                this.setState({ email: email.toLowerCase() })
+              }
+              placeholder={'Email'}
+              style={styles.input}
+            />
+            <TextInput
+              value={this.state.password}
+              onChangeText={password => this.setState({ password })}
+              placeholder={'Password'}
+              style={styles.input}
+            />
+            <Button
+              title="Sign In"
+              onPress={this.submitHandler}
+              color={'#0F3E15'}
+            />
             <Button
               title="Create New User"
               onPress={() => navigate('SignUp')}
@@ -85,9 +83,10 @@ class SignInScreen extends React.Component {
                 {this.props.error.response.data}{' '}
               </Text>
             )}
+            <View style={{ flex: 1 }} />
           </View>
-        </ScrollView>
-      </SafeAreaView>
+        </SafeAreaView>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -97,7 +96,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: 100,
+  },
+  inner: {
+    padding: 24,
+    flex: 1,
+    justifyContent: 'flex-end',
   },
   brandName: {
     fontSize: 50,
@@ -118,10 +121,13 @@ const styles = StyleSheet.create({
     height: 200,
     resizeMode: 'contain',
     marginTop: 3,
-    marginLeft: -10,
   },
   error: {
     color: `#eb4034`,
+  },
+  keyboard: {
+    position: 'absolute',
+    top: 0,
   },
 });
 
