@@ -13,8 +13,13 @@ router.get('/', isUser, async (req, res, next) => {
     const { type } = req.query;
     let runs;
     if (type === 'potential') {
-      const maxDistance = req.query.distance ? req.query.distance : undefined
-      runs = await Run.getPotentialRuns(req.user.id, maxDistance, req.query.lat, req.query.long)
+      const maxDistance = req.query.distance ? req.query.distance : undefined;
+      runs = await Run.getPotentialRuns(
+        req.user.id,
+        maxDistance,
+        req.query.lat,
+        req.query.long
+      );
     }
     if (type === 'upcoming') runs = await Run.getUpcomingRuns(req.user.id);
     if (type === 'past') runs = await Run.getPastRuns(req.user.id);
@@ -27,7 +32,6 @@ router.get('/', isUser, async (req, res, next) => {
     next(err);
   }
 });
-
 
 // GET /api/runs/:runId
 router.get('/:runId', isUser, async (req, res, next) => {
@@ -79,37 +83,19 @@ router.post('/', isUser, async (req, res, next) => {
     next(err);
   }
 });
-// PUT /api/runs/route
-router.put('/route', isUser, async (req, res, next) => {
+
+//PUT /api/runs/:runId
+router.put('/:runId', isUser, async (req, res, next) => {
   try {
-    const run = await Run.findOne({
-      where:{
-       creatorId: req.user.id 
-      }
-    })
-    const {route} = req.body
+    const run = await Run.findByPk(req.params.runId);
+    const { route, distance } = req.body;
     const updated = await run.update({
-      route: route,
+      route,
+      distance,
+      isComplete: true,
     });
     res.json(updated);
   } catch (err) {
     next(err);
-  }
-});
-// PUT /api/runs/distance
-router.put('/distance', isUser, async (req, res, next) => {
-  try {
-    const run = await Run.findOne({
-      where:{
-       creatorId:req.user.id 
-      }
-    })
-    const {distance} = req.body
-    const updated = await run.update({
-      distance: distance
-    })
-    res.json(updated)
-  } catch(err) {
-    next(err)
   }
 });

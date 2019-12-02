@@ -65,6 +65,11 @@ class HomeScreen extends Component {
                   color={'white'}
                 />
               </View>
+              <Button
+                title="My Profile"
+                onPress={() => this.props.navigation.navigate('Profile')}
+                color={'#124D1A'}
+              />
 
               <Button
                 title="Sign Out"

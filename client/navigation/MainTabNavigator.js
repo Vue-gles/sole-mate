@@ -17,6 +17,8 @@ import ScheduleScreen from '../screens/ScheduleScreen';
 import RunForm from '../screens/RunForm';
 import MessageThreads from '../screens/MessageThreads';
 import SingleMessageThread from '../screens/SingleMessageThread';
+import ProfileScreen from '../screens/ProfileScreen';
+import ProfileForm from '../screens/ProfileForm';
 import RunNowForm from '../screens/RunNowForm'
 
 const config = Platform.select({
@@ -27,6 +29,8 @@ const config = Platform.select({
 const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
+    Profile:ProfileScreen,
+    ProfileForm:ProfileForm,
     RunForm: RunForm,
     RunNowForm: RunNowForm
   },
@@ -219,6 +223,7 @@ MessageStack.navigationOptions = {
 };
 
 MessageStack.path = '';
+
 
 const tabNavigator = createBottomTabNavigator({
   HomeStack,

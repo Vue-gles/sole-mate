@@ -29,7 +29,12 @@ class RunResultsScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getRuns('potential', this.props.runNowInfo.maxDistance, this.props.runNowInfo.lat, this.props.runNowInfo.long);
+    this.props.getRuns(
+      'potential',
+      this.props.runNowInfo.maxDistance,
+      this.props.runNowInfo.lat,
+      this.props.runNowInfo.long
+    );
   }
 
   async clickHandler(id) {
@@ -40,7 +45,6 @@ class RunResultsScreen extends React.Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-
         <ScrollView style={styles.scrollView}>
           {this.props.runs.map(run => {
             return (
@@ -114,13 +118,14 @@ const styles = StyleSheet.create({
 const mapState = state => {
   return {
     runs: state.runs,
-    runNowInfo: state.formInfo.runNowInfo
+    runNowInfo: state.formInfo.runNowInfo,
   };
 };
 
 const mapDispatch = dispatch => {
   return {
-    getRuns: (type, maxDistance, lat, long) => dispatch(getRuns(type, maxDistance, lat, long)),
+    getRuns: (type, maxDistance, lat, long) =>
+      dispatch(getRuns(type, maxDistance, lat, long)),
     getSingleRun: id => dispatch(getSingleRun(id)),
   };
 };

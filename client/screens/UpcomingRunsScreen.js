@@ -11,7 +11,6 @@ import {
 import Constants from 'expo-constants';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { Link } from 'react-router-native';
 import { getSingleRun } from '../store/singleRun';
 
 import { getUpcomingRunsThunk } from '../store/upcomingRuns';

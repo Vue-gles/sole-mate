@@ -6,6 +6,7 @@ import axios from 'axios';
 const GET_USER = 'GET_USER';
 const REMOVE_USER = 'REMOVE_USER';
 const UPDATE_USER = 'UPDATE_USER';
+const UPDATE_USER_PROFILE = 'UPDATE_USER_PROFILE';
 const CREATE_USER='CREATE_USER'
 
 /**
@@ -19,6 +20,7 @@ const defaultUser = {};
 const getUser = user => ({ type: GET_USER, user });
 const removeUser = () => ({ type: REMOVE_USER });
 const updateUser = updatedUser => ({ type: UPDATE_USER, updatedUser });
+const updateUserProfile = updatedUser => ({ type: UPDATE_USER_PROFILE, updatedUser });
 const createUser=user=>({type: CREATE_USER,user})
 
 /**
@@ -93,6 +95,18 @@ export const update = userInfo => async dispatch => {
   }
 };
 
+export const updateProfile = userInfo => async dispatch => {
+  try {
+    const { data } = await axios.put(
+      `${process.env.BACKEND_HOST}/api/users/profile`,
+      userInfo
+    );
+    dispatch(updateUserProfile(data));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const createUserThunk=user=>async dispatch=>{
   try{
     const { data } = await axios.post(
@@ -114,6 +128,8 @@ export default function(state = defaultUser, action) {
     case REMOVE_USER:
       return defaultUser;
     case UPDATE_USER:
+      return action.updatedUser;
+    case UPDATE_USER_PROFILE:
       return action.updatedUser;
     case CREATE_USER:
       return action.user
