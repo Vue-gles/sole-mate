@@ -21,12 +21,10 @@ export default class GooglePlacesInput extends Component {
 
   helperFunction(lat, lng) {
     console.log('HELPER', lat, lng, this.state.address);
-    // console.log("PROPS",this.props)
     this.props.handler(this.state, lat, lng);
   }
 
   render() {
-    // console.log("CHILD PROPS", this.props)
     const currentLocation = {
       description: 'Current Location',
       geometry: {
@@ -40,7 +38,7 @@ export default class GooglePlacesInput extends Component {
     return (
       <GooglePlacesAutocomplete
         placeholder="Where would you like to start?"
-        minLength={1} // minimum length of text to search
+        minLength={1} 
         autoFocus={true}
         returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
         listViewDisplayed={false} // true/false/undefined
@@ -98,7 +96,7 @@ export default class GooglePlacesInput extends Component {
           'locality',
           'administrative_area_level_3',
         ]} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
-        predefinedPlaces={[currentLocation, homePlace, workPlace]}
+        // predefinedPlaces={[currentLocation, homePlace, workPlace]}
         debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
         renderLeftButton={() => <Image source={require('./TabBarIcon')} />}
         //   renderRightButton={() => <Text>Custom text after the input</Text>}
