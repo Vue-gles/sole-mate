@@ -32,6 +32,17 @@ const HomeStack = createStackNavigator(
   },
   {
     initialRouteName: 'Home',
+    defaultNavigationOptions: {
+      title: 'Home',
+      headerStyle: {
+        backgroundColor: 'forestgreen',
+      },
+      headerTintColor: '#0F3E15',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        color: '#fff',
+      },
+    },
   }
 );
 
@@ -54,6 +65,17 @@ const RunTabStack = createStackNavigator(
   },
   {
     initialRouteName: 'RunResults',
+    defaultNavigationOptions: {
+      title: 'Runs',
+      headerStyle: {
+        backgroundColor: 'forestgreen',
+      },
+      headerTintColor: '#0F3E15',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        color: '#fff',
+      },
+    },
   }
 );
 
@@ -73,7 +95,19 @@ const NotificationsStack = createStackNavigator(
   {
     Notifications: NotificationsScreen,
   },
-  config
+  {
+    defaultNavigationOptions: {
+      title: 'Notifications',
+      headerStyle: {
+        backgroundColor: 'forestgreen',
+      },
+      headerTintColor: '#0F3E15',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        color: '#fff',
+      },
+    },
+  }
 );
 
 NotificationsStack.navigationOptions = {
@@ -92,7 +126,19 @@ const MapStack = createStackNavigator(
   {
     Map: MapScreen,
   },
-  config
+  {
+    defaultNavigationOptions: {
+      title: 'Map',
+      headerStyle: {
+        backgroundColor: 'forestgreen',
+      },
+      headerTintColor: '#0F3E15',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        color: '#fff',
+      },
+    },
+  }
 );
 
 MapStack.navigationOptions = {
@@ -111,7 +157,19 @@ const ScheduleStack = createStackNavigator(
   {
     Home: ScheduleScreen,
   },
-  config
+  {
+    defaultNavigationOptions: {
+      title: 'Schedule',
+      headerStyle: {
+        backgroundColor: 'forestgreen',
+      },
+      headerTintColor: '#0F3E15',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        color: '#fff',
+      },
+    },
+  }
 );
 
 ScheduleStack.navigationOptions = {
@@ -133,6 +191,17 @@ const MessageStack = createStackNavigator(
   },
   {
     initialRouteName: 'Threads',
+    defaultNavigationOptions: {
+      title: 'Messages',
+      headerStyle: {
+        backgroundColor: 'forestgreen',
+      },
+      headerTintColor: '#0F3E15',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        color: '#fff',
+      },
+    },
   }
 );
 

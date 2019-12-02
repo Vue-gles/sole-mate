@@ -40,7 +40,6 @@ class RunNowForm extends React.Component {
     const street = address[0].slice(1, address[0].length);
     const city = address[1];
     const state = address[2];
-    console.log('latt is......',lattitude)
     this.setState({ lattitude, longitude, street, city, state });
   }
 
@@ -48,11 +47,6 @@ class RunNowForm extends React.Component {
     this.setState({ latitude: lat, longitude: lng });
   }
 
-  getLocation() {
-    navigator.geolocation.getCurrentPosition(position => {
-      console.log('IT ISSSsss', position);
-    });
-  }
 
   render() {
     return (
