@@ -126,42 +126,43 @@ NotificationsStack.navigationOptions = {
 
 NotificationsStack.path = '';
 
-const MapStack = createStackNavigator(
-  {
-    Schedule: ScheduleScreen,
-    Map: MapScreen
+// const MapStack = createStackNavigator(
+//   {
+//     Schedule: ScheduleScreen,
+//     Map: MapScreen
     
-  },
-  {
-    defaultNavigationOptions: {
-      title: 'Map',
-      headerStyle: {
-        backgroundColor: 'forestgreen',
-      },
-      headerTintColor: '#0F3E15',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-        color: '#fff',
-      },
-    },
-  }
-);
+//   },
+//   {
+//     defaultNavigationOptions: {
+//       title: 'Map',
+//       headerStyle: {
+//         backgroundColor: 'forestgreen',
+//       },
+//       headerTintColor: '#0F3E15',
+//       headerTitleStyle: {
+//         fontWeight: 'bold',
+//         color: '#fff',
+//       },
+//     },
+//   }
+// );
 
-MapStack.navigationOptions = {
-  tabBarLabel: 'Map',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-globe' : 'md-globe'}
-    />
-  ),
-};
+// MapStack.navigationOptions = {
+//   tabBarLabel: 'Map',
+//   tabBarIcon: ({ focused }) => (
+//     <TabBarIcon
+//       focused={focused}
+//       name={Platform.OS === 'ios' ? 'ios-globe' : 'md-globe'}
+//     />
+//   ),
+// };
 
-MapStack.path = '';
+// MapStack.path = '';
 
 const ScheduleStack = createStackNavigator(
   {
     Home: ScheduleScreen,
+    Map: MapScreen
   },
   {
     defaultNavigationOptions: {
@@ -229,7 +230,7 @@ const tabNavigator = createBottomTabNavigator({
   HomeStack,
   RunTabStack,
   NotificationsStack,
-  MapStack,
+  // MapStack,
   ScheduleStack,
   MessageStack,
 });

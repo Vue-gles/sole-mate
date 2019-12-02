@@ -65,6 +65,13 @@ class HomeScreen extends Component {
                   color={'white'}
                 />
               </View>
+              <View style={styles.btnContainer}>
+                <Button
+                  title="Map Now"
+                  onPress={() => this.props.navigation.navigate('Map')}
+                  color={'white'}
+                />
+              </View>
               <Button
                 title="My Profile"
                 onPress={() => this.props.navigation.navigate('Profile')}
@@ -74,6 +81,11 @@ class HomeScreen extends Component {
               <Button
                 title="Sign Out"
                 onPress={this._signOutAsync}
+                color={'#124D1A'}
+              />
+              <Button
+                title="Map"
+                onPress={() => this.props.navigation.navigate('Map')}
                 color={'#124D1A'}
               />
             </View>
