@@ -62,13 +62,13 @@ class MapScreen extends Component {
 
     this.state = {
       name: '',
-      latitude: 40.7128,
-      longitude: -74.006,
+      latitude: 40.27177,
+      longitude: -74.594883,
       distance: 0,
       error: null,
       markers: [],
-      currentLat: 40.7128,
-      currentLng: -74.006,
+      currentLat: 40.27177,
+      currentLng: -74.594883,
       coordinates: data,
       startButtonDisabled: false,
       stopButtonDisabled: true,
@@ -79,29 +79,8 @@ class MapScreen extends Component {
     this.handler = this.handler.bind(this);
   }
 
+ 
 
-  componentDidMount() {
-    navigator.geolocation.watchPosition(
-      position => {
-        this.setState({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          currentLat: position.coords.latitude,
-          currentLng: position.coords.longitude,
-          coordinates: [
-            ...this.state.coordinates,
-            {
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-            },
-          ],
-          error: null,
-        });
-      },
-      error => this.setState({ error: error.message }),
-      { enableHighAccuracy: true, timeout: 200000, maximumAge: 1000 }
-    );
-  }
 
   handler(name, lat, lng) {
     this.state.handlerEnabled = true;
@@ -112,18 +91,11 @@ class MapScreen extends Component {
     const notRenderDirection =
       this.state.latitude == 0 || this.state.coordinates.length == 0;
 
-    let searchedRegion = this.state.handlerEnabled
-      ? {
-          latitude: this.state.latitude,
-          longitude: this.state.longitude,
-          latitudeDelta: 0.011,
-          longitudeDelta: 0.011,
-        }
-      : {
+    let searchedRegion =  {
           latitude: this.state.currentLat,
           longitude: this.state.currentLng,
-          latitudeDelta: 0.011,
-          longitudeDelta: 0.011,
+          latitudeDelta: 0.016,
+          longitudeDelta: 0.016,
         };
 
     return (
