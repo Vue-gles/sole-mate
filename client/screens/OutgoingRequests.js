@@ -29,59 +29,53 @@ class OutgoingRequests extends React.Component {
     this.props.getOutgoing();
   }
   render() {
-    return (
+    return this.props.notifications.length > 0 ? (
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
-          {this.props.notifications && this.props.notifications.length ? (
-            this.props.notifications.map(notification => {
-              return (
-                <View
-                  style={styles.notification}
-                  key={`${notification.requesterId}${notification.runId}`}
-                >
-                  <Image
-                    source={{
-                      uri: notification.run.Creator.imageUrl,
-                    }}
-                    style={styles.runImage}
-                  />
-                  {notification.status === 'pending' ? (
-                    <Text style={styles.status}>
-                      {notification.run.Creator.firstName}{' '}
-                      {notification.run.Creator.lastName} hasn't responded to
-                      your request to run on{' '}
-                      {moment(notification.run.startTimeframe).format(
-                        'MMMM Do'
-                      )}
-                    </Text>
-                  ) : notification.status === 'accepted' ? (
-                    <Text style={styles.status}>
-                      {notification.run.Creator.firstName}{' '}
-                      {notification.run.Creator.lastName} accepted your request
-                      to run on{' '}
-                      {moment(notification.run.startTimeframe).format(
-                        'MMMM Do'
-                      )}
-                    </Text>
-                  ) : (
-                    <Text style={styles.status}>
-                      {notification.run.Creator.firstName}{' '}
-                      {notification.run.Creator.lastName} isn't available to run
-                      on{' '}
-                      {moment(notification.run.startTimeframe).format(
-                        'MMMM Do'
-                      )}
-                    </Text>
-                  )}
-                </View>
-              );
-            })
-          ) : (
-            <View style={styles.notification}>
-              <Text>No outgoing notifications</Text>
-            </View>
-          )}
+          {this.props.notifications.map(notification => {
+            return (
+              <View
+                style={styles.notification}
+                key={`${notification.requesterId}${notification.runId}`}
+              >
+                <Image
+                  source={{
+                    uri: notification.run.Creator.imageUrl,
+                  }}
+                  style={styles.runImage}
+                />
+                {notification.status === 'pending' ? (
+                  <Text style={styles.status}>
+                    {notification.run.Creator.firstName}{' '}
+                    {notification.run.Creator.lastName} hasn't responded to your
+                    request to run on{' '}
+                    {moment(notification.run.startTimeframe).format('MMMM Do')}
+                  </Text>
+                ) : notification.status === 'accepted' ? (
+                  <Text style={styles.status}>
+                    {notification.run.Creator.firstName}{' '}
+                    {notification.run.Creator.lastName} accepted your request to
+                    run on{' '}
+                    {moment(notification.run.startTimeframe).format('MMMM Do')}
+                  </Text>
+                ) : (
+                  <Text style={styles.status}>
+                    {notification.run.Creator.firstName}{' '}
+                    {notification.run.Creator.lastName} isn't available to run
+                    on{' '}
+                    {moment(notification.run.startTimeframe).format('MMMM Do')}
+                  </Text>
+                )}
+              </View>
+            );
+          })}
         </ScrollView>
+      </SafeAreaView>
+    ) : (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.notification}>
+          <Text style={styles.none}>No outgoing notifications</Text>
+        </View>
       </SafeAreaView>
     );
   }
@@ -110,6 +104,11 @@ const styles = StyleSheet.create({
     marginLeft: -10,
     borderRadius: 60 / 2,
     overflow: 'hidden',
+  },
+  none: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#303731',
   },
 });
 
