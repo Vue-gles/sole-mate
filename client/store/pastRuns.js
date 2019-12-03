@@ -10,11 +10,10 @@ const gotPastRuns = pastRuns => ({
   pastRuns,
 });
 
-const savedRun = run => {
-  {
-    type: SAVED_RUN, run;
-  }
-};
+const savedRun = run => ({
+  type: SAVED_RUN,
+  run,
+});
 
 // THUNK CREATORS
 export const getPastRunsThunk = type => async dispatch => {
@@ -50,13 +49,7 @@ export default pastRuns = (state = [], action) => {
     case GOT_PAST_RUNS:
       return action.pastRuns;
     case SAVED_RUN:
-      return state.map(run => {
-        if (run.id === action.run.id) {
-          return action.run;
-        } else {
-          return run;
-        }
-      });
+      return [...state, action.run];
     default:
       return state;
   }

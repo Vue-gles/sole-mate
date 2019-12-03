@@ -33,6 +33,8 @@ class SignInScreen extends React.Component {
   }
 
   submitHandler = async () => {
+    if (this.state.email === '') alert('Please enter an email');
+    if (this.state.password === '') alert('Please enter a password');
     if (this.state.email && this.state.password) {
       const inputs = {
         email: this.state.email,
@@ -48,7 +50,12 @@ class SignInScreen extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        keyboardVerticalOffset={64}
+        behavior="padding"
+        enabled
+      >
         <SafeAreaView style={styles.container}>
           <View style={styles.inner}>
             <Text style={styles.brandName}>SoleMate</Text>
