@@ -28,7 +28,7 @@ class ProfileForm extends React.Component {
     super(props);
     this.state = {
       email: this.props.user.email,
-      password: '',
+      // password: '',
       firstName:this.props.user.firstName,
       lastName:this.props.user.lastName,
       defaultAddress:this.props.user.defaultAddress,
@@ -46,14 +46,15 @@ class ProfileForm extends React.Component {
 
   
   submitHandler = async () => {
-    if (this.state.email && this.state.password
+    if (this.state.email
+      //  && this.state.password
       && this.state.firstName && this.state.lastName
       && this.state.defaultAddress && this.state.imageUrl
       && this.state.avgPace && this.state.avgPace
       && this.state.goal && this.state.bio) {
       const inputs = {
         email: this.state.email,
-        password: this.state.password,
+        // password: this.state.password,
         firstName: this.state.firstName,
         lastName: this.state.lastName,
         defaultAddress: this.state.defaultAddress,
@@ -81,24 +82,23 @@ class ProfileForm extends React.Component {
             <Image
               source={{
                 uri:
-                  'https://p7.hiclipart.com/preview/751/476/837/running-silhouette-clip-art-silhouette.jpg',
+                this.props.user.imageUrl,
               }}
               style={styles.welcomeImage}
             />
-            <Text style={styles.getStartedText}>Sole-Mate</Text>
-            <Text style={styles.getStartedText}>Edit Profile</Text>
+            <Text style={styles.name}>Edit Profile</Text>
             <TextInput
               value={this.state.email}
-              onChangeText={email => this.setState({ email })}
+              onChangeText={email => this.setState({ email:email.toLowerCase() })}
               placeholder={'Email'}
               style={styles.input}
             />
-            <TextInput
+            {/* <TextInput
               value={this.state.password}
               onChangeText={password => this.setState({ password })}
               placeholder={'Password'}
               style={styles.input}
-            />
+            /> */}
             <TextInput
               value={this.state.firstName}
               onChangeText={firstName => this.setState({ firstName })}
@@ -142,7 +142,7 @@ class ProfileForm extends React.Component {
               placeholder={'Goal'}
               style={styles.input}
             /> */}
-            <Text>Choose a goal:</Text>
+            <Text style={styles.details}>Choose a goal:</Text>
             <Picker
               selectedValue={this.state.goal}
               style={{ width: 80}}
@@ -160,8 +160,8 @@ class ProfileForm extends React.Component {
               placeholder={'Biography'}
               style={styles.input}
             />
-            <Button title="Update" onPress={this.submitHandler} />
-            <Button title="Go Back to Home Screen" onPress={() => navigate('AuthLoading')} />
+            <Button title="Update" color={'#0F3E15'} onPress={this.submitHandler} />
+            <Button title="Go Back to Home Screen"  color={'#0F3E15'} onPress={() => navigate('AuthLoading')} />
             {this.props.error && this.props.error.response && (
               <Text style={styles.error}>
                 {' '}
@@ -184,6 +184,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingTop: 100,
   },
+  name: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: '#0F3E15',
+  },
+  details: {
+    fontSize: 20,
+    color: '#525E54',
+  },
   input: {
     width: 200,
     height: 44,
@@ -195,11 +204,14 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   welcomeImage: {
-    width: 100,
-    height: 80,
+    width: 200,
+    height: 200,
     resizeMode: 'contain',
     marginTop: 3,
     marginLeft: -10,
+    borderRadius: 100 / 2,
+    overflow: 'hidden',
+    padding: '14%',
   },
   error: {
     color: `#eb4034`,

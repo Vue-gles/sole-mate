@@ -78,7 +78,6 @@ class SignUpRunForm extends React.Component {
   };
 
   render() {
-      console.log(typeof this.state.avgMileage)
     const { navigate } = this.props.navigation;
     return (
       <ScrollView>
@@ -94,14 +93,13 @@ class SignUpRunForm extends React.Component {
               }}
               style={styles.welcomeImage}
             />
-            <Text style={styles.getStartedText}>Sole-Mate</Text>
-            <Text style={styles.getStartedText}>Sign Up</Text>
-            <Text>Email From last page:{this.state.email}</Text>
+            <Text style={styles.name}>Enter Your Stats</Text>
+            {/* <Text>Email From last page:{this.state.email}</Text>
             <Text>password From last page:{this.state.password}</Text>
             <Text>firstName From last page:{this.state.firstName}</Text>
             <Text>lastName From last page:{this.state.lastName}</Text>
             <Text>defaultAddress From last page:{this.state.defaultAddress}</Text>
-            <Text>imageUrl From last page:{this.state.imageUrl}</Text>
+            <Text>imageUrl From last page:{this.state.imageUrl}</Text> */}
             <TextInput
               value={this.state.avgPace}
               onChangeText={avgPace => this.setState({ avgPace })}
@@ -136,10 +134,11 @@ class SignUpRunForm extends React.Component {
               placeholder={'Biography'}
               style={styles.input}
             />
-            <Button title="Sign Up" onPress={this.submitHandler} />
+            <Button title="Sign Up" color={'#0F3E15'} onPress={this.submitHandler} />
             <Button
               title="Go Back to Login Screen"
               onPress={() => navigate('AuthLoading')}
+              color={'#0F3E15'}
             />
             {this.props.error && this.props.error.response && (
               <Text style={styles.error}>
@@ -162,6 +161,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: 100,
+  },
+  name: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#303731',
+  },
+  details: {
+    color: '#525E54',
+  },
+  welcomeImage: {
+    width: 100,
+    height: 100,
+    resizeMode: 'contain',
+    marginTop: 3,
+    marginLeft: -10,
+    borderRadius: 100 / 2,
+    overflow: 'hidden',
+    padding: '14%',
   },
   input: {
     width: 200,
