@@ -15,8 +15,8 @@ export default  PlacesAutoComplete = (props) => {
     },
   }
   navigator.geolocation.getCurrentPosition(position => {
-    currentLocation.geometry.location.lat = position.lattitude
-    currentLocation.geometry.location.lng = position.longitude
+    currentLocation.geometry.location.lat = position.coords.latitude
+    currentLocation.geometry.location.lng = position.coords.longitude
   })
     return (
         <GooglePlacesAutocomplete

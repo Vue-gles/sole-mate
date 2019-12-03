@@ -68,6 +68,7 @@ class RunForm extends Component {
     const street = address[0].slice(1, address[0].length);
     const city = address[1];
     const state = address[2];
+    console.log(lattitude, longitude, address)
 
     this.setState({ lattitude, longitude, street, city, state });
   }
@@ -83,6 +84,7 @@ class RunForm extends Component {
           <Text style={styles.header}>Create a run for others to see</Text>
           <View style={styles.item}>
             <Text style={styles.text}>Where would you like to start?</Text>
+            <PlacesAutocomplete locationHandler={this.locationHandler} />
           </View>
           <View style={styles.item}>
             <Text>How many miles would you like to run?</Text>
@@ -96,7 +98,6 @@ class RunForm extends Component {
               })}
             />
           </View>
-          <PlacesAutocomplete locationHandler={this.locationHandler} />
 
           <View style={styles.item}>
             <Button
