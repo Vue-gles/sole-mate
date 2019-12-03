@@ -298,37 +298,6 @@ const messages = [
   },
 ];
 
-async function seed() {
-  try {
-    await db.sync({ force: true });
-    console.log('db synced!');
-    await User.bulkCreate(users, { ignoreDuplicates: true });
-    await Run.bulkCreate(runs, { ignoreDuplicates: true });
-    await Request.bulkCreate(requests);
-    await Message.bulkCreate(messages);
-  } catch (error) {
-    console.log('error:', error);
-  }
-  console.log(`seeded successfully`);
-}
-
-// We've separated the `seed` function from the `runSeed` function.
-// This way we can isolate the error handling and exit trapping.
-// The `seed` function is concerned only with modifying the database.
-async function runSeed() {
-  console.log('seeding...');
-  try {
-    await seed({ force: true });
-  } catch (err) {
-    console.error(err);
-    process.exitCode = 1;
-    // } finally {
-    //   console.log('closing db connection');
-    //   await db.close();
-    //   console.log('db connection closed');
-    // }
-  }
-}
 async function updateRuns() {
   try {
     const allRuns = await Run.findAll();
@@ -358,6 +327,40 @@ async function updateRuns() {
     console.error('UPDATING ERROR WAS:>> ', error);
   }
 }
+
+async function seed() {
+  try {
+    await db.sync({ force: true });
+    console.log('db synced!');
+    await User.bulkCreate(users, { ignoreDuplicates: true });
+    await Run.bulkCreate(runs, { ignoreDuplicates: true });
+    await Request.bulkCreate(requests);
+    await Message.bulkCreate(messages);
+    await updateRuns()
+  } catch (error) {
+    console.log('error:', error);
+  }
+  console.log(`seeded successfully`);
+}
+
+// We've separated the `seed` function from the `runSeed` function.
+// This way we can isolate the error handling and exit trapping.
+// The `seed` function is concerned only with modifying the database.
+async function runSeed() {
+  console.log('seeding...');
+  try {
+    await seed({ force: true });
+  } catch (err) {
+    console.error(err);
+    process.exitCode = 1;
+    // } finally {
+    //   console.log('closing db connection');
+    //   await db.close();
+    //   console.log('db connection closed');
+    // }
+  }
+}
+
 
 // Execute the `seed` function, IF we ran this module directly (`node seed`).
 // `Async` functions always return a promise, so we can use `catch` to handle

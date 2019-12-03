@@ -8,6 +8,7 @@ import {
   Picker,
   SafeAreaView,
   TouchableOpacity,
+  Alert
 } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import RNPickerSelect from 'react-native-picker-select';
@@ -19,6 +20,7 @@ import { connect } from 'react-redux';
 import Constants from 'expo-constants';
 import { createRunThunk } from '../store/runs';
 import PlacesAutocomplete from '../components/PlacesAutocomplete';
+import {getUpcomingRunsThunk} from '../store/upcomingRuns'
 
 class RunForm extends Component {
   constructor(props) {
@@ -83,8 +85,15 @@ class RunForm extends Component {
     this.setState({ lattitude, longitude, street, city, state });
   }
 
-  submitHandler() {
-    this.props.createRun(this.state);
+  async submitHandler() {
+    if (!this.state.state || !this.state.startTime || !this.state.endTime) {
+      Alert.alert('Must fill out all of the above before moving on')
+    } else {
+      await this.props.createRun(this.state);
+      await this.props.getUpcomingRuns('upcoming')
+      this.props.navigation.navigate('ScheduleStack')
+    }
+    
   }
 
   render() {
@@ -204,7 +213,6 @@ class RunForm extends Component {
     //   </SafeAreaView>
     // );
 
-
     return (
       <View style={styles.container}>
         <ScrollView
@@ -305,7 +313,9 @@ class RunForm extends Component {
           <TouchableOpacity style={styles.button}
             onPress={() => {
               this.setState({ creatorId: this.props.userId });
-              this.submitHandler()}}>
+              this.submitHandler()
+              }
+              }>
                 <Text>Submit run!</Text>
           </TouchableOpacity>
 
@@ -318,6 +328,7 @@ class RunForm extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     createRun: runInfo => dispatch(createRunThunk(runInfo)),
+    getUpcomingRuns: () => dispatch(getUpcomingRunsThunk())
   };
 };
 
