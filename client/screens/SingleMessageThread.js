@@ -29,7 +29,7 @@ class SingleMessageThread extends React.Component {
       content: '',
     };
     this.submitHandler = this.submitHandler.bind(this);
-    console.log('Single MessageThread View -------------------->');
+
   }
   static navigationOptions = ({ navigation }) => {
     return {
@@ -47,7 +47,7 @@ class SingleMessageThread extends React.Component {
   }
 
   submitHandler = async () => {
-    console.log('this.state', this.state);
+ 
     if (this.state.content) {
       await this.props.sendMessage(this.props.partner.id, this.state.content);
       socket.emit('newMessage', this.props.partner.id);

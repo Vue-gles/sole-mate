@@ -33,7 +33,7 @@ class HomeScreen extends Component {
     }
   };
   render() {
-    console.log('HomeScreen View ------------------->');
+
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>

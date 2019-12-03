@@ -14,6 +14,8 @@ import moment from 'moment';
 import { getSingleRun } from '../store/singleRun';
 
 import { getUpcomingRunsThunk } from '../store/upcomingRuns';
+import { getPartner } from '../store/partner';
+
 
 class UpcomingRunsScreen extends React.Component {
   constructor(props) {
@@ -33,6 +35,12 @@ class UpcomingRunsScreen extends React.Component {
   componentDidMount() {
     console.log('COMPONENT MOUNTED');
     this.props.getUpcomingRuns('upcoming');
+    if(this.props.upcomingRuns.partnerId){
+      this.props.getPartner(this.props.upcomingRuns.partnerId);
+      console.log("PARTNERIDDDDDDDDDDDD", this.props.upcomingRuns.partnerId)
+    }else{
+
+    }
   }
   async clickHandler(id) {
     await this.props.getSingleRun(id);
@@ -40,10 +48,17 @@ class UpcomingRunsScreen extends React.Component {
   }
 
   render() {
-    // console.log('Upcoming Runs ------------->');
-    // console.log('UPCOMING RUNS PROPS', this.props);
+        // if(this.props.upcomingRuns.Partner !== undefined) {
+    //   //you are running with partner and show partner info
+    // }
+    // else if (this.props.upcomingRuns.Partner === undefined){
+    //   //you are running alone and show your info
+    // }else{
+    //   //NO UpCOMING RUNS TEXT
+    // }
+    
 
-    return this.props.upcomingRuns.length ? (
+    return !this.props.upcomingRuns.partnerId ? (
       <SafeAreaView key={this.state.uniqueValue} style={styles.container}>
         <ScrollView style={styles.scrollView}>
           {this.props.upcomingRuns.map(run => {
@@ -51,12 +66,12 @@ class UpcomingRunsScreen extends React.Component {
               <View style={styles.runAd} key={run.id}>
                 <Image
                   source={{
-                    uri: run.Partner.imageUrl,
+                    uri: run.Creator.imageUrl,
                   }}
                   style={styles.runImage}
                 />
                 <Text style={styles.name}>
-                  {run.Partner.firstName} {run.Partner.lastName}
+                  {run.Creator.firstName} {run.Creator.lastName}
                 </Text>
                 <Text style={styles.details}>
                   {run.prefferedMileage} mile(s)
@@ -133,6 +148,7 @@ const mapDispatch = dispatch => {
   return {
     getUpcomingRuns: type => dispatch(getUpcomingRunsThunk(type)),
     getSingleRun: id => dispatch(getSingleRun(id)),
+    getPartner: id => dispatch(getPartner(id))
   };
 };
 

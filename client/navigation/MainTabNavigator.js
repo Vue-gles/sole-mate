@@ -33,7 +33,9 @@ const HomeStack = createStackNavigator(
     Profile:ProfileScreen,
     ProfileForm:ProfileForm,
     RunForm: RunForm,
-    RunNowForm: RunNowForm
+    RunNowForm: RunNowForm,
+    RunResults: RunResultsScreen,
+    SingleRun: SingleRunScreen,
   },
   {
     initialRouteName: 'Home',
@@ -62,39 +64,6 @@ HomeStack.navigationOptions = {
 };
 
 HomeStack.path = '';
-
-const RunTabStack = createStackNavigator(
-  {
-    RunResults: RunResultsScreen,
-    SingleRun: SingleRunScreen,
-  },
-  {
-    initialRouteName: 'RunResults',
-    defaultNavigationOptions: {
-      title: 'Runs',
-      headerStyle: {
-        backgroundColor: 'forestgreen',
-      },
-      headerTintColor: '#0F3E15',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-        color: '#fff',
-      },
-    },
-  }
-);
-
-RunTabStack.navigationOptions = {
-  tabBarLabel: 'Runs',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-walk' : 'md-walk'}
-    />
-  ),
-};
-
-RunTabStack.path = '';
 
 const NotificationsStack = createStackNavigator(
   {
@@ -127,43 +96,11 @@ NotificationsStack.navigationOptions = {
 
 NotificationsStack.path = '';
 
-const MapStack = createStackNavigator(
-  {
-    Schedule: ScheduleScreen,
-    Map: MapScreen
-    
-  },
-  {
-    defaultNavigationOptions: {
-      title: 'Map',
-      headerStyle: {
-        backgroundColor: 'forestgreen',
-      },
-      headerTintColor: '#0F3E15',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-        color: '#fff',
-      },
-    },
-  }
-);
-
-MapStack.navigationOptions = {
-  tabBarLabel: 'Map',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-globe' : 'md-globe'}
-    />
-  ),
-};
-
-MapStack.path = '';
-
 const ScheduleStack = createStackNavigator(
   {
     Home: ScheduleScreen,
-    PastRouteMap:  PastRouteMap
+    PastRouteMap:  PastRouteMap,
+    Map: MapScreen
   },
   {
     defaultNavigationOptions: {
@@ -229,9 +166,7 @@ MessageStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
-  RunTabStack,
   NotificationsStack,
-  MapStack,
   ScheduleStack,
   MessageStack,
 });

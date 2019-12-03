@@ -24,6 +24,7 @@ router.get('/', isUser, async (req, res, next) => {
     if (type === 'upcoming') runs = await Run.getUpcomingRuns(req.user.id);
     if (type === 'past') runs = await Run.getPastRuns(req.user.id);
     if (runs) {
+
       res.send(runs);
     } else {
       res.status(404).send(`Couldn't find any runs`);

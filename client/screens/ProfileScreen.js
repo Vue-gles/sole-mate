@@ -31,7 +31,7 @@ class ProfileScreen extends React.Component {
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
           <View style={styles.container}>
-          <Text style={styles.getStartedText}>Your Profile</Text>
+          <Text style={styles.name}>Your Profile</Text>
             <Image
               source={{
                 uri:
@@ -39,13 +39,14 @@ class ProfileScreen extends React.Component {
               }}
               style={styles.welcomeImage}
             />
-            <Text style={styles.getStartedText}>{this.props.user.firstName} {this.props.user.lastName}</Text>
-            <Text style={styles.getStartedText}>Address: {this.props.user.defaultAddress}</Text>
-            <Text style={styles.getStartedText}>Average Pace: {this.props.user.avgPace}</Text>
-            <Text style={styles.getStartedText}>Average Mileage: {this.props.user.avgMileage}</Text>
-            <Text style={styles.getStartedText}>Goal: {this.props.user.goal}</Text>
-            <Text style={styles.getStartedText}>Bio: {this.props.user.bio}</Text>
-            <Button title="Edit Profile" onPress={() => this.props.navigation.navigate('ProfileForm')} />
+            <Text style={styles.name}>{this.props.user.firstName} {this.props.user.lastName}</Text>
+            <Text style={styles.details}>Email: {this.props.user.email}</Text>
+            <Text style={styles.details}>Address: {this.props.user.defaultAddress}</Text>
+            <Text style={styles.details}>Average Pace: {this.props.user.avgPace}</Text>
+            <Text style={styles.details}>Average Mileage: {this.props.user.avgMileage}</Text>
+            <Text style={styles.details}>Goal: {this.props.user.goal}</Text>
+            <Text style={styles.details}>Bio: {this.props.user.bio}</Text>
+            <Button title="Edit Profile" color={'#0F3E15'} onPress={() => this.props.navigation.navigate('ProfileForm')} />
 
             {this.props.error && this.props.error.response && (
               <Text style={styles.error}>
@@ -67,6 +68,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingTop: 100,
   },
+  name: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#303731',
+  },
+  details: {
+    color: '#525E54',
+  },
   input: {
     width: 200,
     height: 44,
@@ -78,11 +87,14 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   welcomeImage: {
-    width: 100,
-    height: 80,
+    width: 200,
+    height: 200,
     resizeMode: 'contain',
     marginTop: 3,
     marginLeft: -10,
+    borderRadius: 100 / 2,
+    overflow: 'hidden',
+    padding: '14%',
   },
   error: {
     color: `#eb4034`,

@@ -68,8 +68,6 @@ class SignUpNameForm extends React.Component {
 
   render() {
     const { navigate } = this.props.navigation;
-    const { navigation } = this.props;
-
     return (
       <ScrollView>
        <View style={styles.container}>
@@ -84,10 +82,7 @@ class SignUpNameForm extends React.Component {
               }}
               style={styles.welcomeImage}
             />
-            <Text style={styles.getStartedText}>Sole-Mate</Text>
-            <Text style={styles.getStartedText}>Sign Up</Text>
-            <Text>Email From last page:{this.state.email}</Text>
-            <Text>password From last page:{this.state.password}</Text>
+            <Text style={styles.name}>Sign Up</Text>
             <TextInput
               value={this.state.firstName}
               onChangeText={firstName => this.setState({ firstName })}
@@ -115,10 +110,12 @@ class SignUpNameForm extends React.Component {
             <Button
               title="Next"
               onPress={this.submitHandler}
+              color={'#0F3E15'}
             />
             <Button
               title="Go Back to Login Screen"
               onPress={() => navigate('AuthLoading')}
+              color={'#0F3E15'}
             />
             {this.props.error && this.props.error.response && (
               <Text style={styles.error}>
@@ -141,6 +138,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: 100,
+  },
+  name: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#303731',
+  },
+  details: {
+    color: '#525E54',
+  },
+  welcomeImage: {
+    width: 100,
+    height: 100,
+    resizeMode: 'contain',
+    marginTop: 3,
+    marginLeft: -10,
+    borderRadius: 100 / 2,
+    overflow: 'hidden',
+    padding: '14%',
   },
   input: {
     width: 200,
