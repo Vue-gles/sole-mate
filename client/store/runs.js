@@ -37,42 +37,6 @@ export const getRuns = (type, maxDistance, lat, long) => async dispatch => {
   }
 };
 
-export const createRunThunk = runInfo => {
-  return async dispatch => {
-    try {
-      const {
-        street,
-        city,
-        state,
-        country,
-        lattitude,
-        longitude,
-        endTime,
-        startTime,
-        prefferedMileage,
-        date,
-        creatorId,
-      } = runInfo;
-      const { data } = await axios.post(
-        `${process.env.BACKEND_HOST}/api/runs`,
-        {
-          street,
-          city,
-          state,
-          lat: lattitude,
-          long: longitude,
-          startTimeframe: startTime,
-          endTimeframe: endTime,
-          prefferedMileage,
-        }
-      );
-      dispatch(madeNewRun(data));
-    } catch (err) {
-      console.log('Error:', err);
-    }
-  };
-};
-
 // REDUCER
 export default runs = (state = [], action) => {
   switch (action.type) {

@@ -11,10 +11,10 @@ const gotUpcomingRuns = upcomingRuns => ({
   upcomingRuns,
 });
 
-const gotNewUpcomingRun = newRun => {
+const gotNewUpcomingRun = newRun => ({
   type: GOT_NEW_UPCOMING_RUN,
   newRun
-}
+})
 
 export const completeRun = runId => ({
   type: COMPLETE_RUN,
@@ -29,6 +29,7 @@ export const getUpcomingRunsThunk = type => async dispatch => {
       `${process.env.BACKEND_HOST}/api/runs?type=${type}`
     );
     dispatch(gotUpcomingRuns(data));
+    console.log('Thunk worked!')
   } catch (err) {
     console.log('Error:', err);
   }
