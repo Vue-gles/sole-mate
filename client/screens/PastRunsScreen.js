@@ -46,7 +46,11 @@ class PastRunsScreen extends React.Component {
             return (
               <TouchableWithoutFeedback
                 key={run.id}
-                onPress={() => this.goToMapView(run)}
+                onPress={() => {
+                  if (run.route) {
+                    this.goToMapView(run);
+                  }
+                }}
               >
                 <View style={styles.runAd}>
                   <Image
