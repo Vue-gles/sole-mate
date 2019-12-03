@@ -328,7 +328,7 @@ class RunForm extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     createRun: runInfo => dispatch(createRunThunk(runInfo)),
-    getUpcomingRuns: () => dispatch(getUpcomingRunsThunk())
+    getUpcomingRuns: (type) => dispatch(getUpcomingRunsThunk(type))
   };
 };
 
