@@ -15,6 +15,9 @@ import {
   View,
   Picker,
 } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+import Constants from 'expo-constants';
+import * as Permissions from 'expo-permissions';
 import { connect } from 'react-redux';
 
 import { auth } from '../store/user';
@@ -28,7 +31,6 @@ class ProfileForm extends React.Component {
     super(props);
     this.state = {
       email: this.props.user.email,
-      // password: '',
       firstName: this.props.user.firstName,
       lastName: this.props.user.lastName,
       defaultAddress: this.props.user.defaultAddress,
@@ -44,10 +46,35 @@ class ProfileForm extends React.Component {
     title: 'Edit Profile',
   };
 
+  componentDidMount() {
+    this.getPermissionAsync();
+  }
+
+  getPermissionAsync = async () => {
+    if (Constants.platform.ios) {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      if (status !== 'granted') {
+        alert('Sorry, we need camera roll permissions to make this work!');
+      }
+    }
+  };
+
+  _pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    console.log(result);
+    if (!result.cancelled) {
+      this.setState({ imageUrl: result.uri });
+    }
+  };
+
   submitHandler = async () => {
     if (
       this.state.email &&
-      //  && this.state.password
       this.state.firstName &&
       this.state.lastName &&
       this.state.defaultAddress &&
@@ -59,7 +86,6 @@ class ProfileForm extends React.Component {
     ) {
       const inputs = {
         email: this.state.email,
-        // password: this.state.password,
         firstName: this.state.firstName,
         lastName: this.state.lastName,
         defaultAddress: this.state.defaultAddress,
@@ -85,10 +111,23 @@ class ProfileForm extends React.Component {
               {/* <Button title="Go Back to Login Screen" onPress={() => navigate('AuthLoading')} /> */}
               <Image
                 source={{
-                  uri: this.props.user.imageUrl,
+                  uri: this.state.imageUrl,
                 }}
                 style={styles.welcomeImage}
               />
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <Button
+                  color={'#0F3E15'}
+                  title="Change Profile Picture"
+                  onPress={this._pickImage}
+                />
+              </View>
 
               <Text style={styles.details}>Email:</Text>
               <TextInput
@@ -99,12 +138,6 @@ class ProfileForm extends React.Component {
                 placeholder={'Email'}
                 style={styles.input}
               />
-              {/* <TextInput
-              value={this.state.password}
-              onChangeText={password => this.setState({ password })}
-              placeholder={'Password'}
-              style={styles.input}
-            /> */}
 
               <Text style={styles.details}>First Name:</Text>
               <TextInput
@@ -129,14 +162,6 @@ class ProfileForm extends React.Component {
                   this.setState({ defaultAddress })
                 }
                 placeholder={'Address'}
-                style={styles.input}
-              />
-
-              <Text style={styles.details}>Profile Picture:</Text>
-              <TextInput
-                value={this.state.imageUrl}
-                onChangeText={imageUrl => this.setState({ imageUrl })}
-                placeholder={'Image Url'}
                 style={styles.input}
               />
 
@@ -225,11 +250,8 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     resizeMode: 'contain',
-    marginTop: 3,
-    marginLeft: -10,
     borderRadius: 200 / 2,
     overflow: 'hidden',
-    padding: '14%',
   },
   btnContainer: {
     backgroundColor: '#124D1A',
