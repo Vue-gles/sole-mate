@@ -7,6 +7,8 @@ import { connect } from 'react-redux';
 import { completeRun } from '../store/upcomingRuns';
 import { saveRun } from '../store/pastRuns';
 
+import socket from '../socket/index';
+
 const circleColor = 'rgba(204, 255, 255, 0.2)';
 const circle2Color = 'rgba(225, 204, 153, 0.5)';
 const radius_1 = 0.5 * 1609.34; // meters
@@ -118,8 +120,11 @@ class MapScreen extends Component {
     let loc = null;
     navigator.geolocation.watchPosition(
       position => {
-        loc = {latitude: position.coords.latitude, longitude: position.coords.longitude}
-        let distance = 0
+        loc = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        };
+        let distance = 0;
         if (this.state.coordinates.length > 0) {
           distance =
             getDistance(
@@ -183,11 +188,14 @@ class MapScreen extends Component {
   }
 
   saveTracking() {
-    dataIndex = -1
-    const runId = this.props.currentRun.id
-    const distance = this.state.distance.toFixed(2)
-    this.props.saveRun(runId, JSON.stringify(this.state.coordinates),distance)
-    this.props.completeRun(runId)
+    dataIndex = -1;
+    const runId = this.props.currentRun.id;
+    const distance = this.state.distance.toFixed(2);
+    const coords = JSON.stringify(this.state.coordinates);
+    this.props.saveRun(runId, coords, distance);
+    this.props.completeRun(runId);
+    const payload = { runId, coords, distance };
+    socket.emit('completeRun', payload);
     this.setState({
       coordinates: [],
       distance: 0,
@@ -225,7 +233,7 @@ class MapScreen extends Component {
   }
   handler(name, lat, lng) {
     this.state.handlerEnabled = true;
-    this.setState({name: name, latitude: lat, longitude: lng})
+    this.setState({ name: name, latitude: lat, longitude: lng });
   }
   handlePress(evt) {
     this.setState({
@@ -239,23 +247,23 @@ class MapScreen extends Component {
   }
 
   render() {
-    const notRenderDirection = this.state.latitude == 0 || this.state.coordinates.length == 0
+    const notRenderDirection =
+      this.state.latitude == 0 || this.state.coordinates.length == 0;
 
-  let searchedRegion = this.state.handlerEnabled ? {
-        latitude: this.state.latitude,
-        longitude: this.state.longitude,
-        latitudeDelta: 0.0110,
-        longitudeDelta: 0.0110
-  } :
-    
-      {
-        latitude: this.state.currentLat,
-        longitude: this.state.currentLng,
-        latitudeDelta: 0.0110,
-        longitudeDelta: 0.0110
-      }
-    
-  
+    let searchedRegion = this.state.handlerEnabled
+      ? {
+          latitude: this.state.latitude,
+          longitude: this.state.longitude,
+          latitudeDelta: 0.011,
+          longitudeDelta: 0.011,
+        }
+      : {
+          latitude: this.state.currentLat,
+          longitude: this.state.currentLng,
+          latitudeDelta: 0.011,
+          longitudeDelta: 0.011,
+        };
+
     return (
       <View style={styles.container}>
         <MapView
@@ -283,35 +291,53 @@ class MapScreen extends Component {
           />
           {this.state.handlerEnabled === false}
           {/* bigger circle must be rendered frist */}
-        <Circle
-          ref={ref => {
-            this.circle2 = ref;
-          }}
-          center={{latitude: this.state.currentLat, longitude: this.state.currentLng}}
-          radius={radius_2}
-          fillColor={circle2Color}
-        />
-        <Circle
-          ref={ref => {
-            this.circle = ref;
-          }}
-          center={{latitude: this.state.currentLat, longitude: this.state.currentLng}}
-          radius={radius_1}
-          fillColor={circleColor}
-        />
-        <Marker pinColor = 'green' coordinate={{latitude: this.state.latitude, longitude: this.state.longitude}} />
-        {this.state.markers.map((marker) => {
-          return <Marker key = {marker.coordinate.latitude * marker.coordinate.longitude/3.14159265358979323} {...marker} />
-        })}
-        {
-        notRenderDirection ? null :
-        <Polyline
-          coordinates= {this.state.coordinates}
-          strokeColor="dodgerblue"
-          strokeWidth={5}
-        />
-        }
-
+          <Circle
+            ref={ref => {
+              this.circle2 = ref;
+            }}
+            center={{
+              latitude: this.state.currentLat,
+              longitude: this.state.currentLng,
+            }}
+            radius={radius_2}
+            fillColor={circle2Color}
+          />
+          <Circle
+            ref={ref => {
+              this.circle = ref;
+            }}
+            center={{
+              latitude: this.state.currentLat,
+              longitude: this.state.currentLng,
+            }}
+            radius={radius_1}
+            fillColor={circleColor}
+          />
+          <Marker
+            pinColor="green"
+            coordinate={{
+              latitude: this.state.latitude,
+              longitude: this.state.longitude,
+            }}
+          />
+          {this.state.markers.map(marker => {
+            return (
+              <Marker
+                key={
+                  (marker.coordinate.latitude * marker.coordinate.longitude) /
+                  3.14159265358979323
+                }
+                {...marker}
+              />
+            );
+          })}
+          {notRenderDirection ? null : (
+            <Polyline
+              coordinates={this.state.coordinates}
+              strokeColor="dodgerblue"
+              strokeWidth={5}
+            />
+          )}
         </MapView>
 
         <View style={styles.rowButtonStyle}>
