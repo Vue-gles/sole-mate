@@ -23,8 +23,8 @@ class RunNowForm extends React.Component {
       street: '',
       city: '',
       state: '',
-      lattitude: 40.7411,
-      longitude: 73.9897,
+      lattitude: 0,
+      longitude: 0,
       maxDistance: 30,
     };
 
