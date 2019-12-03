@@ -71,10 +71,9 @@ export default  PlacesAutoComplete = (props) => {
 
 const styles = StyleSheet.create({
   mapStyle: {
-    height: 15,
     justifyContent: 'flex-start',
     alignItems: 'stretch',
     width: Dimensions.get('window').width,
-    // height: Dimensions.get('window').height/7,
+    height: Dimensions.get('window').height/7,
   }
 })

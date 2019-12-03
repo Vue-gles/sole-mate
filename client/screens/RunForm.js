@@ -175,14 +175,14 @@ class RunForm extends Component {
     //           onPress={this.showEndTimePicker}
     //           style={styles.button}
     //         />
-    //         <DateTimePicker
-    //           mode={'time'}
-    //           isVisible={this.state.isEndTimePickerVisible}
-    //           onConfirm={this.handleEndTimePicked}
-    //           onCancel={this.hideEndTimePicker}
-    //           date={new Date()}
-    //           minuteInterval={30}
-    //         />
+    // <DateTimePicker
+    //   mode={'time'}
+    //   isVisible={this.state.isEndTimePickerVisible}
+    //   onConfirm={this.handleEndTimePicked}
+    //   onCancel={this.hideEndTimePicker}
+    //   date={new Date()}
+    //   minuteInterval={30}
+    // />
     //       </View>
 
     //       <View>
@@ -203,8 +203,9 @@ class RunForm extends Component {
           style={styles.scrollContainer}
           contentContainerStyle={styles.scrollContentContainer}
         >
-
           <View paddingVertical={5} />
+          <PlacesAutocomplete locationHandler={this.locationHandler} />
+          <View paddingVertical={40} />
 
           <Text>Preffered mile amount to run</Text>
 
@@ -258,20 +259,37 @@ class RunForm extends Component {
           />
           <View paddingVertical={10} />
           <View style={styles.dateContainer}>
-          <TouchableOpacity onPress={this.showDateTimePicker} style={styles.button}>
-            <Text>Select a date </Text>
-            <DateTimePicker
-              mode="datetime"
-              minuteInterval={30}
-              isVisible={this.state.isDateTimePickerVisible}
-              onConfirm={this.handleDatePicked}
-              onCancel={this.hideDateTimePicker}
-              minimumDate={new Date()}
-            />
-          </TouchableOpacity>
-          <Text style={styles.dateText}>{moment(this.state.startTime).format('MMM Do YY h:mm')}</Text>
+            <TouchableOpacity
+              onPress={this.showDateTimePicker}
+              style={styles.button}
+            >
+              <Text>Start time & date </Text>
+              <DateTimePicker
+                mode="datetime"
+                minuteInterval={30}
+                isVisible={this.state.isDateTimePickerVisible}
+                onConfirm={this.handleDatePicked}
+                onCancel={this.hideDateTimePicker}
+                minimumDate={new Date()}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={this.showEndTimePicker}
+              style={styles.button}
+            >
+              <Text>End time</Text>
+              <DateTimePicker
+                mode={'time'}
+                isVisible={this.state.isEndTimePickerVisible}
+                onConfirm={this.handleEndTimePicked}
+                onCancel={this.hideEndTimePicker}
+                date={new Date()}
+                minuteInterval={30}
+              />
+            </TouchableOpacity>
           </View>
-
+          <View paddingVertical={20} />
+          <Text>{moment(this.state.startTime).format('MMMM Do YYYY, h:mm a')} to {moment(this.state.endTime).format('h:mm a')}</Text>
         </ScrollView>
       </View>
     );
@@ -307,19 +325,20 @@ const styles = StyleSheet.create({
   dateContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-evenly'
+    justifyContent: 'space-evenly',
   },
   button: {
     flex: 1,
     alignItems: 'center',
     backgroundColor: '#b8af84',
     padding: 10,
-    borderRadius: 10
+    margin: 5,
+    borderRadius: 10,
   },
   dateText: {
     flex: 1,
-    textAlign: 'center'
-  }
+    textAlign: 'center',
+  },
 });
 
 const pickerSelectStyles = StyleSheet.create({
