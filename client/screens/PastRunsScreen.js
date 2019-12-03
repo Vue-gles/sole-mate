@@ -18,7 +18,7 @@ import { getPastRunsThunk } from '../store/pastRuns';
 class PastRunsScreen extends React.Component {
   constructor(props) {
     super(props);
-    console.log()
+    console.log();
   }
 
   componentDidMount() {
@@ -30,9 +30,9 @@ class PastRunsScreen extends React.Component {
     this.props.navigation.navigate('PastRouteMap', {
       runInfo: {
         runRoute: JSON.parse(run.route),
-        distance: run.distance
-      }
-    })
+        distance: run.distance,
+      },
+    });
   }
 
   render() {
@@ -44,8 +44,11 @@ class PastRunsScreen extends React.Component {
         <ScrollView style={styles.scrollView}>
           {this.props.pastRuns.map(run => {
             return (
-              <TouchableWithoutFeedback onPress={() => this.goToMapView(run)}>
-                <View style={styles.runAd} key={run.id}>
+              <TouchableWithoutFeedback
+                key={run.id}
+                onPress={() => this.goToMapView(run)}
+              >
+                <View style={styles.runAd}>
                   <Image
                     source={{
                       uri: run.Creator.imageUrl,

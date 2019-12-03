@@ -28,7 +28,7 @@ class SignUpFormScreen extends React.Component {
     super(props);
     this.state = {
       email: '',
-      password: ''
+      password: '',
     };
   }
 
@@ -37,15 +37,13 @@ class SignUpFormScreen extends React.Component {
   };
 
   submitHandler = async () => {
-    if(this.state.email==='')
-      alert("Please enter an email")
-    if(this.state.password==='')
-      alert("Please enter a password")
+    if (this.state.email === '') alert('Please enter an email');
+    if (this.state.password === '') alert('Please enter a password');
     if (this.state.email && this.state.password) {
-      this.props.navigation.navigate('SignUpName',{
-        email:this.state.email,
-        password:this.state.password
-      })
+      this.props.navigation.navigate('SignUpName', {
+        email: this.state.email,
+        password: this.state.password,
+      });
     }
   };
 
@@ -53,52 +51,51 @@ class SignUpFormScreen extends React.Component {
     const { navigate } = this.props.navigation;
     return (
       <ScrollView>
-       <View style={styles.container}>
-      <SafeAreaView style={styles.container}>
-        {/* <ScrollView style={styles.scrollView}> */}
-          <View style={styles.container}>
-            {/* <Button title="Go Back to Login Screen" onPress={() => navigate('AuthLoading')} /> */}
-            <Image
-              source={{
-                uri:
-                  'https://p7.hiclipart.com/preview/751/476/837/running-silhouette-clip-art-silhouette.jpg',
-              }}
-              style={styles.welcomeImage}
-            />
-            <Text style={styles.getStartedText}>Sole-Mate</Text>
-            <Text style={styles.getStartedText}>Sign Up</Text>
-            <TextInput
-              value={this.state.email}
-              onChangeText={email => this.setState({ email })}
-              placeholder={'Email'}
-              style={styles.input}
-            />
-            <TextInput
-              value={this.state.password}
-              onChangeText={password => this.setState({ password })}
-              placeholder={'Password'}
-              style={styles.input}
-            />
-            
-            <Button
-              title="Next"
-              onPress={this.submitHandler}
-            />
-            <Button
-              title="Go Back to Login Screen"
-              onPress={() => navigate('AuthLoading')}
-            />
-            {this.props.error && this.props.error.response && (
-              <Text style={styles.error}>
-                {' '}
-                {this.props.error.response.data}{' '}
-              </Text>
-            )}
-          </View>
-        {/* </ScrollView> */}
-      </SafeAreaView>
-       </View>
-       </ScrollView>
+        <View style={styles.container}>
+          <SafeAreaView style={styles.container}>
+            {/* <ScrollView style={styles.scrollView}> */}
+            <View style={styles.container}>
+              {/* <Button title="Go Back to Login Screen" onPress={() => navigate('AuthLoading')} /> */}
+              <Image
+                source={{
+                  uri:
+                    'https://p7.hiclipart.com/preview/751/476/837/running-silhouette-clip-art-silhouette.jpg',
+                }}
+                style={styles.welcomeImage}
+              />
+              <Text style={styles.getStartedText}>Sole-Mate</Text>
+              <Text style={styles.getStartedText}>Sign Up</Text>
+              <TextInput
+                value={this.state.email}
+                onChangeText={email =>
+                  this.setState({ email: email.toLowerCase() })
+                }
+                placeholder={'Email'}
+                style={styles.input}
+              />
+              <TextInput
+                value={this.state.password}
+                onChangeText={password => this.setState({ password })}
+                placeholder={'Password'}
+                style={styles.input}
+              />
+
+              <Button title="Next" onPress={this.submitHandler} />
+              <Button
+                title="Go Back to Login Screen"
+                onPress={() => navigate('AuthLoading')}
+              />
+              {this.props.error && this.props.error.response && (
+                <Text style={styles.error}>
+                  {' '}
+                  {this.props.error.response.data}{' '}
+                </Text>
+              )}
+            </View>
+            {/* </ScrollView> */}
+          </SafeAreaView>
+        </View>
+      </ScrollView>
     );
   }
 }
