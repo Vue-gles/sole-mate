@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Text} from 'react-native'
+import {View, Text, StyleSheet, Dimensions} from 'react-native'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import '../../keys'
 
@@ -19,7 +19,7 @@ export default  PlacesAutoComplete = (props) => {
     currentLocation.geometry.location.lng = position.coords.longitude
   })
     return (
-        <GooglePlacesAutocomplete
+        <GooglePlacesAutocomplete style={styles.mapStyle}
         placeholder="Where would you like to start?"
         minLength={1} 
         autoFocus={true}
@@ -68,3 +68,13 @@ export default  PlacesAutoComplete = (props) => {
     
 }
 
+
+const styles = StyleSheet.create({
+  mapStyle: {
+    height: 15,
+    justifyContent: 'flex-start',
+    alignItems: 'stretch',
+    width: Dimensions.get('window').width,
+    // height: Dimensions.get('window').height/7,
+  }
+})
