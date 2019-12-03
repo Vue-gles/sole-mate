@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   Alert
 } from 'react-native';
-import DateTimePicker from 'react-native-modal-datetime-picker';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import RNPickerSelect from 'react-native-picker-select';
 import { Text } from 'react-native-elements';
 import moment from 'moment';
@@ -96,121 +96,7 @@ class RunForm extends Component {
   }
 
   render() {
-    // return (
-    //   <SafeAreaView style={{flex: 1}}>
-    //     <ScrollView style={styles.container}>
-    //       <View syle={{ padding: 20, margin: 20 }}>
-    //         <Text style={styles.text}>Where would you like to start?</Text>
-    //         <PlacesAutocomplete locationHandler={this.locationHandler} />
-    //       </View>
-    //       <View paddingVertical={5} />
 
-    //       <Text>custom icon using react-native-shapes</Text>
-
-    //       <View style={styles.itemRow}>
-    //         <View>
-    //           <RNPickerSelect
-    //           useNativeAndroidPickerStyle={false}
-    //             placeholder={{ label: 'Miles to run' }}
-    //             style={styles.picker}
-    //             onValueChange={value =>
-    //               this.setState({ prefferedMileage: value })
-    //             }
-    //             style={{
-    //               inputAndroid: {
-    //                 backgroundColor: 'transparent',
-    //               },
-    //               iconContainer: {
-    //                 top: 5,
-    //                 right: 15,
-    //               },
-    //             }}
-    //             textInputProps={{ underlineColorAndroid: 'cyan' }}
-    //             items={[
-    //               1,
-    //               2,
-    //               3,
-    //               4,
-    //               5,
-    //               6,
-    //               7,
-    //               8,
-    //               9,
-    //               10,
-    //               11,
-    //               12,
-    //               13,
-    //               14,
-    //               15,
-    //               16,
-    //               17,
-    //               18,
-    //               19,
-    //               20,
-    //               21,
-    //               22,
-    //               23,
-    //               24,
-    //               25,
-    //               26,
-    //             ].map(mile => {
-    //               return { label: `${mile}`, value: mile };
-    //             })}
-    //           />
-    //         </View>
-    //         <Text>
-    //           {this.state.prefferedMileage} miles
-    //         </Text>
-    //       </View>
-
-    //       <View style={styles.itemRow}>
-    // <View style={styles.textItem}>
-    // <Button
-    //   title="Start date & time"
-    //   onPress={this.showDateTimePicker}
-    // />
-    // <DateTimePicker
-    //   mode="datetime"
-    //   minuteInterval={30}
-    //   isVisible={this.state.isDateTimePickerVisible}
-    //   onConfirm={this.handleDatePicked}
-    //   onCancel={this.hideDateTimePicker}
-    //   minimumDate={new Date()}
-    // />
-    // </View>
-    //         <Text styles={styles.valueItem}>
-    //           {moment(this.state.startTime).format('MMM Do YY')}
-    //         </Text>
-    //       </View>
-
-    //       <View style={styles.item} style={{ backgroundColor: 'blue' }}>
-    //         <Button
-    //           title="Choose and end time"
-    //           onPress={this.showEndTimePicker}
-    //           style={styles.button}
-    //         />
-    // <DateTimePicker
-    //   mode={'time'}
-    //   isVisible={this.state.isEndTimePickerVisible}
-    //   onConfirm={this.handleEndTimePicked}
-    //   onCancel={this.hideEndTimePicker}
-    //   date={new Date()}
-    //   minuteInterval={30}
-    // />
-    //       </View>
-
-          // <View>
-          //   <Button
-          //     title="Submit"
-          //     onPress={() => {
-          //       this.setState({ creatorId: this.props.userId });
-          //       this.submitHandler();
-          //     }}
-          //   />
-          // </View>
-    //     </ScrollView>
-    //   </SafeAreaView>
-    // );
 
     return (
       <View style={styles.container}>
@@ -280,7 +166,7 @@ class RunForm extends Component {
               style={styles.button}
             >
               <Text>Start time & date </Text>
-              <DateTimePicker
+              <DateTimePickerModal
                 mode="datetime"
                 minuteInterval={30}
                 isVisible={this.state.isDateTimePickerVisible}
@@ -294,7 +180,7 @@ class RunForm extends Component {
               style={styles.button}
             >
               <Text>End time</Text>
-              <DateTimePicker
+              <DateTimePickerModal
                 mode={'time'}
                 isVisible={this.state.isEndTimePickerVisible}
                 onConfirm={this.handleEndTimePicked}

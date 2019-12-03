@@ -50,10 +50,10 @@ class RunNowForm extends React.Component {
 
   render() {
     return (
-      <ScrollView>
-        <View style={styles.container}>
+      <View>
+        <ScrollView>
           <PlacesAutocomplete locationHandler={this.locationHandler} />
-        </View>
+  
         <View style={styles.container}>
           <Slider
             style={(styles.container, { width: 250, alignSelf: 'center' })}
@@ -83,6 +83,7 @@ class RunNowForm extends React.Component {
           />
         </View>
       </ScrollView>
+      </View>
     );
   }
 }
@@ -103,8 +104,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     flex: 1,
-    marginLeft: 10,
-    marginRight: 10,
   },
   item: {
     flex: 2,
@@ -124,51 +123,3 @@ const styles = StyleSheet.create({
   },
 });
 
-// import t from 'tcomb-form-native'; // 0.6.9
-
-// const Form = t.form.Form;
-
-// const User = t.struct({
-//   location: t.Date,
-//   username: t.String,
-//   password: t.String,
-//   terms: t.Boolean
-// });
-
-// const options = {
-//     fields: {
-//         location: {
-//             "mode":'time'
-//         }
-//     }
-
-// }
-
-// export default class App extends Component {
-
-//     onChange(value) {
-//         console.log(value)
-//       }
-
-//   render() {
-//     return (
-//     <ScrollView>
-//         <View style={styles.container}>
-//         <Form type={User}
-//         onChange={this.onChange}
-//         options={options}
-//         />
-//       </View>
-//     </ScrollView>
-//     );
-//   }
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     justifyContent: 'center',
-//     marginTop: 50,
-//     padding: 20,
-//     backgroundColor: '#ffffff',
-//   },
-// });
