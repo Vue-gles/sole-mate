@@ -116,10 +116,8 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     resizeMode: 'contain',
-    marginTop: 3,
     borderRadius: 200 / 2,
     overflow: 'hidden',
-    padding: '14%',
   },
   error: {
     color: `#eb4034`,

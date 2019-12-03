@@ -27,7 +27,7 @@ class RunResultsScreen extends React.Component {
   constructor(props) {
     super(props);
     this.clickHandler = this.clickHandler.bind(this);
-    console.log('RUN RESULTS -------------------->');
+
   }
 
   static navigationOptions = {
@@ -49,6 +49,7 @@ class RunResultsScreen extends React.Component {
   }
 
   render() {
+    
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>

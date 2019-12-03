@@ -26,7 +26,7 @@ class MessageThreads extends React.Component {
   constructor(props) {
     super(props);
     this.clickHandler = this.clickHandler.bind(this);
-    console.log('MessageThreads View -------------------->');
+
   }
   static navigationOptions = {
     title: 'Messages',

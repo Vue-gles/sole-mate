@@ -23,7 +23,7 @@ import { MonoText } from '../components/StyledText';
 class AuthLoadingScreen extends React.Component {
   constructor(props) {
     super(props);
-    console.log('AuthLoadingScreen ----------->');
+
   }
 
   async componentDidMount() {

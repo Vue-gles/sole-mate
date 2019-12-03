@@ -18,7 +18,7 @@ export const completeRun = runId => ({
 // THUNK CREATORS
 export const getUpcomingRunsThunk = type => async dispatch => {
   try {
-    console.log('THUUUUUNK');
+   
     const { data } = await axios.get(
       `${process.env.BACKEND_HOST}/api/runs?type=${type}`
     );

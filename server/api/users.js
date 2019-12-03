@@ -87,7 +87,7 @@ router.put('/current', isUser, async (req, res, next) => {
       currentLong: currentLong,
       currentLat: currentLat,
     });
-    // console.log('req.body',req.body)
+
     res.json(updated);
   } catch (err) {
     next(err);
@@ -125,7 +125,7 @@ router.put('/profile', isUser, async (req, res, next) => {
       goal,
       bio,
     });
-    console.log('ROUTES API', req.body);
+
     res.json(updated);
   } catch (err) {
     next(err);
@@ -143,7 +143,7 @@ router.put('/', isUser, async (req, res, next) => {
     const updated = await user.update({
       route: route,
     });
-    console.log('ROUTES API', req.body);
+   
     res.json(updated);
   } catch (err) {
     next(err);

@@ -29,7 +29,7 @@ export const getOutgoing = () => async dispatch => {
 
 export const makeRequest = runId => async dispatch => {
   try {
-    console.log('make request');
+
     const { data } = await axios.post(
       `${process.env.BACKEND_HOST}/api/requests/${runId}`
     );

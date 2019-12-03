@@ -20,6 +20,7 @@ import { connect } from 'react-redux';
 import { auth } from '../store/user';
 
 import { MonoText } from '../components/StyledText';
+import logo from '../../assets/images/logo.png';
 
 import { createUserThunk } from '../store/user';
 
@@ -28,12 +29,12 @@ class SignUpRunForm extends React.Component {
     super(props);
     const { navigation } = this.props;
     this.state = {
-      email: (navigation.getParam('email', 'default value')),
-      password: (navigation.getParam('password', 'default value')),
-      firstName: (navigation.getParam('firstName', 'default value')),
-      lastName: (navigation.getParam('lastName', 'default value')),
-      defaultAddress: (navigation.getParam('defaultAddress', 'default value')),
-      imageUrl: (navigation.getParam('imageUrl', 'default value')),
+      email: navigation.getParam('email', 'default value'),
+      password: navigation.getParam('password', 'default value'),
+      firstName: navigation.getParam('firstName', 'default value'),
+      lastName: navigation.getParam('lastName', 'default value'),
+      defaultAddress: navigation.getParam('defaultAddress', 'default value'),
+      imageUrl: navigation.getParam('imageUrl', 'default value'),
       avgPace: null,
       avgMileage: null,
       goal: '',
@@ -46,20 +47,30 @@ class SignUpRunForm extends React.Component {
   };
 
   submitHandler = async () => {
-    
-    if(this.state.avgPace===''||typeof Number(this.state.avgPace)!=='number')
-      alert("Please enter an average Pace")
-    if(this.state.avgMileage===''|| typeof Number(this.state.avgPace) !=='number')
-      alert("Please enter an average mileage")
-    if(this.state.goal==='')
-      alert("Please choose a goal")
-    if(this.state.bio==='')
-      alert("Please enter a bio")
-    if (this.state.email && this.state.password
-      && this.state.firstName && this.state.lastName
-      && this.state.defaultAddress && this.state.imageUrl
-      && this.state.avgPace && this.state.avgPace
-      && this.state.goal && this.state.bio) {
+    if (
+      this.state.avgPace === '' ||
+      typeof Number(this.state.avgPace) !== 'number'
+    )
+      alert('Please enter an average Pace');
+    if (
+      this.state.avgMileage === '' ||
+      typeof Number(this.state.avgPace) !== 'number'
+    )
+      alert('Please enter an average mileage');
+    if (this.state.goal === '') alert('Please choose a goal');
+    if (this.state.bio === '') alert('Please enter a bio');
+    if (
+      this.state.email &&
+      this.state.password &&
+      this.state.firstName &&
+      this.state.lastName &&
+      this.state.defaultAddress &&
+      this.state.imageUrl &&
+      this.state.avgPace &&
+      this.state.avgPace &&
+      this.state.goal &&
+      this.state.bio
+    ) {
       const inputs = {
         email: this.state.email,
         password: this.state.password,
@@ -73,7 +84,7 @@ class SignUpRunForm extends React.Component {
         bio: this.state.bio,
       };
       this.props.createUser(inputs);
-      this.props.navigation.navigate('AuthLoading')
+      this.props.navigation.navigate('AuthLoading');
     }
   };
 
@@ -81,76 +92,75 @@ class SignUpRunForm extends React.Component {
     const { navigate } = this.props.navigation;
     return (
       <ScrollView>
-       <View style={styles.container}>
-      <SafeAreaView style={styles.container}>
-        {/* <ScrollView style={styles.scrollView}> */}
-          <View style={styles.container}>
-            {/* <Button title="Go Back to Login Screen" onPress={() => navigate('AuthLoading')} /> */}
-            <Image
-              source={{
-                uri:
-                  'https://p7.hiclipart.com/preview/751/476/837/running-silhouette-clip-art-silhouette.jpg',
-              }}
-              style={styles.welcomeImage}
-            />
-            <Text style={styles.name}>Enter Your Stats</Text>
-            {/* <Text>Email From last page:{this.state.email}</Text>
+        <View style={styles.container}>
+          <SafeAreaView style={styles.container}>
+            {/* <ScrollView style={styles.scrollView}> */}
+            <View style={styles.container}>
+              {/* <Button title="Go Back to Login Screen" onPress={() => navigate('AuthLoading')} /> */}
+              <Image source={logo} style={styles.welcomeImage} />
+              <Text style={styles.name}>Enter Your Stats</Text>
+              {/* <Text>Email From last page:{this.state.email}</Text>
             <Text>password From last page:{this.state.password}</Text>
             <Text>firstName From last page:{this.state.firstName}</Text>
             <Text>lastName From last page:{this.state.lastName}</Text>
             <Text>defaultAddress From last page:{this.state.defaultAddress}</Text>
             <Text>imageUrl From last page:{this.state.imageUrl}</Text> */}
-            <TextInput
-              value={this.state.avgPace}
-              onChangeText={avgPace => this.setState({ avgPace })}
-              placeholder={'Average Pace'}
-              style={styles.input}
-            />
-            <TextInput
-              value={this.state.avgMileage}
-              onChangeText={avgMileage => this.setState({ avgMileage })}
-              placeholder={'Average Mileage'}
-              style={styles.input}
-            />
-            <TextInput
-              value={this.state.goal}
-              onChangeText={goal => this.setState({ goal })}
-              placeholder={'Goal'}
-              style={styles.input}
-            />
-            <Picker
-              selectedValue={this.state.goal}
-              style={{width: 100}}
-              onValueChange={(itemValue, itemIndex) =>
-                this.setState({goal: itemValue})
-              }>
-              <Picker.Item label="fitness" value="fitness" />
-              <Picker.Item label="hobby" value="hobby" />
-              <Picker.Item label="weightloss" value="weightloss" />
-            </Picker>
-            <TextInput
-              value={this.state.bio}
-              onChangeText={bio => this.setState({ bio })}
-              placeholder={'Biography'}
-              style={styles.input}
-            />
-            <Button title="Sign Up" color={'#0F3E15'} onPress={this.submitHandler} />
-            <Button
-              title="Go Back to Login Screen"
-              onPress={() => navigate('AuthLoading')}
-              color={'#0F3E15'}
-            />
-            {this.props.error && this.props.error.response && (
-              <Text style={styles.error}>
-                {' '}
-                {this.props.error.response.data}{' '}
-              </Text>
-            )}
-          </View>
-        {/* </ScrollView> */}
-      </SafeAreaView>
-       </View>
-       </ScrollView>
+              <TextInput
+                value={this.state.avgPace}
+                onChangeText={avgPace => this.setState({ avgPace })}
+                placeholder={'Average Pace'}
+                style={styles.input}
+              />
+              <TextInput
+                value={this.state.avgMileage}
+                onChangeText={avgMileage => this.setState({ avgMileage })}
+                placeholder={'Average Mileage'}
+                style={styles.input}
+              />
+              <TextInput
+                value={this.state.goal}
+                onChangeText={goal => this.setState({ goal })}
+                placeholder={'Goal'}
+                style={styles.input}
+              />
+              <Picker
+                selectedValue={this.state.goal}
+                style={{ width: 100 }}
+                onValueChange={(itemValue, itemIndex) =>
+                  this.setState({ goal: itemValue })
+                }
+              >
+                <Picker.Item label="fitness" value="fitness" />
+                <Picker.Item label="hobby" value="hobby" />
+                <Picker.Item label="weightloss" value="weightloss" />
+              </Picker>
+              <TextInput
+                value={this.state.bio}
+                onChangeText={bio => this.setState({ bio })}
+                placeholder={'Biography'}
+                style={styles.input}
+              />
+              <Button
+                title="Sign Up"
+                color={'#0F3E15'}
+                onPress={this.submitHandler}
+              />
+              <Button
+                title="Go Back to Login Screen"
+                onPress={() => navigate('AuthLoading')}
+                color={'#0F3E15'}
+              />
+              {this.props.error && this.props.error.response && (
+                <Text style={styles.error}>
+                  {' '}
+                  {this.props.error.response.data}{' '}
+                </Text>
+              )}
+            </View>
+            {/* </ScrollView> */}
+          </SafeAreaView>
+        </View>
+      </ScrollView>
     );
   }
 }
