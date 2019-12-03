@@ -40,6 +40,10 @@ class RunForm extends Component {
     this.locationHandler = this.locationHandler.bind(this);
   }
 
+  static navigationOptions = {
+    title: 'Post a run',
+  };
+  
   showDateTimePicker = () => {
     this.setState({ isDateTimePickerVisible: true });
   };
@@ -49,7 +53,8 @@ class RunForm extends Component {
   };
 
   handleDatePicked = date => {
-    this.setState({ date });
+    console.log(date)
+    this.setState({ startTime: date });
     this.hideDateTimePicker();
   };
 
@@ -62,6 +67,7 @@ class RunForm extends Component {
   };
 
   handleEndTimePicked = endTime => {
+    console.log('yooo')
     endTime = endTime.getHours();
     this.setState({ endTime });
     this.hideEndTimePicker();
@@ -185,18 +191,20 @@ class RunForm extends Component {
     // />
     //       </View>
 
-    //       <View>
-    //         <Button
-    //           title="Submit"
-    //           onPress={() => {
-    //             this.setState({ creatorId: this.props.userId });
-    //             this.submitHandler();
-    //           }}
-    //         />
-    //       </View>
+          // <View>
+          //   <Button
+          //     title="Submit"
+          //     onPress={() => {
+          //       this.setState({ creatorId: this.props.userId });
+          //       this.submitHandler();
+          //     }}
+          //   />
+          // </View>
     //     </ScrollView>
     //   </SafeAreaView>
     // );
+
+
     return (
       <View style={styles.container}>
         <ScrollView
@@ -204,8 +212,9 @@ class RunForm extends Component {
           contentContainerStyle={styles.scrollContentContainer}
         >
           <View paddingVertical={5} />
+          <Text>Set a starting location</Text>
           <PlacesAutocomplete locationHandler={this.locationHandler} />
-          <View paddingVertical={40} />
+          <View paddingVertical={10} />
 
           <Text>Preffered mile amount to run</Text>
 
@@ -289,7 +298,17 @@ class RunForm extends Component {
             </TouchableOpacity>
           </View>
           <View paddingVertical={20} />
-          <Text>{moment(this.state.startTime).format('MMMM Do YYYY, h:mm a')} to {moment(this.state.endTime).format('h:mm a')}</Text>
+          <Text style={{textAlign: 'center', paddingVertical: 5}}>{moment(this.state.startTime).format('MMMM Do, YYYY')}</Text>
+          <Text style={{textAlign: 'center', fontSize: 20, fontWeight: 'bold'}}>{moment(this.state.startTime).format('h:mm')} to {moment(this.state.endTime).format('h:mm a')}</Text>
+          <View paddingVertical={10} />
+
+          <TouchableOpacity style={styles.button}
+            onPress={() => {
+              this.setState({ creatorId: this.props.userId });
+              this.submitHandler()}}>
+                <Text>Submit run!</Text>
+          </TouchableOpacity>
+
         </ScrollView>
       </View>
     );
@@ -330,7 +349,7 @@ const styles = StyleSheet.create({
   button: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#b8af84',
+    backgroundColor: '#04823a',
     padding: 10,
     margin: 5,
     borderRadius: 10,
@@ -339,6 +358,17 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'center',
   },
+  timeSlotText: {
+    fontSize: 20
+  },
+  submitButton: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: '#04823a',
+    padding: 10,
+    margin: 5,
+    borderRadius: 10,
+  }
 });
 
 const pickerSelectStyles = StyleSheet.create({
@@ -347,8 +377,8 @@ const pickerSelectStyles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 10,
     borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 4,
+    borderColor: 'black',
+    borderRadius: 8,
     color: 'black',
     paddingRight: 30, // to ensure the text is never behind the icon
   },

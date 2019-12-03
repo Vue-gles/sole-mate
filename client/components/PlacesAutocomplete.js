@@ -41,14 +41,20 @@ export default  PlacesAutoComplete = (props) => {
         }}
         styles={{
           textInputContainer: {
-            width: '100%',
-            height: '35%',
+            backgroundColor: 'rgba(0,0,0,0)',
+            borderTopWidth: 0,
+            borderColor: 'black'
           },
-          description: {
-            fontWeight: 'bold',
+          textInput: {
+            marginLeft: 0,
+            marginRight: 0,
+            height: 45,
+            color: '#5d5d5d',
+            fontSize: 16,
+            borderWidth: 1
           },
           predefinedPlacesDescription: {
-            color: '#1faadb',
+            color: '#1faadb'
           },
         }}
 
@@ -71,9 +77,9 @@ export default  PlacesAutoComplete = (props) => {
 
 const styles = StyleSheet.create({
   mapStyle: {
-    justifyContent: 'flex-start',
-    alignItems: 'stretch',
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height/7,
+    // justifyContent: 'flex-start',
+    // alignItems: 'stretch',
+    // width: Dimensions.get('window').width,
+    // height: 50,
   }
 })
