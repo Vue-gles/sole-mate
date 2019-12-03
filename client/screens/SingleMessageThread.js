@@ -135,8 +135,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingTop: Platform.OS === 'ios' ? 20 : 0,
+    height: '85%',
   },
-  msgContainer: { width: '100%', height: '85%' },
+  msgContainer: { width: '100%', marginBottom: 50 },
   partner: {
     padding: 10,
     flex: 1,
