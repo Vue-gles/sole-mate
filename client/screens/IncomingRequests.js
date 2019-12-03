@@ -28,8 +28,8 @@ class IncomingRequests extends React.Component {
     this.requestUpdateHandler = this.requestUpdateHandler.bind(this);
     console.log('Incoming View -------------------->');
   }
-  async componentDidMount() {
-    await this.props.getIncoming();
+  componentDidMount() {
+    this.props.getIncoming();
   }
   async requestUpdateHandler(runId, requesterId, status) {
     await this.props.update(runId, requesterId, status);
