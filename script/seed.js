@@ -220,6 +220,18 @@ const runs = [
     endTimeframe: new Date('2019-12-22 12:00:00'),
     prefferedMileage: 7,
     creatorId: 6,
+    partnerId: 3,
+    isComplete: true,
+    route: JSON.stringify([
+      { latitude: 40.70482897606341, longitude: -74.00918775639525 },
+      { latitude: 40.70482897606341, longitude: -74.00918775639525 },
+      { latitude: 40.70482533763104, longitude: -74.00919733572029 },
+      { latitude: 40.70479406817252, longitude: -74.00924432943853 },
+      { latitude: 40.70478549825493, longitude: -74.00921684867315 },
+      { latitude: 40.70478549825493, longitude: -74.00921684867315 },
+      { latitude: 40.704786001772916, longitude: -74.00923080571684 },
+    ]),
+    distance: 0.01,
   },
 ];
 
@@ -230,7 +242,7 @@ const requests = [
   },
   {
     runId: 2,
-    requesterId: 3,
+    requesterId: 2,
   },
   {
     runId: 5,
