@@ -110,7 +110,8 @@ Run.getUpcomingRuns = function(userId) {
         },
       ],
     },
-    include: [{ model: User, as: 'Creator' }],
+    include: [{ model: User, as: 'Partner' }],
+
   });
   return runs;
 };

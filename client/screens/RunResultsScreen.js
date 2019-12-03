@@ -45,7 +45,7 @@ class RunResultsScreen extends React.Component {
   }
 
   render() {
-    console.log('props are....',this.props)
+    
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>

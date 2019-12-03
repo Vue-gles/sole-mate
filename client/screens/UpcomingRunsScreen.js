@@ -40,8 +40,8 @@ class UpcomingRunsScreen extends React.Component {
   }
 
   render() {
-    console.log('Upcoming Runs ------------->');
-    console.log('UPCOMING RUNS PROPS', this.props);
+    // console.log('Upcoming Runs ------------->');
+    // console.log('UPCOMING RUNS PROPS', this.props);
 
     return this.props.upcomingRuns.length ? (
       <SafeAreaView key={this.state.uniqueValue} style={styles.container}>
@@ -51,12 +51,12 @@ class UpcomingRunsScreen extends React.Component {
               <View style={styles.runAd} key={run.id}>
                 <Image
                   source={{
-                    uri: run.Creator.imageUrl,
+                    uri: run.Partner.imageUrl,
                   }}
                   style={styles.runImage}
                 />
                 <Text style={styles.name}>
-                  {run.Creator.firstName} {run.Creator.lastName}
+                  {run.Partner.firstName} {run.Partner.lastName}
                 </Text>
                 <Text style={styles.details}>
                   {run.prefferedMileage} mile(s)
