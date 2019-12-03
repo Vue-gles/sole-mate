@@ -15,119 +15,155 @@ import {
   View,
   Picker,
 } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+import Constants from 'expo-constants';
+import * as Permissions from 'expo-permissions';
 import { connect } from 'react-redux';
 
 import { auth } from '../store/user';
 
 import { MonoText } from '../components/StyledText';
+import logo from '../../assets/images/logo.png';
 
 import { createUserThunk } from '../store/user';
 
 class SignUpNameForm extends React.Component {
-    
   constructor(props) {
     super(props);
     const { navigation } = this.props;
     this.state = {
-      email: (navigation.getParam('email', 'default value')),
-      password: (navigation.getParam('password', 'default value')),
+      email: navigation.getParam('email', 'default value'),
+      password: navigation.getParam('password', 'default value'),
       firstName: '',
       lastName: '',
       defaultAddress: '',
       imageUrl: '',
-      
     };
   }
 
   static navigationOptions = {
-    title: 'SignUpName',
+    title: 'Sign Up',
   };
 
-  submitHandler = async () => {
-    if(this.state.firstName==='')
-      alert("Please enter a first name")
-    if(this.state.lastName==='')
-      alert("Please enter a last name")
-    if(this.state.defaultAddress==='')
-      alert("Please enter a address")
-    if(this.state.imageUrl==='')
-      alert("Please enter a imageUrl")
-    if (this.state.firstName && this.state.lastName
-        && this.state.defaultAddress && this.state.imageUrl) {
-        this.props.navigation.navigate('SignUpRun',{
-        email:this.state.email,
-        password:this.state.password,
-        firstName:this.state.firstName,
-        lastName:this.state.lastName,
-        defaultAddress:this.state.defaultAddress,
-        imageUrl:this.state.imageUrl
-      })
+  componentDidMount() {
+    this.getPermissionAsync();
+  }
+
+  getPermissionAsync = async () => {
+    if (Constants.platform.ios) {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      if (status !== 'granted') {
+        alert('Sorry, we need camera roll permissions to make this work!');
+      }
     }
   };
 
+  _pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    console.log(result);
+    if (!result.cancelled) {
+      this.setState({ imageUrl: result.uri });
+    }
+  };
+
+  submitHandler = async () => {
+    if (this.state.firstName === '') alert('Please enter a first name');
+    if (this.state.lastName === '') alert('Please enter a last name');
+    if (this.state.defaultAddress === '') alert('Please enter a address');
+    if (this.state.imageUrl === '') alert('Please enter a imageUrl');
+    if (
+      this.state.firstName &&
+      this.state.lastName &&
+      this.state.defaultAddress &&
+      this.state.imageUrl
+    ) {
+      this.props.navigation.navigate('SignUpRun', {
+        email: this.state.email,
+        password: this.state.password,
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        defaultAddress: this.state.defaultAddress,
+        imageUrl: this.state.imageUrl,
+      });
+    }
+  };
 
   render() {
     const { navigate } = this.props.navigation;
     return (
       <ScrollView>
-       <View style={styles.container}>
-      <SafeAreaView style={styles.container}>
-        {/* <ScrollView style={styles.scrollView}> */}
-          <View style={styles.container}>
-            {/* <Button title="Go Back to Login Screen" onPress={() => navigate('AuthLoading')} /> */}
-            <Image
-              source={{
-                uri:
-                  'https://p7.hiclipart.com/preview/751/476/837/running-silhouette-clip-art-silhouette.jpg',
-              }}
-              style={styles.welcomeImage}
-            />
-            <Text style={styles.name}>Sign Up</Text>
-            <TextInput
-              value={this.state.firstName}
-              onChangeText={firstName => this.setState({ firstName })}
-              placeholder={'First Name'}
-              style={styles.input}
-            />
-            <TextInput
-              value={this.state.lastName}
-              onChangeText={lastName => this.setState({ lastName })}
-              placeholder={'Last Name'}
-              style={styles.input}
-            />
-            <TextInput
-              value={this.state.defaultAddress}
-              onChangeText={defaultAddress => this.setState({ defaultAddress })}
-              placeholder={'Address'}
-              style={styles.input}
-            />
-            <TextInput
-              value={this.state.imageUrl}
-              onChangeText={imageUrl => this.setState({ imageUrl })}
-              placeholder={'Image Url'}
-              style={styles.input}
-            />
-            <Button
-              title="Next"
-              onPress={this.submitHandler}
-              color={'#0F3E15'}
-            />
-            <Button
-              title="Go Back to Login Screen"
-              onPress={() => navigate('AuthLoading')}
-              color={'#0F3E15'}
-            />
-            {this.props.error && this.props.error.response && (
-              <Text style={styles.error}>
-                {' '}
-                {this.props.error.response.data}{' '}
-              </Text>
-            )}
-          </View>
-        {/* </ScrollView> */}
-      </SafeAreaView>
-       </View>
-       </ScrollView>
+        <View style={styles.container}>
+          <SafeAreaView style={styles.container}>
+            {/* <ScrollView style={styles.scrollView}> */}
+            <View style={styles.container}>
+              {/* <Button title="Go Back to Login Screen" onPress={() => navigate('AuthLoading')} /> */}
+              <Image source={logo} style={styles.welcomeImage} />
+              <Text style={styles.name}>Sign Up</Text>
+              <TextInput
+                value={this.state.firstName}
+                onChangeText={firstName => this.setState({ firstName })}
+                placeholder={'First Name'}
+                style={styles.input}
+              />
+              <TextInput
+                value={this.state.lastName}
+                onChangeText={lastName => this.setState({ lastName })}
+                placeholder={'Last Name'}
+                style={styles.input}
+              />
+              <TextInput
+                value={this.state.defaultAddress}
+                onChangeText={defaultAddress =>
+                  this.setState({ defaultAddress })
+                }
+                placeholder={'Address'}
+                style={styles.input}
+              />
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <Button
+                  color={'#0F3E15'}
+                  title="Select Profile Picture"
+                  onPress={this._pickImage}
+                />
+                {/* {this.state.imageUrl && (
+                  <Image
+                    source={{ uri: this.state.imageUrl }}
+                    style={{ width: 200, height: 200 }}
+                  />
+                )} */}
+              </View>
+              <Button
+                title="Next"
+                onPress={this.submitHandler}
+                color={'#0F3E15'}
+              />
+              <Button
+                title="Go Back to Login Screen"
+                onPress={() => navigate('AuthLoading')}
+                color={'#0F3E15'}
+              />
+              {this.props.error && this.props.error.response && (
+                <Text style={styles.error}>
+                  {' '}
+                  {this.props.error.response.data}{' '}
+                </Text>
+              )}
+            </View>
+            {/* </ScrollView> */}
+          </SafeAreaView>
+        </View>
+      </ScrollView>
     );
   }
 }
