@@ -23,7 +23,7 @@ import { getOutgoing } from '../store/outgoing';
 class OutgoingRequests extends React.Component {
   constructor(props) {
     super(props);
-    //console.log('Outgoing View -------------------->');
+    
   }
   componentDidMount() {
     this.props.getOutgoing();

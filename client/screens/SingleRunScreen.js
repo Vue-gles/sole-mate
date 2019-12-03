@@ -26,7 +26,7 @@ class SingleRunScreen extends React.Component {
   constructor(props) {
     super(props);
     this.requestHandler = this.requestHandler.bind(this);
-    console.log('SingleRun View -------------------->');
+
   }
 
   static navigationOptions = ({ navigation }) => {
