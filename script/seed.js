@@ -223,13 +223,50 @@ const runs = [
     partnerId: 3,
     isComplete: true,
     route: JSON.stringify([
-      { latitude: 40.70482897606341, longitude: -74.00918775639525 },
-      { latitude: 40.70482897606341, longitude: -74.00918775639525 },
-      { latitude: 40.70482533763104, longitude: -74.00919733572029 },
-      { latitude: 40.70479406817252, longitude: -74.00924432943853 },
-      { latitude: 40.70478549825493, longitude: -74.00921684867315 },
-      { latitude: 40.70478549825493, longitude: -74.00921684867315 },
-      { latitude: 40.704786001772916, longitude: -74.00923080571684 },
+      {
+        latitude: 40.276141,
+        longitude: -74.592255,
+      },
+      {
+        latitude: 40.276386,
+        longitude: -74.592501,
+      },
+      {
+        latitude: 40.276976,
+        longitude: -74.593167,
+      },
+      {
+        latitude: 40.276444,
+        longitude: -74.593918,
+      },
+      {
+        latitude: 40.275625,
+        longitude: -74.594883,
+      },
+      {
+        latitude: 40.273684,
+        longitude: -74.595895,
+      },
+      {
+        latitude: 40.27177,
+        longitude: -74.59691,
+      },
+      {
+        latitude: 40.270652,
+        longitude: -74.593449,
+      },
+      {
+        latitude: 40.270652,
+        longitude: -74.593449,
+      },
+      {
+        latitude: 40.268052,
+        longitude: -74.589062,
+      },
+      {
+        latitude: 40.267023,
+        longitude: -74.587219,
+      },
     ]),
     distance: 0.01,
   },
