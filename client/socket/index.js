@@ -5,7 +5,8 @@ import { getIncoming } from '../store/incoming';
 import { getMessageThreads } from '../store/messageThreads';
 import { getMessages } from '../store/singleMessageThread';
 import { getUpcomingRunsThunk } from '../store/upcomingRuns';
-
+import { completeRun } from '../store/upcomingRuns';
+import { saveRun } from '../store/pastRuns';
 
 ///// FRONTEND
 
@@ -22,8 +23,7 @@ socket.on('requestUpdated', () => {
   console.log('Frontend: requestUpdated received');
   store.dispatch(getOutgoing());
   store.dispatch(getMessageThreads());
-  store.dispatch(getUpcomingRunsThunk('upcoming'))
-  
+  store.dispatch(getUpcomingRunsThunk('upcoming'));
 });
 
 socket.on('newRequestReceived', () => {
@@ -40,6 +40,13 @@ socket.on('newMessageReceived', partnerId => {
       store.dispatch(getMessages(state.partner.id));
     }
   }
+});
+
+socket.on('completeRunReceived', payload => {
+  console.log('Frontend: completeRunReceived', payload);
+  const { runId, coords, distance } = payload;
+  store.dispatch(completeRun(runId));
+  store.dispatch(saveRun(runId, coords, distance));
 });
 
 socket.on('disconnect', () => {
