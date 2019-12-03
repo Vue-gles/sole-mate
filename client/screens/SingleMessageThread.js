@@ -56,9 +56,15 @@ class SingleMessageThread extends React.Component {
   };
   render() {
     return (
-      <KeyboardAvoidingView behavior="padding" enabled style={styles.container}>
-        <SafeAreaView style={styles.msgContainer}>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        keyboardVerticalOffset={64}
+        behavior="padding"
+        enabled
+      >
+        <SafeAreaView style={styles.container}>
           <ScrollView
+            style={styles.msgContainer}
             ref={ref => (this.scrollView = ref)}
             onContentSizeChange={(contentWidth, contentHeight) => {
               this.scrollView.scrollToEnd({ animated: true });
@@ -99,22 +105,25 @@ class SingleMessageThread extends React.Component {
               </View>
             )}
           </ScrollView>
-        </SafeAreaView>
 
-        <View style={styles.bottomView}>
-          <View style={styles.keyboard}>
-            <TextInput
-              value={this.state.content}
-              onChangeText={content => this.setState({ content })}
-              placeholder={'Text Message'}
-              style={styles.input}
-            ></TextInput>
-            <View style={styles.btnContainer}>
-              <Button title="↑ " onPress={this.submitHandler} color={'white'} />
+          <View style={styles.bottomView}>
+            <View style={styles.keyboard}>
+              <TextInput
+                value={this.state.content}
+                onChangeText={content => this.setState({ content })}
+                placeholder={'Text Message'}
+                style={styles.input}
+              ></TextInput>
+              <View style={styles.btnContainer}>
+                <Button
+                  title="↑ "
+                  onPress={this.submitHandler}
+                  color={'white'}
+                />
+              </View>
             </View>
           </View>
-          <View style={{ flex: 1 }} />
-        </View>
+        </SafeAreaView>
       </KeyboardAvoidingView>
     );
   }
@@ -127,7 +136,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingTop: Platform.OS === 'ios' ? 20 : 0,
   },
-  msgContainer: { width: '100%', height: '95%', marginTop: -20 },
+  msgContainer: { width: '100%', height: '85%' },
   partner: {
     padding: 10,
     flex: 1,
@@ -171,6 +180,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     position: 'absolute',
     bottom: 0,
+    backgroundColor: 'white',
   },
   keyboard: {
     width: '100%',
