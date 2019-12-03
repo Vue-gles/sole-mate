@@ -19,16 +19,20 @@ import Constants from 'expo-constants';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-
 import { getRuns } from '../store/runs';
 import { getSingleRun } from '../store/singleRun';
-import {calculateDistance} from '../../utils'
+import { calculateDistance } from '../../utils';
 
 class RunResultsScreen extends React.Component {
   constructor(props) {
     super(props);
     this.clickHandler = this.clickHandler.bind(this);
+    console.log('RUN RESULTS -------------------->');
   }
+
+  static navigationOptions = {
+    title: 'Runs',
+  };
 
   componentDidMount() {
     this.props.getRuns(
@@ -45,46 +49,60 @@ class RunResultsScreen extends React.Component {
   }
 
   render() {
-    console.log('props are....',this.props)
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
-          {this.props.runs.map(run => {
-            return (
-              <TouchableWithoutFeedback
-                key={run.id}
-                onPress={() => this.clickHandler(run.id)}
-              >
-                <View style={styles.runAd}>
-                  <Image
-                    source={{
-                      uri: run.Creator.imageUrl,
-                    }}
-                    style={styles.runImage}
-                  />
-                  <Text style={styles.name}>
-                    {run.Creator.firstName} {run.Creator.lastName}
-                  </Text>
-                  <Text style={styles.details}>
-                    {run.prefferedMileage} mile(s)
-                  </Text>
-                  <Text style={styles.details}>
-                    {run.street}, {run.city}, {run.state}
-                  </Text>
-                  <Text style={styles.details}>
-                    {moment(run.startTimeframe).format('MMMM Do')}
-                  </Text>
-                  <Text style={styles.details}>
-                    {moment(run.startTimeframe).format('h:mm a')} -
-                    {moment(run.endTimeframe).format('h:mm a')}
-                  </Text>
-                  <Text style={styles.details}>
-                    {this.props.runNowInfo.maxDistance ? calculateDistance(run.lat, run.long, this.props.runNowInfo.lat, this.props.runNowInfo.long).toFixed(1) + ' miles away' : null } 
-                  </Text>
-                </View>
-              </TouchableWithoutFeedback>
-            );
-          })}
+          {this.props.runs && this.props.runs.length ? (
+            this.props.runs.map(run => {
+              return (
+                <TouchableWithoutFeedback
+                  key={run.id}
+                  onPress={() => this.clickHandler(run.id)}
+                >
+                  <View style={styles.runAd}>
+                    <Image
+                      source={{
+                        uri: run.Creator.imageUrl,
+                      }}
+                      style={styles.runImage}
+                    />
+                    <Text style={styles.name}>
+                      {run.Creator.firstName} {run.Creator.lastName}
+                    </Text>
+                    <Text style={styles.details}>
+                      {run.prefferedMileage} mile(s)
+                    </Text>
+                    <Text style={styles.details}>
+                      {run.street}, {run.city}, {run.state}
+                    </Text>
+                    <Text style={styles.details}>
+                      {moment(run.startTimeframe).format('MMMM Do')}
+                    </Text>
+                    <Text style={styles.details}>
+                      {moment(run.startTimeframe).format('h:mm a')} -
+                      {moment(run.endTimeframe).format('h:mm a')}
+                    </Text>
+                    <Text style={styles.details}>
+                      {this.props.runNowInfo.maxDistance
+                        ? calculateDistance(
+                            run.lat,
+                            run.long,
+                            this.props.runNowInfo.lat,
+                            this.props.runNowInfo.long
+                          ).toFixed(1) + ' miles away'
+                        : null}
+                    </Text>
+                  </View>
+                </TouchableWithoutFeedback>
+              );
+            })
+          ) : (
+            <View style={styles.runAd}>
+              <Text style={styles.name}>
+                Sorry! There aren't any runs in your area at this time.
+              </Text>
+            </View>
+          )}
         </ScrollView>
       </SafeAreaView>
     );
