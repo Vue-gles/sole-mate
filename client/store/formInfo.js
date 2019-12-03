@@ -3,6 +3,7 @@ import axios from 'axios';
 const GOT_RUN_NOW_FORM_INFO = 'GOT_RUN_NOW_FORM_INFO';
 
 export const gotRunNowFormInfo = runNowInfo => {
+    console.log('run now info is: ', runNowInfo)
   return {
     type: GOT_RUN_NOW_FORM_INFO,
     runNowInfo,

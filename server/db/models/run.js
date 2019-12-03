@@ -54,7 +54,7 @@ const Run = db.define('run', {
     type: Sequelize.INTEGER,
   },
   route: {
-    type: Sequelize.ARRAY(Sequelize.STRING),
+    type: Sequelize.TEXT,
   },
   distance: {
     type: Sequelize.FLOAT,

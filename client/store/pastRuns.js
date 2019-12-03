@@ -10,10 +10,11 @@ const gotPastRuns = pastRuns => ({
   pastRuns,
 });
 
-const savedRun = run => ({
-  type: SAVED_RUN,
-  run,
-});
+const savedRun = run => {
+  {
+    type: SAVED_RUN, run;
+  }
+};
 
 // THUNK CREATORS
 export const getPastRunsThunk = type => async dispatch => {
@@ -30,7 +31,6 @@ export const getPastRunsThunk = type => async dispatch => {
 
 export const saveRun = (runId, route, distance) => async dispatch => {
   try {
-    console.log('thunk there it is:', runId, route, distance);
     const { data } = await axios.put(
       `${process.env.BACKEND_HOST}/api/runs/${runId}`,
       {
@@ -38,10 +38,8 @@ export const saveRun = (runId, route, distance) => async dispatch => {
         distance,
       }
     );
-    console.log('what is saveRun data', data);
     dispatch(savedRun(data));
   } catch (error) {
-    console.log('is this a saveRun error?');
     console.log('Error:', error);
   }
 };
@@ -52,7 +50,13 @@ export default pastRuns = (state = [], action) => {
     case GOT_PAST_RUNS:
       return action.pastRuns;
     case SAVED_RUN:
-      return [...state, action.run];
+      return state.map(run => {
+        if (run.id === action.run.id) {
+          return action.run;
+        } else {
+          return run;
+        }
+      });
     default:
       return state;
   }

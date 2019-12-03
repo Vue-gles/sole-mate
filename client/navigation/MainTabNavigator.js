@@ -20,6 +20,7 @@ import SingleMessageThread from '../screens/SingleMessageThread';
 import ProfileScreen from '../screens/ProfileScreen';
 import ProfileForm from '../screens/ProfileForm';
 import RunNowForm from '../screens/RunNowForm'
+import PastRouteMap from '../screens/PastRouteMap'
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -162,6 +163,7 @@ MapStack.path = '';
 const ScheduleStack = createStackNavigator(
   {
     Home: ScheduleScreen,
+    PastRouteMap:  PastRouteMap
   },
   {
     defaultNavigationOptions: {
