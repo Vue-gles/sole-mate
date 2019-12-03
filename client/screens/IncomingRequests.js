@@ -28,67 +28,66 @@ class IncomingRequests extends React.Component {
     this.requestUpdateHandler = this.requestUpdateHandler.bind(this);
     console.log('Incoming View -------------------->');
   }
-  async componentDidMount() {
-    await this.props.getIncoming();
+  componentDidMount() {
+    this.props.getIncoming();
   }
   async requestUpdateHandler(runId, requesterId, status) {
     await this.props.update(runId, requesterId, status);
     socket.emit('requestUpdate');
   }
   render() {
-    return (
+    return this.props.notifications.length > 0 ? (
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
-          {this.props.notifications && this.props.notifications.length ? (
-            this.props.notifications.map(notification => {
-              return (
-                <View
-                  style={styles.notification}
-                  key={`${notification.requesterId}${notification.runId}`}
-                >
-                  <Image
-                    source={{
-                      uri: notification.Requester.imageUrl,
-                    }}
-                    style={styles.runImage}
-                  />
-                  <Text style={styles.status}>
-                    {notification.Requester.firstName}{' '}
-                    {notification.Requester.lastName} would like to join your
-                    run on{' '}
-                    {moment(notification.run.startTimeframe).format('MMMM Do')}
-                  </Text>
-                  <Button
-                    title="✓"
-                    onPress={() =>
-                      this.requestUpdateHandler(
-                        notification.runId,
-                        notification.requesterId,
-                        'accepted'
-                      )
-                    }
-                    color={'#0F3E15'}
-                  />
-                  <Button
-                    title="X"
-                    onPress={() =>
-                      this.requestUpdateHandler(
-                        notification.runId,
-                        notification.requesterId,
-                        'rejected'
-                      )
-                    }
-                    color={'#0F3E15'}
-                  />
-                </View>
-              );
-            })
-          ) : (
-            <View style={styles.notification}>
-              <Text>No incoming notifications</Text>
-            </View>
-          )}
+          {this.props.notifications.map(notification => {
+            return (
+              <View
+                style={styles.notification}
+                key={`${notification.requesterId}${notification.runId}`}
+              >
+                <Image
+                  source={{
+                    uri: notification.Requester.imageUrl,
+                  }}
+                  style={styles.runImage}
+                />
+                <Text style={styles.status}>
+                  {notification.Requester.firstName}{' '}
+                  {notification.Requester.lastName} would like to join your run
+                  on {moment(notification.run.startTimeframe).format('MMMM Do')}
+                </Text>
+                <Button
+                  title="✓"
+                  onPress={() =>
+                    this.requestUpdateHandler(
+                      notification.runId,
+                      notification.requesterId,
+                      'accepted'
+                    )
+                  }
+                  color={'#0F3E15'}
+                />
+                <Button
+                  title="X"
+                  onPress={() =>
+                    this.requestUpdateHandler(
+                      notification.runId,
+                      notification.requesterId,
+                      'rejected'
+                    )
+                  }
+                  color={'#0F3E15'}
+                />
+              </View>
+            );
+          })}
         </ScrollView>
+      </SafeAreaView>
+    ) : (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.notification}>
+          <Text style={styles.none}>No incoming notifications</Text>
+        </View>
       </SafeAreaView>
     );
   }
@@ -118,6 +117,11 @@ const styles = StyleSheet.create({
     marginLeft: -10,
     borderRadius: 60 / 2,
     overflow: 'hidden',
+  },
+  none: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#303731',
   },
 });
 

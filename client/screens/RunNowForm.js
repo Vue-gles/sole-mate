@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import Slider from 'react-native-slider';
 import Constants from 'expo-constants';
-import {connect} from 'react-redux'
+import { connect } from 'react-redux';
 
 import PlacesAutocomplete from '../components/PlacesAutocomplete';
 import { gotRunNowFormInfo } from '../store/formInfo';
@@ -27,7 +27,7 @@ class RunNowForm extends React.Component {
       longitude: 0,
       maxDistance: 30,
     };
-    
+
     this.locationHandler = this.locationHandler.bind(this);
     this.handler = this.handler.bind(this);
   }
@@ -47,7 +47,6 @@ class RunNowForm extends React.Component {
   handler(name, lat, long) {
     this.setState({ latitude: lat, longitude: lng });
   }
-
 
   render() {
     return (
@@ -73,8 +72,12 @@ class RunNowForm extends React.Component {
           <Button
             title="Find runs near you"
             onPress={() => {
-              this.props.setRunNowFormInfo(this.state.lattitude, this.state.longitude, this.state.maxDistance)
-              this.props.navigation.navigate('RunResults')
+              this.props.setRunNowFormInfo(
+                this.state.lattitude,
+                this.state.longitude,
+                this.state.maxDistance
+              );
+              this.props.navigation.navigate('RunResults');
             }}
             disabled={this.state.lattitude ? false : true}
           />
@@ -87,15 +90,13 @@ class RunNowForm extends React.Component {
 const mapDispatchToProps = dispatch => {
   return {
     setRunNowFormInfo: (lat, long, maxDistance) =>
-      dispatch(gotRunNowFormInfo({lat, long, maxDistance})),
-      getRuns: (type, maxDistance, lat, long) =>
-      dispatch(getRuns(type, maxDistance, lat, long))
+      dispatch(gotRunNowFormInfo({ lat, long, maxDistance })),
+    getRuns: (type, maxDistance, lat, long) =>
+      dispatch(getRuns(type, maxDistance, lat, long)),
   };
 };
 
-export default connect(null, mapDispatchToProps)(RunNowForm)
-
-
+export default connect(null, mapDispatchToProps)(RunNowForm);
 
 const styles = StyleSheet.create({
   container: {

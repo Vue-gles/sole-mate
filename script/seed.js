@@ -1,5 +1,5 @@
 // 'use strict';
-require ('../keys')
+require('../keys');
 const { db, User, Run, Message, Request } = require('../server/db');
 const axios = require('axios');
 require('../keys');
@@ -104,8 +104,10 @@ const runs = [
     street: '123 Main St',
     city: 'New York',
     state: 'NY',
-    startTimeframe: new Date('2019-12-22 08:00:00'),
-    endTimeframe: new Date('2019-12-22 12:00:00'),
+    lat: 40.7411,
+    long: 73.9897,
+    startTimeframe: new Date('2019-12-03 08:00:00'),
+    endTimeframe: new Date('2019-12-03 23:00:00'),
     prefferedMileage: 3,
     creatorId: 1,
   },
@@ -113,8 +115,10 @@ const runs = [
     street: '456 Fall Rd',
     city: 'New York',
     state: 'NY',
-    startTimeframe: new Date('2019-12-10 12:00:00'),
-    endTimeframe: new Date('2019-12-10 16:00:00'),
+    lat: 40.7411,
+    long: 73.9897,
+    startTimeframe: new Date('2019-12-03 12:00:00'),
+    endTimeframe: new Date('2019-12-03 16:00:00'),
     prefferedMileage: 5,
     creatorId: 1,
   },
@@ -122,8 +126,10 @@ const runs = [
     street: '88 Hopewell Ave',
     city: 'New York',
     state: 'NY',
-    startTimeframe: new Date('2019-12-08 16:00:00'),
-    endTimeframe: new Date('2019-12-08 20:00:00'),
+    lat: 40.7411,
+    long: 73.9897,
+    startTimeframe: new Date('2019-12-04 01:00:00'),
+    endTimeframe: new Date('2019-12-04 23:00:00'),
     prefferedMileage: 2,
     creatorId: 2,
   },
@@ -131,8 +137,10 @@ const runs = [
     street: '1 Benford Dr',
     city: 'New York',
     state: 'NY',
-    startTimeframe: new Date('2019-12-06 20:00:00'),
-    endTimeframe: new Date('2019-12-06 24:00:00'),
+    lat: 40.7411,
+    long: 73.9897,
+    startTimeframe: new Date('2019-12-04 01:00:00'),
+    endTimeframe: new Date('2019-12-04 23:00:00'),
     prefferedMileage: 6,
     creatorId: 3,
   },
@@ -140,6 +148,8 @@ const runs = [
     street: '1 Broad Street',
     city: 'Chicago',
     state: 'IL',
+    lat: 41.8781,
+    long: 87.6298,
     startTimeframe: new Date('2019-12-06 20:00:00'),
     endTimeframe: new Date('2019-12-06 24:00:00'),
     prefferedMileage: 6,
@@ -149,6 +159,8 @@ const runs = [
     street: '1 Main Street',
     city: 'Chicago',
     state: 'IL',
+    lat: 41.8781,
+    long: 87.6298,
     startTimeframe: new Date('2019-12-06 20:00:00'),
     endTimeframe: new Date('2019-12-06 24:00:00'),
     prefferedMileage: 6,
@@ -158,6 +170,8 @@ const runs = [
     street: '15 Hanover Ct',
     city: 'New York',
     state: 'NY',
+    lat: 40.7411,
+    long: 73.9897,
     startTimeframe: new Date('2019-12-08 08:00:00'),
     endTimeframe: new Date('2019-12-08 12:00:00'),
     prefferedMileage: 6,
@@ -167,6 +181,8 @@ const runs = [
     street: '101 Lily Ln',
     city: 'New York',
     state: 'NY',
+    lat: 40.7411,
+    long: 73.9897,
     startTimeframe: new Date('2019-12-04 08:00:00'),
     endTimeframe: new Date('2019-12-04 12:00:00'),
     prefferedMileage: 5,
@@ -176,6 +192,8 @@ const runs = [
     street: '33 Wythe Ave',
     city: 'New York',
     state: 'NY',
+    lat: 40.7411,
+    long: 73.9897,
     startTimeframe: new Date('2019-12-22 12:00:00'),
     endTimeframe: new Date('2019-12-22 16:00:00'),
     prefferedMileage: 8,
@@ -185,6 +203,8 @@ const runs = [
     street: '77 Lucky St',
     city: 'New York',
     state: 'NY',
+    lat: 40.7411,
+    long: 73.9897,
     startTimeframe: new Date('2019-12-22 20:00:00'),
     endTimeframe: new Date('2019-12-22 24:00:00'),
     prefferedMileage: 6,
@@ -194,10 +214,24 @@ const runs = [
     street: '666 Sockets St',
     city: 'New York',
     state: 'NY',
+    lat: 40.7411,
+    long: 73.9897,
     startTimeframe: new Date('2019-12-22 08:00:00'),
     endTimeframe: new Date('2019-12-22 12:00:00'),
     prefferedMileage: 7,
     creatorId: 6,
+    partnerId: 3,
+    isComplete: true,
+    route: JSON.stringify([
+      { latitude: 40.70482897606341, longitude: -74.00918775639525 },
+      { latitude: 40.70482897606341, longitude: -74.00918775639525 },
+      { latitude: 40.70482533763104, longitude: -74.00919733572029 },
+      { latitude: 40.70479406817252, longitude: -74.00924432943853 },
+      { latitude: 40.70478549825493, longitude: -74.00921684867315 },
+      { latitude: 40.70478549825493, longitude: -74.00921684867315 },
+      { latitude: 40.704786001772916, longitude: -74.00923080571684 },
+    ]),
+    distance: 0.01,
   },
 ];
 
@@ -208,7 +242,7 @@ const requests = [
   },
   {
     runId: 2,
-    requesterId: 3,
+    requesterId: 2,
   },
   {
     runId: 5,
@@ -223,7 +257,7 @@ const requests = [
     requesterId: 6,
   },
   {
-    runId: 4,
+    runId: 2,
     requesterId: 5,
   },
   {
@@ -317,7 +351,7 @@ async function updateRuns() {
         // }
         //got to point where I think my route is working but I am unable to load any data into the location column. Everytime I do, I get this error
         // that says I need to get ST_GeomFromGeoJSON but I don't know how
-        await run.update({lat, long})
+        await run.update({ lat, long });
       }
     });
   } catch (error) {

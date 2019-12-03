@@ -21,39 +21,45 @@ import { auth } from '../store/user';
 
 import { MonoText } from '../components/StyledText';
 
-import {updateProfile} from '../store/user'
+import { updateProfile } from '../store/user';
 
 class ProfileForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       email: this.props.user.email,
-      password: '',
-      firstName:this.props.user.firstName,
-      lastName:this.props.user.lastName,
-      defaultAddress:this.props.user.defaultAddress,
-      imageUrl:this.props.user.imageUrl,
-      avgPace:String(this.props.user.avgPace),
-      avgMileage:String(this.props.user.avgPace),
-      goal:this.props.user.goal,
-      bio:this.props.user.bio,
+      // password: '',
+      firstName: this.props.user.firstName,
+      lastName: this.props.user.lastName,
+      defaultAddress: this.props.user.defaultAddress,
+      imageUrl: this.props.user.imageUrl,
+      avgPace: String(this.props.user.avgPace),
+      avgMileage: String(this.props.user.avgPace),
+      goal: this.props.user.goal,
+      bio: this.props.user.bio,
     };
   }
 
   static navigationOptions = {
-    title: 'ProfleForm',
+    title: 'Edit Profile',
   };
 
-  
   submitHandler = async () => {
-    if (this.state.email && this.state.password
-      && this.state.firstName && this.state.lastName
-      && this.state.defaultAddress && this.state.imageUrl
-      && this.state.avgPace && this.state.avgPace
-      && this.state.goal && this.state.bio) {
+    if (
+      this.state.email &&
+      //  && this.state.password
+      this.state.firstName &&
+      this.state.lastName &&
+      this.state.defaultAddress &&
+      this.state.imageUrl &&
+      this.state.avgPace &&
+      this.state.avgPace &&
+      this.state.goal &&
+      this.state.bio
+    ) {
       const inputs = {
         email: this.state.email,
-        password: this.state.password,
+        // password: this.state.password,
         firstName: this.state.firstName,
         lastName: this.state.lastName,
         defaultAddress: this.state.defaultAddress,
@@ -64,115 +70,131 @@ class ProfileForm extends React.Component {
         bio: this.state.bio,
       };
       this.props.update(inputs);
-      this.props.navigation.navigate('AuthLoading')
+      this.props.navigation.navigate('Profile');
     }
-   
   };
 
   render() {
     const { navigate } = this.props.navigation;
     return (
-        <ScrollView>
-      <View style={styles.container}>
-      <SafeAreaView style={styles.container}>
-        {/* <ScrollView style={styles.scrollView}> */}
-          <View style={styles.container}>
-          {/* <Button title="Go Back to Login Screen" onPress={() => navigate('AuthLoading')} /> */}
-            <Image
-              source={{
-                uri:
-                  'https://p7.hiclipart.com/preview/751/476/837/running-silhouette-clip-art-silhouette.jpg',
-              }}
-              style={styles.welcomeImage}
-            />
-            <Text style={styles.getStartedText}>Sole-Mate</Text>
-            <Text style={styles.getStartedText}>Edit Profile</Text>
-            <TextInput
-              value={this.state.email}
-              onChangeText={email => this.setState({ email })}
-              placeholder={'Email'}
-              style={styles.input}
-            />
-            <TextInput
+      <ScrollView>
+        <View style={styles.container}>
+          <SafeAreaView>
+            {/* <ScrollView style={styles.scrollView}> */}
+            <View>
+              {/* <Button title="Go Back to Login Screen" onPress={() => navigate('AuthLoading')} /> */}
+              <Image
+                source={{
+                  uri: this.props.user.imageUrl,
+                }}
+                style={styles.welcomeImage}
+              />
+
+              <Text style={styles.details}>Email:</Text>
+              <TextInput
+                value={this.state.email}
+                onChangeText={email =>
+                  this.setState({ email: email.toLowerCase() })
+                }
+                placeholder={'Email'}
+                style={styles.input}
+              />
+              {/* <TextInput
               value={this.state.password}
               onChangeText={password => this.setState({ password })}
               placeholder={'Password'}
               style={styles.input}
-            />
-            <TextInput
-              value={this.state.firstName}
-              onChangeText={firstName => this.setState({ firstName })}
-              placeholder={'First Name'}
-              style={styles.input}
-            />
-            <TextInput
-              value={this.state.lastName}
-              onChangeText={lastName => this.setState({ lastName })}
-              placeholder={'Last Name'}
-              style={styles.input}
-            />
-            <TextInput
-              value={this.state.defaultAddress}
-              onChangeText={defaultAddress => this.setState({ defaultAddress })}
-              placeholder={'Address'}
-              style={styles.input}
-            />
-            <TextInput
-              value={this.state.imageUrl}
-              onChangeText={imageUrl => this.setState({ imageUrl })}
-              placeholder={'Image Url'}
-              style={styles.input}
-            />
-            <TextInput
-              value={this.state.avgPace}
-              onChangeText={avgPace => this.setState({ avgPace })}
-              placeholder={'Average Pace'}
-              style={styles.input}
-            />
-            
-            <TextInput
-              value={this.state.avgMileage}
-              onChangeText={avgMileage => this.setState({ avgMileage })}
-              placeholder={'Average Mileage'}
-              style={styles.input}
-            />
-            {/* <TextInput
-              value={this.state.goal}
-              onChangeText={goal => this.setState({ goal })}
-              placeholder={'Goal'}
-              style={styles.input}
             /> */}
-            <Text>Choose a goal:</Text>
-            <Picker
-              selectedValue={this.state.goal}
-              style={{ width: 80}}
-              onValueChange={(itemValue, itemIndex) =>
-                this.setState({goal: itemValue})
-              }>
-              <Picker.Item label="fitness" value="fitness" />
-              <Picker.Item label="hobby" value="hobby" />
-              <Picker.Item label="weightloss" value="weightloss" />
-            </Picker>
-            
-            <TextInput
-              value={this.state.bio}
-              onChangeText={bio => this.setState({ bio })}
-              placeholder={'Biography'}
-              style={styles.input}
-            />
-            <Button title="Update" onPress={this.submitHandler} />
-            <Button title="Go Back to Home Screen" onPress={() => navigate('AuthLoading')} />
-            {this.props.error && this.props.error.response && (
-              <Text style={styles.error}>
-                {' '}
-                {this.props.error.response.data}{' '}
-              </Text>
-            )}
-          </View>
-        {/* </ScrollView> */}
-      </SafeAreaView>
-       </View>
-       </ScrollView>
+
+              <Text style={styles.details}>First Name:</Text>
+              <TextInput
+                value={this.state.firstName}
+                onChangeText={firstName => this.setState({ firstName })}
+                placeholder={'First Name'}
+                style={styles.input}
+              />
+
+              <Text style={styles.details}>Last Name:</Text>
+              <TextInput
+                value={this.state.lastName}
+                onChangeText={lastName => this.setState({ lastName })}
+                placeholder={'Last Name'}
+                style={styles.input}
+              />
+
+              <Text style={styles.details}>Address:</Text>
+              <TextInput
+                value={this.state.defaultAddress}
+                onChangeText={defaultAddress =>
+                  this.setState({ defaultAddress })
+                }
+                placeholder={'Address'}
+                style={styles.input}
+              />
+
+              <Text style={styles.details}>Profile Picture:</Text>
+              <TextInput
+                value={this.state.imageUrl}
+                onChangeText={imageUrl => this.setState({ imageUrl })}
+                placeholder={'Image Url'}
+                style={styles.input}
+              />
+
+              <Text style={styles.details}>Avg. Pace:</Text>
+              <TextInput
+                value={this.state.avgPace}
+                onChangeText={avgPace => this.setState({ avgPace })}
+                placeholder={'Average Pace'}
+                style={styles.input}
+              />
+
+              <Text style={styles.details}>Avg. Mileage:</Text>
+              <TextInput
+                value={this.state.avgMileage}
+                onChangeText={avgMileage => this.setState({ avgMileage })}
+                placeholder={'Average Mileage'}
+                style={styles.input}
+              />
+
+              <Text style={styles.details}>Goal:</Text>
+              <Picker
+                selectedValue={this.state.goal}
+                style={{ width: '100%' }}
+                onValueChange={(itemValue, itemIndex) =>
+                  this.setState({ goal: itemValue })
+                }
+              >
+                <Picker.Item label="fitness" value="fitness" />
+                <Picker.Item label="hobby" value="hobby" />
+                <Picker.Item label="weightloss" value="weightloss" />
+              </Picker>
+
+              <Text style={styles.details}>Bio:</Text>
+              <TextInput
+                value={this.state.bio}
+                onChangeText={bio => this.setState({ bio })}
+                placeholder={'Biography'}
+                style={styles.input}
+              />
+              <View style={styles.btnContainer}>
+                <Button
+                  title="Update"
+                  color={'white'}
+                  onPress={this.submitHandler}
+                />
+              </View>
+
+              {this.props.error && this.props.error.response && (
+                <Text style={styles.error}>
+                  {' '}
+                  {this.props.error.response.data}{' '}
+                </Text>
+              )}
+            </View>
+            {/* </ScrollView> */}
+          </SafeAreaView>
+        </View>
+      </ScrollView>
     );
   }
 }
@@ -182,7 +204,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: 100,
+    paddingTop: 30,
+  },
+  details: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#0F3E15',
   },
   input: {
     width: 200,
@@ -195,11 +222,20 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   welcomeImage: {
-    width: 100,
-    height: 80,
+    width: 200,
+    height: 200,
     resizeMode: 'contain',
     marginTop: 3,
     marginLeft: -10,
+    borderRadius: 200 / 2,
+    overflow: 'hidden',
+    padding: '14%',
+  },
+  btnContainer: {
+    backgroundColor: '#124D1A',
+    padding: 5,
+    borderRadius: 10,
+    overflow: 'hidden',
   },
   error: {
     color: `#eb4034`,
@@ -215,7 +251,7 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    update:(user)=>dispatch(updateProfile(user))
+    update: user => dispatch(updateProfile(user)),
   };
 };
 

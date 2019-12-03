@@ -73,6 +73,7 @@ Run.getPotentialRuns = function(userId, maxDistance, lat, long) {
   const runs = Run.findAll({
     where: {
       creatorId: { [Op.ne]: userId },
+      startTimeframe: { [Op.lte]: currentTime },
       endTimeframe: { [Op.gt]: currentTime },
       isComplete: { [Op.is]: false },
       partnerId: { [Op.is]: null },
