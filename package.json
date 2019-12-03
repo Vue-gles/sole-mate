@@ -57,6 +57,7 @@
     "react-native-maps-directions": "^1.7.3",
     "react-native-modal-datetime-picker": "^7.6.0",
     "react-native-picker-select": "^6.3.3",
+    "react-native-shapes": "^0.1.0",
     "react-native-simple-time-picker": "^0.2.0",
     "react-native-slider": "^0.11.0",
     "react-native-web": "^0.11.7",

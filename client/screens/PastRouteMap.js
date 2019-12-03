@@ -66,6 +66,7 @@ export default class MapScreen extends Component {
           <Marker
             title="End of route"
             description={`Route distance: ${this.state.distance} miles`}
+            isPreselected={true}
             pinColor="purple"
             coordinate={{
               latitude: this.state.coordinates[coordLength].latitude,
