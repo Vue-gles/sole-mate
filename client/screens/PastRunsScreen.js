@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   View,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import Constants from 'expo-constants';
 import { connect } from 'react-redux';
@@ -17,11 +18,20 @@ import { getPastRunsThunk } from '../store/pastRuns';
 class PastRunsScreen extends React.Component {
   constructor(props) {
     super(props);
+    console.log()
   }
 
   componentDidMount() {
     console.log('COMPONENT MOUNTED');
     this.props.getPastRuns('past');
+  }
+
+  goToMapView(run) {
+    this.props.navigation.navigate('PastRouteMap', {
+      runInfo: {
+        runRoute: JSON.parse(run.route)
+      }
+    })
   }
 
   render() {
@@ -33,30 +43,32 @@ class PastRunsScreen extends React.Component {
         <ScrollView style={styles.scrollView}>
           {this.props.pastRuns.map(run => {
             return (
-              <View style={styles.runAd} key={run.id}>
-                <Image
-                  source={{
-                    uri: run.Creator.imageUrl,
-                  }}
-                  style={styles.runImage}
-                />
-                <Text style={styles.name}>
-                  {run.Creator.firstName} {run.Creator.lastName}
-                </Text>
-                <Text style={styles.details}>
-                  {run.prefferedMileage} mile(s)
-                </Text>
-                <Text style={styles.details}>
-                  {run.street}, {run.city}, {run.state}
-                </Text>
-                <Text style={styles.details}>
-                  {moment(run.startTimeframe).format('MMMM Do')}
-                </Text>
-                <Text style={styles.details}>
-                  {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
-                  {moment(run.endTimeframe).format('h:mm:ss a')}
-                </Text>
-              </View>
+              <TouchableWithoutFeedback onPress={() => this.goToMapView(run)}>
+                <View style={styles.runAd} key={run.id}>
+                  <Image
+                    source={{
+                      uri: run.Creator.imageUrl,
+                    }}
+                    style={styles.runImage}
+                  />
+                  <Text style={styles.name}>
+                    {run.Creator.firstName} {run.Creator.lastName}
+                  </Text>
+                  <Text style={styles.details}>
+                    {run.prefferedMileage} mile(s)
+                  </Text>
+                  <Text style={styles.details}>
+                    {run.street}, {run.city}, {run.state}
+                  </Text>
+                  <Text style={styles.details}>
+                    {moment(run.startTimeframe).format('MMMM Do')}
+                  </Text>
+                  <Text style={styles.details}>
+                    {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
+                    {moment(run.endTimeframe).format('h:mm:ss a')}
+                  </Text>
+                </View>
+              </TouchableWithoutFeedback>
             );
           })}
         </ScrollView>

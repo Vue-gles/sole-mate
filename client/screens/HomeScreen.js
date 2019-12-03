@@ -79,7 +79,11 @@ class HomeScreen extends Component {
             </View>
             <View>
               <Button title="dummy for new map"
-              onPress={() => this.props.navigation.navigate('NewThing')}
+              onPress={() => this.props.navigation.navigate('NewThing', {
+                otherParam: {
+                  yo: 'hahahahah'
+                }
+              })}
               ></Button>
             </View>
           </View>

@@ -164,6 +164,7 @@ MapStack.path = '';
 const ScheduleStack = createStackNavigator(
   {
     Home: ScheduleScreen,
+    PastRouteMap:  PastRouteMap
   },
   {
     defaultNavigationOptions: {

@@ -8,46 +8,28 @@ import { updateRoute, updateDistance } from '../store/runs';
 
 const demoMode = true;
 
-const data = [
-  { latitude: 40.7048122617505, longitude: -74.00922672983373 },
-  { latitude: 40.7048122617505, longitude: -74.00922672983373 },
-  { latitude: 40.704709131146245, longitude: -74.009193160318 },
-  { latitude: 40.70475566262779, longitude: -74.00922734268705 },
-  { latitude: 40.70478099151111, longitude: -74.00925000112234 },
-  { latitude: 40.704836250219714, longitude: -74.00917575894216 },
-  { latitude: 40.704836250219714, longitude: -74.00917575894216 },
-  { latitude: 40.704836250219714, longitude: -74.00917575894216 },
-  { latitude: 40.70483872327929, longitude: -74.00923824126313 },
-  { latitude: 40.70483872327929, longitude: -74.00923824126313 },
-  { latitude: 40.70483872327929, longitude: -74.00923824126313 },
-  { latitude: 40.704780505809374, longitude: -74.00927106474569 },
-  { latitude: 40.704780505809374, longitude: -74.00927106474569 },
-  { latitude: 40.704853430060055, longitude: -74.00926297135064 },
-  { latitude: 40.704853430060055, longitude: -74.00926297135064 },
-];
 let dataIndex = -1;
 
 class MapScreen extends Component {
   constructor(props) {
     super(props);
-
+    const data = this.props.navigation.getParam('runInfo').runRoute
+    const routeMidpoint = data[Math.floor(data.length / 2)]
     this.state = {
       name: '',
-      latitude: 40.27177,
-      longitude: -74.594883,
-      distance: 0,
       error: null,
       markers: [],
-      currentLat: 40.704836250219714,
-      currentLng: -74.00923824126313,
+      currentLat: routeMidpoint.latitude,
+      currentLng: routeMidpoint.longitude,
       coordinates: data,
-      startButtonDisabled: false,
       stopButtonDisabled: true,
       clearButtonDisabled: true,
       handlerEnabled: false,
     };
 
     this.handler = this.handler.bind(this);
+   
+
   }
 
   handler(name, lat, lng) {
@@ -62,8 +44,8 @@ class MapScreen extends Component {
     let searchedRegion = {
       latitude: this.state.currentLat,
       longitude: this.state.currentLng,
-      latitudeDelta: 0.016,
-      longitudeDelta: 0.016,
+      latitudeDelta: 0.010,
+      longitudeDelta: 0.010,
     };
 
     return (
@@ -86,7 +68,7 @@ class MapScreen extends Component {
           {
             <Polyline
               coordinates={this.state.coordinates}
-              strokeColor="forestgreen"
+              strokeColor="#590782"
               strokeWidth={5}
             />
           }
