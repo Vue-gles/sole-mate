@@ -29,7 +29,8 @@ class PastRunsScreen extends React.Component {
   goToMapView(run) {
     this.props.navigation.navigate('PastRouteMap', {
       runInfo: {
-        runRoute: JSON.parse(run.route)
+        runRoute: JSON.parse(run.route),
+        distance: run.distance
       }
     })
   }

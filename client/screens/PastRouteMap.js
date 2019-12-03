@@ -1,20 +1,13 @@
 import React, { Component } from 'react';
-import MapView, { Marker, Circle, Polyline } from 'react-native-maps';
-import { StyleSheet, View, Dimensions, Text, Button } from 'react-native';
-import GooglePlacesInput from '../components/GooglePlacesInput';
-import { getDistance } from 'geolib';
-import { connect } from 'react-redux';
-import { updateRoute, updateDistance } from '../store/runs';
+import MapView, { Polyline, Marker } from 'react-native-maps';
+import { StyleSheet, View, Dimensions } from 'react-native';
 
-const demoMode = true;
-
-let dataIndex = -1;
-
-class MapScreen extends Component {
+export default class MapScreen extends Component {
   constructor(props) {
     super(props);
-    const data = this.props.navigation.getParam('runInfo').runRoute
-    const routeMidpoint = data[Math.floor(data.length / 2)]
+    const data = this.props.navigation.getParam('runInfo').runRoute;
+    const routeMidpoint = data[Math.floor(data.length / 2)];
+    const runDistance = this.props.navigation.getParam('runInfo').distance
     this.state = {
       name: '',
       error: null,
@@ -22,14 +15,13 @@ class MapScreen extends Component {
       currentLat: routeMidpoint.latitude,
       currentLng: routeMidpoint.longitude,
       coordinates: data,
+      distance: runDistance,
       stopButtonDisabled: true,
       clearButtonDisabled: true,
       handlerEnabled: false,
     };
 
     this.handler = this.handler.bind(this);
-   
-
   }
 
   handler(name, lat, lng) {
@@ -38,14 +30,12 @@ class MapScreen extends Component {
   }
 
   render() {
-    const notRenderDirection =
-      this.state.latitude == 0 || this.state.coordinates.length == 0;
-
+    const coordLength = this.state.coordinates.length - 1;
     let searchedRegion = {
       latitude: this.state.currentLat,
       longitude: this.state.currentLng,
-      latitudeDelta: 0.010,
-      longitudeDelta: 0.010,
+      latitudeDelta: 0.01,
+      longitudeDelta: 0.01,
     };
 
     return (
@@ -65,6 +55,23 @@ class MapScreen extends Component {
           loadingIndicatorColor="green"
           loadingBackgroundColor="green"
         >
+          <Marker
+            title="Beginning of route"
+            pinColor="green"
+            coordinate={{
+              latitude: this.state.coordinates[0].latitude,
+              longitude: this.state.coordinates[0].longitude,
+            }}
+          />
+          <Marker
+            title="End of route"
+            description={`Route distance: ${this.state.distance} miles`}
+            pinColor="purple"
+            coordinate={{
+              latitude: this.state.coordinates[coordLength].latitude,
+              longitude: this.state.coordinates[coordLength].longitude,
+            }}
+          />
           {
             <Polyline
               coordinates={this.state.coordinates}
@@ -117,18 +124,3 @@ const styles = StyleSheet.create({
     padding: '4%',
   },
 });
-const mapState = state => {
-  return {
-    currentCoords: state.currentCoords,
-  };
-};
-
-const mapDispatch = dispatch => {
-  return {
-    setCurrentCoords: coords => dispatch(setCurrentCoordsThunk(coords)),
-    updateRoute: route => dispatch(updateRoute(route)),
-    updateDistance: distance => dispatch(updateDistance(distance)),
-  };
-};
-
-export default connect(mapState, mapDispatch)(MapScreen);

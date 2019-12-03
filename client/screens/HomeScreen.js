@@ -77,15 +77,6 @@ class HomeScreen extends Component {
                 color={'#124D1A'}
               />
             </View>
-            <View>
-              <Button title="dummy for new map"
-              onPress={() => this.props.navigation.navigate('NewThing', {
-                otherParam: {
-                  yo: 'hahahahah'
-                }
-              })}
-              ></Button>
-            </View>
           </View>
         </ScrollView>
       </View>

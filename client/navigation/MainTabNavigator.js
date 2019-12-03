@@ -33,8 +33,7 @@ const HomeStack = createStackNavigator(
     Profile:ProfileScreen,
     ProfileForm:ProfileForm,
     RunForm: RunForm,
-    RunNowForm: RunNowForm,
-    NewThing: PastRouteMap
+    RunNowForm: RunNowForm
   },
   {
     initialRouteName: 'Home',
