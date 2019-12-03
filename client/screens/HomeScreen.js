@@ -14,7 +14,6 @@ import {
 import TabBarIcon from '../components/TabBarIcon';
 
 import { connect } from 'react-redux';
-import { logout } from '../store/user';
 
 import { MonoText } from '../components/StyledText';
 import { NavigationEvents } from 'react-navigation';
@@ -27,7 +26,6 @@ class HomeScreen extends Component {
   }
   render() {
     console.log('HomeScreen View ------------------->');
-    const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
         <ScrollView
@@ -220,9 +218,7 @@ const mapState = state => {
 };
 
 const mapDispatch = dispatch => {
-  return {
-    logout: () => dispatch(logout()),
-  };
+  return {};
 };
 
 export default connect(mapState, mapDispatch)(HomeScreen);
