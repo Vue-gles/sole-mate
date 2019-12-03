@@ -10,7 +10,7 @@ const setCurrentCoords=(coords)=>({
 export const setCurrentCoordsThunk=(coords)=>async dispatch=>{
     try{
         const {data}=await axios.put(`${process.env.BACKEND_HOST}/api/users/current`,coords)
-        console.log('thunk logs: ',data)
+    
         dispatch(setCurrentLong(data))
     }catch(err){
         console.log('Error:', err);

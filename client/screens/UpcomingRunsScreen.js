@@ -40,24 +40,29 @@ class UpcomingRunsScreen extends React.Component {
   }
 
   render() {
-    console.log('Upcoming Runs ------------->');
-    console.log('UPCOMING RUNS PROPS', this.props);
+    
 
     return this.props.upcomingRuns.length ? (
       <SafeAreaView key={this.state.uniqueValue} style={styles.container}>
         <ScrollView style={styles.scrollView}>
           {this.props.upcomingRuns.map(run => {
-            return (
-              <View style={styles.runAd} key={run.id}>
-                <Image
-                  source={{
-                    uri: run.Creator.imageUrl,
-                  }}
-                  style={styles.runImage}
-                />
-                <Text style={styles.name}>
-                  {run.Creator.firstName} {run.Creator.lastName}
-                </Text>
+            return ( run.creatorId === this.props.user.id ? (
+            <View style={styles.runAd} key={run.id}>
+                {run.partnerId && (
+                    <Image
+                    source={{
+                      uri: run.Partner.imageUrl,
+                    }}
+                    style={styles.runImage}
+                  />       
+                )}
+                {run.partnerId && (
+                    <Text style={styles.name}>
+                    {run.Partner.firstName} {run.Partner.lastName}
+                  </Text>
+                )}
+                
+                
                 <Text style={styles.details}>
                   {run.prefferedMileage} mile(s)
                 </Text>
@@ -78,7 +83,40 @@ class UpcomingRunsScreen extends React.Component {
                   color={'#0F3E15'}
                 />
               </View>
-            );
+            ) : (
+              <View style={styles.runAd} key={run.id}>
+                
+              <Image
+                source={{
+                  uri: run.Creator.imageUrl,
+                }}
+                style={styles.runImage}
+              />
+              <Text style={styles.name}>
+                {run.Creator.firstName} {run.Creator.lastName}
+              </Text>
+              <Text style={styles.details}>
+                {run.prefferedMileage} mile(s)
+              </Text>
+              <Text style={styles.details}>
+                {run.street}, {run.city}, {run.state}
+              </Text>
+              <Text style={styles.details}>
+                {moment(run.startTimeframe).format('MMMM Do')}
+              </Text>
+              <Text style={styles.details}>
+                {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
+                {moment(run.endTimeframe).format('h:mm:ss a')}
+              </Text>
+
+              <Button
+                title="Start Run"
+                onPress={() => this.clickHandler(run.id)}
+                color={'#0F3E15'}
+              />
+            </View>
+            ))
+            
           })}
         </ScrollView>
       </SafeAreaView>
@@ -126,6 +164,7 @@ const styles = StyleSheet.create({
 const mapState = state => {
   return {
     upcomingRuns: state.upcomingRuns,
+    user: state.user
   };
 };
 

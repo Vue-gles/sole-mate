@@ -376,7 +376,7 @@ async function updateRuns() {
           `https://maps.googleapis.com/maps/api/geocode/json?address=${fullAddress}&key=${process.env.GOOGLE_API_KEY}`
         );
 
-        console.log(data.results[0].geometry.location);
+        // console.log(data.results[0].geometry.location);
         const lat = data.results[0].geometry.location.lat;
         const long = data.results[0].geometry.location.lng;
         // run.lat = lat;

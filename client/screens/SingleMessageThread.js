@@ -29,7 +29,7 @@ class SingleMessageThread extends React.Component {
       content: '',
     };
     this.submitHandler = this.submitHandler.bind(this);
-    console.log('Single MessageThread View -------------------->');
+
   }
   static navigationOptions = ({ navigation }) => {
     return {

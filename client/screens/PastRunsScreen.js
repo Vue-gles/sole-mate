@@ -18,11 +18,11 @@ import { getPastRunsThunk } from '../store/pastRuns';
 class PastRunsScreen extends React.Component {
   constructor(props) {
     super(props);
-    console.log();
+  
   }
 
   componentDidMount() {
-    console.log('COMPONENT MOUNTED');
+
     this.props.getPastRuns('past');
   }
 
@@ -36,8 +36,7 @@ class PastRunsScreen extends React.Component {
   }
 
   render() {
-    console.log('Past Runs ------------->');
-    console.log('PAST RUNS PROPS', this.props);
+
 
     return this.props.pastRuns.length > 0 ? (
       <SafeAreaView style={styles.container}>

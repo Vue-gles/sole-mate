@@ -20,7 +20,6 @@ export default class GooglePlacesInput extends Component {
   }
 
   helperFunction(lat, lng) {
-    console.log('HELPER', lat, lng, this.state.address);
     this.props.handler(this.state, lat, lng);
   }
 
