@@ -43,36 +43,36 @@ class MessageThreads extends React.Component {
   }
 
   render() {
-    return (
+    return this.props.threads.length > 0 ? (
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
-          {this.props.threads && this.props.threads.length ? (
-            this.props.threads.map(thread => {
-              return (
-                <TouchableWithoutFeedback
-                  key={thread.id}
-                  onPress={() => this.clickHandler(thread.id)}
-                >
-                  <View style={styles.thread}>
-                    <Image
-                      source={{
-                        uri: thread.imageUrl,
-                      }}
-                      style={styles.userImage}
-                    />
-                    <Text>
-                      Messages with {thread.firstName} {thread.lastName}
-                    </Text>
-                  </View>
-                </TouchableWithoutFeedback>
-              );
-            })
-          ) : (
-            <View style={styles.thread}>
-              <Text>No Message Threads.</Text>
-            </View>
-          )}
+          {this.props.threads.map(thread => {
+            return (
+              <TouchableWithoutFeedback
+                key={thread.id}
+                onPress={() => this.clickHandler(thread.id)}
+              >
+                <View style={styles.thread}>
+                  <Image
+                    source={{
+                      uri: thread.imageUrl,
+                    }}
+                    style={styles.userImage}
+                  />
+                  <Text>
+                    Messages with {thread.firstName} {thread.lastName}
+                  </Text>
+                </View>
+              </TouchableWithoutFeedback>
+            );
+          })}
         </ScrollView>
+      </SafeAreaView>
+    ) : (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.nothreads}>
+          <Text style={styles.none}>No messages</Text>
+        </View>
       </SafeAreaView>
     );
   }
@@ -90,6 +90,13 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
+  nothreads: {
+    padding: 10,
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   userImage: {
     width: 60,
     height: 60,
@@ -98,6 +105,11 @@ const styles = StyleSheet.create({
     marginRight: 15,
     borderRadius: 60 / 2,
     overflow: 'hidden',
+  },
+  none: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#303731',
   },
 });
 

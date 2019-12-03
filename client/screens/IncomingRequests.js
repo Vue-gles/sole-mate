@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     padding: 10,
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center',
   },
   status: {
