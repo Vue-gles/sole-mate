@@ -63,8 +63,7 @@ class SignUpFormScreen extends React.Component {
                 }}
                 style={styles.welcomeImage}
               />
-              <Text style={styles.getStartedText}>Sole-Mate</Text>
-              <Text style={styles.getStartedText}>Sign Up</Text>
+              <Text style={styles.name}>Sign Up</Text>
               <TextInput
                 value={this.state.email}
                 onChangeText={email =>
@@ -80,10 +79,11 @@ class SignUpFormScreen extends React.Component {
                 style={styles.input}
               />
 
-              <Button title="Next" onPress={this.submitHandler} />
+              <Button title="Next" color={'#0F3E15'} onPress={this.submitHandler} />
               <Button
                 title="Go Back to Login Screen"
                 onPress={() => navigate('AuthLoading')}
+                color={'#0F3E15'}
               />
               {this.props.error && this.props.error.response && (
                 <Text style={styles.error}>
@@ -107,6 +107,24 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingTop: 100,
   },
+  name: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#303731',
+  },
+  details: {
+    color: '#525E54',
+  },
+  welcomeImage: {
+    width: 100,
+    height: 100,
+    resizeMode: 'contain',
+    marginTop: 3,
+    marginLeft: -10,
+    borderRadius: 100 / 2,
+    overflow: 'hidden',
+    padding: '14%',
+  },
   input: {
     width: 200,
     height: 44,
@@ -116,13 +134,6 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderRadius: 5,
     marginBottom: 10,
-  },
-  welcomeImage: {
-    width: 100,
-    height: 80,
-    resizeMode: 'contain',
-    marginTop: 3,
-    marginLeft: -10,
   },
   error: {
     color: `#eb4034`,
