@@ -7,7 +7,7 @@ export default class MapScreen extends Component {
     super(props);
     const data = this.props.navigation.getParam('runInfo').runRoute;
     const routeMidpoint = data[Math.floor(data.length / 2)];
-    const runDistance = this.props.navigation.getParam('runInfo').distance
+    const runDistance = this.props.navigation.getParam('runInfo').distance;
     this.state = {
       name: '',
       error: null,
