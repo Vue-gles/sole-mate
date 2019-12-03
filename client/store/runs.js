@@ -80,7 +80,6 @@ export default runs = (state = [], action) => {
       return action.runs;
     case MADE_NEW_RUN:
       const runs = state.runs ? state.runs : [];
-      // return [...state.runs, action.newRun]
       return runs.concat(action.newRun);
     default:
       return state;

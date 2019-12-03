@@ -18,7 +18,7 @@ import { Chevron } from 'react-native-shapes';
 
 import { connect } from 'react-redux';
 import Constants from 'expo-constants';
-import { createRunThunk } from '../store/runs';
+import { createUpcomingRunThunk } from '../store/upcomingRuns';
 import PlacesAutocomplete from '../components/PlacesAutocomplete';
 import {getUpcomingRunsThunk} from '../store/upcomingRuns'
 
@@ -90,7 +90,6 @@ class RunForm extends Component {
       Alert.alert('Must fill out all of the above before moving on')
     } else {
       await this.props.createRun(this.state);
-      await this.props.getUpcomingRuns('upcoming')
       this.props.navigation.navigate('ScheduleStack')
     }
     
@@ -327,8 +326,7 @@ class RunForm extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    createRun: runInfo => dispatch(createRunThunk(runInfo)),
-    getUpcomingRuns: (type) => dispatch(getUpcomingRunsThunk(type))
+    createRun: runInfo => dispatch(createUpcomingRunThunk(runInfo))
   };
 };
 
