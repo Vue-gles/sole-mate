@@ -25,8 +25,8 @@ class OutgoingRequests extends React.Component {
     super(props);
     
   }
-  async componentDidMount() {
-    await this.props.getOutgoing();
+  componentDidMount() {
+    this.props.getOutgoing();
   }
   render() {
     return (

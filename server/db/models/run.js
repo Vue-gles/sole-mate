@@ -111,7 +111,10 @@ Run.getUpcomingRuns = function(userId) {
         },
       ],
     },
-    include: [{ model: User, as: 'Creator' }],
+    include: [{ model: User,  as: 'Creator', foreignKey: 'creatorId' },
+    { model: User,  as: 'Partner', foreignKey: 'partnerId' }
+  ],
+
 
   });
   return runs;

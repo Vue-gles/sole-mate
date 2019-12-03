@@ -43,8 +43,8 @@ class RunResultsScreen extends React.Component {
     );
   }
 
-  async clickHandler(id) {
-    await this.props.getSingleRun(id);
+  clickHandler(id) {
+    this.props.getSingleRun(id);
     this.props.navigation.navigate('SingleRun');
   }
 

@@ -16,7 +16,6 @@ module.exports = io => {
     socket.on('requestUpdate', () => {
       console.log(`Backend: requestUpdate received`);
       io.emit('requestUpdated');
-
     });
 
     socket.on('newRequest', () => {
@@ -27,6 +26,11 @@ module.exports = io => {
     socket.on('newMessage', partnerId => {
       console.log('Backend: newMessage received', partnerId);
       socket.broadcast.emit('newMessageReceived', partnerId);
+    });
+
+    socket.on('completeRun', payload => {
+      console.log('Backend: completeRun received');
+      socket.broadcast.emit('completeRunReceived', payload);
     });
   });
 };
