@@ -25,13 +25,6 @@ class HomeScreen extends Component {
   constructor(props) {
     super(props);
   }
-
-  _signOutAsync = async () => {
-    await this.props.logout();
-    if (this.props.user && !this.props.user.id) {
-      this.props.navigation.navigate('Auth');
-    }
-  };
   render() {
     console.log('HomeScreen View ------------------->');
     const { navigate } = this.props.navigation;
@@ -68,12 +61,6 @@ class HomeScreen extends Component {
               <Button
                 title="My Profile"
                 onPress={() => this.props.navigation.navigate('Profile')}
-                color={'#124D1A'}
-              />
-
-              <Button
-                title="Sign Out"
-                onPress={this._signOutAsync}
                 color={'#124D1A'}
               />
             </View>
