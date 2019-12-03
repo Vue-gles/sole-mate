@@ -75,7 +75,7 @@ export default upcomingRuns = (state = [], action) => {
     case GOT_UPCOMING_RUNS:
       return action.upcomingRuns;
     case GOT_NEW_UPCOMING_RUN:
-      return [...state.upcomingRuns, action.newRun]
+      return [...state, action.newRun]
     case COMPLETE_RUN:
       return state.filter(run => {
         if (run.id === action.runId) {
