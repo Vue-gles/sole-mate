@@ -14,7 +14,6 @@ import {
 import TabBarIcon from '../components/TabBarIcon';
 
 import { connect } from 'react-redux';
-import { logout } from '../store/user';
 
 import { MonoText } from '../components/StyledText';
 import { NavigationEvents } from 'react-navigation';
@@ -25,16 +24,8 @@ class HomeScreen extends Component {
   constructor(props) {
     super(props);
   }
-
-  _signOutAsync = async () => {
-    await this.props.logout();
-    if (this.props.user && !this.props.user.id) {
-      this.props.navigation.navigate('Auth');
-    }
-  };
   render() {
     console.log('HomeScreen View ------------------->');
-    const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
         <ScrollView
@@ -68,12 +59,6 @@ class HomeScreen extends Component {
               <Button
                 title="My Profile"
                 onPress={() => this.props.navigation.navigate('Profile')}
-                color={'#124D1A'}
-              />
-
-              <Button
-                title="Sign Out"
-                onPress={this._signOutAsync}
                 color={'#124D1A'}
               />
             </View>
@@ -233,9 +218,7 @@ const mapState = state => {
 };
 
 const mapDispatch = dispatch => {
-  return {
-    logout: () => dispatch(logout()),
-  };
+  return {};
 };
 
 export default connect(mapState, mapDispatch)(HomeScreen);
