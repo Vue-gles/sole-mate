@@ -45,7 +45,7 @@ class SignUpRunForm extends React.Component {
   }
 
   static navigationOptions = {
-    title: 'SignUpRun',
+    title: 'Sign Up',
   };
 
   submitHandler = async () => {
@@ -86,10 +86,7 @@ class SignUpRunForm extends React.Component {
         bio: this.state.bio,
       };
       await this.props.createUser(inputs);
-      this.props.navigation.navigate('AuthLoading', {
-        email: this.state.email,
-        password: this.state.password,
-      });
+      this.props.navigation.navigate('AuthLoading');
     }
   };
 
