@@ -88,10 +88,11 @@ router.post('/', isUser, async (req, res, next) => {
 router.put('/:runId', isUser, async (req, res, next) => {
   try {
     const run = await Run.findByPk(req.params.runId);
-    const { route, distance } = req.body;
+    const { route, distance, seconds } = req.body;
     const updated = await run.update({
       route,
       distance,
+      seconds,
       isComplete: true,
     });
     const creator = await User.findByPk(updated.creatorId);
