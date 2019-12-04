@@ -48,7 +48,6 @@ class SignUpFormScreen extends React.Component {
     else if (!isValid) alert('Please enter a valid email');
     else if (this.state.password === '') alert('Please enter a password');
     if (this.state.email && isValid && this.state.password) {
-      console.log('whatup');
       this.props.navigation.navigate('SignUpName', {
         email: this.state.email,
         password: this.state.password,
@@ -108,6 +107,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    paddingTop: 100,
   },
   details: {
     fontSize: 20,
@@ -119,10 +119,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
   },
-  brandName: {
-    fontSize: 50,
-    color: 'forestgreen',
-  },
   input: {
     width: 200,
     height: 44,
@@ -132,11 +128,6 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderRadius: 5,
     marginBottom: 10,
-  },
-  welcomeImage: {
-    width: 200,
-    height: 200,
-    marginTop: 3,
   },
   error: {
     color: `#eb4034`,
