@@ -6,6 +6,8 @@ import { getDistance } from 'geolib';
 import { connect } from 'react-redux';
 import { completeRun } from '../store/upcomingRuns';
 import { saveRun } from '../store/pastRuns';
+import { Chevron } from 'react-native-shapes';
+import RNPickerSelect from 'react-native-picker-select';
 
 import socket from '../socket/index';
 
@@ -84,6 +86,7 @@ class MapScreen extends Component {
       stopButtonDisabled: true,
       clearButtonDisabled: true,
       handlerEnabled: false,
+      circleRadius: 0
     };
 
     this.onRegionChangeHandler = this.onRegionChangeHandler.bind(this);
@@ -376,6 +379,54 @@ class MapScreen extends Component {
           <Text style={styles.distanceTextStyle}>
             {this.state.distance.toFixed(2)} miles
           </Text>
+          <RNPickerSelect
+            placeholder={{ label: 'Miles to run' }}
+            items={[
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              24,
+              25,
+              26,
+            ].map(mile => {
+              return { label: `${mile}`, value: mile };
+            })}
+            onValueChange={value => this.setState({ circleRadius: value })}
+            style={{
+              ...pickerSelectStyles,
+              iconContainer: {
+                top: 10,
+                right: 12,
+              },
+            }}
+            value={this.state.circleRadius}
+            useNativeAndroidPickerStyle={false}
+            textInputProps={{ underlineColor: 'yellow' }}
+            Icon={() => {
+              return <Chevron size={1.5} color="gray" />;
+            }}
+          />
+          
         </View>
       </View>
     );
@@ -419,6 +470,28 @@ const styles = StyleSheet.create({
     color: 'yellow',
     textAlignVertical: 'bottom',
     padding: '4%',
+  },
+});
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    fontSize: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 8,
+    color: 'black',
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+  inputAndroid: {
+    fontSize: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderWidth: 0.5,
+    borderColor: 'purple',
+    borderRadius: 8,
+    color: 'black',
+    paddingRight: 30, // to ensure the text is never behind the icon
   },
 });
 const mapState = state => {

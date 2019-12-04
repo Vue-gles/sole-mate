@@ -164,11 +164,46 @@ MessageStack.navigationOptions = {
 MessageStack.path = '';
 
 
+const MapStack = createStackNavigator(
+  {
+    Map: MapScreen
+  },
+  {
+    initialRouteName: 'Map',
+    defaultNavigationOptions: {
+      title: 'Messages',
+      headerStyle: {
+        backgroundColor: 'forestgreen',
+      },
+      headerTintColor: '#0F3E15',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        color: '#fff',
+      },
+    },
+  }
+);
+
+MapStack.navigationOptions = {
+  title: 'Map',
+  tabBarLabel: 'Map',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === 'ios' ? `ios-text` : 'md-text'}
+    />
+  ),
+};
+
+MapStack.path = '';
+
+
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   NotificationsStack,
   ScheduleStack,
   MessageStack,
+  MapStack
 });
 
 tabNavigator.path = '';
