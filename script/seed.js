@@ -116,7 +116,7 @@ const runs = [
     city: 'New York',
     state: 'NY',
     lat: 40.7411,
-    long: 73.9897,
+    long: -73.9897,
     startTimeframe: new Date('2019-12-04 12:00:00'),
     endTimeframe: new Date('2019-12-04 23:00:00'),
     prefferedMileage: 5,
