@@ -104,6 +104,16 @@ class RunResultsScreen extends React.Component {
               </Text>
             </View>
           )}
+          <View style={styles.runAd}>
+            <Text style={styles.name}>Dont like what you see?</Text>
+            <View style={styles.btnContainer}>
+                <Button
+                  title="Create a new Run"
+                  onPress={() => this.props.navigation.navigate('RunForm')}
+                  color={'white'}
+                />
+              </View>
+          </View>
         </ScrollView>
       </SafeAreaView>
     );
@@ -136,6 +146,13 @@ const styles = StyleSheet.create({
     paddingTop: 3,
     marginLeft: -10,
     borderRadius: 150 / 2,
+    overflow: 'hidden',
+  },
+  btnContainer: {
+    backgroundColor: '#124D1A',
+    padding: 5,
+    margin: 5,
+    borderRadius: 10,
     overflow: 'hidden',
   },
 });
