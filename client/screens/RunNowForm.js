@@ -88,10 +88,7 @@ class RunNowForm extends React.Component {
             }
           }}
         >
-          <Button
-            title="Find runs near you"
-
-          />
+          <Text style={{ color: 'white' }}>Find runs near you</Text>
         </TouchableOpacity>
         {this.state.showError ? (
           <Text style={{ color: 'red' }}>Must fill out location</Text>
