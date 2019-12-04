@@ -163,12 +163,11 @@ MessageStack.navigationOptions = {
 
 MessageStack.path = '';
 
-
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   NotificationsStack,
   ScheduleStack,
-  MessageStack,
+  MessageStack
 });
 
 tabNavigator.path = '';
