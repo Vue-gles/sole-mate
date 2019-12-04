@@ -8,7 +8,7 @@ import {
   Picker,
   SafeAreaView,
   TouchableOpacity,
-  Alert
+  Alert,
 } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import RNPickerSelect from 'react-native-picker-select';
@@ -20,7 +20,7 @@ import { connect } from 'react-redux';
 import Constants from 'expo-constants';
 import { createUpcomingRunThunk } from '../store/upcomingRuns';
 import PlacesAutocomplete from '../components/PlacesAutocomplete';
-import {getUpcomingRunsThunk} from '../store/upcomingRuns'
+import { getUpcomingRunsThunk } from '../store/upcomingRuns';
 
 class RunForm extends Component {
   constructor(props) {
@@ -45,7 +45,7 @@ class RunForm extends Component {
   static navigationOptions = {
     title: 'Post a run',
   };
-  
+
   showDateTimePicker = () => {
     this.setState({ isDateTimePickerVisible: true });
   };
@@ -55,7 +55,6 @@ class RunForm extends Component {
   };
 
   handleDatePicked = date => {
-    console.log(date)
     this.setState({ startTime: date });
     this.hideDateTimePicker();
   };
@@ -69,9 +68,10 @@ class RunForm extends Component {
   };
 
   handleEndTimePicked = endTime => {
-    console.log('yooo')
-    endTime = endTime.getHours();
-    this.setState({ endTime });
+    const time = moment(endTime).format('HH:mm');
+    const date = moment(this.state.startTime).format('YYYY-MM-DD');
+    const dateTime = `${date}T${time}`;
+    this.setState({ endTime: new Date(dateTime) });
     this.hideEndTimePicker();
   };
 
@@ -87,17 +87,15 @@ class RunForm extends Component {
 
   async submitHandler() {
     if (!this.state.lattitude || !this.state.prefferedMileage) {
-      Alert.alert('Must fill out all of the above before moving on')
+      Alert.alert('Must fill out all of the above before moving on');
     } else {
       await this.props.createRun(this.state);
-      this.props.navigation.navigate('ScheduleStack')
+      this.props.navigation.navigate('ScheduleStack');
     }
-    
   }
 
   render() {
-
-
+    console.log('THIS IS MY STATE', this.state);
     return (
       <View style={styles.container}>
         <ScrollView
@@ -191,19 +189,30 @@ class RunForm extends Component {
             </TouchableOpacity>
           </View>
           <View paddingVertical={20} />
-          <Text style={{textAlign: 'center', paddingVertical: 5}}>{moment(this.state.startTime).format('MMMM Do, YYYY')}</Text>
-          <Text style={{textAlign: 'center', fontSize: 20, fontWeight: 'bold'}}>{moment(this.state.startTime).format('h:mm')} to {moment(this.state.endTime).format('h:mm a')}</Text>
+          <Text style={{ textAlign: 'center', paddingVertical: 5 }}>
+            {moment(this.state.startTime).format('MMMM Do, YYYY')}
+          </Text>
+          <Text
+            style={{ textAlign: 'center', fontSize: 20, fontWeight: 'bold' }}
+          >
+            {moment(this.state.startTime).format('h:mm')} to{' '}
+            {(this.state.endTime.getHours() > 12
+              ? this.state.endTime.getHours() - 12
+              : this.state.endTime.getHours()) - 7}
+            :{moment(this.state.endTime).format('mm')}{' '}
+            {this.state.endTime.getHours() > 12 ? 'a.m.' : 'p.m.'}
+          </Text>
           <View paddingVertical={10} />
 
-          <TouchableOpacity style={styles.button}
+          <TouchableOpacity
+            style={styles.button}
             onPress={() => {
               this.setState({ creatorId: this.props.userId });
-              this.submitHandler()
-              }
-              }>
-                <Text>Submit run!</Text>
+              this.submitHandler();
+            }}
+          >
+            <Text>Submit run!</Text>
           </TouchableOpacity>
-
         </ScrollView>
       </View>
     );
@@ -212,7 +221,7 @@ class RunForm extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    createRun: runInfo => dispatch(createUpcomingRunThunk(runInfo))
+    createRun: runInfo => dispatch(createUpcomingRunThunk(runInfo)),
   };
 };
 
@@ -254,7 +263,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   timeSlotText: {
-    fontSize: 20
+    fontSize: 20,
   },
   submitButton: {
     flex: 1,
@@ -263,7 +272,7 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 5,
     borderRadius: 10,
-  }
+  },
 });
 
 const pickerSelectStyles = StyleSheet.create({
@@ -288,50 +297,3 @@ const pickerSelectStyles = StyleSheet.create({
     paddingRight: 30, // to ensure the text is never behind the icon
   },
 });
-
-// const styles = StyleSheet.create({
-//   container: {
-//     justifyContent: 'flex-start',
-//     alignItems: 'flex-start',
-//     paddingTop: 20
-//   },
-//   item: {
-//     height: 30,
-//     flex: 1,
-//     paddingTop: Constants.statusBarHeight,
-//     flexDirection: 'column',
-//   },
-//   mapItem: {
-//     paddingTop: 30,
-//     marginTop: 20,
-//   },
-//   itemRow: {
-//     height: 30,
-//     flexDirection: 'row',
-//     justifyContent: 'flex-start',
-//     backgroundColor: 'yellow',
-//   },
-//   textItem: {
-//     flex: 3,
-//     paddingLeft: 0,
-//     backgroundColor: 'red',
-//   },
-//   valueItem: {
-//     flex: 1,
-//   },
-//   text: {
-//     textAlign: 'left',
-//     // fontSize: 15,
-//     // height: 50,
-//   },
-//   picker: {
-//     fontSize: 15,
-//   },
-//   btnContainer: {
-//     backgroundColor: '#124D1A',
-//     padding: 5,
-//     margin: 5,
-//     borderRadius: 10,
-//     overflow: 'hidden',
-//   },
-// });
