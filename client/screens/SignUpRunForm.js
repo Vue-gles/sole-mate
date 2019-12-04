@@ -86,7 +86,9 @@ class SignUpRunForm extends React.Component {
         bio: this.state.bio,
       };
       await this.props.createUser(inputs);
-      this.props.navigation.navigate('AuthLoading');
+      if (this.props.user && this.props.user.id) {
+        this.props.navigation.navigate('Main');
+      }
     }
   };
 
