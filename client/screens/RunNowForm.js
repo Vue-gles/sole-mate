@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Dimensions,
   Button,
+  TouchableOpacity,
 } from 'react-native';
 import Slider from 'react-native-slider';
 import Constants from 'expo-constants';
@@ -25,7 +26,8 @@ class RunNowForm extends React.Component {
       state: '',
       lattitude: 0,
       longitude: 0,
-      maxDistance: 30,
+      maxDistance: 5,
+      showError: false,
     };
 
     this.locationHandler = this.locationHandler.bind(this);
@@ -50,16 +52,18 @@ class RunNowForm extends React.Component {
 
   render() {
     return (
-      <ScrollView>
-        <View style={styles.container}>
-          <PlacesAutocomplete locationHandler={this.locationHandler} />
-        </View>
+      <ScrollView style={{ paddingHorizontal: 15 }}>
+        <View paddingVertical={10} />
+
+        <PlacesAutocomplete locationHandler={this.locationHandler} />
+        <View paddingVertical={20} />
+
         <View style={styles.container}>
           <Slider
             style={(styles.container, { width: 250, alignSelf: 'center' })}
             step={0.2}
             minimumValue={0.2}
-            maximumValue={100}
+            maximumValue={10}
             value={this.state.maxDistance}
             onValueChange={val => this.setState({ maxDistance: val })}
             onSlidingComplete={this.getMaxDistance}
@@ -68,20 +72,27 @@ class RunNowForm extends React.Component {
             Find runs within {this.state.maxDistance.toFixed(1)} miles
           </Text>
         </View>
-        <View>
-          <Button
-            title="Find runs near you"
-            onPress={() => {
+        <View paddingVertical={15} />
+        <TouchableOpacity
+          style={styles.submitButton}
+          onPress={() => {
+            if (this.state.latitude || this.state.longitude) {
               this.props.setRunNowFormInfo(
                 this.state.lattitude,
                 this.state.longitude,
                 this.state.maxDistance
               );
               this.props.navigation.navigate('RunResults');
-            }}
-            disabled={this.state.lattitude ? false : true}
-          />
-        </View>
+            } else {
+              this.setState({ showError: true });
+            }
+          }}
+        >
+          <Text style={{ color: 'white' }}>Find runs near you</Text>
+        </TouchableOpacity>
+        {this.state.showError ? (
+          <Text style={{ color: 'red' }}>Must fill out location</Text>
+        ) : null}
       </ScrollView>
     );
   }
@@ -103,8 +114,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     flex: 1,
-    marginLeft: 10,
-    marginRight: 10,
   },
   item: {
     flex: 2,
@@ -122,53 +131,12 @@ const styles = StyleSheet.create({
     fontSize: 15,
     height: 50,
   },
+  submitButton: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: '#04823a',
+    padding: 10,
+    margin: 5,
+    borderRadius: 10,
+  },
 });
-
-// import t from 'tcomb-form-native'; // 0.6.9
-
-// const Form = t.form.Form;
-
-// const User = t.struct({
-//   location: t.Date,
-//   username: t.String,
-//   password: t.String,
-//   terms: t.Boolean
-// });
-
-// const options = {
-//     fields: {
-//         location: {
-//             "mode":'time'
-//         }
-//     }
-
-// }
-
-// export default class App extends Component {
-
-//     onChange(value) {
-//         console.log(value)
-//       }
-
-//   render() {
-//     return (
-//     <ScrollView>
-//         <View style={styles.container}>
-//         <Form type={User}
-//         onChange={this.onChange}
-//         options={options}
-//         />
-//       </View>
-//     </ScrollView>
-//     );
-//   }
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     justifyContent: 'center',
-//     marginTop: 50,
-//     padding: 20,
-//     backgroundColor: '#ffffff',
-//   },
-// });

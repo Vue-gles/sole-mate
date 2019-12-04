@@ -22,6 +22,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import ProfileForm from '../screens/ProfileForm';
 import RunNowForm from '../screens/RunNowForm'
 import PastRouteMap from '../screens/PastRouteMap'
+import Stats from '../screens/Stats'
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -38,6 +39,7 @@ const HomeStack = createStackNavigator(
     RunResults: RunResultsScreen,
     RunLaterResults:RunLaterResultsScreen,
     SingleRun: SingleRunScreen,
+    Stats: Stats
   },
   {
     initialRouteName: 'Home',
@@ -165,12 +167,11 @@ MessageStack.navigationOptions = {
 
 MessageStack.path = '';
 
-
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   NotificationsStack,
   ScheduleStack,
-  MessageStack,
+  MessageStack
 });
 
 tabNavigator.path = '';
