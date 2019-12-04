@@ -382,7 +382,7 @@ class MapScreen extends Component {
             </Text>
             <RNPickerSelect
               placeholder={{ label: 'Circle 1' }}
-              items={[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25].map(mile => {
+              items={[0, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25].map(mile => {
                 return { label: `${mile} miles`, value: parseFloat(mile) * 1609.34 };
               })}
               onValueChange={value => 
@@ -421,7 +421,7 @@ class MapScreen extends Component {
               Icon={() => {
                 return <Chevron size={1} color="blue" />;
               }}
-            />
+            /> 
           </View>
           
         </View>
@@ -490,7 +490,6 @@ const pickerSelectStyles = StyleSheet.create({
   },
   inputAndroid: {
     fontSize: 12,
-
     borderWidth: 0.5,
     borderColor: 'dodgerblue',
     borderRadius: 8,
