@@ -81,7 +81,7 @@ class ProfileScreen extends React.Component {
               </Text>
             )}
           </View>
-          <TouchableOpacity>
+          <TouchableOpacity style={styles.workoutButton}>
             <Text>View my workout stats</Text>
           </TouchableOpacity>
         </ScrollView>
@@ -131,6 +131,14 @@ const styles = StyleSheet.create({
     margin: 5,
     borderRadius: 10,
     overflow: 'hidden',
+  },   
+  workoutButton: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: '#ffc0cb',
+    padding: 10,
+    margin: 5,
+    borderRadius: 10,
   },
 });
 
