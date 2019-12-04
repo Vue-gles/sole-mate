@@ -59,6 +59,9 @@ const Run = db.define('run', {
   distance: {
     type: Sequelize.FLOAT,
   },
+  seconds: {
+    type: Sequelize.INTEGER
+  },
   prefferedMileage: {
     type: Sequelize.INTEGER,
     allowNull: false,
