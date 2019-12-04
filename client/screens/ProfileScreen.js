@@ -82,7 +82,7 @@ class ProfileScreen extends React.Component {
             )}
           </View>
           <TouchableOpacity style={styles.workoutButton}>
-            <Text>View my workout stats</Text>
+            <Text>View my stats</Text>
           </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>
