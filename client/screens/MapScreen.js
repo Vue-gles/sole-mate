@@ -149,16 +149,18 @@ class MapScreen extends Component {
   }
 
   saveTracking() {
+    console.log('----------->', this.state.seconds)
     dataIndex = -1;
     const runId = this.props.currentRun.id;
     const distance = this.state.distance.toFixed(2);
     const coords = JSON.stringify(this.state.coordinates);
-    this.props.saveRun(runId, coords, distance);
+    const seconds = this.state.seconds
+    this.props.saveRun(runId, coords, distance, seconds);
     this.props.completeRun(runId);
     const payload = { runId, coords, distance };
     socket.emit('completeRun', payload);
     this.setState({
-      milliseconds: 0,
+      seconds: 0,
       coordinates: [],
       distance: 0,
       clearButtonDisabled: true,
@@ -425,7 +427,7 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     setCurrentCoords: coords => dispatch(setCurrentCoordsThunk(coords)),
-    saveRun: (id, route, distance) => dispatch(saveRun(id, route, distance)),
+    saveRun: (id, route, distance, seconds) => dispatch(saveRun(id, route, distance, seconds)),
     completeRun: id => dispatch(completeRun(id)),
   };
 };

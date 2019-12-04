@@ -28,13 +28,14 @@ export const getPastRunsThunk = type => async dispatch => {
   }
 };
 
-export const saveRun = (runId, route, distance) => async dispatch => {
+export const saveRun = (runId, route, distance, seconds) => async dispatch => {
   try {
     const { data } = await axios.put(
       `${process.env.BACKEND_HOST}/api/runs/${runId}`,
       {
         route,
         distance,
+        seconds
       }
     );
     dispatch(savedRun(data));
