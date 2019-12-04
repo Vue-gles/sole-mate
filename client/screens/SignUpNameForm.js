@@ -12,6 +12,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  KeyboardAvoidingView,
   View,
   Picker,
 } from 'react-native';
@@ -37,7 +38,8 @@ class SignUpNameForm extends React.Component {
       firstName: '',
       lastName: '',
       defaultAddress: '',
-      imageUrl: '',
+      imageUrl:
+        'https://galileo-camps.com/wp-content/themes/galileo-learning/library/img/default-person.png',
     };
   }
 
@@ -95,75 +97,70 @@ class SignUpNameForm extends React.Component {
 
   render() {
     const { navigate } = this.props.navigation;
+    const { imageUrl } = this.state;
     return (
-      <ScrollView>
-        <View style={styles.container}>
-          <SafeAreaView style={styles.container}>
-            {/* <ScrollView style={styles.scrollView}> */}
-            <View style={styles.container}>
-              {/* <Button title="Go Back to Login Screen" onPress={() => navigate('AuthLoading')} /> */}
-              <Image source={logo} style={styles.welcomeImage} />
-              <Text style={styles.name}>Sign Up</Text>
-              <TextInput
-                value={this.state.firstName}
-                onChangeText={firstName => this.setState({ firstName })}
-                placeholder={'First Name'}
-                style={styles.input}
-              />
-              <TextInput
-                value={this.state.lastName}
-                onChangeText={lastName => this.setState({ lastName })}
-                placeholder={'Last Name'}
-                style={styles.input}
-              />
-              <TextInput
-                value={this.state.defaultAddress}
-                onChangeText={defaultAddress =>
-                  this.setState({ defaultAddress })
-                }
-                placeholder={'Address'}
-                style={styles.input}
-              />
-              <View
-                style={{
-                  flex: 1,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <Button
-                  color={'#0F3E15'}
-                  title="Select Profile Picture"
-                  onPress={this._pickImage}
-                />
-                {/* {this.state.imageUrl && (
-                  <Image
-                    source={{ uri: this.state.imageUrl }}
-                    style={{ width: 200, height: 200 }}
-                  />
-                )} */}
-              </View>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        keyboardVerticalOffset={64}
+        behavior="padding"
+        enabled
+      >
+        <SafeAreaView style={styles.container}>
+          <View style={styles.inner}>
+            <Text style={styles.details}>First Name:</Text>
+            <TextInput
+              value={this.state.firstName}
+              onChangeText={firstName => this.setState({ firstName })}
+              placeholder={'First Name'}
+              style={styles.input}
+            />
+
+            <Text style={styles.details}>Last Name:</Text>
+            <TextInput
+              value={this.state.lastName}
+              onChangeText={lastName => this.setState({ lastName })}
+              placeholder={'Last Name'}
+              style={styles.input}
+            />
+
+            <Text style={styles.details}>Address:</Text>
+            <TextInput
+              value={this.state.defaultAddress}
+              onChangeText={defaultAddress => this.setState({ defaultAddress })}
+              placeholder={'Address'}
+              style={styles.input}
+            />
+
+            <View
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
               <Button
-                title="Next"
-                onPress={this.submitHandler}
                 color={'#0F3E15'}
+                title="Select Profile Picture"
+                onPress={this._pickImage}
               />
-              <Button
-                title="Go Back to Login Screen"
-                onPress={() => navigate('AuthLoading')}
-                color={'#0F3E15'}
+              <Image
+                source={{ uri: imageUrl }}
+                style={{ width: 200, height: 200, borderRadius: 200 / 2 }}
               />
-              {this.props.error && this.props.error.response && (
-                <Text style={styles.error}>
-                  {' '}
-                  {this.props.error.response.data}{' '}
-                </Text>
-              )}
             </View>
-            {/* </ScrollView> */}
-          </SafeAreaView>
-        </View>
-      </ScrollView>
+            <Button
+              title="Next"
+              onPress={this.submitHandler}
+              color={'#0F3E15'}
+            />
+            {this.props.error && this.props.error.response && (
+              <Text style={styles.error}>
+                {' '}
+                {this.props.error.response.data}{' '}
+              </Text>
+            )}
+          </View>
+        </SafeAreaView>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -175,23 +172,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingTop: 100,
   },
-  name: {
+  details: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#303731',
+    color: '#0F3E15',
   },
-  details: {
-    color: '#525E54',
-  },
-  welcomeImage: {
-    width: 100,
-    height: 100,
-    resizeMode: 'contain',
-    marginTop: 3,
-    marginLeft: -10,
-    borderRadius: 100 / 2,
-    overflow: 'hidden',
-    padding: '14%',
+  inner: {
+    padding: 24,
+    flex: 1,
+    justifyContent: 'flex-start',
   },
   input: {
     width: 200,
@@ -202,13 +191,6 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderRadius: 5,
     marginBottom: 10,
-  },
-  welcomeImage: {
-    width: 100,
-    height: 80,
-    resizeMode: 'contain',
-    marginTop: 3,
-    marginLeft: -10,
   },
   error: {
     color: `#eb4034`,
