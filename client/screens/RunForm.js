@@ -20,17 +20,13 @@ import { connect } from 'react-redux';
 import Constants from 'expo-constants';
 import { createUpcomingRunThunk } from '../store/upcomingRuns';
 import PlacesAutocomplete from '../components/PlacesAutocomplete';
-<<<<<<< HEAD
-import {getUpcomingRunsThunk} from '../store/upcomingRuns'
 import { gotRunNowFormInfo } from '../store/formInfo';
-=======
 import { getUpcomingRunsThunk } from '../store/upcomingRuns';
 
 Date.prototype.addHours = function(h) {
   this.setTime(this.getTime() + h * 60 * 60 * 1000);
   return this;
 };
->>>>>>> 85c2735597c62757516186241157a33010fea8ae
 
 class RunForm extends Component {
   constructor(props) {
@@ -107,7 +103,6 @@ class RunForm extends Component {
     if (!this.state.lattitude || !this.state.prefferedMileage) {
       Alert.alert('Must fill out all of the above before moving on');
     } else {
-<<<<<<< HEAD
       //await this.props.createRun(this.state);
       // await this.props.setRunNowFormInfo(this.state.lattitude,this.state.longitude,this.state.maxDistance)
       this.props.navigation.navigate('RunLaterResults', {
@@ -124,10 +119,8 @@ class RunForm extends Component {
       endTime: this.state.endTime,
       prefferedMileage: this.state.prefferedMileage,
       })//ScheduleStack
-=======
-      await this.props.createRun(this.state);
-      this.props.navigation.navigate('ScheduleStack');
->>>>>>> 85c2735597c62757516186241157a33010fea8ae
+      // await this.props.createRun(this.state);
+      // this.props.navigation.navigate('ScheduleStack');
     }
   }
 
@@ -246,17 +239,10 @@ class RunForm extends Component {
             style={styles.button}
             onPress={() => {
               this.setState({ creatorId: this.props.userId });
-<<<<<<< HEAD
               this.submitHandler()
               }
               }>
                 <Text>See available runs!</Text>
-=======
-              this.submitHandler();
-            }}
-          >
-            <Text>Submit run!</Text>
->>>>>>> 85c2735597c62757516186241157a33010fea8ae
           </TouchableOpacity>
         </ScrollView>
       </View>
@@ -267,11 +253,8 @@ class RunForm extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     createRun: runInfo => dispatch(createUpcomingRunThunk(runInfo)),
-<<<<<<< HEAD
     setRunNowFormInfo: (lat, long, maxDistance) =>
       dispatch(gotRunNowFormInfo({ lat, long, maxDistance })),
-=======
->>>>>>> 85c2735597c62757516186241157a33010fea8ae
   };
 };
 
