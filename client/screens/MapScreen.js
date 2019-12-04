@@ -15,53 +15,8 @@ const radius_1 = 0.5 * 1609.34; // meters
 const radius_2 = 1 * 1609.34; // meters
 
 const demoMode = false;
+const data = [];
 
-const data = [
-  {
-    latitude: 40.276141,
-    longitude: -74.592255,
-  },
-  {
-    latitude: 40.276386,
-    longitude: -74.592501,
-  },
-  {
-    latitude: 40.276976,
-    longitude: -74.593167,
-  },
-  {
-    latitude: 40.276444,
-    longitude: -74.593918,
-  },
-  {
-    latitude: 40.275625,
-    longitude: -74.594883,
-  },
-  {
-    latitude: 40.273684,
-    longitude: -74.595895,
-  },
-  {
-    latitude: 40.27177,
-    longitude: -74.59691,
-  },
-  {
-    latitude: 40.270652,
-    longitude: -74.593449,
-  },
-  {
-    latitude: 40.270652,
-    longitude: -74.593449,
-  },
-  {
-    latitude: 40.268052,
-    longitude: -74.589062,
-  },
-  {
-    latitude: 40.267023,
-    longitude: -74.587219,
-  },
-];
 let dataIndex = -1;
 
 class MapScreen extends Component {
@@ -69,7 +24,9 @@ class MapScreen extends Component {
     super(props);
 
     this.state = {
+      clockId: '',
       name: '',
+      seconds: 0,
       latitude: 40.7128,
       longitude: -74.006,
       distance: 0,
@@ -95,6 +52,9 @@ class MapScreen extends Component {
     this.handler = this.handler.bind(this);
     this.clearTracking = this.clearTracking.bind(this);
     this.saveTracking = this.saveTracking.bind(this);
+    this.startClock = this.startClock.bind(this);
+    this.stopClock = this.stopClock.bind(this);
+    this.stopWatch = this.stopWatch.bind(this);
   }
 
   getCurrentLocationMock() {
@@ -180,6 +140,7 @@ class MapScreen extends Component {
   clearTracking() {
     dataIndex = -1;
     this.setState({
+      milliseconds: 0,
       coordinates: [],
       distance: 0,
       clearButtonDisabled: true,
@@ -197,11 +158,13 @@ class MapScreen extends Component {
     const payload = { runId, coords, distance };
     socket.emit('completeRun', payload);
     this.setState({
+      milliseconds: 0,
       coordinates: [],
       distance: 0,
       clearButtonDisabled: true,
       handlerEnabled: false,
     });
+    console.log('dumdum dummmm', this.state);
   }
 
   componentDidMount() {
@@ -244,6 +207,31 @@ class MapScreen extends Component {
         },
       ],
     });
+  }
+
+  stopWatch() {
+    this.setState({ seconds: ++this.state.seconds });
+    console.log('Seconds are: ', this.state.seconds);
+  }
+  startClock() {
+    let clockId = setInterval(this.stopWatch, 1000);
+    this.setState({ clockId });
+  }
+
+  stopClock() {
+    clearInterval(this.state.clockId);
+  }
+
+  toSecs(secs) {
+    const mins = Math.floor(secs / 60);
+    const remaining = secs - mins * 60;
+    const time =
+      secs > 60
+        ? `${mins}:${remaining < 10 ? '0' + String(remaining) : remaining}`
+        : 10 > remaining
+        ? '0' + String(remaining)
+        : remaining;
+    return time;
   }
 
   render() {
@@ -347,7 +335,10 @@ class MapScreen extends Component {
               this.startButton = ref;
             }}
             disabled={this.state.startButtonDisabled}
-            onPress={() => this.startTracking(5000)}
+            onPress={() => {
+              this.startClock();
+              this.startTracking(5000);
+            }}
           />
           <Button
             title="Stop"
@@ -355,7 +346,10 @@ class MapScreen extends Component {
               this.stopButton = ref;
             }}
             disabled={this.state.stopButtonDisabled}
-            onPress={() => this.stopTracking()}
+            onPress={() => {
+              this.stopClock();
+              this.stopTracking();
+            }}
           />
           <Button
             title="Clear"
@@ -376,6 +370,7 @@ class MapScreen extends Component {
           <Text style={styles.distanceTextStyle}>
             {this.state.distance.toFixed(2)} miles
           </Text>
+          <Text>{this.toSecs(this.state.seconds)}</Text>
         </View>
       </View>
     );
