@@ -11,10 +11,9 @@ import RNPickerSelect from 'react-native-picker-select';
 
 import socket from '../socket/index';
 
-const circleColor = 'rgba(204, 255, 255, 0.2)';
-const circle2Color = 'rgba(225, 204, 153, 0.5)';
-const radius_1 = 0.5 * 1609.34; // meters
-const radius_2 = 1 * 1609.34; // meters
+const circleColor = 'rgba(93, 173, 226, 0.2)';
+const circle2Color = 'rgba(231, 76, 60  , 0.2)';
+
 
 const demoMode = false;
 
@@ -253,7 +252,6 @@ class MapScreen extends Component {
   render() {
     const notRenderDirection =
       this.state.latitude == 0 || this.state.coordinates.length == 0;
-      console.log("CIRCLE RADIUS!!!!", typeof this.state.bigCircleRadius)
 
     let searchedRegion = this.state.handlerEnabled
       ? {
@@ -383,39 +381,11 @@ class MapScreen extends Component {
               {this.state.distance.toFixed(2)} miles
             </Text>
             <RNPickerSelect
-              placeholder={{ label: 'Big Circle Radius' }}
-              items={[
-                1,
-                2,
-                3,
-                4,
-                5,
-                6,
-                7,
-                8,
-                9,
-                10,
-                11,
-                12,
-                13,
-                14,
-                15,
-                16,
-                17,
-                18,
-                19,
-                20,
-                21,
-                22,
-                23,
-                24,
-                25,
-                26,
-              ].map(mile => {
-                return { label: `${mile}`, value: parseFloat(mile) * 1609.34 };
+              placeholder={{ label: 'Circle 1' }}
+              items={[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25].map(mile => {
+                return { label: `${mile} miles`, value: parseFloat(mile) * 1609.34 };
               })}
               onValueChange={value => 
-                
                 this.setState({ bigCircleRadius: value})}
               style={{
                 ...pickerSelectStyles,
@@ -426,44 +396,17 @@ class MapScreen extends Component {
               }}
               value={this.state.bigCircleRadius}
               useNativeAndroidPickerStyle={false}
-              textInputProps={{ underlineColor: 'yellow' }}
+              textInputProps={{ underlineColor: 'red' }}
               Icon={() => {
-                return <Chevron size={1} color="gray" />;
+                return <Chevron size={1} color="red" />;
               }}
             />
             <RNPickerSelect
-              placeholder={{ label: 'Small Circle Radius' }}
-              items={[
-                1,
-                2,
-                3,
-                4,
-                5,
-                6,
-                7,
-                8,
-                9,
-                10,
-                11,
-                12,
-                13,
-                14,
-                15,
-                16,
-                17,
-                18,
-                19,
-                20,
-                21,
-                22,
-                23,
-                24,
-                25,
-              ].map(mile => {
-                return { label: `${mile}`, value: parseFloat(mile) * 1609.34 };
+              placeholder={{ label: 'Circle 2' }}
+              items={[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25].map(mile => {
+                return { label: `${mile} miles`, value: parseFloat(mile) * 1609.34 };
               })}
               onValueChange={value => 
-                
                 this.setState({ smallCircleRadius: value})}
               style={{
                 ...pickerSelectStyles,
@@ -474,9 +417,9 @@ class MapScreen extends Component {
               }}
               value={this.state.smallCircleRadius}
               useNativeAndroidPickerStyle={false}
-              textInputProps={{ underlineColor: 'yellow' }}
+              textInputProps={{ underlineColor: 'blue' }}
               Icon={() => {
-                return <Chevron size={1} color="gray" />;
+                return <Chevron size={1} color="blue" />;
               }}
             />
           </View>
@@ -530,9 +473,9 @@ const styles = StyleSheet.create({
   distanceTextStyle: {
     fontWeight: 'bold',
     color: 'yellow',
-    padding: '3%'
-  
-  
+    paddingBottom: '3%',
+    paddingRight:'3%'
+
   },
 });
 const pickerSelectStyles = StyleSheet.create({
@@ -540,18 +483,18 @@ const pickerSelectStyles = StyleSheet.create({
     fontSize: 12,
     padding: '1%',
     borderWidth: 1,
-    borderColor: 'yellow',
+    borderColor: 'dodgerblue',
     borderRadius: 8,
-    color: 'yellow',
+    color: 'whitesmoke',
     paddingRight: 30, // to ensure the text is never behind the icon
   },
   inputAndroid: {
     fontSize: 12,
 
     borderWidth: 0.5,
-    borderColor: 'yellow',
+    borderColor: 'dodgerblue',
     borderRadius: 8,
-    color: 'yellow',
+    color: 'whitesmoke',
     paddingRight: 30, // to ensure the text is never behind the icon
   },
 });
