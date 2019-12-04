@@ -81,6 +81,9 @@ class ProfileScreen extends React.Component {
               </Text>
             )}
           </View>
+          <TouchableOpacity>
+            <Text>View my workout stats</Text>
+          </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>
     );
