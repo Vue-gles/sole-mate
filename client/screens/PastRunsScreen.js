@@ -54,11 +54,11 @@ class PastRunsScreen extends React.Component {
                 >
               <View style={styles.runAd} key={run.id}>
                   {run.partnerId && (
-                      <Image
-                      source={{
-                        uri: run.Partner.imageUrl,
-                      }}
-                      style={styles.runImage}
+                    <Image
+                    source={{
+                      uri: run.Partner.imageUrl,
+                    }}
+                    style={styles.runImage}
                     />       
                   )}
                   {run.partnerId && (
@@ -179,6 +179,7 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     getPastRuns: type => dispatch(getPastRunsThunk(type)),
+    getSingleRun: id => dispatch(getSingleRun(id))
   };
 };
 
