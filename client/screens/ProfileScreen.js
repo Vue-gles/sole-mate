@@ -81,7 +81,9 @@ class ProfileScreen extends React.Component {
               </Text>
             )}
           </View>
-          <TouchableOpacity style={styles.workoutButton}>
+          <TouchableOpacity style={styles.workoutButton}
+          onPress={() => this.props.navigation.navigate('Stats')}
+          >
             <Text>View my stats</Text>
           </TouchableOpacity>
         </ScrollView>

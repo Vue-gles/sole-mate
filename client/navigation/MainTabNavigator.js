@@ -21,6 +21,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import ProfileForm from '../screens/ProfileForm';
 import RunNowForm from '../screens/RunNowForm'
 import PastRouteMap from '../screens/PastRouteMap'
+import Stats from '../screens/Stats'
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -36,6 +37,7 @@ const HomeStack = createStackNavigator(
     RunNowForm: RunNowForm,
     RunResults: RunResultsScreen,
     SingleRun: SingleRunScreen,
+    Stats: Stats
   },
   {
     initialRouteName: 'Home',
