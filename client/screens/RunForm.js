@@ -22,6 +22,11 @@ import { createUpcomingRunThunk } from '../store/upcomingRuns';
 import PlacesAutocomplete from '../components/PlacesAutocomplete';
 import { getUpcomingRunsThunk } from '../store/upcomingRuns';
 
+Date.prototype.addHours = function(h) {
+  this.setTime(this.getTime() + h * 60 * 60 * 1000);
+  return this;
+};
+
 class RunForm extends Component {
   constructor(props) {
     super(props);
@@ -69,9 +74,16 @@ class RunForm extends Component {
 
   handleEndTimePicked = endTime => {
     const time = moment(endTime).format('HH:mm');
+    console.log('time ------->', time);
+
     const date = moment(this.state.startTime).format('YYYY-MM-DD');
-    const dateTime = `${date}T${time}`;
-    this.setState({ endTime: new Date(dateTime) });
+    console.log('date ------->', date);
+    let dateTime = `${date}T${time}`;
+    dateTime = new Date(dateTime);
+    console.log('before dateTime ------->', dateTime);
+    dateTime.addHours(5);
+    console.log('after dateTime ------->', dateTime);
+    this.setState({ endTime: dateTime });
     this.hideEndTimePicker();
   };
 
@@ -195,12 +207,13 @@ class RunForm extends Component {
           <Text
             style={{ textAlign: 'center', fontSize: 20, fontWeight: 'bold' }}
           >
-            {moment(this.state.startTime).format('h:mm')} to{' '}
-            {(this.state.endTime.getHours() > 12
+            {moment(this.state.startTime).format('h:mm a')} to{' '}
+            {moment(this.state.endTime).format('h:mm a')}
+            {/* {(this.state.endTime.getHours() > 12
               ? this.state.endTime.getHours() - 12
               : this.state.endTime.getHours()) - 7}
             :{moment(this.state.endTime).format('mm')}{' '}
-            {this.state.endTime.getHours() > 12 ? 'a.m.' : 'p.m.'}
+            {this.state.endTime.getHours() > 12 ? 'a.m.' : 'p.m.'} */}
           </Text>
           <View paddingVertical={10} />
 
