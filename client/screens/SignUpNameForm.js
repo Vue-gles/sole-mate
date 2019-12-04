@@ -99,6 +99,9 @@ class SignUpNameForm extends React.Component {
     const { navigate } = this.props.navigation;
     const { imageUrl } = this.state;
     return (
+      <ScrollView>
+
+    
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         keyboardVerticalOffset={64}
@@ -160,7 +163,9 @@ class SignUpNameForm extends React.Component {
             )}
           </View>
         </SafeAreaView>
+       
       </KeyboardAvoidingView>
+       </ScrollView>
     );
   }
 }
