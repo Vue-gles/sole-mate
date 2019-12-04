@@ -31,7 +31,7 @@ class UpcomingRunsScreen extends React.Component {
   };
 
   componentDidMount() {
-    console.log('COMPONENT MOUNTED');
+  
     this.props.getUpcomingRuns('upcoming');
   }
   async clickHandler(id) {
