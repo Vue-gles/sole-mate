@@ -9,6 +9,7 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import RunResultsScreen from '../screens/RunResultsScreen';
+import RunLaterResultsScreen from '../screens/RunLaterResultsScreen';
 import SingleRunScreen from '../screens/SingleRunScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import NotificationsScreen from '../screens/NotificationsScreen';
@@ -35,6 +36,7 @@ const HomeStack = createStackNavigator(
     RunForm: RunForm,
     RunNowForm: RunNowForm,
     RunResults: RunResultsScreen,
+    RunLaterResults:RunLaterResultsScreen,
     SingleRun: SingleRunScreen,
   },
   {

@@ -21,11 +21,27 @@ import moment from 'moment';
 
 import { getRuns } from '../store/runs';
 import { getSingleRun } from '../store/singleRun';
+import { createUpcomingRunThunk } from '../store/upcomingRuns';
 import { calculateDistance } from '../../utils';
 
-class RunResultsScreen extends React.Component {
+class RunLaterResultsScreen extends React.Component {
   constructor(props) {
     super(props);
+    const { navigation } = this.props;
+    this.state = {
+      creatorId: navigation.getParam('creatorId', 'default value'),
+      street: navigation.getParam('street', 'default value'),
+      city: navigation.getParam('city', 'default value'),
+      state: navigation.getParam('state', 'default value'),
+      lattitude: navigation.getParam('lattitude', 'default value'),
+      longitude: navigation.getParam('longitude', 'default value'),
+      isDateTimePickerVisible: navigation.getParam('isDateTimePickerVisible', 'default value'),
+      isStartTimePickerVisible: navigation.getParam('isStartTimePickerVisible', 'default value'),
+      isEndTimePickerVisible: navigation.getParam('isEndTimePickerVisible', 'default value'),
+      startTime: navigation.getParam('startTime', 'default value'),
+      endTime: navigation.getParam('endTime', 'default value'),
+      prefferedMileage:navigation.getParam('prefferedMileage', 'default value'),
+    };
     this.clickHandler = this.clickHandler.bind(this);
 
   }
@@ -48,11 +64,21 @@ class RunResultsScreen extends React.Component {
     this.props.navigation.navigate('SingleRun');
   }
 
+  async submitHandler() {
+      await this.props.createRun(this.state);
+      this.props.navigation.navigate('ScheduleStack')//ScheduleStack or RunResults
+    }
+
   render() {
     
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
+
+
+
+
+
           {this.props.runs && this.props.runs.length ? (
             this.props.runs.map(run => {
               return (
@@ -104,11 +130,23 @@ class RunResultsScreen extends React.Component {
               </Text>
             </View>
           )}
+          <View style={styles.runAd}>
+            <Text style={styles.name}>Dont like what you see?</Text>
+            
+            <View style={styles.btnContainer}>
+                <Button
+                  title="Create a new Run"
+                  onPress={() => this.submitHandler()}
+                  color={'white'}
+                />
+              </View>
+          </View>
         </ScrollView>
       </SafeAreaView>
     );
   }
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -137,18 +175,29 @@ const styles = StyleSheet.create({
     borderRadius: 150 / 2,
     overflow: 'hidden',
   },
+  btnContainer: {
+    backgroundColor: '#124D1A',
+    padding: 5,
+    margin: 5,
+    borderRadius: 10,
+    overflow: 'hidden',
+  },
 });
+
 const mapState = state => {
   return {
     runs: state.runs,
     runNowInfo: state.formInfo.runNowInfo,
   };
 };
+
 const mapDispatch = dispatch => {
   return {
     getRuns: (type, maxDistance, lat, long) =>
       dispatch(getRuns(type, maxDistance, lat, long)),
     getSingleRun: id => dispatch(getSingleRun(id)),
+    createRun: runInfo => dispatch(createUpcomingRunThunk(runInfo))
   };
 };
-export default connect(mapState, mapDispatch)(RunResultsScreen);
+
+export default connect(mapState, mapDispatch)(RunLaterResultsScreen);
