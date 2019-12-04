@@ -22,7 +22,7 @@ class PastRunsScreen extends React.Component {
   }
 
   componentDidMount() {
-
+    console.log("PAAAAAAASSSSSSTTTTT RUUUUUUNNNNNNNN")
     this.props.getPastRuns('past');
   }
 
@@ -35,32 +35,39 @@ class PastRunsScreen extends React.Component {
     });
   }
 
-  render() {
 
+    render() {
+    
 
-    return this.props.pastRuns.length > 0 ? (
-      <SafeAreaView style={styles.container}>
-        <ScrollView style={styles.scrollView}>
-          {this.props.pastRuns.map(run => {
-            return (
-              <TouchableWithoutFeedback
-                key={run.id}
-                onPress={() => {
-                  if (run.route) {
-                    this.goToMapView(run);
-                  }
-                }}
-              >
-                <View style={styles.runAd}>
-                  <Image
+      return this.props.pastRuns.length ? (
+        <SafeAreaView  style={styles.container}>
+          <ScrollView style={styles.scrollView}>
+            {this.props.pastRuns.map(run => {
+              return ( run.creatorId === this.props.user.id ? (
+                <TouchableWithoutFeedback
+                  key={run.id}
+                  onPress={() => {
+                    if (run.route) {
+                      this.goToMapView(run);
+                    }
+                  }}
+                >
+              <View style={styles.runAd} key={run.id}>
+                  {run.partnerId && (
+                    <Image
                     source={{
-                      uri: run.Creator.imageUrl,
+                      uri: run.Partner.imageUrl,
                     }}
                     style={styles.runImage}
-                  />
-                  <Text style={styles.name}>
-                    {run.Creator.firstName} {run.Creator.lastName}
-                  </Text>
+                    />       
+                  )}
+                  {run.partnerId && (
+                      <Text style={styles.name}>
+                      {run.Partner.firstName} {run.Partner.lastName}
+                    </Text>
+                  )}
+                  
+                  
                   <Text style={styles.details}>
                     {run.prefferedMileage} mile(s)
                   </Text>
@@ -74,20 +81,61 @@ class PastRunsScreen extends React.Component {
                     {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
                     {moment(run.endTimeframe).format('h:mm:ss a')}
                   </Text>
+  
+                  
                 </View>
-              </TouchableWithoutFeedback>
-            );
-          })}
-        </ScrollView>
-      </SafeAreaView>
-    ) : (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.runAd}>
-          <Text style={styles.name}>No past runs</Text>
-        </View>
-      </SafeAreaView>
-    );
-  }
+                </TouchableWithoutFeedback>
+              ) : (
+                <TouchableWithoutFeedback
+                  key={run.id}
+                  onPress={() => {
+                    if (run.route) {
+                      this.goToMapView(run);
+                    }
+                  }}
+                >
+                <View style={styles.runAd} key={run.id}>
+                  
+                <Image
+                  source={{
+                    uri: run.Creator.imageUrl,
+                  }}
+                  style={styles.runImage}
+                />
+                <Text style={styles.name}>
+                  {run.Creator.firstName} {run.Creator.lastName}
+                </Text>
+                <Text style={styles.details}>
+                  {run.prefferedMileage} mile(s)
+                </Text>
+                <Text style={styles.details}>
+                  {run.street}, {run.city}, {run.state}
+                </Text>
+                <Text style={styles.details}>
+                  {moment(run.startTimeframe).format('MMMM Do')}
+                </Text>
+                <Text style={styles.details}>
+                  {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
+                  {moment(run.endTimeframe).format('h:mm:ss a')}
+                </Text>
+  
+                
+              </View>
+            </TouchableWithoutFeedback>
+              )
+              )
+              
+            })}
+          </ScrollView>
+        </SafeAreaView>
+      ) : (
+        <SafeAreaView style={styles.container}>
+          <View style={styles.runAd}>
+            <Text style={styles.name}>No past runs</Text>
+          </View>
+        </SafeAreaView>
+      );
+    }
 }
 
 const styles = StyleSheet.create({
@@ -124,12 +172,14 @@ const styles = StyleSheet.create({
 const mapState = state => {
   return {
     pastRuns: state.pastRuns,
+    user: state.user
   };
 };
 
 const mapDispatch = dispatch => {
   return {
     getPastRuns: type => dispatch(getPastRunsThunk(type)),
+    getSingleRun: id => dispatch(getSingleRun(id))
   };
 };
 

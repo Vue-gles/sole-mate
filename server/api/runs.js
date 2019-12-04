@@ -96,6 +96,12 @@ router.put('/:runId', isUser, async (req, res, next) => {
     });
     const creator = await User.findByPk(updated.creatorId);
     updated.dataValues.Creator = creator;
+    if(run.partnerId){
+      const partner = await User.findByPk(updated.partnerId);
+      updated.dataValues.Partner = partner;
+    }
+    
+
     res.json(updated);
   } catch (err) {
     next(err);
