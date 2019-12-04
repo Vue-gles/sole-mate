@@ -223,13 +223,50 @@ const runs = [
     partnerId: 3,
     isComplete: true,
     route: JSON.stringify([
-      { latitude: 40.70482897606341, longitude: -74.00918775639525 },
-      { latitude: 40.70482897606341, longitude: -74.00918775639525 },
-      { latitude: 40.70482533763104, longitude: -74.00919733572029 },
-      { latitude: 40.70479406817252, longitude: -74.00924432943853 },
-      { latitude: 40.70478549825493, longitude: -74.00921684867315 },
-      { latitude: 40.70478549825493, longitude: -74.00921684867315 },
-      { latitude: 40.704786001772916, longitude: -74.00923080571684 },
+      {
+        latitude: 40.276141,
+        longitude: -74.592255,
+      },
+      {
+        latitude: 40.276386,
+        longitude: -74.592501,
+      },
+      {
+        latitude: 40.276976,
+        longitude: -74.593167,
+      },
+      {
+        latitude: 40.276444,
+        longitude: -74.593918,
+      },
+      {
+        latitude: 40.275625,
+        longitude: -74.594883,
+      },
+      {
+        latitude: 40.273684,
+        longitude: -74.595895,
+      },
+      {
+        latitude: 40.27177,
+        longitude: -74.59691,
+      },
+      {
+        latitude: 40.270652,
+        longitude: -74.593449,
+      },
+      {
+        latitude: 40.270652,
+        longitude: -74.593449,
+      },
+      {
+        latitude: 40.268052,
+        longitude: -74.589062,
+      },
+      {
+        latitude: 40.267023,
+        longitude: -74.587219,
+      },
     ]),
     distance: 0.01,
   },
@@ -298,6 +335,36 @@ const messages = [
   },
 ];
 
+async function updateRuns() {
+  try {
+    const allRuns = await Run.findAll();
+    await allRuns.forEach(async run => {
+      if (!run.lat || !run.long) {
+        const fullAddress = `${run.street}, ${run.city}, ${run.state}`;
+        const { data } = await axios.get(
+          `https://maps.googleapis.com/maps/api/geocode/json?address=${fullAddress}&key=${process.env.GOOGLE_API_KEY}`
+        );
+
+        console.log(data.results[0].geometry.location);
+        const lat = data.results[0].geometry.location.lat;
+        const long = data.results[0].geometry.location.lng;
+        // run.lat = lat;
+        // run.long = long;
+        // const location = {
+        //   type: 'Point',
+        //   coordinates: [long, lat],
+        //   crs: { type: 'name', properties: { name: 'EPSG:4326'} }
+        // }
+        //got to point where I think my route is working but I am unable to load any data into the location column. Everytime I do, I get this error
+        // that says I need to get ST_GeomFromGeoJSON but I don't know how
+        await run.update({ lat, long });
+      }
+    });
+  } catch (error) {
+    console.error('UPDATING ERROR WAS:>> ', error);
+  }
+}
+
 async function seed() {
   try {
     await db.sync({ force: true });
@@ -329,42 +396,35 @@ async function runSeed() {
     // }
   }
 }
-async function updateRuns() {
-  try {
-    const allRuns = await Run.findAll();
-    await allRuns.forEach(async run => {
-      if (!run.lat || !run.long) {
-        const fullAddress = `${run.street}, ${run.city}, ${run.state}`;
-        const { data } = await axios.get(
-          `https://maps.googleapis.com/maps/api/geocode/json?address=${fullAddress}&key=${process.env.GOOGLE_API_KEY}`
-        );
 
-        // console.log(data.results[0].geometry.location);
-        const lat = data.results[0].geometry.location.lat;
-        const long = data.results[0].geometry.location.lng;
-        // run.lat = lat;
-        // run.long = long;
-        // const location = {
-        //   type: 'Point',
-        //   coordinates: [long, lat],
-        //   crs: { type: 'name', properties: { name: 'EPSG:4326'} }
-        // }
-        //got to point where I think my route is working but I am unable to load any data into the location column. Everytime I do, I get this error
-        // that says I need to get ST_GeomFromGeoJSON but I don't know how
-        await run.update({ lat, long });
-      }
-    });
-  } catch (error) {
-    console.error('UPDATING ERROR WAS:>> ', error);
-  }
-}
+// <<<<<<< form-cleanup
+// =======
+//         // console.log(data.results[0].geometry.location);
+//         const lat = data.results[0].geometry.location.lat;
+//         const long = data.results[0].geometry.location.lng;
+//         // run.lat = lat;
+//         // run.long = long;
+//         // const location = {
+//         //   type: 'Point',
+//         //   coordinates: [long, lat],
+//         //   crs: { type: 'name', properties: { name: 'EPSG:4326'} }
+//         // }
+//         //got to point where I think my route is working but I am unable to load any data into the location column. Everytime I do, I get this error
+//         // that says I need to get ST_GeomFromGeoJSON but I don't know how
+//         await run.update({ lat, long });
+//       }
+//     });
+//   } catch (error) {
+//     console.error('UPDATING ERROR WAS:>> ', error);
+//   }
+// }
+// >>>>>>> master
 
 // Execute the `seed` function, IF we ran this module directly (`node seed`).
 // `Async` functions always return a promise, so we can use `catch` to handle
 // any errors that might occur inside of `seed`.
 if (module === require.main) {
   runSeed();
-  updateRuns();
 }
 
 // we export the seed function for testing purposes (see `./seed.spec.js`)

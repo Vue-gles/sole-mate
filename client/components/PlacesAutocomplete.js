@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Text} from 'react-native'
+import {View, Text, StyleSheet, Dimensions} from 'react-native'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import '../../keys'
 
@@ -15,11 +15,11 @@ export default  PlacesAutoComplete = (props) => {
     },
   }
   navigator.geolocation.getCurrentPosition(position => {
-    currentLocation.geometry.location.lat = position.lattitude
-    currentLocation.geometry.location.lng = position.longitude
+    currentLocation.geometry.location.lat = position.coords.latitude
+    currentLocation.geometry.location.lng = position.coords.longitude
   })
     return (
-        <GooglePlacesAutocomplete
+        <GooglePlacesAutocomplete style={styles.mapStyle}
         placeholder="Where would you like to start?"
         minLength={1} 
         autoFocus={true}
@@ -41,14 +41,20 @@ export default  PlacesAutoComplete = (props) => {
         }}
         styles={{
           textInputContainer: {
-            width: '100%',
-            height: '35%',
+            backgroundColor: 'rgba(0,0,0,0)',
+            borderTopWidth: 0,
+            borderColor: 'black'
           },
-          description: {
-            fontWeight: 'bold',
+          textInput: {
+            marginLeft: 0,
+            marginRight: 0,
+            height: 45,
+            color: '#5d5d5d',
+            fontSize: 16,
+            borderWidth: 1
           },
           predefinedPlacesDescription: {
-            color: '#1faadb',
+            color: '#1faadb'
           },
         }}
 
@@ -68,3 +74,12 @@ export default  PlacesAutoComplete = (props) => {
     
 }
 
+
+const styles = StyleSheet.create({
+  mapStyle: {
+    // justifyContent: 'flex-start',
+    // alignItems: 'stretch',
+    // width: Dimensions.get('window').width,
+    // height: 50,
+  }
+})

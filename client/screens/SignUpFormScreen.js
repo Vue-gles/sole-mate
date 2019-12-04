@@ -20,6 +20,7 @@ import { connect } from 'react-redux';
 import { auth } from '../store/user';
 
 import { MonoText } from '../components/StyledText';
+import logo from '../../assets/images/logo.png';
 
 import { createUserThunk } from '../store/user';
 
@@ -33,7 +34,7 @@ class SignUpFormScreen extends React.Component {
   }
 
   static navigationOptions = {
-    title: 'SignUp',
+    title: 'Sign Up',
   };
 
   submitHandler = async () => {
@@ -56,13 +57,7 @@ class SignUpFormScreen extends React.Component {
             {/* <ScrollView style={styles.scrollView}> */}
             <View style={styles.container}>
               {/* <Button title="Go Back to Login Screen" onPress={() => navigate('AuthLoading')} /> */}
-              <Image
-                source={{
-                  uri:
-                    'https://p7.hiclipart.com/preview/751/476/837/running-silhouette-clip-art-silhouette.jpg',
-                }}
-                style={styles.welcomeImage}
-              />
+              <Image source={logo} style={styles.welcomeImage} />
               <Text style={styles.name}>Sign Up</Text>
               <TextInput
                 value={this.state.email}
@@ -79,7 +74,11 @@ class SignUpFormScreen extends React.Component {
                 style={styles.input}
               />
 
-              <Button title="Next" color={'#0F3E15'} onPress={this.submitHandler} />
+              <Button
+                title="Next"
+                color={'#0F3E15'}
+                onPress={this.submitHandler}
+              />
               <Button
                 title="Go Back to Login Screen"
                 onPress={() => navigate('AuthLoading')}
