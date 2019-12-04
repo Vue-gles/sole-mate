@@ -86,7 +86,7 @@ class RunForm extends Component {
   }
 
   async submitHandler() {
-    if (!this.state.state || !this.state.startTime || !this.state.endTime) {
+    if (!this.state.lattitude || !this.state.prefferedMileage) {
       Alert.alert('Must fill out all of the above before moving on')
     } else {
       await this.props.createRun(this.state);
