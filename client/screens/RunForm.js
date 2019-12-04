@@ -8,9 +8,9 @@ import {
   Picker,
   SafeAreaView,
   TouchableOpacity,
-  Alert
+  Alert,
 } from 'react-native';
-import DateTimePicker from 'react-native-modal-datetime-picker';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import RNPickerSelect from 'react-native-picker-select';
 import { Text } from 'react-native-elements';
 import moment from 'moment';
@@ -20,7 +20,12 @@ import { connect } from 'react-redux';
 import Constants from 'expo-constants';
 import { createUpcomingRunThunk } from '../store/upcomingRuns';
 import PlacesAutocomplete from '../components/PlacesAutocomplete';
-import {getUpcomingRunsThunk} from '../store/upcomingRuns'
+import { getUpcomingRunsThunk } from '../store/upcomingRuns';
+
+Date.prototype.addHours = function(h) {
+  this.setTime(this.getTime() + h * 60 * 60 * 1000);
+  return this;
+};
 
 class RunForm extends Component {
   constructor(props) {
@@ -45,7 +50,7 @@ class RunForm extends Component {
   static navigationOptions = {
     title: 'Post a run',
   };
-  
+
   showDateTimePicker = () => {
     this.setState({ isDateTimePickerVisible: true });
   };
@@ -55,7 +60,6 @@ class RunForm extends Component {
   };
 
   handleDatePicked = date => {
-    console.log(date)
     this.setState({ startTime: date });
     this.hideDateTimePicker();
   };
@@ -69,9 +73,17 @@ class RunForm extends Component {
   };
 
   handleEndTimePicked = endTime => {
-    console.log('yooo')
-    endTime = endTime.getHours();
-    this.setState({ endTime });
+    const time = moment(endTime).format('HH:mm');
+    console.log('time ------->', time);
+
+    const date = moment(this.state.startTime).format('YYYY-MM-DD');
+    console.log('date ------->', date);
+    let dateTime = `${date}T${time}`;
+    dateTime = new Date(dateTime);
+    console.log('before dateTime ------->', dateTime);
+    dateTime.addHours(5);
+    console.log('after dateTime ------->', dateTime);
+    this.setState({ endTime: dateTime });
     this.hideEndTimePicker();
   };
 
@@ -86,132 +98,16 @@ class RunForm extends Component {
   }
 
   async submitHandler() {
-    if (!this.state.state || !this.state.startTime || !this.state.endTime) {
-      Alert.alert('Must fill out all of the above before moving on')
+    if (!this.state.lattitude || !this.state.prefferedMileage) {
+      Alert.alert('Must fill out all of the above before moving on');
     } else {
       await this.props.createRun(this.state);
-      this.props.navigation.navigate('ScheduleStack')
+      this.props.navigation.navigate('ScheduleStack');
     }
-    
   }
 
   render() {
-    // return (
-    //   <SafeAreaView style={{flex: 1}}>
-    //     <ScrollView style={styles.container}>
-    //       <View syle={{ padding: 20, margin: 20 }}>
-    //         <Text style={styles.text}>Where would you like to start?</Text>
-    //         <PlacesAutocomplete locationHandler={this.locationHandler} />
-    //       </View>
-    //       <View paddingVertical={5} />
-
-    //       <Text>custom icon using react-native-shapes</Text>
-
-    //       <View style={styles.itemRow}>
-    //         <View>
-    //           <RNPickerSelect
-    //           useNativeAndroidPickerStyle={false}
-    //             placeholder={{ label: 'Miles to run' }}
-    //             style={styles.picker}
-    //             onValueChange={value =>
-    //               this.setState({ prefferedMileage: value })
-    //             }
-    //             style={{
-    //               inputAndroid: {
-    //                 backgroundColor: 'transparent',
-    //               },
-    //               iconContainer: {
-    //                 top: 5,
-    //                 right: 15,
-    //               },
-    //             }}
-    //             textInputProps={{ underlineColorAndroid: 'cyan' }}
-    //             items={[
-    //               1,
-    //               2,
-    //               3,
-    //               4,
-    //               5,
-    //               6,
-    //               7,
-    //               8,
-    //               9,
-    //               10,
-    //               11,
-    //               12,
-    //               13,
-    //               14,
-    //               15,
-    //               16,
-    //               17,
-    //               18,
-    //               19,
-    //               20,
-    //               21,
-    //               22,
-    //               23,
-    //               24,
-    //               25,
-    //               26,
-    //             ].map(mile => {
-    //               return { label: `${mile}`, value: mile };
-    //             })}
-    //           />
-    //         </View>
-    //         <Text>
-    //           {this.state.prefferedMileage} miles
-    //         </Text>
-    //       </View>
-
-    //       <View style={styles.itemRow}>
-    // <View style={styles.textItem}>
-    // <Button
-    //   title="Start date & time"
-    //   onPress={this.showDateTimePicker}
-    // />
-    // <DateTimePicker
-    //   mode="datetime"
-    //   minuteInterval={30}
-    //   isVisible={this.state.isDateTimePickerVisible}
-    //   onConfirm={this.handleDatePicked}
-    //   onCancel={this.hideDateTimePicker}
-    //   minimumDate={new Date()}
-    // />
-    // </View>
-    //         <Text styles={styles.valueItem}>
-    //           {moment(this.state.startTime).format('MMM Do YY')}
-    //         </Text>
-    //       </View>
-
-    //       <View style={styles.item} style={{ backgroundColor: 'blue' }}>
-    //         <Button
-    //           title="Choose and end time"
-    //           onPress={this.showEndTimePicker}
-    //           style={styles.button}
-    //         />
-    // <DateTimePicker
-    //   mode={'time'}
-    //   isVisible={this.state.isEndTimePickerVisible}
-    //   onConfirm={this.handleEndTimePicked}
-    //   onCancel={this.hideEndTimePicker}
-    //   date={new Date()}
-    //   minuteInterval={30}
-    // />
-    //       </View>
-
-          // <View>
-          //   <Button
-          //     title="Submit"
-          //     onPress={() => {
-          //       this.setState({ creatorId: this.props.userId });
-          //       this.submitHandler();
-          //     }}
-          //   />
-          // </View>
-    //     </ScrollView>
-    //   </SafeAreaView>
-    // );
-
+    console.log('THIS IS MY STATE', this.state);
     return (
       <View style={styles.container}>
         <ScrollView
@@ -280,7 +176,7 @@ class RunForm extends Component {
               style={styles.button}
             >
               <Text>Start time & date </Text>
-              <DateTimePicker
+              <DateTimePickerModal
                 mode="datetime"
                 minuteInterval={30}
                 isVisible={this.state.isDateTimePickerVisible}
@@ -294,7 +190,7 @@ class RunForm extends Component {
               style={styles.button}
             >
               <Text>End time</Text>
-              <DateTimePicker
+              <DateTimePickerModal
                 mode={'time'}
                 isVisible={this.state.isEndTimePickerVisible}
                 onConfirm={this.handleEndTimePicked}
@@ -305,19 +201,31 @@ class RunForm extends Component {
             </TouchableOpacity>
           </View>
           <View paddingVertical={20} />
-          <Text style={{textAlign: 'center', paddingVertical: 5}}>{moment(this.state.startTime).format('MMMM Do, YYYY')}</Text>
-          <Text style={{textAlign: 'center', fontSize: 20, fontWeight: 'bold'}}>{moment(this.state.startTime).format('h:mm')} to {moment(this.state.endTime).format('h:mm a')}</Text>
+          <Text style={{ textAlign: 'center', paddingVertical: 5 }}>
+            {moment(this.state.startTime).format('MMMM Do, YYYY')}
+          </Text>
+          <Text
+            style={{ textAlign: 'center', fontSize: 20, fontWeight: 'bold' }}
+          >
+            {moment(this.state.startTime).format('h:mm a')} to{' '}
+            {moment(this.state.endTime).format('h:mm a')}
+            {/* {(this.state.endTime.getHours() > 12
+              ? this.state.endTime.getHours() - 12
+              : this.state.endTime.getHours()) - 7}
+            :{moment(this.state.endTime).format('mm')}{' '}
+            {this.state.endTime.getHours() > 12 ? 'a.m.' : 'p.m.'} */}
+          </Text>
           <View paddingVertical={10} />
 
-          <TouchableOpacity style={styles.button}
+          <TouchableOpacity
+            style={styles.button}
             onPress={() => {
               this.setState({ creatorId: this.props.userId });
-              this.submitHandler()
-              }
-              }>
-                <Text>Submit run!</Text>
+              this.submitHandler();
+            }}
+          >
+            <Text>Submit run!</Text>
           </TouchableOpacity>
-
         </ScrollView>
       </View>
     );
@@ -326,7 +234,7 @@ class RunForm extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    createRun: runInfo => dispatch(createUpcomingRunThunk(runInfo))
+    createRun: runInfo => dispatch(createUpcomingRunThunk(runInfo)),
   };
 };
 
@@ -368,7 +276,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   timeSlotText: {
-    fontSize: 20
+    fontSize: 20,
   },
   submitButton: {
     flex: 1,
@@ -377,7 +285,7 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 5,
     borderRadius: 10,
-  }
+  },
 });
 
 const pickerSelectStyles = StyleSheet.create({
@@ -402,50 +310,3 @@ const pickerSelectStyles = StyleSheet.create({
     paddingRight: 30, // to ensure the text is never behind the icon
   },
 });
-
-// const styles = StyleSheet.create({
-//   container: {
-//     justifyContent: 'flex-start',
-//     alignItems: 'flex-start',
-//     paddingTop: 20
-//   },
-//   item: {
-//     height: 30,
-//     flex: 1,
-//     paddingTop: Constants.statusBarHeight,
-//     flexDirection: 'column',
-//   },
-//   mapItem: {
-//     paddingTop: 30,
-//     marginTop: 20,
-//   },
-//   itemRow: {
-//     height: 30,
-//     flexDirection: 'row',
-//     justifyContent: 'flex-start',
-//     backgroundColor: 'yellow',
-//   },
-//   textItem: {
-//     flex: 3,
-//     paddingLeft: 0,
-//     backgroundColor: 'red',
-//   },
-//   valueItem: {
-//     flex: 1,
-//   },
-//   text: {
-//     textAlign: 'left',
-//     // fontSize: 15,
-//     // height: 50,
-//   },
-//   picker: {
-//     fontSize: 15,
-//   },
-//   btnContainer: {
-//     backgroundColor: '#124D1A',
-//     padding: 5,
-//     margin: 5,
-//     borderRadius: 10,
-//     overflow: 'hidden',
-//   },
-// });
