@@ -140,7 +140,7 @@ class MapScreen extends Component {
   clearTracking() {
     dataIndex = -1;
     this.setState({
-      milliseconds: 0,
+      seconds: 0,
       coordinates: [],
       distance: 0,
       clearButtonDisabled: true,
@@ -211,7 +211,6 @@ class MapScreen extends Component {
 
   stopWatch() {
     this.setState({ seconds: ++this.state.seconds });
-    console.log('Seconds are: ', this.state.seconds);
   }
   startClock() {
     let clockId = setInterval(this.stopWatch, 1000);
