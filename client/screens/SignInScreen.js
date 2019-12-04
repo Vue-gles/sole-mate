@@ -26,6 +26,7 @@ import logo from '../../assets/images/logo.png';
 class SignInScreen extends React.Component {
   constructor(props) {
     super(props);
+    const { navigation } = this.props;
     this.state = {
       email: '',
       password: '',

@@ -12,7 +12,9 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  KeyboardAvoidingView,
   View,
+  Item,
   Picker,
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -37,13 +39,13 @@ class SignUpRunForm extends React.Component {
       imageUrl: navigation.getParam('imageUrl', 'default value'),
       avgPace: null,
       avgMileage: null,
-      goal: '',
+      goal: 'fitness',
       bio: '',
     };
   }
 
   static navigationOptions = {
-    title: 'SignUpRun',
+    title: 'Sign Up',
   };
 
   submitHandler = async () => {
@@ -83,49 +85,47 @@ class SignUpRunForm extends React.Component {
         goal: this.state.goal,
         bio: this.state.bio,
       };
-      this.props.createUser(inputs);
-      this.props.navigation.navigate('AuthLoading');
+      await this.props.createUser(inputs);
+      if (this.props.user && this.props.user.id) {
+        this.props.navigation.navigate('Main');
+      }
     }
   };
 
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <ScrollView>
-        <View style={styles.container}>
-          <SafeAreaView style={styles.container}>
-            {/* <ScrollView style={styles.scrollView}> */}
-            <View style={styles.container}>
-              {/* <Button title="Go Back to Login Screen" onPress={() => navigate('AuthLoading')} /> */}
-              <Image source={logo} style={styles.welcomeImage} />
-              <Text style={styles.name}>Enter Your Stats</Text>
-              {/* <Text>Email From last page:{this.state.email}</Text>
-            <Text>password From last page:{this.state.password}</Text>
-            <Text>firstName From last page:{this.state.firstName}</Text>
-            <Text>lastName From last page:{this.state.lastName}</Text>
-            <Text>defaultAddress From last page:{this.state.defaultAddress}</Text>
-            <Text>imageUrl From last page:{this.state.imageUrl}</Text> */}
-              <TextInput
-                value={this.state.avgPace}
-                onChangeText={avgPace => this.setState({ avgPace })}
-                placeholder={'Average Pace'}
-                style={styles.input}
-              />
-              <TextInput
-                value={this.state.avgMileage}
-                onChangeText={avgMileage => this.setState({ avgMileage })}
-                placeholder={'Average Mileage'}
-                style={styles.input}
-              />
-              <TextInput
-                value={this.state.goal}
-                onChangeText={goal => this.setState({ goal })}
-                placeholder={'Goal'}
-                style={styles.input}
-              />
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        keyboardVerticalOffset={64}
+        behavior="padding"
+        enabled
+      >
+        <SafeAreaView style={styles.container}>
+          <View style={styles.inner}>
+            <Text style={styles.details}>Avg. Pace:</Text>
+            <TextInput
+              value={this.state.avgPace}
+              onChangeText={avgPace => this.setState({ avgPace })}
+              placeholder={'Average Pace'}
+              style={styles.input}
+            />
+
+            <Text style={styles.details}>Avg. Mileage:</Text>
+            <TextInput
+              value={this.state.avgMileage}
+              onChangeText={avgMileage => this.setState({ avgMileage })}
+              placeholder={'Average Mileage'}
+              style={styles.input}
+            />
+
+            <View>
+              <Text style={styles.details}>Goal:</Text>
               <Picker
+                iosHeader="Select one"
+                mode="dropdown"
                 selectedValue={this.state.goal}
-                style={{ width: 100 }}
+                style={{ width: '100%' }}
                 onValueChange={(itemValue, itemIndex) =>
                   this.setState({ goal: itemValue })
                 }
@@ -134,33 +134,30 @@ class SignUpRunForm extends React.Component {
                 <Picker.Item label="hobby" value="hobby" />
                 <Picker.Item label="weightloss" value="weightloss" />
               </Picker>
-              <TextInput
-                value={this.state.bio}
-                onChangeText={bio => this.setState({ bio })}
-                placeholder={'Biography'}
-                style={styles.input}
-              />
-              <Button
-                title="Sign Up"
-                color={'#0F3E15'}
-                onPress={this.submitHandler}
-              />
-              <Button
-                title="Go Back to Login Screen"
-                onPress={() => navigate('AuthLoading')}
-                color={'#0F3E15'}
-              />
-              {this.props.error && this.props.error.response && (
-                <Text style={styles.error}>
-                  {' '}
-                  {this.props.error.response.data}{' '}
-                </Text>
-              )}
             </View>
-            {/* </ScrollView> */}
-          </SafeAreaView>
-        </View>
-      </ScrollView>
+
+            <Text style={styles.details}>Personal Bio:</Text>
+            <TextInput
+              value={this.state.bio}
+              onChangeText={bio => this.setState({ bio })}
+              placeholder={'Biography'}
+              style={styles.input}
+            />
+            <Button
+              title="Sign Up"
+              color={'#0F3E15'}
+              onPress={this.submitHandler}
+            />
+
+            {this.props.error && this.props.error.response && (
+              <Text style={styles.error}>
+                {' '}
+                {this.props.error.response.data}{' '}
+              </Text>
+            )}
+          </View>
+        </SafeAreaView>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -172,23 +169,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingTop: 100,
   },
-  name: {
+  details: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#303731',
+    color: '#0F3E15',
   },
-  details: {
-    color: '#525E54',
-  },
-  welcomeImage: {
-    width: 100,
-    height: 100,
-    resizeMode: 'contain',
-    marginTop: 3,
-    marginLeft: -10,
-    borderRadius: 100 / 2,
-    overflow: 'hidden',
-    padding: '14%',
+  inner: {
+    padding: 24,
+    flex: 1,
+    justifyContent: 'flex-start',
   },
   input: {
     width: 200,
@@ -200,13 +189,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 10,
   },
-  welcomeImage: {
-    width: 100,
-    height: 80,
-    resizeMode: 'contain',
-    marginTop: 3,
-    marginLeft: -10,
-  },
   error: {
     color: `#eb4034`,
   },
@@ -215,7 +197,7 @@ const styles = StyleSheet.create({
 const mapState = state => {
   return {
     user: state.user,
-    // error: state.user.error,
+    error: state.user.error,
   };
 };
 
