@@ -20,8 +20,11 @@ import { connect } from 'react-redux';
 import Constants from 'expo-constants';
 import { createUpcomingRunThunk } from '../store/upcomingRuns';
 import PlacesAutocomplete from '../components/PlacesAutocomplete';
+<<<<<<< HEAD
 import { gotRunNowFormInfo } from '../store/formInfo';
 import { getUpcomingRunsThunk } from '../store/upcomingRuns';
+=======
+>>>>>>> 43c7464fc54f1478f4293dcc01fc3d523e51593e
 
 Date.prototype.addHours = function(h) {
   this.setTime(this.getTime() + h * 60 * 60 * 1000);
@@ -201,6 +204,8 @@ class RunForm extends Component {
                 onConfirm={this.handleDatePicked}
                 onCancel={this.hideDateTimePicker}
                 minimumDate={new Date()}
+                date={new Date()}
+                isDarkModeEnabled={true}
               />
             </TouchableOpacity>
             <TouchableOpacity
@@ -215,6 +220,7 @@ class RunForm extends Component {
                 onCancel={this.hideEndTimePicker}
                 date={new Date()}
                 minuteInterval={30}
+                isDarkModeEnabled={true}
               />
             </TouchableOpacity>
           </View>
