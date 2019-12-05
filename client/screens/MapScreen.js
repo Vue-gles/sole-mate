@@ -348,7 +348,7 @@ class MapScreen extends Component {
             }}
           />
           <RaisedTextButton style={styles.button}
-            title="Stop"
+            title="Pause"
             ref={ref => {
               this.stopButton = ref;
             }}
