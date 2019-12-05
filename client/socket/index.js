@@ -11,7 +11,9 @@ import { saveRun } from '../store/pastRuns';
 ///// FRONTEND
 
 // //TAKE THIS OUT SOON
-require('../../secrets');
+if (process.env.NODE_ENV !== 'production') {
+  require('../../secrets');
+}
 
 const socket = io(process.env.BACKEND_HOST);
 
