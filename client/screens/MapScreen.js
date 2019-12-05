@@ -15,7 +15,7 @@ import { TextButton, RaisedTextButton } from 'react-native-material-buttons';
 const circleColor = 'rgba(93, 173, 226, 0.2)';
 const circle2Color = 'rgba(231, 76, 60  , 0.2)';
 
-
+ 
 const demoMode = false;
 const data = [];
 
@@ -376,11 +376,13 @@ class MapScreen extends Component {
           />
           </View>
           
-        <View style={styles.rowButtonStyle}>
+        <View style={styles.rowButtonStyle2}>
           <View style={styles.stats}>
             <Text style={styles.distanceTextStyle}>
+
               {this.state.distance.toFixed(2)} miles
             </Text>
+            <Text style = {styles.distanceTextStyle}> {this.toSecs(this.state.seconds)}</Text>
             <RNPickerSelect
               placeholder={{ label: 'Circle 1' }}
               items={[0, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25].map(mile => {
@@ -424,7 +426,7 @@ class MapScreen extends Component {
               }}
             /> 
           </View>
-          <Text>      {this.toSecs(this.state.seconds)}</Text>
+          
         </View>
         </ScrollView>
         
@@ -469,6 +471,24 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
 
   },
+  rowButtonStyle2 : {
+    width: Dimensions.get('window').width,
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: 'green',
+    borderColor: 'white',
+    borderWidth: 2,
+    borderRadius: 12,
+    flexWrap:'wrap',
+    fontSize: 24,
+    fontWeight: 'bold',
+    overflow: 'hidden',
+    padding: 12,
+    textAlign: 'center',
+    opacity: 0.9,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   stats: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -476,12 +496,15 @@ const styles = StyleSheet.create({
   },
   distanceTextStyle: {
     fontWeight: 'bold',
-    color: 'yellow',
+    color: 'skyblue',
     paddingBottom: '3%',
-    paddingRight:'3%'
+    paddingRight:'3%',
+    fontSize: 20,
+    flexWrap:'wrap',
   },
   button: {
-    backgroundColor: 'whitesmoke',
+    backgroundColor: 'skyblue',
+    color:'yellow',
     padding: 5,
     margin: 5,
     borderRadius: 10,
@@ -496,7 +519,7 @@ const pickerSelectStyles = StyleSheet.create({
     fontSize: 12,
     padding: '1%',
     borderWidth: 1,
-    borderColor: 'dodgerblue',
+    borderColor: 'skyblue',
     borderRadius: 8,
     color: 'whitesmoke',
     paddingRight: 30, // to ensure the text is never behind the icon
@@ -504,12 +527,14 @@ const pickerSelectStyles = StyleSheet.create({
   inputAndroid: {
     fontSize: 12,
     borderWidth: 0.5,
-    borderColor: 'dodgerblue',
+    borderColor: 'skyblue',
     borderRadius: 8,
     color: 'whitesmoke',
     paddingRight: 30, // to ensure the text is never behind the icon
   },
 });
+
+
 const mapState = state => {
   return {
     currentCoords: state.currentCoords,
