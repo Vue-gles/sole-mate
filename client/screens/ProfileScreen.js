@@ -20,7 +20,7 @@ import { auth } from '../store/user';
 import { logout } from '../store/user';
 
 import { MonoText } from '../components/StyledText';
-
+//comment
 class ProfileScreen extends React.Component {
   constructor(props) {
     super(props);
