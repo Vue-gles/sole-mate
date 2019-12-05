@@ -1,7 +1,11 @@
 import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
 
-const PUSH_ENDPOINT = `${process.env.BACKEND}/api/users/push-token`;
+if (process.env.NODE_ENV !== 'production') {
+  require('../../secrets');
+}
+
+const PUSH_ENDPOINT = `${process.env.BACKEND_HOST}/api/users/push-token`;
 
 export default async function registerForPushNotificationsAsync() {
   const { status: existingStatus } = await Permissions.getAsync(
@@ -17,7 +21,7 @@ export default async function registerForPushNotificationsAsync() {
     const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
     finalStatus = status;
   }
-
+  console.log('finalStatus ----------->', finalStatus);
   // Stop here if the user did not grant permissions
   if (finalStatus !== 'granted') {
     return;
@@ -25,8 +29,9 @@ export default async function registerForPushNotificationsAsync() {
 
   // Get the token that uniquely identifies this device
   let token = await Notifications.getExpoPushTokenAsync();
-
+  console.log('token ------------------>', token);
   // POST the token to your backend server from where you can retrieve it to send push notifications.
+  console.log('PUSH_ENDPOINT', PUSH_ENDPOINT);
   return fetch(PUSH_ENDPOINT, {
     method: 'POST',
     headers: {

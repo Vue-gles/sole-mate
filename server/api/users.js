@@ -132,18 +132,14 @@ router.put('/profile', isUser, async (req, res, next) => {
   }
 });
 
-router.put('/', isUser, async (req, res, next) => {
+// POST /api/users/push-token
+router.post('/push-token', async (req, res, next) => {
   try {
-    const user = await User.findOne({
-      where: {
-        id: req.user.id,
-      },
-    });
-    const { route } = req.body;
+    console.log('req.body ---------->', req.body);
+    const user = await User.findByPk(req.user.id);
     const updated = await user.update({
-      route: route,
+      token: req.body.token.value,
     });
-   
     res.json(updated);
   } catch (err) {
     next(err);
