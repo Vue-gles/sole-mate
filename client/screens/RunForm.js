@@ -20,11 +20,8 @@ import { connect } from 'react-redux';
 import Constants from 'expo-constants';
 import { createUpcomingRunThunk } from '../store/upcomingRuns';
 import PlacesAutocomplete from '../components/PlacesAutocomplete';
-<<<<<<< HEAD
 import { gotRunNowFormInfo } from '../store/formInfo';
 import { getUpcomingRunsThunk } from '../store/upcomingRuns';
-=======
->>>>>>> 43c7464fc54f1478f4293dcc01fc3d523e51593e
 
 Date.prototype.addHours = function(h) {
   this.setTime(this.getTime() + h * 60 * 60 * 1000);
@@ -107,21 +104,8 @@ class RunForm extends Component {
       Alert.alert('Must fill out all of the above before moving on');
     } else {
       //await this.props.createRun(this.state);
-      // await this.props.setRunNowFormInfo(this.state.lattitude,this.state.longitude,this.state.maxDistance)
-      this.props.navigation.navigate('RunLaterResults', {
-      creatorId: this.state.creatorId,
-      street: this.state.street,
-      city: this.state.city,
-      state: this.state.state,
-      lattitude: this.state.lattitude,
-      longitude: this.state.longitude,
-      isDateTimePickerVisible: this.state.isDateTimePickerVisible,
-      isStartTimePickerVisible: this.state.isStartTimePickerVisible,
-      isEndTimePickerVisible: this.state.isEndTimePickerVisible,
-      startTime: this.state.startTime,
-      endTime: this.state.endTime,
-      prefferedMileage: this.state.prefferedMileage,
-      })//ScheduleStack
+      await this.props.setRunNowFormInfo(this.state.lattitude,this.state.longitude,this.state.maxDistance)
+      this.props.navigation.navigate('RunLaterResults')//ScheduleStack
       // await this.props.createRun(this.state);
       // this.props.navigation.navigate('ScheduleStack');
     }
