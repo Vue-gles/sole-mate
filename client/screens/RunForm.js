@@ -105,7 +105,21 @@ class RunForm extends Component {
     } else {
       //await this.props.createRun(this.state);
       await this.props.setRunNowFormInfo(this.state.lattitude,this.state.longitude,this.state.maxDistance)
-      this.props.navigation.navigate('RunLaterResults')//ScheduleStack
+      this.props.navigation.navigate('RunLaterResults',{
+      creatorId: this.state.creatorId,
+      street: this.state.street,
+      city: this.state.city,
+      state: this.state.state,
+      lattitude: this.state.lattitude,
+      longitude: this.state.longitude,
+      isDateTimePickerVisible: this.state.isDateTimePickerVisible,
+      isStartTimePickerVisible: this.state.isStartTimePickerVisible,
+      isEndTimePickerVisible: this.state.isEndTimePickerVisible,
+      startTime: this.state.startTime,
+      endTime: this.state.endTime,
+      prefferedMileage: this.state.prefferedMileage,
+      maxDistance: this.state.maxDistance,
+      })//ScheduleStack
       // await this.props.createRun(this.state);
       // this.props.navigation.navigate('ScheduleStack');
     }

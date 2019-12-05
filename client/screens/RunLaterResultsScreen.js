@@ -28,20 +28,20 @@ class RunLaterResultsScreen extends React.Component {
   constructor(props) {
     super(props);
     const { navigation } = this.props;
-    // this.state = {
-    //   creatorId: navigation.getParam('creatorId', 'default value'),
-    //   street: navigation.getParam('street', 'default value'),
-    //   city: navigation.getParam('city', 'default value'),
-    //   state: navigation.getParam('state', 'default value'),
-    //   lattitude: navigation.getParam('lattitude', 'default value'),
-    //   longitude: navigation.getParam('longitude', 'default value'),
-    //   isDateTimePickerVisible: navigation.getParam('isDateTimePickerVisible', 'default value'),
-    //   isStartTimePickerVisible: navigation.getParam('isStartTimePickerVisible', 'default value'),
-    //   isEndTimePickerVisible: navigation.getParam('isEndTimePickerVisible', 'default value'),
-    //   startTime: navigation.getParam('startTime', 'default value'),
-    //   endTime: navigation.getParam('endTime', 'default value'),
-    //   prefferedMileage:navigation.getParam('prefferedMileage', 'default value'),
-    // };
+    this.state = {
+      creatorId: navigation.getParam('creatorId', 'default value'),
+      street: navigation.getParam('street', 'default value'),
+      city: navigation.getParam('city', 'default value'),
+      state: navigation.getParam('state', 'default value'),
+      lattitude: navigation.getParam('lattitude', 'default value'),
+      longitude: navigation.getParam('longitude', 'default value'),
+      isDateTimePickerVisible: navigation.getParam('isDateTimePickerVisible', 'default value'),
+      isStartTimePickerVisible: navigation.getParam('isStartTimePickerVisible', 'default value'),
+      isEndTimePickerVisible: navigation.getParam('isEndTimePickerVisible', 'default value'),
+      startTime: navigation.getParam('startTime', 'default value'),
+      endTime: navigation.getParam('endTime', 'default value'),
+      prefferedMileage:navigation.getParam('prefferedMileage', 'default value'),
+    };
     this.clickHandler = this.clickHandler.bind(this);
 
   }
