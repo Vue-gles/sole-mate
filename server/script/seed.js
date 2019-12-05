@@ -1,6 +1,6 @@
 // 'use strict';
 // require('../keys');
-const { db, User, Run, Message, Request } = require('../server/db');
+const { db, User, Run, Message, Request } = require('../db');
 const axios = require('axios');
 // require('../keys');
 
