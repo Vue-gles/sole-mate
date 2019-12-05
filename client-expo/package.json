@@ -4,11 +4,12 @@
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
+    "deploy": "script/deploy",
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
     "postinstall": "touch secrets.js",
-    "backend": "nodemon server",
+    "backend": "nodemon ../server",
     "seed": "node script/seed.js",
     "test": "jest --watchAll"
   },

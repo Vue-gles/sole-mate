@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const db = require('../db');
 const { Op } = require('sequelize');
 const User = require('./user');
-const { calculateDistance } = require('../../../utils');
+const { calculateDistance } = require('../../utils');
 
 const Run = db.define('run', {
   isComplete: {
@@ -60,7 +60,7 @@ const Run = db.define('run', {
     type: Sequelize.FLOAT,
   },
   seconds: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
   },
   prefferedMileage: {
     type: Sequelize.INTEGER,
@@ -114,11 +114,10 @@ Run.getUpcomingRuns = function(userId) {
         },
       ],
     },
-    include: [{ model: User,  as: 'Creator', foreignKey: 'creatorId' },
-    { model: User,  as: 'Partner', foreignKey: 'partnerId' }
-  ],
-
-
+    include: [
+      { model: User, as: 'Creator', foreignKey: 'creatorId' },
+      { model: User, as: 'Partner', foreignKey: 'partnerId' },
+    ],
   });
   return runs;
 };
@@ -148,8 +147,10 @@ Run.getPastRuns = function(userId) {
         },
       ],
     },
-    include: [{ model: User,  as: 'Creator', foreignKey: 'creatorId' },
-    { model: User,  as: 'Partner', foreignKey: 'partnerId' }]
+    include: [
+      { model: User, as: 'Creator', foreignKey: 'creatorId' },
+      { model: User, as: 'Partner', foreignKey: 'partnerId' },
+    ],
   });
   return runs;
 };

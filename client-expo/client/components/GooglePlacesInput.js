@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Image, Text } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import key from '../../keys';
+// import key from '../../keys';
 
 const homePlace = {
   description: 'Home',
@@ -37,13 +37,12 @@ export default class GooglePlacesInput extends Component {
     return (
       <GooglePlacesAutocomplete
         placeholder="Where would you like to start?"
-        minLength={1} 
+        minLength={1}
         autoFocus={true}
         returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
         listViewDisplayed={false} // true/false/undefined
         fetchDetails={true}
         renderDescription={row => row.description} // custom description render
-      
         onPress={(data, details = null) => {
           // 'details' is provided when fetchDetails = true
           this.setState({ address: JSON.stringify(data.description) });
@@ -55,7 +54,7 @@ export default class GooglePlacesInput extends Component {
         getDefaultValue={() => ''}
         query={{
           // available options: https://developers.google.com/places/web-service/autocomplete
-          key: key,
+          key: process.env.GOOGLE_API_KEY,
           language: 'en', // language of the results
           // types: 'establishment' && 'geocode' // default: 'geocode'
         }}
@@ -71,10 +70,10 @@ export default class GooglePlacesInput extends Component {
             height: '240%',
             margin: '-4%',
             backgroundColor: 'whitesmoke',
-            color:'black',
+            color: 'black',
             padding: '4%',
           },
-          predefinedPlacesDescription: {      
+          predefinedPlacesDescription: {
             color: 'black',
           },
         }}

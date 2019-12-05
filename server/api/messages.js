@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { Request, Run, User, Message } = require('../db');
-const { isAdmin, isUser } = require('../../utils');
+const { isAdmin, isUser } = require('../utils');
 const Op = require('sequelize').Op;
 const { Expo } = require('expo-server-sdk');
 // Create a new Expo SDK client
