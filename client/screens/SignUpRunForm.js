@@ -95,6 +95,9 @@ class SignUpRunForm extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
+      <ScrollView>
+
+     
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         keyboardVerticalOffset={64}
@@ -158,6 +161,7 @@ class SignUpRunForm extends React.Component {
           </View>
         </SafeAreaView>
       </KeyboardAvoidingView>
+      </ScrollView>
     );
   }
 }

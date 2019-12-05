@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import MapView, { Marker, Circle, Polyline } from 'react-native-maps';
-import { StyleSheet, View, Dimensions, Text, Button } from 'react-native';
+import { StyleSheet, View, Dimensions, Text, Button, ScrollView } from 'react-native';
 import GooglePlacesInput from '../components/GooglePlacesInput';
 import { getDistance } from 'geolib';
 import { connect } from 'react-redux';
@@ -10,11 +10,12 @@ import { Chevron } from 'react-native-shapes';
 import RNPickerSelect from 'react-native-picker-select';
 
 import socket from '../socket/index';
+import { TextButton, RaisedTextButton } from 'react-native-material-buttons';
 
 const circleColor = 'rgba(93, 173, 226, 0.2)';
 const circle2Color = 'rgba(231, 76, 60  , 0.2)';
 
-
+ 
 const demoMode = false;
 const data = [];
 
@@ -331,9 +332,11 @@ class MapScreen extends Component {
             />
           )}
         </MapView>
-
+        <ScrollView
+        horizontal = {true}>
         <View style={styles.rowButtonStyle}>
-          <Button
+        
+          <RaisedTextButton style={styles.button}
             title="Start"
             ref={ref => {
               this.startButton = ref;
@@ -344,8 +347,8 @@ class MapScreen extends Component {
               this.startTracking(5000);
             }}
           />
-          <Button
-            title="Stop"
+          <RaisedTextButton style={styles.button}
+            title="Pause"
             ref={ref => {
               this.stopButton = ref;
             }}
@@ -355,7 +358,7 @@ class MapScreen extends Component {
               this.stopTracking();
             }}
           />
-          <Button
+          <RaisedTextButton style={styles.button}
             title="Clear"
             ref={ref => {
               this.clearButton = ref;
@@ -363,7 +366,7 @@ class MapScreen extends Component {
             disabled={this.state.clearButtonDisabled}
             onPress={() => this.clearTracking()}
           />
-          <Button
+          <RaisedTextButton style={styles.button}
             title="Save"
             ref={ref => {
               this.saveButton = ref;
@@ -371,13 +374,18 @@ class MapScreen extends Component {
             disabled={this.state.clearButtonDisabled}
             onPress={() => this.saveTracking()}
           />
+          </View>
+          
+        <View style={styles.rowButtonStyle2}>
           <View style={styles.stats}>
             <Text style={styles.distanceTextStyle}>
+
               {this.state.distance.toFixed(2)} miles
             </Text>
+            <Text style = {styles.distanceTextStyle}> {this.toSecs(this.state.seconds)}</Text>
             <RNPickerSelect
               placeholder={{ label: 'Circle 1' }}
-              items={[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25].map(mile => {
+              items={[0, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25].map(mile => {
                 return { label: `${mile} miles`, value: parseFloat(mile) * 1609.34 };
               })}
               onValueChange={value => 
@@ -416,10 +424,11 @@ class MapScreen extends Component {
               Icon={() => {
                 return <Chevron size={1} color="blue" />;
               }}
-            />
+            /> 
           </View>
-          <Text>      {this.toSecs(this.state.seconds)}</Text>
+          
         </View>
+        </ScrollView>
         
       </View>
     );
@@ -437,13 +446,33 @@ const styles = StyleSheet.create({
     opacity: 0.8,
   },
   mapStyle: {
-    flex: 7,
+    flex: 20,
     justifyContent: 'center',
     alignItems: 'stretch',
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
   },
   rowButtonStyle: {
+    width: Dimensions.get('window').width,
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: 'green',
+    borderColor: 'white',
+    borderWidth: 2,
+    borderRadius: 12,
+    flexWrap:'wrap',
+    fontSize: 24,
+    fontWeight: 'bold',
+    overflow: 'hidden',
+    padding: 12,
+    textAlign: 'center',
+    opacity: 0.9,
+    alignItems: 'center',
+    justifyContent: 'center',
+
+  },
+  rowButtonStyle2 : {
+    width: Dimensions.get('window').width,
     flex: 1,
     flexDirection: 'row',
     backgroundColor: 'green',
@@ -464,14 +493,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-
   },
   distanceTextStyle: {
     fontWeight: 'bold',
-    color: 'yellow',
+    color: 'skyblue',
     paddingBottom: '3%',
-    paddingRight:'3%'
-
+    paddingRight:'3%',
+    fontSize: 20,
+    flexWrap:'wrap',
+  },
+  button: {
+    backgroundColor: 'skyblue',
+    color:'yellow',
+    padding: 5,
+    margin: 5,
+    borderRadius: 10,
+    overflow: 'hidden',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
   },
 });
 const pickerSelectStyles = StyleSheet.create({
@@ -479,21 +519,22 @@ const pickerSelectStyles = StyleSheet.create({
     fontSize: 12,
     padding: '1%',
     borderWidth: 1,
-    borderColor: 'dodgerblue',
+    borderColor: 'skyblue',
     borderRadius: 8,
     color: 'whitesmoke',
     paddingRight: 30, // to ensure the text is never behind the icon
   },
   inputAndroid: {
     fontSize: 12,
-
     borderWidth: 0.5,
-    borderColor: 'dodgerblue',
+    borderColor: 'skyblue',
     borderRadius: 8,
     color: 'whitesmoke',
     paddingRight: 30, // to ensure the text is never behind the icon
   },
 });
+
+
 const mapState = state => {
   return {
     currentCoords: state.currentCoords,
