@@ -133,6 +133,7 @@ router.put('/profile', isUser, async (req, res, next) => {
 });
 
 // POST /api/users/push-token
+// Record users expo push token
 router.post('/push-token', async (req, res, next) => {
   try {
     console.log('req.body ---------->', req.body);

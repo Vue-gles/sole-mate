@@ -31,7 +31,6 @@ export default async function registerForPushNotificationsAsync() {
   let token = await Notifications.getExpoPushTokenAsync();
   console.log('token ------------------>', token);
   // POST the token to your backend server from where you can retrieve it to send push notifications.
-  console.log('PUSH_ENDPOINT', PUSH_ENDPOINT);
   return fetch(PUSH_ENDPOINT, {
     method: 'POST',
     headers: {

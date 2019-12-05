@@ -25,9 +25,9 @@ import registerForPushNotificationsAsync from './PushNotifications';
 class HomeScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      notification: {},
-    };
+    // this.state = {
+    //   notification: {},
+    // };
   }
 
   componentDidMount() {
@@ -44,7 +44,8 @@ class HomeScreen extends Component {
   }
 
   _handleNotification = notification => {
-    this.setState({ notification: notification });
+    // this.setState({ notification: notification });
+    alert(notification.data.title);
   };
 
   render() {
@@ -55,13 +56,6 @@ class HomeScreen extends Component {
           style={styles.container}
           contentContainerStyle={styles.contentContainer}
         >
-          <View
-            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-          >
-            <Text>Origin: {this.state.notification.origin}</Text>
-            <Text>Data: {JSON.stringify(this.state.notification.data)}</Text>
-          </View>
-
           <View style={styles.welcomeContainer}>
             <Text style={styles.brandName}>SoleMate</Text>
             <Image source={logo} style={styles.welcomeImage} />
