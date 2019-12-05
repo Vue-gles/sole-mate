@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "deploy": "script/deploy",
+    "seed": "node script/seed.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
