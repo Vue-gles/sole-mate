@@ -9,7 +9,6 @@ module.exports = router;
 // GET /api/runs -- Sample url: /api/runs?type=potential&distance=3000&lat=40.71624740000001&long=-73.998268
 router.get('/', isUser, async (req, res, next) => {
   try {
-
     const { type } = req.query;
     let runs;
     if (type === 'potential') {
@@ -88,20 +87,18 @@ router.post('/', isUser, async (req, res, next) => {
 router.put('/:runId', isUser, async (req, res, next) => {
   try {
     const run = await Run.findByPk(req.params.runId);
-    const { route, distance, seconds } = req.body;
+    const { route, distance } = req.body;
     const updated = await run.update({
       route,
       distance,
-      seconds,
       isComplete: true,
     });
     const creator = await User.findByPk(updated.creatorId);
     updated.dataValues.Creator = creator;
-    if(run.partnerId){
+    if (run.partnerId) {
       const partner = await User.findByPk(updated.partnerId);
       updated.dataValues.Partner = partner;
     }
-    
 
     res.json(updated);
   } catch (err) {

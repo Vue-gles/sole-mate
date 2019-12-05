@@ -26,7 +26,6 @@ class IncomingRequests extends React.Component {
   constructor(props) {
     super(props);
     this.requestUpdateHandler = this.requestUpdateHandler.bind(this);
-
   }
   componentDidMount() {
     this.props.getIncoming();
