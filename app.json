@@ -4,11 +4,7 @@
     "slug": "my-new-project",
     "privacy": "public",
     "sdkVersion": "35.0.0",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
+    "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -20,24 +16,25 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "android": {
       "package": "com.mate_sole",
       "config": {
-          "googleMaps": {
-              "apiKey": "API KEY HERE EVENTUALLY"
-          }
+        "googleMaps": {
+          "apiKey": "API KEY HERE EVENTUALLY"
+        }
       }
-  },
+    },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.mate-sole",
       "config": {
-          "googleMapsApiKey": ""
+        "googleMapsApiKey": ""
       }
+    },
+    "notification": {
+      "icon": "./assets/images/icon.png",
+      "iosDisplayInForeground": true
     }
-    
   }
 }
