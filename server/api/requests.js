@@ -43,6 +43,50 @@ router.put('/', isUser, async (req, res, next) => {
 
     await Request.updateRequestStatus(req.user.id, runId, requesterId, status);
     const incoming = await Request.getIncoming(req.user.id);
+
+    const run = await Run.findByPk(runId);
+    const creator = await User.findByPk(req.user.id);
+    const requester = await User.findByPk(requesterId);
+    if (requester.token) {
+      const requests = [];
+      requests.push({
+        to: requester.token,
+        sound: 'default',
+        title: `Run request ${status}`,
+        body: `${creator.firstName} ${creator.lastName} ${status} your run request`,
+        data: {
+          title: `Run request ${status}`,
+          body: `${creator.firstName} ${creator.lastName} ${status} your run request`,
+        },
+        _displayInForeground: true,
+      });
+
+      // The Expo push notification service accepts batches of notifications so
+      // that you don't need to send 1000 requests to send 1000 notifications. We
+      // recommend you batch your notifications to reduce the number of requests
+      // and to compress them (notifications with similar content will get
+      // compressed).
+      let chunks = expo.chunkPushNotifications(requests);
+      let tickets = [];
+      (async () => {
+        // Send the chunks to the Expo push notification service. There are
+        // different strategies you could use. A simple one is to send one chunk at a
+        // time, which nicely spreads the load out over time:
+        for (let chunk of chunks) {
+          try {
+            let ticketChunk = await expo.sendPushNotificationsAsync(chunk);
+            console.log(ticketChunk);
+            tickets.push(...ticketChunk);
+            // NOTE: If a ticket contains an error code in ticket.details.error, you
+            // must handle it appropriately. The error codes are listed in the Expo
+            // documentation:
+            // https://docs.expo.io/versions/latest/guides/push-notifications#response-format
+          } catch (error) {
+            console.error(error);
+          }
+        }
+      })();
+    }
     res.send(incoming);
   } catch (error) {
     next(error);
@@ -65,11 +109,11 @@ router.post('/:runId', isUser, async (req, res, next) => {
       requests.push({
         to: creator.token,
         sound: 'default',
-        title: `New Run Request`,
-        body: `Run request from ${requestor.firstName} ${requestor.lastName}`,
+        title: `New run request`,
+        body: `New run request from ${requestor.firstName} ${requestor.lastName}`,
         data: {
-          title: `New Run Request`,
-          body: `Run request from ${requestor.firstName} ${requestor.lastName}`,
+          title: `New run request`,
+          body: `New run request from ${requestor.firstName} ${requestor.lastName}`,
         },
         _displayInForeground: true,
       });
