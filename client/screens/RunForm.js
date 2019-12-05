@@ -20,6 +20,8 @@ import { connect } from 'react-redux';
 import Constants from 'expo-constants';
 import { createUpcomingRunThunk } from '../store/upcomingRuns';
 import PlacesAutocomplete from '../components/PlacesAutocomplete';
+import { gotRunNowFormInfo } from '../store/formInfo';
+import { getUpcomingRunsThunk } from '../store/upcomingRuns';
 
 Date.prototype.addHours = function(h) {
   this.setTime(this.getTime() + h * 60 * 60 * 1000);
@@ -42,6 +44,7 @@ class RunForm extends Component {
       startTime: new Date(),
       endTime: new Date(),
       prefferedMileage: 0,
+      maxDistance: 30,
     };
     this.locationHandler = this.locationHandler.bind(this);
   }
@@ -100,8 +103,25 @@ class RunForm extends Component {
     if (!this.state.lattitude || !this.state.prefferedMileage) {
       Alert.alert('Must fill out all of the above before moving on');
     } else {
-      await this.props.createRun(this.state);
-      this.props.navigation.navigate('ScheduleStack');
+      //await this.props.createRun(this.state);
+      await this.props.setRunNowFormInfo(this.state.lattitude,this.state.longitude,this.state.maxDistance)
+      this.props.navigation.navigate('RunLaterResults',{
+      creatorId: this.state.creatorId,
+      street: this.state.street,
+      city: this.state.city,
+      state: this.state.state,
+      lattitude: this.state.lattitude,
+      longitude: this.state.longitude,
+      isDateTimePickerVisible: this.state.isDateTimePickerVisible,
+      isStartTimePickerVisible: this.state.isStartTimePickerVisible,
+      isEndTimePickerVisible: this.state.isEndTimePickerVisible,
+      startTime: this.state.startTime,
+      endTime: this.state.endTime,
+      prefferedMileage: this.state.prefferedMileage,
+      maxDistance: this.state.maxDistance,
+      })//ScheduleStack
+      // await this.props.createRun(this.state);
+      // this.props.navigation.navigate('ScheduleStack');
     }
   }
 
@@ -223,10 +243,10 @@ class RunForm extends Component {
             style={styles.button}
             onPress={() => {
               this.setState({ creatorId: this.props.userId });
-              this.submitHandler();
-            }}
-          >
-            <Text>Submit run!</Text>
+              this.submitHandler()
+              }
+              }>
+                <Text>See available runs!</Text>
           </TouchableOpacity>
         </ScrollView>
       </View>
@@ -237,6 +257,8 @@ class RunForm extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     createRun: runInfo => dispatch(createUpcomingRunThunk(runInfo)),
+    setRunNowFormInfo: (lat, long, maxDistance) =>
+      dispatch(gotRunNowFormInfo({ lat, long, maxDistance })),
   };
 };
 
