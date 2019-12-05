@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import MapView, { Marker, Circle, Polyline } from 'react-native-maps';
-import { StyleSheet, View, Dimensions, Text, Button } from 'react-native';
+import { StyleSheet, View, Dimensions, Text, Button, ScrollView } from 'react-native';
 import GooglePlacesInput from '../components/GooglePlacesInput';
 import { getDistance } from 'geolib';
 import { connect } from 'react-redux';
@@ -10,6 +10,7 @@ import { Chevron } from 'react-native-shapes';
 import RNPickerSelect from 'react-native-picker-select';
 
 import socket from '../socket/index';
+import { TextButton, RaisedTextButton } from 'react-native-material-buttons';
 
 const circleColor = 'rgba(93, 173, 226, 0.2)';
 const circle2Color = 'rgba(231, 76, 60  , 0.2)';
@@ -331,9 +332,11 @@ class MapScreen extends Component {
             />
           )}
         </MapView>
-
+        <ScrollView
+        horizontal = {true}>
         <View style={styles.rowButtonStyle}>
-          <Button
+        
+          <RaisedTextButton style={styles.button}
             title="Start"
             ref={ref => {
               this.startButton = ref;
@@ -344,7 +347,7 @@ class MapScreen extends Component {
               this.startTracking(5000);
             }}
           />
-          <Button
+          <RaisedTextButton style={styles.button}
             title="Stop"
             ref={ref => {
               this.stopButton = ref;
@@ -355,7 +358,7 @@ class MapScreen extends Component {
               this.stopTracking();
             }}
           />
-          <Button
+          <RaisedTextButton style={styles.button}
             title="Clear"
             ref={ref => {
               this.clearButton = ref;
@@ -363,7 +366,7 @@ class MapScreen extends Component {
             disabled={this.state.clearButtonDisabled}
             onPress={() => this.clearTracking()}
           />
-          <Button
+          <RaisedTextButton style={styles.button}
             title="Save"
             ref={ref => {
               this.saveButton = ref;
@@ -371,6 +374,9 @@ class MapScreen extends Component {
             disabled={this.state.clearButtonDisabled}
             onPress={() => this.saveTracking()}
           />
+          </View>
+          
+        <View style={styles.rowButtonStyle}>
           <View style={styles.stats}>
             <Text style={styles.distanceTextStyle}>
               {this.state.distance.toFixed(2)} miles
@@ -420,6 +426,7 @@ class MapScreen extends Component {
           </View>
           <Text>      {this.toSecs(this.state.seconds)}</Text>
         </View>
+        </ScrollView>
         
       </View>
     );
@@ -437,13 +444,14 @@ const styles = StyleSheet.create({
     opacity: 0.8,
   },
   mapStyle: {
-    flex: 7,
+    flex: 20,
     justifyContent: 'center',
     alignItems: 'stretch',
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
   },
   rowButtonStyle: {
+    width: Dimensions.get('window').width,
     flex: 1,
     flexDirection: 'row',
     backgroundColor: 'green',
@@ -459,19 +467,28 @@ const styles = StyleSheet.create({
     opacity: 0.9,
     alignItems: 'center',
     justifyContent: 'center',
+
   },
   stats: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-
   },
   distanceTextStyle: {
     fontWeight: 'bold',
     color: 'yellow',
     paddingBottom: '3%',
     paddingRight:'3%'
-
+  },
+  button: {
+    backgroundColor: 'whitesmoke',
+    padding: 5,
+    margin: 5,
+    borderRadius: 10,
+    overflow: 'hidden',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
   },
 });
 const pickerSelectStyles = StyleSheet.create({
