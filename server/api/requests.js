@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { Request, Run, User } = require('../db');
-const { isAdmin, isUser } = require('../../utils');
+const { isAdmin, isUser } = require('../utils');
 const { Expo } = require('expo-server-sdk');
 // Create a new Expo SDK client
 let expo = new Expo();

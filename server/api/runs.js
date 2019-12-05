@@ -1,15 +1,14 @@
 const router = require('express').Router();
 const { Run, User } = require('../db');
 const sequelize = require('sequelize');
-const { calculateDistance } = require('../../utils');
+const { calculateDistance } = require('../utils');
 
-const { isAdmin, isUser } = require('../../utils');
+const { isAdmin, isUser } = require('../utils');
 module.exports = router;
 
 // GET /api/runs -- Sample url: /api/runs?type=potential&distance=3000&lat=40.71624740000001&long=-73.998268
 router.get('/', isUser, async (req, res, next) => {
   try {
-
     const { type } = req.query;
     let runs;
     if (type === 'potential') {
@@ -97,11 +96,10 @@ router.put('/:runId', isUser, async (req, res, next) => {
     });
     const creator = await User.findByPk(updated.creatorId);
     updated.dataValues.Creator = creator;
-    if(run.partnerId){
+    if (run.partnerId) {
       const partner = await User.findByPk(updated.partnerId);
       updated.dataValues.Partner = partner;
     }
-    
 
     res.json(updated);
   } catch (err) {
