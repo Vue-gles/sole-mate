@@ -15,6 +15,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import { Text } from 'react-native-elements';
 import moment from 'moment';
 import { Chevron } from 'react-native-shapes';
+import Slider from 'react-native-slider';
 
 import { connect } from 'react-redux';
 import Constants from 'expo-constants';
@@ -44,7 +45,7 @@ class RunForm extends Component {
       startTime: new Date(),
       endTime: new Date(),
       prefferedMileage: 0,
-      maxDistance: 30,
+      maxDistance: 5,
     };
     this.locationHandler = this.locationHandler.bind(this);
   }
@@ -231,14 +232,25 @@ class RunForm extends Component {
           >
             {moment(this.state.startTime).format('h:mm a')} to{' '}
             {moment(this.state.endTime).format('h:mm a')}
-            {/* {(this.state.endTime.getHours() > 12
-              ? this.state.endTime.getHours() - 12
-              : this.state.endTime.getHours()) - 7}
-            :{moment(this.state.endTime).format('mm')}{' '}
-            {this.state.endTime.getHours() > 12 ? 'a.m.' : 'p.m.'} */}
+
           </Text>
           <View paddingVertical={10} />
 
+            <View style={styles.slider}>
+            <Slider
+            style={(styles.slider, { width: 250, alignSelf: 'center' })}
+            step={0.2}
+            minimumValue={0.2}
+            maximumValue={10}
+            value={this.state.maxDistance}
+            onValueChange={val => this.setState({ maxDistance: val })}
+          />
+            </View>
+            <View style={styles.slider}>
+          <Text>See users {(this.state.maxDistance).toFixed(1)} miles away</Text>
+            </View>
+
+            <View paddingVertical={20} />
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
@@ -272,6 +284,11 @@ export default connect(mapStateToProps, mapDispatchToProps)(RunForm);
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+  },
+  slider: {
+    justifyContent: 'space-between',
+    alignItems: 'center',
     flex: 1,
   },
   scrollContainer: {

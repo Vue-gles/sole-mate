@@ -17,6 +17,7 @@ export default class Stats extends Component {
   }
   render() {
     const pastRuns = this.props.navigation.getParam('pastRuns');
+    console.log(pastRuns.length)
     let runsPerMonth = {
       January: 0,
       February: 0,
@@ -71,13 +72,6 @@ export default class Stats extends Component {
       }
     });
 
-    console.log('pace data is', [
-      (paceAvg.September.miles / paceAvg.September.seconds) * 3600,
-      (paceAvg.October.miles / paceAvg.October.seconds) * 3600,
-      (paceAvg.November.miles / paceAvg.November.seconds) * 3600,
-      (paceAvg.December.miles / paceAvg.December.seconds) * 3600,
-    ]);
-
     const paceData = {
       labels: ['September', 'October', 'November', 'December'],
       datasets: [
@@ -93,6 +87,8 @@ export default class Stats extends Component {
         },
       ],
     };
+
+
 
     const runsWithPartners = [
       {
