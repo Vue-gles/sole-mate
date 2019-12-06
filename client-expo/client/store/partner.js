@@ -1,5 +1,6 @@
 import axios from 'axios';
-
+import getEnvVars from '../../environment';
+const { BACKEND_HOST } = getEnvVars();
 /**
  * ACTION TYPES
  */
@@ -21,9 +22,7 @@ const gotPartner = partner => ({ type: GOT_PARTNER, partner });
  */
 export const getPartner = id => async dispatch => {
   try {
-    const { data } = await axios.get(
-      `${process.env.BACKEND_HOST}/api/users/${id}`
-    );
+    const { data } = await axios.get(`${BACKEND_HOST}/api/users/${id}`);
     dispatch(gotPartner(data));
   } catch (error) {
     console.log('Error:', error);

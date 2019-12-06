@@ -9,13 +9,10 @@ import { completeRun } from '../store/upcomingRuns';
 import { saveRun } from '../store/pastRuns';
 
 ///// FRONTEND
+import getEnvVars from '../../environment';
+const { BACKEND_HOST } = getEnvVars();
 
-// //TAKE THIS OUT SOON
-if (process.env.NODE_ENV !== 'production') {
-  require('../../secrets');
-}
-
-const socket = io(process.env.BACKEND_HOST);
+const socket = io(BACKEND_HOST);
 
 socket.on('connect', () => {
   console.log('Now connected to socket server');

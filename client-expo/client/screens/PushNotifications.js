@@ -1,11 +1,11 @@
 import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
 
-if (process.env.NODE_ENV !== 'production') {
-  require('../../secrets');
-}
+// if (process.env.NODE_ENV !== 'production') require('../../secrets');
+import getEnvVars from '../../environment';
+const { BACKEND_HOST } = getEnvVars();
 
-const PUSH_ENDPOINT = `${process.env.BACKEND_HOST}/api/users/push-token`;
+const PUSH_ENDPOINT = `${BACKEND_HOST}/api/users/push-token`;
 
 export default async function registerForPushNotificationsAsync() {
   const { status: existingStatus } = await Permissions.getAsync(
