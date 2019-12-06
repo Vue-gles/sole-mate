@@ -48,6 +48,7 @@ export default class Stats extends Component {
       ++runsPerMonth[month];
 
       if (run.distance && run.seconds) {
+        console.log('distsance', run.distance, 'seconds', run.seconds)
         paceAvg[month].paces = paceAvg[month].paces + run.distance;
         ++paceAvg[month].amt;
       }
@@ -58,6 +59,11 @@ export default class Stats extends Component {
         ++withPartners['no'];
       }
     });
+
+    console.log('data is',  [paceAvg.September.distance / (paceAvg.September.seconds * 3600),
+    paceAvg.October.distance / (paceAvg.October.seconds * 3600),
+    paceAvg.November.distance / (paceAvg.November.seconds * 3600),
+    paceAvg.December.distance / (paceAvg.December.seconds * 3600)])
 
     const paceData = {
       labels: ['September', 'October', 'November', 'December'],
@@ -96,6 +102,51 @@ export default class Stats extends Component {
       <ScrollView>
         <View paddingVertical={10} />
         <View paddingVertical={10} />
+        <LineChart
+            data={{
+              labels: [
+                'August',
+                'September',
+                'October',
+                'November',
+                'December',
+              ],
+              datasets: [
+                {
+                  data: [
+                    runsPerMonth.August,
+                    runsPerMonth.September,
+                    runsPerMonth.October,
+                    runsPerMonth.November,
+                    runsPerMonth.December,
+                  ],
+                },
+              ],
+            }}
+            width={Dimensions.get('window').width} // from react-native
+            height={220}
+            chartConfig={{
+              backgroundColor: '#e26a00',
+              backgroundGradientFrom: '#fb8c00',
+              backgroundGradientTo: '#ffa726',
+              decimalPlaces: 2, // optional, defaults to 2dp
+              color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+              labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+              style: {
+                borderRadius: 16,
+              },
+              propsForDots: {
+                r: '6',
+                strokeWidth: '2',
+                stroke: '#ffa726',
+              },
+            }}
+            bezier
+            style={{
+              marginVertical: 8,
+              borderRadius: 16,
+            }}
+          />
         <PieChart
           data={runsWithPartners}
           width={Dimensions.get('window').width - 10}
