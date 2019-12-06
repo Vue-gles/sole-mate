@@ -31,7 +31,6 @@ class UpcomingRunsScreen extends React.Component {
   };
 
   componentDidMount() {
-  
     this.props.getUpcomingRuns('upcoming');
   }
   async clickHandler(id) {
@@ -40,29 +39,26 @@ class UpcomingRunsScreen extends React.Component {
   }
 
   render() {
-    
-
     return this.props.upcomingRuns.length ? (
       <SafeAreaView key={this.state.uniqueValue} style={styles.container}>
         <ScrollView style={styles.scrollView}>
           {this.props.upcomingRuns.map(run => {
-            return ( run.creatorId === this.props.user.id ? (
-            <View style={styles.runAd} key={run.id}>
+            return run.creatorId === this.props.user.id ? (
+              <View style={styles.runAd} key={run.id}>
                 {run.partnerId && (
-                    <Image
+                  <Image
                     source={{
                       uri: run.Partner.imageUrl,
                     }}
                     style={styles.runImage}
-                  />       
+                  />
                 )}
                 {run.partnerId && (
-                    <Text style={styles.name}>
+                  <Text style={styles.name}>
                     {run.Partner.firstName} {run.Partner.lastName}
                   </Text>
                 )}
-                
-                
+
                 <Text style={styles.details}>
                   {run.prefferedMileage} mile(s)
                 </Text>
@@ -85,44 +81,51 @@ class UpcomingRunsScreen extends React.Component {
               </View>
             ) : (
               <View style={styles.runAd} key={run.id}>
-                
-              <Image
-                source={{
-                  uri: run.Creator.imageUrl,
-                }}
-                style={styles.runImage}
-              />
-              <Text style={styles.name}>
-                {run.Creator.firstName} {run.Creator.lastName}
-              </Text>
-              <Text style={styles.details}>
-                {run.prefferedMileage} mile(s)
-              </Text>
-              <Text style={styles.details}>
-                {run.street}, {run.city}, {run.state}
-              </Text>
-              <Text style={styles.details}>
-                {moment(run.startTimeframe).format('MMMM Do')}
-              </Text>
-              <Text style={styles.details}>
-                {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
-                {moment(run.endTimeframe).format('h:mm:ss a')}
-              </Text>
+                <Image
+                  source={{
+                    uri: run.Creator.imageUrl,
+                  }}
+                  style={styles.runImage}
+                />
+                <Text style={styles.name}>
+                  {run.Creator.firstName} {run.Creator.lastName}
+                </Text>
+                <Text style={styles.details}>
+                  {run.prefferedMileage} mile(s)
+                </Text>
+                <Text style={styles.details}>
+                  {run.street}, {run.city}, {run.state}
+                </Text>
+                <Text style={styles.details}>
+                  {moment(run.startTimeframe).format('MMMM Do')}
+                </Text>
+                <Text style={styles.details}>
+                  {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
+                  {moment(run.endTimeframe).format('h:mm:ss a')}
+                </Text>
 
-              <Button
-                title="Start Run"
-                onPress={() => this.clickHandler(run.id)}
-                color={'#0F3E15'}
-              />
-            </View>
-            ))
-            
+                <Button
+                  title="Start Run"
+                  onPress={() => this.clickHandler(run.id)}
+                  color={'#0F3E15'}
+                />
+              </View>
+            );
           })}
         </ScrollView>
       </SafeAreaView>
     ) : (
       <SafeAreaView style={styles.container}>
-        <View style={styles.runAd}>
+        <View
+          style={{
+            paddingVertical: 12,
+            marginVertical: 5,
+            marginHorizontal: 12,
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
           <Text style={styles.name}>No upcoming runs</Text>
         </View>
       </SafeAreaView>
@@ -140,6 +143,17 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingVertical: 12,
+    marginVertical: 5,
+    marginHorizontal: 12,
+    borderStyle: 'solid',
+    borderWidth: 1,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 1,
+    backgroundColor: '#c8e6d0',
   },
   name: {
     fontSize: 20,
@@ -164,7 +178,7 @@ const styles = StyleSheet.create({
 const mapState = state => {
   return {
     upcomingRuns: state.upcomingRuns,
-    user: state.user
+    user: state.user,
   };
 };
 

@@ -11,7 +11,6 @@ import {
 import Constants from 'expo-constants';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { LinearGradient } from 'expo';
 
 import { getPastRunsThunk } from '../store/pastRuns';
 
@@ -35,6 +34,9 @@ class PastRunsScreen extends React.Component {
   }
 
   render() {
+    const gradientHeight = 500;
+    const gradientBackground = 'green';
+
     return this.props.pastRuns.length ? (
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
@@ -49,7 +51,6 @@ class PastRunsScreen extends React.Component {
                   }
                 }}
               >
-
                 <View style={styles.runAd} key={run.id}>
                   {run.partnerId && (
                     <Image
@@ -120,7 +121,16 @@ class PastRunsScreen extends React.Component {
       </SafeAreaView>
     ) : (
       <SafeAreaView style={styles.container}>
-        <View style={styles.runAd}>
+        <View
+          style={{
+            paddingVertical: 12,
+            marginVertical: 5,
+            marginHorizontal: 12,
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
           <Text style={styles.name}>No past runs</Text>
         </View>
       </SafeAreaView>
@@ -142,6 +152,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderStyle: 'solid',
     borderWidth: 1,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 1,
+    backgroundColor: '#c8e6d0',
   },
   name: {
     fontSize: 20,
