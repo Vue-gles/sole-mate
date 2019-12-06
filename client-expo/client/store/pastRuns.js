@@ -1,4 +1,6 @@
 import axios from 'axios';
+import getEnvVars from '../../environment';
+const { BACKEND_HOST } = getEnvVars();
 
 // ACTION TYPES
 const GOT_PAST_RUNS = 'GOT__PAST_RUNS';
@@ -18,10 +20,7 @@ const savedRun = run => ({
 // THUNK CREATORS
 export const getPastRunsThunk = type => async dispatch => {
   try {
-   console.log('did thunk run')
-    const { data } = await axios.get(
-      `${process.env.BACKEND_HOST}/api/runs?type=${type}`
-    );
+    const { data } = await axios.get(`${BACKEND_HOST}/api/runs?type=${type}`);
     dispatch(gotPastRuns(data));
   } catch (err) {
     console.log('Error:', err);
@@ -30,14 +29,11 @@ export const getPastRunsThunk = type => async dispatch => {
 
 export const saveRun = (runId, route, distance, seconds) => async dispatch => {
   try {
-    const { data } = await axios.put(
-      `${process.env.BACKEND_HOST}/api/runs/${runId}`,
-      {
-        route,
-        distance,
-        seconds
-      }
-    );
+    const { data } = await axios.put(`${BACKEND_HOST}/api/runs/${runId}`, {
+      route,
+      distance,
+      seconds,
+    });
     dispatch(savedRun(data));
   } catch (error) {
     console.log('Error:', error);

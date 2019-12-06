@@ -11,6 +11,10 @@ import { View, Text, Dimensions, ScrollView, StyleSheet } from 'react-native';
 import moment from 'moment';
 
 export default class Stats extends Component {
+
+  static navigationOptions = {
+    title: 'Run statistics'
+  }
   render() {
     const pastRuns = this.props.navigation.getParam('pastRuns');
     let runsPerMonth = {
@@ -29,28 +33,35 @@ export default class Stats extends Component {
     };
     let withPartners = { yes: 0, no: 0 };
     let paceAvg = {
-      January: { miles: 0, amt: 0 },
-      February: { miles: 0, amt: 0 },
-      March: { miles: 0, amt: 0 },
-      April: { miles: 0, amt: 0 },
-      May: { miles: 0, amt: 0 },
-      June: { miles: 0, amt: 0 },
-      July: { miles: 0, amt: 0 },
-      August: { miles: 0, amt: 0 },
-      September: { miles: 0, amt: 0 },
-      October: { miles: 0, amt: 0 },
-      November: { miles: 0, amt: 0 },
-      December: { miles: 0, amt: 0 },
+      January: { miles: 0, amt: 0, seconds: 0 },
+      February: { miles: 0, amt: 0, seconds: 0 },
+      March: { miles: 0, amt: 0, seconds: 0 },
+      April: { miles: 0, amt: 0, seconds: 0 },
+      May: { miles: 0, amt: 0, seconds: 0 },
+      June: { miles: 0, amt: 0, seconds: 0 },
+      July: { miles: 0, amt: 0, seconds: 0 },
+      August: { miles: 0, amt: 0, seconds: 0 },
+      September: { miles: 0, amt: 0, seconds: 0 },
+      October: { miles: 0, amt: 0, seconds: 0 },
+      November: { miles: 0, amt: 0, seconds: 0 },
+      December: { miles: 0, amt: 0, seconds: 0 },
     };
 
     pastRuns.forEach(run => {
-      let month = moment(run.endTimeFrame).format('MMMM');
+      let month = moment(run.endTimeframe).format('MMMM');
       ++runsPerMonth[month];
 
       if (run.distance && run.seconds) {
-        console.log('distsance', run.distance, 'seconds', run.seconds)
-        paceAvg[month].paces = paceAvg[month].paces + run.distance;
-        ++paceAvg[month].amt;
+        console.log(
+          'distance',
+          run.distance,
+          'month',
+          month,
+          'seconds',
+          run.distance
+        );
+        paceAvg[month].miles = paceAvg[month].miles + run.distance;
+        paceAvg[month]['seconds'] = paceAvg[month].seconds + run.seconds;
       }
 
       if (run.partnerId) {
@@ -60,20 +71,22 @@ export default class Stats extends Component {
       }
     });
 
-    console.log('data is',  [paceAvg.September.distance / (paceAvg.September.seconds * 3600),
-    paceAvg.October.distance / (paceAvg.October.seconds * 3600),
-    paceAvg.November.distance / (paceAvg.November.seconds * 3600),
-    paceAvg.December.distance / (paceAvg.December.seconds * 3600)])
+    console.log('pace data is', [
+      (paceAvg.September.miles / paceAvg.September.seconds) * 3600,
+      (paceAvg.October.miles / paceAvg.October.seconds) * 3600,
+      (paceAvg.November.miles / paceAvg.November.seconds) * 3600,
+      (paceAvg.December.miles / paceAvg.December.seconds) * 3600,
+    ]);
 
     const paceData = {
       labels: ['September', 'October', 'November', 'December'],
       datasets: [
         {
           data: [
-            paceAvg.September.distance / (paceAvg.September.seconds * 3600),
-            paceAvg.October.distance / (paceAvg.October.seconds * 3600),
-            paceAvg.November.distance / (paceAvg.November.seconds * 3600),
-            paceAvg.December.distance / (paceAvg.December.seconds * 3600),
+            (paceAvg.September.miles / paceAvg.September.seconds) * 3600,
+            (paceAvg.October.miles / paceAvg.October.seconds) * 3600,
+            (paceAvg.November.miles / paceAvg.November.seconds) * 3600,
+            (paceAvg.December.miles / paceAvg.December.seconds) * 3600,
           ],
           color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
           strokeWidth: 2, // optional
@@ -102,51 +115,49 @@ export default class Stats extends Component {
       <ScrollView>
         <View paddingVertical={10} />
         <View paddingVertical={10} />
+        <View alignItems={'center'}>
+          <Text style={styles.chartTitle}>Pace over time</Text>
         <LineChart
-            data={{
-              labels: [
-                'August',
-                'September',
-                'October',
-                'November',
-                'December',
-              ],
-              datasets: [
-                {
-                  data: [
-                    runsPerMonth.August,
-                    runsPerMonth.September,
-                    runsPerMonth.October,
-                    runsPerMonth.November,
-                    runsPerMonth.December,
-                  ],
-                },
-              ],
-            }}
-            width={Dimensions.get('window').width} // from react-native
-            height={220}
-            chartConfig={{
-              backgroundColor: '#e26a00',
-              backgroundGradientFrom: '#fb8c00',
-              backgroundGradientTo: '#ffa726',
-              decimalPlaces: 2, // optional, defaults to 2dp
-              color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-              labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-              style: {
-                borderRadius: 16,
+          data={{
+            labels: ['September', 'October', 'November', 'December'],
+            datasets: [
+              {
+                data: [
+                  (paceAvg.September.miles / paceAvg.September.seconds) * 3600,
+                  (paceAvg.October.miles / paceAvg.October.seconds) * 3600,
+                  (paceAvg.November.miles / paceAvg.November.seconds) * 3600,
+                  (paceAvg.December.miles / paceAvg.December.seconds) * 3600,
+                ],
               },
-              propsForDots: {
-                r: '6',
-                strokeWidth: '2',
-                stroke: '#ffa726',
-              },
-            }}
-            bezier
-            style={{
-              marginVertical: 8,
+            ],
+          }}
+          width={Dimensions.get('window').width - 30} // from react-native
+          height={220}
+          chartConfig={{
+            backgroundColor: '#e26a00',
+            backgroundGradientFrom: '#a3d6aa',
+            backgroundGradientTo: '#258f34',
+            decimalPlaces: 2, // optional, defaults to 2dp
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: {
               borderRadius: 16,
-            }}
-          />
+            },
+            propsForDots: {
+              r: '6',
+              strokeWidth: '2',
+              stroke: '#ffa726',
+            },
+          }}
+          style={{
+            marginVertical: 8,
+            borderRadius: 16,
+          }}
+        />
+        </View>
+        <View paddingVertical={30} />
+                <View alignItems={'center'}>
+          <Text style={styles.chartTitle}>SoleMates?</Text>
         <PieChart
           data={runsWithPartners}
           width={Dimensions.get('window').width - 10}
@@ -170,10 +181,12 @@ export default class Stats extends Component {
           paddingLeft={5}
           absolute
         />
+        </View>
+        <View paddingVertical={30} />
 
         <View alignItems={'center'}>
           <Text style={styles.chartTitle}>Runs per month</Text>
-          
+
           <LineChart
             data={{
               labels: [
@@ -195,7 +208,7 @@ export default class Stats extends Component {
                 },
               ],
             }}
-            width={Dimensions.get('window').width} // from react-native
+            width={Dimensions.get('window').width - 20} // from react-native
             height={220}
             chartConfig={{
               backgroundColor: '#e26a00',
@@ -228,5 +241,6 @@ export default class Stats extends Component {
 const styles = StyleSheet.create({
   chartTitle: {
     fontWeight: 'bold',
+    fontSize: 20
   },
 });
