@@ -17,6 +17,7 @@ import {
 import { connect } from 'react-redux';
 
 import { auth } from '../store/user';
+import { getPastRunsThunk } from '../store/pastRuns';
 import { logout } from '../store/user';
 
 import { MonoText } from '../components/StyledText';
@@ -25,6 +26,11 @@ class ProfileScreen extends React.Component {
   constructor(props) {
     super(props);
   }
+  componentDidMount() {
+    console.log('hello');
+    this.props.getPastRuns('past');
+  }
+
   static navigationOptions = {
     title: 'Profile',
   };
@@ -38,56 +44,62 @@ class ProfileScreen extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <SafeAreaView style={styles.container}>
-        <ScrollView style={styles.scrollView}>
-          <View style={styles.container}>
-            <Image
-              source={{
-                uri: this.props.user.imageUrl,
-              }}
-              style={styles.welcomeImage}
-            />
-            <Text style={styles.name}>
-              {this.props.user.firstName} {this.props.user.lastName}
+      <ScrollView style={styles.scrollView}>
+        <View style={styles.container}>
+          <Image
+            source={{
+              uri: this.props.user.imageUrl,
+            }}
+            style={styles.welcomeImage}
+          />
+          <View paddingVertical={20} />
+          <View style={styles.profDetails}>
+            <Text>
+              {this.props.user.firstName} {(this.props.user.lastName, '\n')}
             </Text>
-            <Text style={styles.details}>Email: {this.props.user.email}</Text>
-            <Text style={styles.details}>
-              Address: {this.props.user.defaultAddress}
-            </Text>
-            <Text style={styles.details}>
-              Average Pace: {this.props.user.avgPace}
-            </Text>
-            <Text style={styles.details}>
-              Average Mileage: {this.props.user.avgMileage}
-            </Text>
-            <Text style={styles.details}>Goal: {this.props.user.goal}</Text>
-            <Text style={styles.details}>Bio: {this.props.user.bio}</Text>
-            <View style={styles.btnContainer}>
-              <Button
-                title="Edit Profile"
-                color={'white'}
-                onPress={() => this.props.navigation.navigate('ProfileForm')}
-              />
-            </View>
-            <Button
-              title="Sign Out"
-              onPress={this.signOutAsync}
-              color={'#124D1A'}
-            />
-            {this.props.error && this.props.error.response && (
-              <Text style={styles.error}>
-                {' '}
-                {this.props.error.response.data}{' '}
+            <View style={{alignContent: 'flex-start'}}>
+              <Text style={styles.details}>Email: {this.props.user.email}</Text>
+              <Text style={styles.details}>
+                Address: {this.props.user.defaultAddress}
               </Text>
-            )}
+              <Text style={styles.details}>
+                Average Pace: {this.props.user.avgPace}
+              </Text>
+              <Text style={styles.details}>
+                Average Mileage: {this.props.user.avgMileage}
+              </Text>
+              <Text style={styles.details}>Goal: {this.props.user.goal}</Text>
+              <Text style={styles.details}>Bio: {this.props.user.bio}</Text>
+            </View>
           </View>
-          <TouchableOpacity style={styles.workoutButton}
-          onPress={() => this.props.navigation.navigate('Stats')}
-          >
-            <Text>View my stats</Text>
-          </TouchableOpacity>
-        </ScrollView>
-      </SafeAreaView>
+            <View paddingVertical={20} />
+          <View style={styles.btnContainer}>
+            <Button
+              title="Edit Profile"
+              color={'white'}
+              onPress={() => this.props.navigation.navigate('ProfileForm')}
+            />
+          </View>
+          {this.props.error && this.props.error.response && (
+            <Text style={styles.error}> {this.props.error.response.data} </Text>
+          )}
+        </View>
+        <TouchableOpacity
+          style={styles.workoutButton}
+          onPress={() =>
+            this.props.navigation.navigate('Stats', {
+              pastRuns: this.props.pastRuns,
+            })
+          }
+        >
+          <Text>View my stats</Text>
+        </TouchableOpacity>
+        <Button
+          title="Sign Out"
+          onPress={this.signOutAsync}
+          color={'#124D1A'}
+        />
+      </ScrollView>
     );
   }
 }
@@ -103,6 +115,21 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: '#303731',
+  },
+  profDetails: {
+    padding: 30,
+    marginVertical: 10,
+    marginHorizontal: 12,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 1,
+    backgroundColor: '#c8e6d0',
+    borderRadius: 8,
   },
   details: {
     color: '#525E54',
@@ -133,7 +160,7 @@ const styles = StyleSheet.create({
     margin: 5,
     borderRadius: 10,
     overflow: 'hidden',
-  },   
+  },
   workoutButton: {
     flex: 1,
     alignItems: 'center',
@@ -141,6 +168,7 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 5,
     borderRadius: 10,
+    marginHorizontal: 150,
   },
 });
 
@@ -148,12 +176,14 @@ const mapState = state => {
   return {
     user: state.user,
     error: state.user.error,
+    pastRuns: state.pastRuns,
   };
 };
 
 const mapDispatch = dispatch => {
   return {
     logout: () => dispatch(logout()),
+    getPastRuns: type => dispatch(getPastRunsThunk(type)),
   };
 };
 

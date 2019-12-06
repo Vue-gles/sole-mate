@@ -11,18 +11,16 @@ import {
 import Constants from 'expo-constants';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { Link } from 'react-router-native';
 
 import { getPastRunsThunk } from '../store/pastRuns';
 
 class PastRunsScreen extends React.Component {
   constructor(props) {
     super(props);
-  
   }
 
   componentDidMount() {
-    console.log("PAAAAAAASSSSSSTTTTT RUUUUUUNNNNNNNN")
+    console.log('PAAAAAAASSSSSSTTTTT RUUUUUUNNNNNNNN');
     this.props.getPastRuns('past');
   }
 
@@ -35,39 +33,73 @@ class PastRunsScreen extends React.Component {
     });
   }
 
+  render() {
+    const gradientHeight = 500;
+    const gradientBackground = 'green';
 
-    render() {
-    
-
-      return this.props.pastRuns.length ? (
-        <SafeAreaView  style={styles.container}>
-          <ScrollView style={styles.scrollView}>
-            {this.props.pastRuns.map(run => {
-              return ( run.creatorId === this.props.user.id ? (
-                <TouchableWithoutFeedback
-                  key={run.id}
-                  onPress={() => {
-                    if (run.route) {
-                      this.goToMapView(run);
-                    }
-                  }}
-                >
-              <View style={styles.runAd} key={run.id}>
+    return this.props.pastRuns.length ? (
+      <SafeAreaView style={styles.container}>
+        <ScrollView style={styles.scrollView}>
+          <View paddingVertical={12} />
+          {this.props.pastRuns.map(run => {
+            return run.creatorId === this.props.user.id ? (
+              <TouchableWithoutFeedback
+                key={run.id}
+                onPress={() => {
+                  if (run.route) {
+                    this.goToMapView(run);
+                  }
+                }}
+              >
+                <View style={styles.runAd} key={run.id}>
                   {run.partnerId && (
                     <Image
-                    source={{
-                      uri: run.Partner.imageUrl,
-                    }}
-                    style={styles.runImage}
-                    />       
+                      source={{
+                        uri: run.Partner.imageUrl,
+                      }}
+                      style={styles.runImage}
+                    />
                   )}
                   {run.partnerId && (
-                      <Text style={styles.name}>
+                    <Text style={styles.name}>
                       {run.Partner.firstName} {run.Partner.lastName}
                     </Text>
                   )}
-                  
-                  
+
+                  <Text style={styles.details}>
+                    {run.prefferedMileage} mile(s)
+                  </Text>
+                  <Text style={styles.details}>
+                    Started at: {run.street}, {run.city}, {run.state}
+                  </Text>
+                  <Text style={styles.details}>
+                    On {moment(run.startTimeframe).format('MMMM Do')}
+                  </Text>
+                  <Text style={styles.details}>
+                    {moment(run.startTimeframe).format('h:mm:ss a')} -
+                    {moment(run.endTimeframe).format('h:mm:ss a')}
+                  </Text>
+                </View>
+              </TouchableWithoutFeedback>
+            ) : (
+              <TouchableWithoutFeedback
+                key={run.id}
+                onPress={() => {
+                  if (run.route) {
+                    this.goToMapView(run);
+                  }
+                }}
+              >
+                <View style={styles.runAd} key={run.id}>
+                  <Image
+                    source={{
+                      uri: run.Creator.imageUrl,
+                    }}
+                    style={styles.runImage}
+                  />
+                  <Text style={styles.name}>
+                    {run.Creator.firstName} {run.Creator.lastName}
+                  </Text>
                   <Text style={styles.details}>
                     {run.prefferedMileage} mile(s)
                   </Text>
@@ -81,61 +113,29 @@ class PastRunsScreen extends React.Component {
                     {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
                     {moment(run.endTimeframe).format('h:mm:ss a')}
                   </Text>
-  
-                  
                 </View>
-                </TouchableWithoutFeedback>
-              ) : (
-                <TouchableWithoutFeedback
-                  key={run.id}
-                  onPress={() => {
-                    if (run.route) {
-                      this.goToMapView(run);
-                    }
-                  }}
-                >
-                <View style={styles.runAd} key={run.id}>
-                  
-                <Image
-                  source={{
-                    uri: run.Creator.imageUrl,
-                  }}
-                  style={styles.runImage}
-                />
-                <Text style={styles.name}>
-                  {run.Creator.firstName} {run.Creator.lastName}
-                </Text>
-                <Text style={styles.details}>
-                  {run.prefferedMileage} mile(s)
-                </Text>
-                <Text style={styles.details}>
-                  {run.street}, {run.city}, {run.state}
-                </Text>
-                <Text style={styles.details}>
-                  {moment(run.startTimeframe).format('MMMM Do')}
-                </Text>
-                <Text style={styles.details}>
-                  {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
-                  {moment(run.endTimeframe).format('h:mm:ss a')}
-                </Text>
-  
-                
-              </View>
-            </TouchableWithoutFeedback>
-              )
-              )
-              
-            })}
-          </ScrollView>
-        </SafeAreaView>
-      ) : (
-        <SafeAreaView style={styles.container}>
-          <View style={styles.runAd}>
-            <Text style={styles.name}>No past runs</Text>
-          </View>
-        </SafeAreaView>
-      );
-    }
+              </TouchableWithoutFeedback>
+            );
+          })}
+        </ScrollView>
+      </SafeAreaView>
+    ) : (
+      <SafeAreaView style={styles.container}>
+        <View
+          style={{
+            paddingVertical: 12,
+            marginVertical: 5,
+            marginHorizontal: 12,
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Text style={styles.name}>No past runs</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -144,10 +144,19 @@ const styles = StyleSheet.create({
     paddingTop: Constants.statusBarHeight,
   },
   runAd: {
-    padding: 10,
+    paddingVertical: 12,
+    marginVertical: 5,
+    marginHorizontal: 12,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 1,
+    backgroundColor: '#c8e6d0',
+    borderRadius: 8
   },
   name: {
     fontSize: 20,
@@ -172,14 +181,14 @@ const styles = StyleSheet.create({
 const mapState = state => {
   return {
     pastRuns: state.pastRuns,
-    user: state.user
+    user: state.user,
   };
 };
 
 const mapDispatch = dispatch => {
   return {
     getPastRuns: type => dispatch(getPastRunsThunk(type)),
-    getSingleRun: id => dispatch(getSingleRun(id))
+    getSingleRun: id => dispatch(getSingleRun(id)),
   };
 };
 

@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
     padding: 5,
     margin: 5,
     borderRadius: 10,
-    overflow: 'hidden',
+    overflow: 'hidden'
   },
 });
 
