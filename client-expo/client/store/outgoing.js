@@ -1,4 +1,6 @@
 import axios from 'axios';
+import getEnvVars from '../../environment';
+const { BACKEND_HOST } = getEnvVars();
 
 // ACTION TYPE
 const GOT_OUTGOING = 'GOT_OUTGOING';
@@ -18,9 +20,7 @@ const madeRequest = notifications => ({
 export const getOutgoing = () => async dispatch => {
   try {
     //console.log('Is getOutgoing running?');
-    const { data } = await axios.get(
-      `${process.env.BACKEND_HOST}/api/requests/outgoing`
-    );
+    const { data } = await axios.get(`${BACKEND_HOST}/api/requests/outgoing`);
     dispatch(gotOutgoing(data));
   } catch (err) {
     console.log('Error:', err);
@@ -29,10 +29,7 @@ export const getOutgoing = () => async dispatch => {
 
 export const makeRequest = runId => async dispatch => {
   try {
-
-    const { data } = await axios.post(
-      `${process.env.BACKEND_HOST}/api/requests/${runId}`
-    );
+    const { data } = await axios.post(`${BACKEND_HOST}/api/requests/${runId}`);
     dispatch(madeRequest(data));
   } catch (err) {
     console.log('Error:', err);

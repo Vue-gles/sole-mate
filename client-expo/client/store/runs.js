@@ -1,4 +1,6 @@
 import axios from 'axios';
+import getEnvVars from '../../environment';
+const { BACKEND_HOST } = getEnvVars();
 
 // ACTION TYPES
 const GOT_RUNS = 'GOT_RUNS';
@@ -20,13 +22,11 @@ export const getRuns = (type, maxDistance, lat, long) => async dispatch => {
   try {
     let data;
     if (!maxDistance) {
-      const response = await axios.get(
-        `${process.env.BACKEND_HOST}/api/runs?type=${type}`
-      );
+      const response = await axios.get(`${BACKEND_HOST}/api/runs?type=${type}`);
       data = response.data;
     } else {
       const response = await axios.get(
-        `${process.env.BACKEND_HOST}/api/runs?type=${type}&distance=${maxDistance}&lat=${lat}&long=${long}`
+        `${BACKEND_HOST}/api/runs?type=${type}&distance=${maxDistance}&lat=${lat}&long=${long}`
       );
       data = response.data;
     }

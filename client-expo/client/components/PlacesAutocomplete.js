@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-// import key from '../../keys'
+
+import getEnvVars from '../../environment';
+const { GOOGLE_API_KEY } = getEnvVars();
 
 export default PlacesAutoComplete = props => {
   let currentLocation = {
@@ -36,7 +38,7 @@ export default PlacesAutoComplete = props => {
       }}
       getDefaultValue={() => ''}
       query={{
-        key: process.env.GOOGLE_API_KEY,
+        key: GOOGLE_API_KEY,
         language: 'en',
       }}
       styles={{
