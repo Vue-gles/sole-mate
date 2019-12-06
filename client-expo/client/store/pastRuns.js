@@ -18,7 +18,7 @@ const savedRun = run => ({
 // THUNK CREATORS
 export const getPastRunsThunk = type => async dispatch => {
   try {
-   
+   console.log('did thunk run')
     const { data } = await axios.get(
       `${process.env.BACKEND_HOST}/api/runs?type=${type}`
     );

@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Text,
   View,
+  TouchableOpacity
 } from 'react-native';
 import Constants from 'expo-constants';
 import { connect } from 'react-redux';
@@ -42,6 +43,7 @@ class UpcomingRunsScreen extends React.Component {
     return this.props.upcomingRuns.length ? (
       <SafeAreaView key={this.state.uniqueValue} style={styles.container}>
         <ScrollView style={styles.scrollView}>
+          <View paddingVertical={7} />
           {this.props.upcomingRuns.map(run => {
             return run.creatorId === this.props.user.id ? (
               <View style={styles.runAd} key={run.id}>
@@ -73,11 +75,12 @@ class UpcomingRunsScreen extends React.Component {
                   {moment(run.endTimeframe).format('h:mm:ss a')}
                 </Text>
 
-                <Button
-                  title="Start Run"
+                <TouchableOpacity
+                  style={styles.button}
                   onPress={() => this.clickHandler(run.id)}
-                  color={'#0F3E15'}
-                />
+                >
+                  <Text style={styles.text}>Start run</Text>
+                </TouchableOpacity>
               </View>
             ) : (
               <View style={styles.runAd} key={run.id}>
@@ -100,15 +103,15 @@ class UpcomingRunsScreen extends React.Component {
                   {moment(run.startTimeframe).format('MMMM Do')}
                 </Text>
                 <Text style={styles.details}>
-                  {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
-                  {moment(run.endTimeframe).format('h:mm:ss a')}
+                  {moment(run.startTimeframe).format('h:mm')} -{' '}
+                  {moment(run.endTimeframe).format('h:mm a')}
                 </Text>
-
-                <Button
-                  title="Start Run"
+                <TouchableOpacity
+                  style={styles.button}
                   onPress={() => this.clickHandler(run.id)}
-                  color={'#0F3E15'}
-                />
+                >
+                  <Text color={'white'}>Start run</Text>
+                </TouchableOpacity>
               </View>
             );
           })}
@@ -154,6 +157,11 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 1,
     backgroundColor: '#c8e6d0',
+    borderRadius: 8
+  },
+  text: {
+    color: 'white',
+    fontWeight: 'bold'
   },
   name: {
     fontSize: 20,
@@ -172,6 +180,14 @@ const styles = StyleSheet.create({
     borderRadius: 100 / 2,
     overflow: 'hidden',
     padding: '14%',
+  },
+  button: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: '#323633',
+    padding: 10,
+    margin: 5,
+    borderRadius: 10,
   },
 });
 

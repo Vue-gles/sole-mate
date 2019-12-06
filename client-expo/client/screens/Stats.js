@@ -7,34 +7,59 @@ import {
   StackedBarChart,
 } from 'react-native-chart-kit';
 import React, { Component } from 'react';
-import {View, Text, Dimensions} from 'react-native'
+import { View, Text, Dimensions, ScrollView } from 'react-native';
+import moment from 'moment';
+
 
 export default class Stats extends Component {
   render() {
-    return (
+    const pastRuns = this.props.navigation.getParam('pastRuns');
+    let runsPerMonth = {
+      January: 0,
+      February: 0,
+      March: 0,
+      April: 0,
+      May: 0,
+      June: 0,
+      July: 0,
+      August: 0,
+      September: 0,
+      October: 0,
+      November: 0,
+      December: 0,
+    };
+    pastRuns.forEach(run => {
+      let month = moment(run.endTimeFrame).format('MMMM');
+      ++runsPerMonth[month];
+    });
 
+    return (
+      <ScrollView>
         <View>
           <Text>Bezier Line Chart</Text>
           <LineChart
             data={{
-              labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+              labels: [
+                'August',
+                'September',
+                'October',
+                'November',
+                'December',
+              ],
               datasets: [
                 {
                   data: [
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
+                    runsPerMonth.August,
+                    runsPerMonth.September,
+                    runsPerMonth.October,
+                    runsPerMonth.November,
+                    runsPerMonth.December,
                   ],
                 },
               ],
             }}
             width={Dimensions.get('window').width} // from react-native
             height={220}
-            yAxisLabel={'$'}
-            yAxisSuffix={'k'}
             chartConfig={{
               backgroundColor: '#e26a00',
               backgroundGradientFrom: '#fb8c00',
@@ -58,7 +83,7 @@ export default class Stats extends Component {
             }}
           />
         </View>
-
+      </ScrollView>
     );
   }
 }

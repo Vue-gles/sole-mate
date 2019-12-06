@@ -122,11 +122,11 @@ const ScheduleStack = createStackNavigator(
 );
 
 ScheduleStack.navigationOptions = {
-  tabBarLabel: 'Schedule',
+  tabBarLabel: 'Runs',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? `ios-journal` : 'md-journal'}
+      name={Platform.OS === 'ios' ? `ios-walk` : 'md-walk'}
     />
   ),
 };

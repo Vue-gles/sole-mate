@@ -70,13 +70,13 @@ class PastRunsScreen extends React.Component {
                     {run.prefferedMileage} mile(s)
                   </Text>
                   <Text style={styles.details}>
-                    {run.street}, {run.city}, {run.state}
+                    Start address: {run.street}, {run.city}, {run.state}
                   </Text>
                   <Text style={styles.details}>
-                    {moment(run.startTimeframe).format('MMMM Do')}
+                    Date: {moment(run.startTimeframe).format('MMMM Do')}
                   </Text>
                   <Text style={styles.details}>
-                    {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
+                    Between: {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
                     {moment(run.endTimeframe).format('h:mm:ss a')}
                   </Text>
                 </View>
@@ -150,14 +150,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    borderStyle: 'solid',
-    borderWidth: 1,
+    // borderStyle: 'solid',
+    // borderWidth: 1,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.8,
     shadowRadius: 2,
     elevation: 1,
     backgroundColor: '#c8e6d0',
+    borderRadius: 8
   },
   name: {
     fontSize: 20,
