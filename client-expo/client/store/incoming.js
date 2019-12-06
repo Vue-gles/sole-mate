@@ -1,5 +1,7 @@
 import axios from 'axios';
 // import socket from '../socket';
+import getEnvVars from '../../environment';
+const { BACKEND_HOST } = getEnvVars();
 
 // ACTION TYPE
 const GOT_INCOMING = 'GOT_INCOMING';
@@ -18,9 +20,7 @@ const updatedIncoming = notifications => ({
 // THUNK CREATOR
 export const getIncoming = () => async dispatch => {
   try {
-    const { data } = await axios.get(
-      `${process.env.BACKEND_HOST}/api/requests/incoming`
-    );
+    const { data } = await axios.get(`${BACKEND_HOST}/api/requests/incoming`);
     dispatch(gotIncoming(data));
   } catch (err) {
     console.log('Error:', err);
@@ -32,10 +32,11 @@ export const updateIncoming = (
   status
 ) => async dispatch => {
   try {
-    const { data } = await axios.put(
-      `${process.env.BACKEND_HOST}/api/requests`,
-      { runId, requesterId, status }
-    );
+    const { data } = await axios.put(`${BACKEND_HOST}/api/requests`, {
+      runId,
+      requesterId,
+      status,
+    });
     dispatch(updatedIncoming(data));
   } catch (err) {
     console.log('Error:', err);

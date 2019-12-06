@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { View, Image, Text } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-// import key from '../../keys';
+
+import getEnvVars from '../../environment';
+const { GOOGLE_API_KEY } = getEnvVars();
 
 const homePlace = {
   description: 'Home',
@@ -54,7 +56,7 @@ export default class GooglePlacesInput extends Component {
         getDefaultValue={() => ''}
         query={{
           // available options: https://developers.google.com/places/web-service/autocomplete
-          key: process.env.GOOGLE_API_KEY,
+          key: GOOGLE_API_KEY,
           language: 'en', // language of the results
           // types: 'establishment' && 'geocode' // default: 'geocode'
         }}

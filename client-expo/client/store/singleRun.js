@@ -1,4 +1,6 @@
 import axios from 'axios';
+import getEnvVars from '../../environment';
+const { BACKEND_HOST } = getEnvVars();
 
 // ACTION TYPE
 const GOT_SINGLE_RUN = 'GOT_SINGLE_RUN';
@@ -16,9 +18,7 @@ export const removeSingleRun = () => ({
 // THUNK CREATOR
 export const getSingleRun = id => async dispatch => {
   try {
-    const { data } = await axios.get(
-      `${process.env.BACKEND_HOST}/api/runs/${id}`
-    );
+    const { data } = await axios.get(`${BACKEND_HOST}/api/runs/${id}`);
     dispatch(gotSingleRun(data));
   } catch (err) {
     console.log('Error:', err);

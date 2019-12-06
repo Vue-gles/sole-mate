@@ -10,7 +10,7 @@ import { YellowBox } from 'react-native';
 import AppNavigator from './client/navigation/AppNavigator';
 import store from './client/store';
 
-if (process.env.NODE_ENV !== 'production') require('./secrets');
+// if (process.env.NODE_ENV !== 'production') require('./secrets');
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
