@@ -1,13 +1,25 @@
 import React, { Component } from 'react';
 import MapView, { Marker, Circle, Polyline } from 'react-native-maps';
-import { StyleSheet, View, Dimensions, Text, Button, ScrollView } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Dimensions,
+  Text,
+  Button,
+  ScrollView,
+} from 'react-native';
 import GooglePlacesInput from '../components/GooglePlacesInput';
 import { getDistance } from 'geolib';
 import { connect } from 'react-redux';
 import { completeRun } from '../store/upcomingRuns';
+import MapViewDirections from 'react-native-maps-directions'
+import getEnvVars from '../../environment';
+const { GOOGLE_API_KEY } = getEnvVars();
 import { saveRun } from '../store/pastRuns';
 import { Chevron } from 'react-native-shapes';
 import RNPickerSelect from 'react-native-picker-select';
+import { computeDestinationPoint } from 'geolib';
+
 
 import socket from '../socket/index';
 import { TextButton, RaisedTextButton } from 'react-native-material-buttons';
@@ -15,7 +27,6 @@ import { TextButton, RaisedTextButton } from 'react-native-material-buttons';
 const circleColor = 'rgba(93, 173, 226, 0.2)';
 const circle2Color = 'rgba(231, 76, 60  , 0.2)';
 
- 
 const demoMode = false;
 const data = [];
 
@@ -36,6 +47,11 @@ class MapScreen extends Component {
       markers: [],
       currentLat: 40.7128,
       currentLng: -74.006,
+      randRouteStartLat: 0,
+      randRouteStartLong: 0,
+      randRoutePrefMiles: 3,
+      randRouteDestPoints: [],
+      showRandRoute: false,
       circle: null,
       circle2: null,
       coordinates: [],
@@ -43,8 +59,8 @@ class MapScreen extends Component {
       stopButtonDisabled: true,
       clearButtonDisabled: true,
       handlerEnabled: false,
-      bigCircleRadius: 0.00,
-      smallCircleRadius: 0.00
+      bigCircleRadius: 0.0,
+      smallCircleRadius: 0.0,
     };
 
     this.onRegionChangeHandler = this.onRegionChangeHandler.bind(this);
@@ -153,12 +169,12 @@ class MapScreen extends Component {
   }
 
   saveTracking() {
-    console.log('----------->', this.state.seconds)
+    console.log('----------->', this.state.seconds);
     dataIndex = -1;
     const runId = this.props.currentRun.id;
     const distance = this.state.distance.toFixed(2);
     const coords = JSON.stringify(this.state.coordinates);
-    const seconds = this.state.seconds
+    const seconds = this.state.seconds;
     this.props.saveRun(runId, coords, distance, seconds);
     this.props.completeRun(runId);
     const payload = { runId, coords, distance };
@@ -239,6 +255,45 @@ class MapScreen extends Component {
     return time;
   }
 
+  generateRandomRoute() {
+    this.setState({
+      randRouteStartLat: this.state.currentLat,
+      randRouteStartLong: this.state.currentLng,
+    });
+    const milesToMeters = miles => {
+      return miles / 0.00062137;
+    };
+
+    const getRandomPointsInRadius = (startingLat, startingLong, milesToRun) => {
+      const metersToRun = milesToMeters(milesToRun);
+      const triangleRatio = 0.2928932188134525;
+      const radius = metersToRun * 0.623 * triangleRatio;
+      const angle = Math.random() * 360;
+      const angleForSecondPoint = angle - 90;
+      const firstPoint = computeDestinationPoint(
+        { latitude: startingLat, longitude: startingLong },
+        radius,
+        angle
+      );
+      const secondPoint = computeDestinationPoint(
+        { latitude: startingLat, longitude: startingLong },
+        radius,
+        angleForSecondPoint
+      );
+
+      return [firstPoint, secondPoint];
+    };
+
+    const randRouteDestPoints = getRandomPointsInRadius(
+      this.state.randRouteStartLat,
+      this.state.randRouteStartLong,
+      this.state.randRoutePrefMiles
+    );
+    this.setState({ randRouteDestPoints });
+
+    console.log('STATE IS NOW --------->', this.state)
+  }
+
   render() {
     const notRenderDirection =
       this.state.latitude == 0 || this.state.coordinates.length == 0;
@@ -313,6 +368,7 @@ class MapScreen extends Component {
               longitude: this.state.longitude,
             }}
           />
+
           {this.state.markers.map(marker => {
             return (
               <Marker
@@ -331,105 +387,235 @@ class MapScreen extends Component {
               strokeWidth={5}
             />
           )}
+          { this.state.randRouteDestPoints && this.state.showRandRoute ? 
+          (<MapViewDirections
+            origin={{latitude: this.state.randRouteStartLat, longitude: this.state.randRouteStartLong}}
+            destination={{latitude: this.state.randRouteStartLat, longitude: this.state.randRouteStartLong}}
+            waypoints={[
+              {
+                latitude: this.state.randRouteDestPoints[0].latitude,
+                longitude: this.state.randRouteDestPoints[0].longitude
+              },
+              {
+                latitude: this.state.randRouteDestPoints[1].latitude,
+                longitude: this.state.randRouteDestPoints[1].longitude,
+              }
+            ]}
+            apikey={GOOGLE_API_KEY}
+            strokeWidth={3}
+            mode={'WALKING'}
+            strokeColor="hotpink"
+          /> ): null}
         </MapView>
-        <ScrollView
-        horizontal = {true}>
-        <View style={styles.rowButtonStyle}>
-        
-          <RaisedTextButton style={styles.button}
-            title="Start"
-            ref={ref => {
-              this.startButton = ref;
-            }}
-            disabled={this.state.startButtonDisabled}
-            onPress={() => {
-              this.startClock();
-              this.startTracking(5000);
-            }}
-          />
-          <RaisedTextButton style={styles.button}
-            title="Pause"
-            ref={ref => {
-              this.stopButton = ref;
-            }}
-            disabled={this.state.stopButtonDisabled}
-            onPress={() => {
-              this.stopClock();
-              this.stopTracking();
-            }}
-          />
-          <RaisedTextButton style={styles.button}
-            title="Clear"
-            ref={ref => {
-              this.clearButton = ref;
-            }}
-            disabled={this.state.clearButtonDisabled}
-            onPress={() => this.clearTracking()}
-          />
-          <RaisedTextButton style={styles.button}
-            title="Save"
-            ref={ref => {
-              this.saveButton = ref;
-            }}
-            disabled={this.state.clearButtonDisabled}
-            onPress={() => this.saveTracking()}
-          />
-          </View>
-          
-        <View style={styles.rowButtonStyle2}>
-          <View style={styles.stats}>
-            <Text style={styles.distanceTextStyle}>
-
-              {this.state.distance.toFixed(2)} miles
-            </Text>
-            <Text style = {styles.distanceTextStyle}> {this.toSecs(this.state.seconds)}</Text>
-            <RNPickerSelect
-              placeholder={{ label: 'Circle 1' }}
-              items={[0, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25].map(mile => {
-                return { label: `${mile} miles`, value: parseFloat(mile) * 1609.34 };
-              })}
-              onValueChange={value => 
-                this.setState({ bigCircleRadius: value})}
-              style={{
-                ...pickerSelectStyles,
-                iconContainer: {
-                  top: 7,
-                  right: 12,
-                },
+        <ScrollView horizontal={true}>
+          <View style={styles.rowButtonStyle}>
+            <RaisedTextButton
+              style={styles.button}
+              title="Start"
+              ref={ref => {
+                this.startButton = ref;
               }}
-              value={this.state.bigCircleRadius}
-              useNativeAndroidPickerStyle={false}
-              textInputProps={{ underlineColor: 'red' }}
-              Icon={() => {
-                return <Chevron size={1} color="red" />;
+              disabled={this.state.startButtonDisabled}
+              onPress={() => {
+                this.startClock();
+                this.startTracking(5000);
               }}
             />
-            <RNPickerSelect
-              placeholder={{ label: 'Circle 2' }}
-              items={[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25].map(mile => {
-                return { label: `${mile} miles`, value: parseFloat(mile) * 1609.34 };
-              })}
-              onValueChange={value => 
-                this.setState({ smallCircleRadius: value})}
-              style={{
-                ...pickerSelectStyles,
-                iconContainer: {
-                  top: 7,
-                  right: 12,
-                },
+            <RaisedTextButton
+              style={styles.button}
+              title="Pause"
+              ref={ref => {
+                this.stopButton = ref;
               }}
-              value={this.state.smallCircleRadius}
-              useNativeAndroidPickerStyle={false}
-              textInputProps={{ underlineColor: 'blue' }}
-              Icon={() => {
-                return <Chevron size={1} color="blue" />;
+              disabled={this.state.stopButtonDisabled}
+              onPress={() => {
+                this.stopClock();
+                this.stopTracking();
               }}
-            /> 
+            />
+            <RaisedTextButton
+              style={styles.button}
+              title="Clear"
+              ref={ref => {
+                this.clearButton = ref;
+              }}
+              disabled={this.state.clearButtonDisabled}
+              onPress={() => this.clearTracking()}
+            />
+            <RaisedTextButton
+              style={styles.button}
+              title="Save"
+              ref={ref => {
+                this.saveButton = ref;
+              }}
+              disabled={this.state.clearButtonDisabled}
+              onPress={() => this.saveTracking()}
+            />
           </View>
-          
-        </View>
+
+          <View style={styles.rowButtonStyle2}>
+            <View style={styles.stats}>
+              <Text style={styles.distanceTextStyle}>
+                {this.state.distance.toFixed(2)} miles
+              </Text>
+              <Text style={styles.distanceTextStyle}>
+                {' '}
+                {this.toSecs(this.state.seconds)}
+              </Text>
+              <RNPickerSelect
+                placeholder={{ label: 'Circle 1' }}
+                items={[
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9,
+                  10,
+                  11,
+                  12,
+                  13,
+                  14,
+                  15,
+                  16,
+                  17,
+                  18,
+                  19,
+                  20,
+                  21,
+                  22,
+                  23,
+                  24,
+                  25,
+                ].map(mile => {
+                  return {
+                    label: `${mile} miles`,
+                    value: parseFloat(mile) * 1609.34,
+                  };
+                })}
+                onValueChange={value =>
+                  this.setState({ bigCircleRadius: value })
+                }
+                style={{
+                  ...pickerSelectStyles,
+                  iconContainer: {
+                    top: 7,
+                    right: 12,
+                  },
+                }}
+                value={this.state.bigCircleRadius}
+                useNativeAndroidPickerStyle={false}
+                textInputProps={{ underlineColor: 'red' }}
+                Icon={() => {
+                  return <Chevron size={1} color="red" />;
+                }}
+              />
+              <RNPickerSelect
+                placeholder={{ label: 'Circle 2' }}
+                items={[
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9,
+                  10,
+                  11,
+                  12,
+                  13,
+                  14,
+                  15,
+                  16,
+                  17,
+                  18,
+                  19,
+                  20,
+                  21,
+                  22,
+                  23,
+                  24,
+                  25,
+                ].map(mile => {
+                  return {
+                    label: `${mile} miles`,
+                    value: parseFloat(mile) * 1609.34,
+                  };
+                })}
+                onValueChange={value =>
+                  this.setState({ smallCircleRadius: value })
+                }
+                style={{
+                  ...pickerSelectStyles,
+                  iconContainer: {
+                    top: 7,
+                    right: 12,
+                  },
+                }}
+                value={this.state.smallCircleRadius}
+                useNativeAndroidPickerStyle={false}
+                textInputProps={{ underlineColor: 'blue' }}
+                Icon={() => {
+                  return <Chevron size={1} color="blue" />;
+                }}
+              />
+            </View>
+            <View style={styles.stats}>
+              <View style={styles.button}>
+                <Button title="Generate random route" onPress={() => {
+                  this.generateRandomRoute()
+                  this.setState({showRandRoute: true})
+                }} />
+              </View>
+              <RNPickerSelect
+                placeholder={{ label: 'Circle 2' }}
+                items={[
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9,
+                  10
+                ].map(mile => {
+                  return {
+                    label: `${mile} miles`,
+                    value: mile,
+                  };
+                })}
+                onValueChange={value =>
+                  this.setState({ randRoutePrefMiles: value })
+                }
+                style={{
+                  ...pickerSelectStyles2,
+                  iconContainer: {
+                    top: 7,
+                    right: 12,
+                  },
+                  placeholder: {
+                    alignContent: 'center',
+                    justifyContent: 'center',
+                    textAlign: 'center'
+                  }
+                }}
+                value={this.state.randRoutePrefMiles}
+                useNativeAndroidPickerStyle={false}
+                textInputProps={{ underlineColor: 'blue' }}
+              />
+            </View>
+          </View>
         </ScrollView>
-        
       </View>
     );
   }
@@ -460,7 +646,7 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     borderWidth: 2,
     borderRadius: 12,
-    flexWrap:'wrap',
+    flexWrap: 'wrap',
     fontSize: 24,
     fontWeight: 'bold',
     overflow: 'hidden',
@@ -469,9 +655,8 @@ const styles = StyleSheet.create({
     opacity: 0.9,
     alignItems: 'center',
     justifyContent: 'center',
-
   },
-  rowButtonStyle2 : {
+  rowButtonStyle2: {
     width: Dimensions.get('window').width,
     flex: 1,
     flexDirection: 'row',
@@ -479,7 +664,7 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     borderWidth: 2,
     borderRadius: 12,
-    flexWrap:'wrap',
+    flexWrap: 'wrap',
     fontSize: 24,
     fontWeight: 'bold',
     overflow: 'hidden',
@@ -493,18 +678,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: 0,
   },
   distanceTextStyle: {
     fontWeight: 'bold',
     color: 'skyblue',
     paddingBottom: '3%',
-    paddingRight:'3%',
+    paddingRight: '3%',
     fontSize: 20,
-    flexWrap:'wrap',
+    flexWrap: 'wrap',
   },
   button: {
     backgroundColor: 'skyblue',
-    color:'yellow',
+    color: 'yellow',
     padding: 5,
     margin: 5,
     borderRadius: 10,
@@ -534,6 +720,29 @@ const pickerSelectStyles = StyleSheet.create({
   },
 });
 
+const pickerSelectStyles2 = StyleSheet.create({
+  inputIOS: {
+    paddingTop: 20,
+    fontSize: 12,
+    backgroundColor: '#4287f5',
+    borderRadius: 8,
+    color: 'black',
+    paddingRight: 30,
+    justifyContent: 'center',
+    alignContent: 'center',
+    textAlign: 'center'
+  },
+  inputAndroid: {
+    fontSize: 12,
+    borderWidth: 0.5,
+    borderColor: 'skyblue',
+    borderRadius: 8,
+    color: 'whitesmoke',
+    paddingRight: 30, // to ensure the text is never behind the icon
+    justifyContent: 'center',
+    alignContent: 'center'
+  },
+});
 
 const mapState = state => {
   return {
@@ -545,7 +754,8 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     setCurrentCoords: coords => dispatch(setCurrentCoordsThunk(coords)),
-    saveRun: (id, route, distance, seconds) => dispatch(saveRun(id, route, distance, seconds)),
+    saveRun: (id, route, distance, seconds) =>
+      dispatch(saveRun(id, route, distance, seconds)),
     completeRun: id => dispatch(completeRun(id)),
   };
 };
