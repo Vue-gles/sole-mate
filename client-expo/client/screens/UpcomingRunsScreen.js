@@ -7,12 +7,12 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
 import Constants from 'expo-constants';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import {Spinner} from 'native-base'
+import { Spinner } from 'native-base';
 import { getSingleRun } from '../store/singleRun';
 
 import { getUpcomingRunsThunk } from '../store/upcomingRuns';
@@ -41,103 +41,106 @@ class UpcomingRunsScreen extends React.Component {
   }
 
   render() {
-    console.log('fetching---------->',this.props.isFetching)
-    return !this.props.isFetching.upcomingRuns ? (this.props.upcomingRuns.length ? (
-      <SafeAreaView key={this.state.uniqueValue} style={styles.container}>
-        <ScrollView style={styles.scrollView}>
-          <View paddingVertical={7} />
-          {this.props.upcomingRuns.map(run => {
-            return run.creatorId === this.props.user.id ? (
-              <View style={styles.runAd} key={run.id}>
-                {run.partnerId && (
+    console.log('fetching---------->', this.props.isFetching);
+    return !this.props.isFetching.upcomingRuns ? (
+      this.props.upcomingRuns.length ? (
+        <SafeAreaView key={this.state.uniqueValue} style={styles.container}>
+          <ScrollView style={styles.scrollView}>
+            <View paddingVertical={7} />
+            {this.props.upcomingRuns.map(run => {
+              return run.creatorId === this.props.user.id ? (
+                <View style={styles.runAd} key={run.id}>
+                  {run.partnerId && (
+                    <Image
+                      source={{
+                        uri: run.Partner.imageUrl,
+                      }}
+                      style={styles.runImage}
+                    />
+                  )}
+                  {run.partnerId && (
+                    <Text style={styles.name}>
+                      {run.Partner.firstName} {run.Partner.lastName}
+                    </Text>
+                  )}
+
+                  <Text style={styles.details}>
+                    {run.prefferedMileage} mile(s)
+                  </Text>
+                  <Text style={styles.details}>
+                    {run.street}, {run.city}, {run.state}
+                  </Text>
+                  <Text style={styles.details}>
+                    {moment(run.startTimeframe).format('MMMM Do')}
+                  </Text>
+                  <Text style={styles.details}>
+                    {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
+                    {moment(run.endTimeframe).format('h:mm:ss a')}
+                  </Text>
+
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => this.clickHandler(run.id)}
+                  >
+                    <Text style={styles.text}>Start run</Text>
+                  </TouchableOpacity>
+                </View>
+              ) : (
+                <View style={styles.runAd} key={run.id}>
                   <Image
                     source={{
-                      uri: run.Partner.imageUrl,
+                      uri: run.Creator.imageUrl,
                     }}
                     style={styles.runImage}
                   />
-                )}
-                {run.partnerId && (
                   <Text style={styles.name}>
-                    {run.Partner.firstName} {run.Partner.lastName}
+                    {run.Creator.firstName} {run.Creator.lastName}
                   </Text>
-                )}
-
-                <Text style={styles.details}>
-                  {run.prefferedMileage} mile(s)
-                </Text>
-                <Text style={styles.details}>
-                  {run.street}, {run.city}, {run.state}
-                </Text>
-                <Text style={styles.details}>
-                  {moment(run.startTimeframe).format('MMMM Do')}
-                </Text>
-                <Text style={styles.details}>
-                  {moment(run.startTimeframe).format('h:mm:ss a')} -{' '}
-                  {moment(run.endTimeframe).format('h:mm:ss a')}
-                </Text>
-
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={() => this.clickHandler(run.id)}
-                >
-                  <Text style={styles.text}>Start run</Text>
-                </TouchableOpacity>
-              </View>
-            ) : (
-              <View style={styles.runAd} key={run.id}>
-                <Image
-                  source={{
-                    uri: run.Creator.imageUrl,
-                  }}
-                  style={styles.runImage}
-                />
-                <Text style={styles.name}>
-                  {run.Creator.firstName} {run.Creator.lastName}
-                </Text>
-                <Text style={styles.details}>
-                  {run.prefferedMileage} mile(s)
-                </Text>
-                <Text style={styles.details}>
-                  {run.street}, {run.city}, {run.state}
-                </Text>
-                <Text style={styles.details}>
-                  {moment(run.startTimeframe).format('MMMM Do')}
-                </Text>
-                <Text style={styles.details}>
-                  {moment(run.startTimeframe).format('h:mm')} -{' '}
-                  {moment(run.endTimeframe).format('h:mm a')}
-                </Text>
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={() => this.clickHandler(run.id)}
-                >
-                  <Text color={'white'}>Start run</Text>
-                </TouchableOpacity>
-              </View>
-            );
-          })}
-        </ScrollView>
-      </SafeAreaView>
+                  <Text style={styles.details}>
+                    {run.prefferedMileage} mile(s)
+                  </Text>
+                  <Text style={styles.details}>
+                    {run.street}, {run.city}, {run.state}
+                  </Text>
+                  <Text style={styles.details}>
+                    {moment(run.startTimeframe).format('MMMM Do')}
+                  </Text>
+                  <Text style={styles.details}>
+                    {moment(run.startTimeframe).format('h:mm')} -{' '}
+                    {moment(run.endTimeframe).format('h:mm a')}
+                  </Text>
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => this.clickHandler(run.id)}
+                  >
+                    <Text style={styles.text}>Start run</Text>
+                  </TouchableOpacity>
+                </View>
+              );
+            })}
+          </ScrollView>
+        </SafeAreaView>
+      ) : (
+        <SafeAreaView style={styles.container}>
+          <View
+            style={{
+              paddingVertical: 12,
+              marginVertical: 5,
+              marginHorizontal: 12,
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <Text style={styles.name}>No upcoming runs</Text>
+          </View>
+        </SafeAreaView>
+      )
     ) : (
-      <SafeAreaView style={styles.container}>
-        <View
-          style={{
-            paddingVertical: 12,
-            marginVertical: 5,
-            marginHorizontal: 12,
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <Text style={styles.name}>No upcoming runs</Text>
-        </View>
-      </SafeAreaView>
-    )) : <View style={{justifyContent: 'center', alignItems: 'center'}}>
-    <Spinner color='green'/>
-
-</View>
+      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+        <Spinner color="green" />
+      </View>
+    );
   }
 }
 
@@ -160,11 +163,11 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 1,
     backgroundColor: '#c8e6d0',
-    borderRadius: 8
+    borderRadius: 8,
   },
   text: {
     color: 'white',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   name: {
     fontSize: 20,
@@ -198,7 +201,7 @@ const mapState = state => {
   return {
     upcomingRuns: state.upcomingRuns,
     user: state.user,
-    isFetching: state.isFetching
+    isFetching: state.isFetching,
   };
 };
 
