@@ -85,11 +85,6 @@ class HomeScreen extends Component {
                 onPress={() => this.props.navigation.navigate('Profile')}
                 color={'#124D1A'}
               />
-              <Button
-                title="Got to dummy map"
-                onPress={() => this.props.navigation.navigate('DummyMap')}
-                color={'#124D1A'}
-              />
             </View>
           </View>
         </ScrollView>

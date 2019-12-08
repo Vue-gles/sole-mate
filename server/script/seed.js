@@ -18,9 +18,9 @@ const users = [
     bio: 'Hey guys I love running so much run with me please.',
   },
   {
-    firstName: 'Bilbo',
-    lastName: 'Baggins',
-    email: 'bebobags@aol.com',
+    firstName: 'Allison',
+    lastName: 'Reed',
+    email: 'allison@aol.com',
     password: '1234',
     imageUrl:
       'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/img-4551-jpg-1566239018.jpg?crop=1.00xw:0.670xh;0,0.293xh&resize=360:*',
@@ -31,9 +31,9 @@ const users = [
     bio: 'Running is awesome yo',
   },
   {
-    firstName: 'Bob',
-    lastName: 'Smith',
-    email: 'bob@email.com',
+    firstName: 'John',
+    lastName: 'Ward',
+    email: 'john@email.com',
     password: '1234',
     imageUrl:
       'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/img-2327-1559154410.jpg?crop=1.00xw:0.810xh;0,0.00775xh&resize=360:*',
@@ -46,7 +46,7 @@ const users = [
   },
   {
     firstName: 'Lauren',
-    lastName: 'Smithereen',
+    lastName: 'Paulson',
     email: 'lauren@email.com',
     password: '1234',
     imageUrl:
@@ -58,9 +58,9 @@ const users = [
     bio: 'I loveeee running',
   },
   {
-    firstName: 'Jacob',
-    lastName: 'James',
-    email: 'jacob@email.com',
+    firstName: 'Jane',
+    lastName: 'Turner',
+    email: 'jane@email.com',
     password: '1234',
     imageUrl:
       'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/unknown-1573850426.jpeg?crop=0.782xw:1.00xh;0.111xw,0&resize=360:*',
@@ -84,9 +84,9 @@ const users = [
     bio: 'I loveeee running',
   },
   {
-    firstName: 'Richard',
+    firstName: 'Riley',
     lastName: 'Stevens',
-    email: 'richieS@aol.com',
+    email: 'rileys@aol.com',
     password: '1234',
     imageUrl:
       'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/screen-shot-2019-03-12-at-5-29-18-pm-1552426177.png?crop=1.00xw:0.671xh;0,0.0565xh&resize=360:*',
@@ -105,11 +105,12 @@ const runs = [
     state: 'NY',
     lat: 40.7411,
     long: -73.9897,
-    startTimeframe: new Date('2019-12-04 12:00:00'),
-    endTimeframe: new Date('2019-12-04 23:00:00'),
+    startTimeframe: new Date('2019-12-08 12:00:00'),
+    endTimeframe: new Date('2019-12-08 23:00:00'),
     prefferedMileage: 3,
     creatorId: 1,
-  },    {
+  },
+  {
     street: '1 Broad Street',
     city: 'Chicago',
     state: 'IL',
@@ -120,8 +121,56 @@ const runs = [
     prefferedMileage: 6,
     creatorId: 3,
     seconds: 60 * 29,
-    distance: 3.9
-  },   {
+    distance: 3.9,
+    partnerId: 1,
+    route: JSON.stringify([
+      {
+        latitude: 40.276141,
+        longitude: -74.592255,
+      },
+      {
+        latitude: 40.276386,
+        longitude: -74.592501,
+      },
+      {
+        latitude: 40.276976,
+        longitude: -74.593167,
+      },
+      {
+        latitude: 40.276444,
+        longitude: -74.593918,
+      },
+      {
+        latitude: 40.275625,
+        longitude: -74.594883,
+      },
+      {
+        latitude: 40.273684,
+        longitude: -74.595895,
+      },
+      {
+        latitude: 40.27177,
+        longitude: -74.59691,
+      },
+      {
+        latitude: 40.270652,
+        longitude: -74.593449,
+      },
+      {
+        latitude: 40.270652,
+        longitude: -74.593449,
+      },
+      {
+        latitude: 40.268052,
+        longitude: -74.589062,
+      },
+      {
+        latitude: 40.267023,
+        longitude: -74.587219,
+      },
+    ]),
+  },
+  {
     street: '1 Broad Street',
     city: 'Chicago',
     state: 'IL',
@@ -132,8 +181,10 @@ const runs = [
     prefferedMileage: 6,
     creatorId: 3,
     seconds: 60 * 30,
-    distance: 3.8
-  },   {
+    distance: 3.8,
+    partnerId: 6,
+  },
+  {
     street: '1 Broad Street',
     city: 'Chicago',
     state: 'IL',
@@ -144,8 +195,10 @@ const runs = [
     prefferedMileage: 6,
     creatorId: 3,
     seconds: 60 * 40,
-    distance: 2.8
-  },   {
+    distance: 2.8,
+    partnerId: 2,
+  },
+  {
     street: '1 Broad Street',
     city: 'Chicago',
     state: 'IL',
@@ -156,8 +209,9 @@ const runs = [
     prefferedMileage: 6,
     creatorId: 3,
     seconds: 60 * 32,
-    distance: 2
-  },   {
+    distance: 2,
+  },
+  {
     street: '1 Broad Street',
     city: 'Chicago',
     state: 'IL',
@@ -168,8 +222,8 @@ const runs = [
     prefferedMileage: 6,
     creatorId: 3,
     seconds: 60 * 36,
-    distance: 3.3
-  }, 
+    distance: 3.3,
+  },
   {
     street: '1 Broad Street',
     city: 'Chicago',
@@ -181,8 +235,9 @@ const runs = [
     prefferedMileage: 6,
     creatorId: 3,
     seconds: 60 * 39,
-    distance: 3.3
-  },  {
+    distance: 3.3,
+  },
+  {
     street: '1 Broad Street',
     city: 'Chicago',
     state: 'IL',
@@ -193,8 +248,9 @@ const runs = [
     prefferedMileage: 6,
     creatorId: 3,
     seconds: 60 * 30,
-    distance: 3.3
-  },   {
+    distance: 3.3,
+  },
+  {
     street: '1 Broad Street',
     city: 'Chicago',
     state: 'IL',
@@ -205,8 +261,9 @@ const runs = [
     prefferedMileage: 6,
     creatorId: 3,
     seconds: 60 * 30,
-    distance: 3.3
-  },   {
+    distance: 3.3,
+  },
+  {
     street: '1 Broad Street',
     city: 'Chicago',
     state: 'IL',
@@ -217,8 +274,9 @@ const runs = [
     prefferedMileage: 6,
     creatorId: 3,
     seconds: 60 * 85,
-    distance: 6.8
-  },   {
+    distance: 6.8,
+  },
+  {
     street: '1 Broad Street',
     city: 'Chicago',
     state: 'IL',
@@ -229,8 +287,9 @@ const runs = [
     prefferedMileage: 6,
     creatorId: 3,
     seconds: 60 * 90,
-    distance: 8
-  },   {
+    distance: 8,
+  },
+  {
     street: '1 Broad Street',
     city: 'Chicago',
     state: 'IL',
@@ -241,21 +300,23 @@ const runs = [
     prefferedMileage: 6,
     creatorId: 3,
     seconds: 60 * 90,
-    distance: 7
-  },   {
+    distance: 7,
+  },
+  {
     street: '1 Broad Street',
     city: 'Chicago',
     state: 'IL',
     lat: 41.8781,
     long: 87.6298,
-    startTimeframe: new Date('2019-11-26 12:00:00'),
-    endTimeframe: new Date('2019-11-26 23:00:00'),
+    startTimeframe: new Date('2019-12-03 12:00:00'),
+    endTimeframe: new Date('2019-12-03 23:00:00'),
     prefferedMileage: 6,
     creatorId: 3,
     seconds: 60 * 66,
     distance: 7,
-    partnerId: 2
-  },   {
+    partnerId: 2,
+  },
+  {
     street: '1 Broad Street',
     city: 'Chicago',
     state: 'IL',
@@ -267,8 +328,9 @@ const runs = [
     creatorId: 3,
     seconds: 60 * 65,
     distance: 5.7,
-    partnerId: 1
-  },   {
+    partnerId: 1,
+  },
+  {
     street: '1 Broad Street',
     city: 'Chicago',
     state: 'IL',
@@ -280,8 +342,9 @@ const runs = [
     creatorId: 3,
     seconds: 60 * 51,
     distance: 6,
-    partnerId: 2
-  },   {
+    partnerId: 2,
+  },
+  {
     street: '1 Broad Street',
     city: 'Chicago',
     state: 'IL',
@@ -293,8 +356,9 @@ const runs = [
     creatorId: 3,
     seconds: 60 * 32,
     distance: 3.6,
-    partnerId: 2
-  },   {
+    partnerId: 2,
+  },
+  {
     street: '1 Broad Street',
     city: 'Chicago',
     state: 'IL',
@@ -305,8 +369,9 @@ const runs = [
     prefferedMileage: 6,
     creatorId: 3,
     seconds: 60 * 44,
-    distance: 3.8
-  },   {
+    distance: 3.8,
+  },
+  {
     street: '1 Broad Street',
     city: 'Chicago',
     state: 'IL',
@@ -317,8 +382,9 @@ const runs = [
     prefferedMileage: 6,
     creatorId: 3,
     seconds: 60 * 45,
-    distance: 4
-  },   {
+    distance: 4,
+  },
+  {
     street: '1 Broad Street',
     city: 'Chicago',
     state: 'IL',
@@ -329,8 +395,9 @@ const runs = [
     prefferedMileage: 6,
     creatorId: 3,
     seconds: 60 * 38,
-    distance: 4.2
-  },   {
+    distance: 4.2,
+  },
+  {
     street: '1 Broad Street',
     city: 'Chicago',
     state: 'IL',
@@ -341,8 +408,9 @@ const runs = [
     prefferedMileage: 6,
     creatorId: 3,
     seconds: 60 * 27,
-    distance: 3.6
-  },   {
+    distance: 3.6,
+  },
+  {
     street: '1 Broad Street',
     city: 'Chicago',
     state: 'IL',
@@ -353,8 +421,9 @@ const runs = [
     prefferedMileage: 6,
     creatorId: 3,
     seconds: 60 * 30,
-    distance: 3.5
-  },   {
+    distance: 3.5,
+  },
+  {
     street: '1 Broad Street',
     city: 'Chicago',
     state: 'IL',
@@ -365,16 +434,16 @@ const runs = [
     prefferedMileage: 6,
     creatorId: 3,
     seconds: 60 * 37,
-    distance: 4.2
-  }, 
+    distance: 4.2,
+  },
   {
     street: '456 Fall Rd',
     city: 'New York',
     state: 'NY',
     lat: 40.7411,
     long: -73.9897,
-    startTimeframe: new Date('2019-12-04 12:00:00'),
-    endTimeframe: new Date('2019-12-04 23:00:00'),
+    startTimeframe: new Date('2019-12-10 12:00:00'),
+    endTimeframe: new Date('2019-12-10 23:00:00'),
     prefferedMileage: 5,
     creatorId: 1,
   },
@@ -588,6 +657,11 @@ const messages = [
     content: 'See you soon!',
     receiverId: 6,
     senderId: 3,
+  },
+  {
+    content: 'Hey! Meet at 2?',
+    receiverId: 3,
+    senderId: 2,
   },
 ];
 
