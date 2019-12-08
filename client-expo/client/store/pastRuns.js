@@ -46,7 +46,7 @@ export default pastRuns = (state = [], action) => {
     case GOT_PAST_RUNS:
       return action.pastRuns;
     case SAVED_RUN:
-      return [...state, action.run];
+      return [action.run, ...state];
     default:
       return state;
   }
