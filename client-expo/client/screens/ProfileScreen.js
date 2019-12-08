@@ -44,38 +44,35 @@ class ProfileScreen extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <ScrollView>
         <Container style={{backgroundColor: '#ebf0ec'}}>
-        <Image
+          <Content>
+          <Image
             source={{
               uri: this.props.user.imageUrl,
             }}
             style={styles.welcomeImage}
           />
-          <Content>
             <List>
               <ListItem>
                 <Text style={{ fontWeight: 'bold' }}>Name:</Text>
-                <Text>
-                  {' '}
-                  {this.props.user.firstName} {this.props.user.lastName}
+                <Text>    {this.props.user.firstName} {this.props.user.lastName}
                 </Text>
               </ListItem>
               <ListItem>
                 <Text style={{ fontWeight: 'bold' }}>Email:</Text>
-                <Text> {this.props.user.email}</Text>
+                <Text>    {this.props.user.email}</Text>
               </ListItem>
               <ListItem>
                 <Text style={{ fontWeight: 'bold' }}>Average pace:</Text>
-                <Text> {this.props.user.avgPace} </Text>
+                <Text>    {this.props.user.avgPace} </Text>
               </ListItem>
               <ListItem>
                 <Text style={{ fontWeight: 'bold' }}>Average mileage:</Text>
-                <Text> {this.props.user.avgMileage}</Text>
+                <Text>    {this.props.user.avgMileage}</Text>
               </ListItem>
               <ListItem>
                 <Text style={{ fontWeight: 'bold' }}>Goal:</Text>
-                <Text> {this.props.user.goal}</Text>
+                <Text>    {this.props.user.goal}</Text>
               </ListItem>
               <View paddingVertical={5}/>
               <Text style={{ fontWeight: 'bold', textAlign:'center', fontSize: 15 }}>Bio</Text>
@@ -109,7 +106,6 @@ class ProfileScreen extends React.Component {
         />
           </Content>
         </Container>
-      </ScrollView>
     );
   }
 }

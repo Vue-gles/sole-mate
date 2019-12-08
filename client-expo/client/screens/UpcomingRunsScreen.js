@@ -12,6 +12,7 @@ import {
 import Constants from 'expo-constants';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import {Spinner} from 'native-base'
 import { getSingleRun } from '../store/singleRun';
 
 import { getUpcomingRunsThunk } from '../store/upcomingRuns';
@@ -40,7 +41,8 @@ class UpcomingRunsScreen extends React.Component {
   }
 
   render() {
-    return this.props.upcomingRuns.length ? (
+    console.log('fetching---------->',this.props.isFetching)
+    return !this.props.isFetching.upcomingRuns ? (this.props.upcomingRuns.length ? (
       <SafeAreaView key={this.state.uniqueValue} style={styles.container}>
         <ScrollView style={styles.scrollView}>
           <View paddingVertical={7} />
@@ -132,7 +134,10 @@ class UpcomingRunsScreen extends React.Component {
           <Text style={styles.name}>No upcoming runs</Text>
         </View>
       </SafeAreaView>
-    );
+    )) : <View style={{justifyContent: 'center', alignItems: 'center'}}>
+    <Spinner color='green'/>
+
+</View>
   }
 }
 
@@ -193,6 +198,7 @@ const mapState = state => {
   return {
     upcomingRuns: state.upcomingRuns,
     user: state.user,
+    isFetching: state.isFetching
   };
 };
 

@@ -16,6 +16,7 @@ import {
 import Constants from 'expo-constants';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import {Spinner} from 'native-base'
 import { NativeRouter, Route, Link } from 'react-router-native';
 
 import { getOutgoing } from '../store/outgoing';
@@ -23,60 +24,71 @@ import { getOutgoing } from '../store/outgoing';
 class OutgoingRequests extends React.Component {
   constructor(props) {
     super(props);
-    
   }
   componentDidMount() {
     this.props.getOutgoing();
   }
   render() {
-    return this.props.notifications.length > 0 ? (
-      <SafeAreaView style={styles.container}>
-        <ScrollView style={styles.scrollView}>
-          {this.props.notifications.map(notification => {
-            return (
-              <View
-                style={styles.notification}
-                key={`${notification.requesterId}${notification.runId}`}
-              >
-                <Image
-                  source={{
-                    uri: notification.run.Creator.imageUrl,
-                  }}
-                  style={styles.runImage}
-                />
-                {notification.status === 'pending' ? (
-                  <Text style={styles.status}>
-                    {notification.run.Creator.firstName}{' '}
-                    {notification.run.Creator.lastName} hasn't responded to your
-                    request to run on{' '}
-                    {moment(notification.run.startTimeframe).format('MMMM Do')}
-                  </Text>
-                ) : notification.status === 'accepted' ? (
-                  <Text style={styles.status}>
-                    {notification.run.Creator.firstName}{' '}
-                    {notification.run.Creator.lastName} accepted your request to
-                    run on{' '}
-                    {moment(notification.run.startTimeframe).format('MMMM Do')}
-                  </Text>
-                ) : (
-                  <Text style={styles.status}>
-                    {notification.run.Creator.firstName}{' '}
-                    {notification.run.Creator.lastName} isn't available to run
-                    on{' '}
-                    {moment(notification.run.startTimeframe).format('MMMM Do')}
-                  </Text>
-                )}
-              </View>
-            );
-          })}
-        </ScrollView>
-      </SafeAreaView>
+    return !this.props.isFetching ? (
+      this.props.notifications.length > 0 ? (
+        <SafeAreaView style={styles.container}>
+          <ScrollView style={styles.scrollView}>
+            {this.props.notifications.map(notification => {
+              return (
+                <View
+                  style={styles.notification}
+                  key={`${notification.requesterId}${notification.runId}`}
+                >
+                  <Image
+                    source={{
+                      uri: notification.run.Creator.imageUrl,
+                    }}
+                    style={styles.runImage}
+                  />
+                  {notification.status === 'pending' ? (
+                    <Text style={styles.status}>
+                      {notification.run.Creator.firstName}{' '}
+                      {notification.run.Creator.lastName} hasn't responded to
+                      your request to run on{' '}
+                      {moment(notification.run.startTimeframe).format(
+                        'MMMM Do'
+                      )}
+                    </Text>
+                  ) : notification.status === 'accepted' ? (
+                    <Text style={styles.status}>
+                      {notification.run.Creator.firstName}{' '}
+                      {notification.run.Creator.lastName} accepted your request
+                      to run on{' '}
+                      {moment(notification.run.startTimeframe).format(
+                        'MMMM Do'
+                      )}
+                    </Text>
+                  ) : (
+                    <Text style={styles.status}>
+                      {notification.run.Creator.firstName}{' '}
+                      {notification.run.Creator.lastName} isn't available to run
+                      on{' '}
+                      {moment(notification.run.startTimeframe).format(
+                        'MMMM Do'
+                      )}
+                    </Text>
+                  )}
+                </View>
+              );
+            })}
+          </ScrollView>
+        </SafeAreaView>
+      ) : (
+        <SafeAreaView style={styles.container}>
+          <View style={styles.notification}>
+            <Text style={styles.none}>No outgoing notifications</Text>
+          </View>
+        </SafeAreaView>
+      )
     ) : (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.notification}>
-          <Text style={styles.none}>No outgoing notifications</Text>
-        </View>
-      </SafeAreaView>
+      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+        <Spinner color="green" />
+      </View>
     );
   }
 }
@@ -115,6 +127,7 @@ const styles = StyleSheet.create({
 const mapState = state => {
   return {
     notifications: state.outgoing,
+    isFetching: state.isFetching.outgoing,
   };
 };
 

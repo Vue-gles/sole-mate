@@ -17,6 +17,7 @@ import {
 import Constants from 'expo-constants';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import {Spinner} from 'native-base'
 
 import { getMessageThreads } from '../store/messageThreads';
 import { getMessages } from '../store/singleMessageThread';
@@ -43,7 +44,8 @@ class MessageThreads extends React.Component {
   }
 
   render() {
-    return this.props.threads.length > 0 ? (
+    console.log('------->',this.props.isFetching)
+    return !this.props.isFetching ? (this.props.threads.length > 0 ? (
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
           {this.props.threads.map(thread => {
@@ -74,7 +76,9 @@ class MessageThreads extends React.Component {
           <Text style={styles.none}>No messages</Text>
         </View>
       </SafeAreaView>
-    );
+    )) : <View style={{justifyContent: 'center', alignItems: 'center'}}>
+    <Spinner color='green'/>
+</View>
   }
 }
 
@@ -116,6 +120,7 @@ const styles = StyleSheet.create({
 const mapState = state => {
   return {
     threads: state.messageThreads,
+    isFetching: state.isFetching.messageThreads
   };
 };
 

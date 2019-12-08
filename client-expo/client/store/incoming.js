@@ -1,7 +1,9 @@
 import axios from 'axios';
 // import socket from '../socket';
 import getEnvVars from '../../environment';
+import {gotIncomingNotificationsFetchingStatus} from './isFetching'
 const { BACKEND_HOST } = getEnvVars();
+
 
 // ACTION TYPE
 const GOT_INCOMING = 'GOT_INCOMING';
@@ -22,6 +24,7 @@ export const getIncoming = () => async dispatch => {
   try {
     const { data } = await axios.get(`${BACKEND_HOST}/api/requests/incoming`);
     dispatch(gotIncoming(data));
+    dispatch(gotIncomingNotificationsFetchingStatus(false))
   } catch (err) {
     console.log('Error:', err);
   }

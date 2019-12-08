@@ -18,6 +18,7 @@ import {
 import Constants from 'expo-constants';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import { Spinner } from 'native-base';
 
 import { getRuns } from '../store/runs';
 import { getSingleRun } from '../store/singleRun';
@@ -27,7 +28,6 @@ class RunResultsScreen extends React.Component {
   constructor(props) {
     super(props);
     this.clickHandler = this.clickHandler.bind(this);
-
   }
 
   static navigationOptions = {
@@ -49,8 +49,7 @@ class RunResultsScreen extends React.Component {
   }
 
   render() {
-    
-    return (
+    return !this.props.isFetching ? (
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
           {this.props.runs && this.props.runs.length ? (
@@ -106,6 +105,10 @@ class RunResultsScreen extends React.Component {
           )}
         </ScrollView>
       </SafeAreaView>
+    ) : (
+      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+        <Spinner color="green" />
+      </View>
     );
   }
 }
@@ -142,6 +145,7 @@ const mapState = state => {
   return {
     runs: state.runs,
     runNowInfo: state.formInfo.runNowInfo,
+    isFetching: state.isFetching.allRuns,
   };
 };
 const mapDispatch = dispatch => {

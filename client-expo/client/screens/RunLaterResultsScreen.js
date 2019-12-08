@@ -17,6 +17,7 @@ import {
 } from 'react-native';
 import Constants from 'expo-constants';
 import { connect } from 'react-redux';
+import {Spinner} from 'native-base'
 import moment from 'moment';
 
 import { getRuns } from '../store/runs';
@@ -72,12 +73,8 @@ class RunLaterResultsScreen extends React.Component {
   render() {
     
     return (
-      <SafeAreaView style={styles.container}>
+      !this.props.isFetching ? (<SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
-
-
-
-
 
           {this.props.runs && this.props.runs.length ? (
             this.props.runs.map(run => {
@@ -143,7 +140,9 @@ class RunLaterResultsScreen extends React.Component {
           </View>
         </ScrollView>
       </SafeAreaView>
-    );
+    ) :       <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+    <Spinner color="green" />
+    </View> )
   }
 }
 
@@ -188,6 +187,7 @@ const mapState = state => {
   return {
     runs: state.runs,
     runNowInfo: state.formInfo.runNowInfo,
+    isFetching: state.isFetching.allRuns
   };
 };
 

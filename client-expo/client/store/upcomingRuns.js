@@ -1,6 +1,7 @@
 import axios from 'axios';
 import getEnvVars from '../../environment';
 const { BACKEND_HOST } = getEnvVars();
+import {gotUpcomingRunsFetchingStatus} from './isFetching'
 
 // ACTION TYPES
 const GOT_UPCOMING_RUNS = 'GOT__UPCOMING_RUNS';
@@ -10,7 +11,7 @@ const COMPLETE_RUN = 'COMPLETE_RUN';
 // ACTION CREATORS
 const gotUpcomingRuns = upcomingRuns => ({
   type: GOT_UPCOMING_RUNS,
-  upcomingRuns,
+  upcomingRuns
 });
 
 const gotNewUpcomingRun = newRun => ({
@@ -29,6 +30,7 @@ export const getUpcomingRunsThunk = type => async dispatch => {
     console.log('THUUUUUNK');
     const { data } = await axios.get(`${BACKEND_HOST}/api/runs?type=${type}`);
     dispatch(gotUpcomingRuns(data));
+    dispatch(gotUpcomingRunsFetchingStatus(false))
     console.log('Thunk worked!');
   } catch (err) {
     console.log('Error:', err);

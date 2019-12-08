@@ -1,5 +1,6 @@
 import axios from 'axios';
 import getEnvVars from '../../environment';
+import {gotOutgoingNotificationsFetchingStatus} from './isFetching'
 const { BACKEND_HOST } = getEnvVars();
 
 // ACTION TYPE
@@ -22,6 +23,7 @@ export const getOutgoing = () => async dispatch => {
     //console.log('Is getOutgoing running?');
     const { data } = await axios.get(`${BACKEND_HOST}/api/requests/outgoing`);
     dispatch(gotOutgoing(data));
+    dispatch(gotOutgoingNotificationsFetchingStatus(false))
   } catch (err) {
     console.log('Error:', err);
   }

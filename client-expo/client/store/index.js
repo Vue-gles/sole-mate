@@ -15,6 +15,7 @@ import formInfo from './formInfo';
 import partner from './partner';
 import upcomingRuns from './upcomingRuns';
 import pastRuns from './pastRuns';
+import isFetching from './isFetching'
 
 const rootReducer = combineReducers({
   user: user,
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
   partner: partner,
   upcomingRuns: upcomingRuns,
   pastRuns: pastRuns,
+  isFetching: isFetching
 });
 const middleware = composeWithDevTools(
   // applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
