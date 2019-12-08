@@ -1,5 +1,6 @@
 import axios from 'axios';
 import getEnvVars from '../../environment';
+import {gotAllRunsStatus} from './isFetching'
 const { BACKEND_HOST } = getEnvVars();
 
 // ACTION TYPES
@@ -32,6 +33,7 @@ export const getRuns = (type, maxDistance, lat, long) => async dispatch => {
     }
 
     dispatch(gotRuns(data));
+    dispatch(gotAllRunsStatus(false))
   } catch (err) {
     console.log('Error:', err);
   }

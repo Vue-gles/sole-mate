@@ -9,11 +9,11 @@ import {
   ScrollView,
   SafeAreaView,
   StyleSheet,
-  Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
+import { Container, Header, Content, List, ListItem, Text, Textarea} from 'native-base';
 import { connect } from 'react-redux';
 
 import { auth } from '../store/user';
@@ -44,36 +44,42 @@ class ProfileScreen extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <ScrollView style={styles.scrollView}>
-        <View style={styles.container}>
+        <Container style={{backgroundColor: '#ebf0ec'}}>
+          <Content>
           <Image
             source={{
               uri: this.props.user.imageUrl,
             }}
             style={styles.welcomeImage}
           />
-          <View paddingVertical={20} />
-          <View style={styles.profDetails}>
-            <Text>
-              {this.props.user.firstName} {(this.props.user.lastName, '\n')}
-            </Text>
-            <View style={{alignContent: 'flex-start'}}>
-              <Text style={styles.details}>Email: {this.props.user.email}</Text>
-              <Text style={styles.details}>
-                Address: {this.props.user.defaultAddress}
-              </Text>
-              <Text style={styles.details}>
-                Average Pace: {this.props.user.avgPace}
-              </Text>
-              <Text style={styles.details}>
-                Average Mileage: {this.props.user.avgMileage}
-              </Text>
-              <Text style={styles.details}>Goal: {this.props.user.goal}</Text>
-              <Text style={styles.details}>Bio: {this.props.user.bio}</Text>
-            </View>
-          </View>
-            <View paddingVertical={20} />
-          <View style={styles.btnContainer}>
+            <List>
+              <ListItem>
+                <Text style={{ fontWeight: 'bold' }}>Name:</Text>
+                <Text>    {this.props.user.firstName} {this.props.user.lastName}
+                </Text>
+              </ListItem>
+              <ListItem>
+                <Text style={{ fontWeight: 'bold' }}>Email:</Text>
+                <Text>    {this.props.user.email}</Text>
+              </ListItem>
+              <ListItem>
+                <Text style={{ fontWeight: 'bold' }}>Average pace:</Text>
+                <Text>    {this.props.user.avgPace} </Text>
+              </ListItem>
+              <ListItem>
+                <Text style={{ fontWeight: 'bold' }}>Average mileage:</Text>
+                <Text>    {this.props.user.avgMileage}</Text>
+              </ListItem>
+              <ListItem>
+                <Text style={{ fontWeight: 'bold' }}>Goal:</Text>
+                <Text>    {this.props.user.goal}</Text>
+              </ListItem>
+              <View paddingVertical={5}/>
+              <Text style={{ fontWeight: 'bold', textAlign:'center', fontSize: 15 }}>Bio</Text>
+              <Textarea rowSpan={5} style={{marginHorizontal: 10}} bordered placeholder={this.props.user.bio} disabled={true}/>
+            </List>
+            <View paddingVertical={8}/>
+            <View style={styles.btnContainer}>
             <Button
               title="Edit Profile"
               color={'white'}
@@ -83,8 +89,7 @@ class ProfileScreen extends React.Component {
           {this.props.error && this.props.error.response && (
             <Text style={styles.error}> {this.props.error.response.data} </Text>
           )}
-        </View>
-        <TouchableOpacity
+                  <TouchableOpacity
           style={styles.workoutButton}
           onPress={() =>
             this.props.navigation.navigate('Stats', {
@@ -99,7 +104,8 @@ class ProfileScreen extends React.Component {
           onPress={this.signOutAsync}
           color={'#124D1A'}
         />
-      </ScrollView>
+          </Content>
+        </Container>
     );
   }
 }
@@ -148,8 +154,10 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     resizeMode: 'contain',
-    borderRadius: 200 / 2,
+    borderRadius: 100,
     overflow: 'hidden',
+    marginTop: 30,
+    alignSelf: 'center'
   },
   error: {
     color: `#eb4034`,
@@ -160,15 +168,16 @@ const styles = StyleSheet.create({
     margin: 5,
     borderRadius: 10,
     overflow: 'hidden',
+    marginHorizontal: 50
   },
   workoutButton: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#ffc0cb',
-    padding: 10,
+    backgroundColor: '#bad4c1',
+    padding: 12,
     margin: 5,
     borderRadius: 10,
-    marginHorizontal: 130,
+    marginHorizontal: 50,
   },
 });
 

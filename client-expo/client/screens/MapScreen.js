@@ -580,7 +580,6 @@ class MapScreen extends Component {
                   onPress={() => {
                     this.generateRandomRoute();
                     setTimeout(() => {
-                      console.log('the cur state ------->', this.state);
                       this.setState({ showRandRoute: true });
                     }, 1000);
                   }}

@@ -16,6 +16,7 @@ import {
 import Constants from 'expo-constants';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import { Spinner } from 'native-base';
 import { NativeRouter, Route, Link } from 'react-router-native';
 
 import socket from '../socket/index';
@@ -26,7 +27,6 @@ class IncomingRequests extends React.Component {
   constructor(props) {
     super(props);
     this.requestUpdateHandler = this.requestUpdateHandler.bind(this);
-
   }
   componentDidMount() {
     this.props.getIncoming();
@@ -36,59 +36,67 @@ class IncomingRequests extends React.Component {
     socket.emit('requestUpdate');
   }
   render() {
-    return this.props.notifications.length > 0 ? (
-      <SafeAreaView style={styles.container}>
-        <ScrollView style={styles.scrollView}>
-          {this.props.notifications.map(notification => {
-            return (
-              <View
-                style={styles.notification}
-                key={`${notification.requesterId}${notification.runId}`}
-              >
-                <Image
-                  source={{
-                    uri: notification.Requester.imageUrl,
-                  }}
-                  style={styles.runImage}
-                />
-                <Text style={styles.status}>
-                  {notification.Requester.firstName}{' '}
-                  {notification.Requester.lastName} would like to join your run
-                  on {moment(notification.run.startTimeframe).format('MMMM Do')}
-                </Text>
-                <Button
-                  title="✓"
-                  onPress={() =>
-                    this.requestUpdateHandler(
-                      notification.runId,
-                      notification.requesterId,
-                      'accepted'
-                    )
-                  }
-                  color={'#0F3E15'}
-                />
-                <Button
-                  title="X"
-                  onPress={() =>
-                    this.requestUpdateHandler(
-                      notification.runId,
-                      notification.requesterId,
-                      'rejected'
-                    )
-                  }
-                  color={'#0F3E15'}
-                />
-              </View>
-            );
-          })}
-        </ScrollView>
-      </SafeAreaView>
+    console.log('is fetching------>', this.props.isFetching);
+    return !this.props.isFetching ? (
+      this.props.notifications.length > 0 ? (
+        <SafeAreaView style={styles.container}>
+          <ScrollView style={styles.scrollView}>
+            {this.props.notifications.map(notification => {
+              return (
+                <View
+                  style={styles.notification}
+                  key={`${notification.requesterId}${notification.runId}`}
+                >
+                  <Image
+                    source={{
+                      uri: notification.Requester.imageUrl,
+                    }}
+                    style={styles.runImage}
+                  />
+                  <Text style={styles.status}>
+                    {notification.Requester.firstName}{' '}
+                    {notification.Requester.lastName} would like to join your
+                    run on{' '}
+                    {moment(notification.run.startTimeframe).format('MMMM Do')}
+                  </Text>
+                  <Button
+                    title="✓"
+                    onPress={() =>
+                      this.requestUpdateHandler(
+                        notification.runId,
+                        notification.requesterId,
+                        'accepted'
+                      )
+                    }
+                    color={'#0F3E15'}
+                  />
+                  <Button
+                    title="X"
+                    onPress={() =>
+                      this.requestUpdateHandler(
+                        notification.runId,
+                        notification.requesterId,
+                        'rejected'
+                      )
+                    }
+                    color={'#0F3E15'}
+                  />
+                </View>
+              );
+            })}
+          </ScrollView>
+        </SafeAreaView>
+      ) : (
+        <SafeAreaView style={styles.container}>
+          <View style={styles.notification}>
+            <Text style={styles.none}>No incoming notifications</Text>
+          </View>
+        </SafeAreaView>
+      )
     ) : (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.notification}>
-          <Text style={styles.none}>No incoming notifications</Text>
-        </View>
-      </SafeAreaView>
+      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+        <Spinner color="green" />
+      </View>
     );
   }
 }
@@ -128,6 +136,7 @@ const styles = StyleSheet.create({
 const mapState = state => {
   return {
     notifications: state.incoming,
+    isFetching: state.isFetching.incoming,
   };
 };
 
