@@ -615,7 +615,7 @@ class MapScreen extends Component {
             <View style={styles.stats}>
               {this.state.randRouteDistance ? (
                 <Text>
-                  Generated route:{this.state.randRouteDistance} miles
+                  Generated route:{(this.state.randRouteDistance/1.609).toFixed(2)} miles
                 </Text>
               ) : null}
             </View>
