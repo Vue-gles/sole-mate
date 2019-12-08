@@ -76,13 +76,18 @@ class HomeScreen extends Component {
               <View style={styles.btnContainer}>
                 <Button
                   title="Run Later"
-                  onPress={() => this.props.navigation.navigate('RunForm')}//RunForm or RunResults
+                  onPress={() => this.props.navigation.navigate('RunForm')} //RunForm or RunResults
                   color={'white'}
                 />
               </View>
               <Button
                 title="My Profile"
                 onPress={() => this.props.navigation.navigate('Profile')}
+                color={'#124D1A'}
+              />
+              <Button
+                title="Got to dummy map"
+                onPress={() => this.props.navigation.navigate('DummyMap')}
                 color={'#124D1A'}
               />
             </View>
@@ -231,7 +236,7 @@ const styles = StyleSheet.create({
     padding: 5,
     margin: 5,
     borderRadius: 10,
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
 });
 

@@ -46,12 +46,6 @@ class MapScreen extends Component {
       markers: [],
       currentLat: 40.7128,
       currentLng: -74.006,
-      randRouteStartLat: 0,
-      randRouteStartLong: 0,
-      randRoutePrefMiles: 3,
-      randRouteDestPoints: [],
-      randRouteDistance: 0,
-      showRandRoute: false,
       circle: null,
       circle2: null,
       coordinates: [],
@@ -195,10 +189,8 @@ class MapScreen extends Component {
         this.setState({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
-          currentLat: position.coords.latitude,
-          currentLng: position.coords.longitude,
-          randRouteStartLat: position.coords.latitude,
-          randRouteStartLong: position.coords.longitude,
+          currentLat: 40.6726,
+          currentLng: -73.95232,
           coordinates: [
             ...this.state.coordinates,
             {
@@ -257,7 +249,17 @@ class MapScreen extends Component {
     return time;
   }
 
-  generateRandomRoute() {
+  render() {
+    const notRenderDirection =
+      this.state.latitude == 0 || this.state.coordinates.length == 0;
+
+    let searchedRegion = {
+      latitude: this.state.currentLat,
+      longitude: this.state.currentLng,
+      latitudeDelta: 0.01,
+      longitudeDelta: 0.01,
+    };
+
     const milesToMeters = miles => {
       return miles / 0.00062137;
     };
@@ -265,7 +267,7 @@ class MapScreen extends Component {
     const getRandomPointsInRadius = (startingLat, startingLong, milesToRun) => {
       const metersToRun = milesToMeters(milesToRun);
       const triangleRatio = 0.2928932188134525;
-      const radius = metersToRun * 0.8 * triangleRatio; //.623
+      const radius = (metersToRun * 0.623) * triangleRatio;
       const angle = Math.random() * 360;
       const angleForSecondPoint = angle - 90;
       const firstPoint = computeDestinationPoint(
@@ -282,31 +284,11 @@ class MapScreen extends Component {
       return [firstPoint, secondPoint];
     };
 
-    const randRouteDestPoints = getRandomPointsInRadius(
-      this.state.randRouteStartLat,
-      this.state.randRouteStartLong,
-      this.state.randRoutePrefMiles
+    const randPoints = getRandomPointsInRadius(
+      this.state.currentLat,
+      this.state.currentLng,
+      8
     );
-    this.setState({ randRouteDestPoints });
-  }
-
-  render() {
-    const notRenderDirection =
-      this.state.latitude == 0 || this.state.coordinates.length == 0;
-
-    let searchedRegion = this.state.handlerEnabled
-      ? {
-          latitude: this.state.latitude,
-          longitude: this.state.longitude,
-          latitudeDelta: 0.011,
-          longitudeDelta: 0.011,
-        }
-      : {
-          latitude: this.state.currentLat,
-          longitude: this.state.currentLng,
-          latitudeDelta: 0.011,
-          longitudeDelta: 0.011,
-        };
 
     return (
       <View style={styles.container}>
@@ -364,7 +346,13 @@ class MapScreen extends Component {
               longitude: this.state.longitude,
             }}
           />
-
+          {/* <MapViewDirections
+            origin={'792 Sterling Place, Brooklyn, NY'}
+            destination={'2 Broad Street, New York, NY'}
+            apikey={GOOGLE_API_KEY}
+            strokeWidth={3}
+            strokeColor="hotpink"
+          /> */}
           {this.state.markers.map(marker => {
             return (
               <Marker
@@ -383,35 +371,26 @@ class MapScreen extends Component {
               strokeWidth={5}
             />
           )}
-          {this.state.randRouteDestPoints && this.state.showRandRoute ? (
-            <MapViewDirections
-              origin={{
-                latitude: this.state.randRouteStartLat,
-                longitude: this.state.randRouteStartLong,
-              }}
-              destination={{
-                latitude: this.state.randRouteStartLat,
-                longitude: this.state.randRouteStartLong,
-              }}
-              waypoints={[
-                {
-                  latitude: this.state.randRouteDestPoints[0].latitude,
-                  longitude: this.state.randRouteDestPoints[0].longitude,
-                },
-                {
-                  latitude: this.state.randRouteDestPoints[1].latitude,
-                  longitude: this.state.randRouteDestPoints[1].longitude,
-                },
-              ]}
-              apikey={GOOGLE_API_KEY}
-              strokeWidth={3}
-              mode={'WALKING'}
-              strokeColor="hotpink"
-              onReady={params =>
-                this.setState({ randRouteDistance: params.distance })
-              }
-            />
-          ) : null}
+
+          <MapViewDirections
+            origin={'792 Sterling Place, Brooklyn, NY'}
+            destination={{
+              latitude: randPoints[0].latitude,
+              longitude: randPoints[0].longitude,
+            }}
+            waypoints={[ {
+                latitude: randPoints[0].latitude,
+                longitude: randPoints[0].longitude,
+              }, {
+                latitude: randPoints[1].latitude,
+                longitude: randPoints[1].longitude,
+              }, '792 Sterling Place, Brooklyn, NY']}
+            apikey={GOOGLE_API_KEY}
+            strokeWidth={3}
+            mode={'WALKING'}
+            strokeColor="hotpink"
+            onReady={(params) => console.log('Params are ------->', params.distance)}
+          />
         </MapView>
         <ScrollView horizontal={true}>
           <View style={styles.rowButtonStyle}>
@@ -573,52 +552,6 @@ class MapScreen extends Component {
                 }}
               />
             </View>
-            <View style={styles.stats}>
-              <View style={styles.button}>
-                <Button
-                  title="Generate random route"
-                  onPress={() => {
-                    this.generateRandomRoute();
-                    setTimeout(() => {
-                      console.log('the cur state ------->', this.state);
-                      this.setState({ showRandRoute: true });
-                    }, 1000);
-                  }}
-                />
-              </View>
-              <View margin={7}>
-                <RNPickerSelect
-                  placeholder={{ label: 'Circle 2' }}
-                  items={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(mile => {
-                    return {
-                      label: `${mile} mile route`,
-                      value: mile,
-                    };
-                  })}
-                  onValueChange={value =>
-                    this.setState({ randRoutePrefMiles: value })
-                  }
-                  style={{
-                    ...pickerSelectStyles2,
-                    textAlign: 'center',
-                    iconContainer: {
-                      top: 7,
-                      right: 12,
-                    },
-                  }}
-                  value={this.state.randRoutePrefMiles}
-                  useNativeAndroidPickerStyle={false}
-                  textInputProps={(style = { textAlign: 'center' })}
-                />
-              </View>
-            </View>
-            <View style={styles.stats}>
-              {this.state.randRouteDistance ? (
-                <Text>
-                  Generated route:{(this.state.randRouteDistance/1.609).toFixed(2)} miles
-                </Text>
-              ) : null}
-            </View>
           </View>
         </ScrollView>
       </View>
@@ -683,9 +616,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 0,
-    marginTop: 5,
-    paddingTop: 5,
   },
   distanceTextStyle: {
     fontWeight: 'bold',
@@ -724,31 +654,6 @@ const pickerSelectStyles = StyleSheet.create({
     borderRadius: 8,
     color: 'whitesmoke',
     paddingRight: 30, // to ensure the text is never behind the icon
-  },
-});
-
-const pickerSelectStyles2 = StyleSheet.create({
-  inputIOS: {
-    padding: '1%',
-    paddingVertical: 10,
-    fontSize: 12,
-    backgroundColor: '#4287f5',
-    borderRadius: 8,
-    color: 'black',
-    paddingHorizontal: 8,
-    justifyContent: 'center',
-    alignContent: 'center',
-    textAlign: 'center',
-  },
-  inputAndroid: {
-    fontSize: 12,
-    borderWidth: 0.5,
-    borderColor: 'skyblue',
-    borderRadius: 8,
-    color: 'whitesmoke',
-    paddingRight: 30, // to ensure the text is never behind the icon
-    justifyContent: 'center',
-    alignContent: 'center',
   },
 });
 
