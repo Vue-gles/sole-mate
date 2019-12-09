@@ -204,7 +204,7 @@ class RunForm extends Component {
                 onCancel={this.hideDateTimePicker}
                 minimumDate={new Date()}
                 date={new Date()}
-                isDarkModeEnabled={true}
+                isDarkModeEnabled={false}
               />
             </TouchableOpacity>
             <TouchableOpacity
@@ -219,7 +219,7 @@ class RunForm extends Component {
                 onCancel={this.hideEndTimePicker}
                 date={new Date()}
                 minuteInterval={30}
-                isDarkModeEnabled={true}
+                isDarkModeEnabled={false}
               />
             </TouchableOpacity>
           </View>

@@ -1,10 +1,14 @@
 {
   "expo": {
     "name": "sole-mate",
-    "slug": "my-new-project",
+    "slug": "sole-mate-app",
     "privacy": "public",
     "sdkVersion": "35.0.0",
-    "platforms": ["ios", "android", "web"],
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -16,7 +20,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "android": {
       "package": "com.mate_sole",
       "config": {
@@ -35,6 +41,7 @@
     "notification": {
       "icon": "./assets/images/icon.png",
       "iosDisplayInForeground": true
-    }
+    },
+    "description": ""
   }
 }

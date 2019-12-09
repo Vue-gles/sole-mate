@@ -573,15 +573,24 @@ class MapScreen extends Component {
                 }}
               />
             </View>
-            <View style={styles.stats}>
-              <View style={styles.button}>
+            <View style={styles.stats2}>
+              <View style={styles.button2}>
                 <Button
-                  title="Generate random route"
+                  title="Random route"
                   onPress={() => {
                     this.generateRandomRoute();
                     setTimeout(() => {
                       this.setState({ showRandRoute: true });
                     }, 1000);
+                  }}
+                />
+              </View>
+              <View style={styles.button2}>
+                <Button
+                  title="Hide rand route"
+                  disabled={this.state.showRandRoute ? false : true}
+                  onPress={() => {
+                    this.setState({ showRandRoute: false });
                   }}
                 />
               </View>
@@ -612,9 +621,10 @@ class MapScreen extends Component {
               </View>
             </View>
             <View style={styles.stats}>
-              {this.state.randRouteDistance ? (
-                <Text>
-                  Generated route:{(this.state.randRouteDistance/1.609).toFixed(2)} miles
+              {this.state.randRouteDistance && this.state.showRandRoute ? (
+                <Text style={{paddingVertical: -1, marginVertical: -1}}>
+                  Generated route:
+                  {(this.state.randRouteDistance / 1.609).toFixed(2)} miles
                 </Text>
               ) : null}
             </View>
@@ -686,6 +696,14 @@ const styles = StyleSheet.create({
     marginTop: 5,
     paddingTop: 5,
   },
+  stats2: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 0,
+    marginTop: 5,
+    paddingTop: 5,
+  },
   distanceTextStyle: {
     fontWeight: 'bold',
     color: 'skyblue',
@@ -694,16 +712,28 @@ const styles = StyleSheet.create({
     fontSize: 20,
     flexWrap: 'wrap',
   },
-  button: {
+  button2: {
+    flex: 1,
     backgroundColor: 'skyblue',
     color: 'yellow',
     padding: 5,
     margin: 5,
     borderRadius: 10,
     overflow: 'hidden',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
     textAlign: 'center',
+  },
+  button1: {
+    backgroundColor: 'skyblue',
+    color: 'yellow',
+    padding: 5,
+    margin: 5,
+    borderRadius: 10,
+    overflow: 'hidden',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    textAlign: 'center'
   },
 });
 const pickerSelectStyles = StyleSheet.create({
