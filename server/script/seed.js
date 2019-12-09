@@ -41,7 +41,7 @@ const users = [
     avePace: 7,
     avgMileage: 3,
     goal: 'hobby',
-    bio: 'RUN! RUN! RUN!',
+    bio: `Hi! I'm John and I love long distance running. Hit me up if you want to run in the park sometime!`,
     isAdmin: true,
   },
   {
@@ -68,7 +68,8 @@ const users = [
     avePace: 7,
     avgMileage: 7,
     goal: 'fitness',
-    bio: 'I loveeee running',
+    bio:
+      'Hi! My name is Jane. I’m 28 and live in Brooklyn with my friends. I love living in New York and taking advantage of all the running opportunities here. I’m currently just running because I like the fitness routine and love the rush of endorphins afterward, but one day I’d love to run a marathon or train for a triathlon. I love meeting running friends and can’t wait to meet you too!',
   },
   {
     firstName: 'Daniel',
@@ -105,8 +106,8 @@ const runs = [
     state: 'NY',
     lat: 40.7411,
     long: -73.9897,
-    startTimeframe: new Date('2019-12-08 12:00:00'),
-    endTimeframe: new Date('2019-12-08 23:00:00'),
+    startTimeframe: new Date('2019-12-09 08:00:00'),
+    endTimeframe: new Date('2019-12-09 23:00:00'),
     prefferedMileage: 3,
     creatorId: 1,
   },
