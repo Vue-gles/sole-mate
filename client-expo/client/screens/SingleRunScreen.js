@@ -126,7 +126,6 @@ class SingleRunScreen extends React.Component {
             />
           </List>
           <View paddingVertical={8} />
-          <View style={styles.btnContainer}></View>
         </Content>
         <View style={styles.btnContainer}>
           <Button

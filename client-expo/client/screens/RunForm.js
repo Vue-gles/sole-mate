@@ -105,22 +105,26 @@ class RunForm extends Component {
       Alert.alert('Must fill out all of the above before moving on');
     } else {
       //await this.props.createRun(this.state);
-      await this.props.setRunNowFormInfo(this.state.lattitude,this.state.longitude,this.state.maxDistance)
-      this.props.navigation.navigate('RunLaterResults',{
-      creatorId: this.state.creatorId,
-      street: this.state.street,
-      city: this.state.city,
-      state: this.state.state,
-      lattitude: this.state.lattitude,
-      longitude: this.state.longitude,
-      isDateTimePickerVisible: this.state.isDateTimePickerVisible,
-      isStartTimePickerVisible: this.state.isStartTimePickerVisible,
-      isEndTimePickerVisible: this.state.isEndTimePickerVisible,
-      startTime: this.state.startTime,
-      endTime: this.state.endTime,
-      prefferedMileage: this.state.prefferedMileage,
-      maxDistance: this.state.maxDistance,
-      })//ScheduleStack
+      await this.props.setRunNowFormInfo(
+        this.state.lattitude,
+        this.state.longitude,
+        this.state.maxDistance
+      );
+      this.props.navigation.navigate('RunLaterResults', {
+        creatorId: this.state.creatorId,
+        street: this.state.street,
+        city: this.state.city,
+        state: this.state.state,
+        lattitude: this.state.lattitude,
+        longitude: this.state.longitude,
+        isDateTimePickerVisible: this.state.isDateTimePickerVisible,
+        isStartTimePickerVisible: this.state.isStartTimePickerVisible,
+        isEndTimePickerVisible: this.state.isEndTimePickerVisible,
+        startTime: this.state.startTime,
+        endTime: this.state.endTime,
+        prefferedMileage: this.state.prefferedMileage,
+        maxDistance: this.state.maxDistance,
+      }); //ScheduleStack
       // await this.props.createRun(this.state);
       // this.props.navigation.navigate('ScheduleStack');
     }
@@ -204,7 +208,7 @@ class RunForm extends Component {
                 onCancel={this.hideDateTimePicker}
                 minimumDate={new Date()}
                 date={new Date()}
-                isDarkModeEnabled={true}
+                isDarkModeEnabled={false}
               />
             </TouchableOpacity>
             <TouchableOpacity
@@ -219,7 +223,7 @@ class RunForm extends Component {
                 onCancel={this.hideEndTimePicker}
                 date={new Date()}
                 minuteInterval={30}
-                isDarkModeEnabled={true}
+                isDarkModeEnabled={false}
               />
             </TouchableOpacity>
           </View>
@@ -232,33 +236,34 @@ class RunForm extends Component {
           >
             {moment(this.state.startTime).format('h:mm a')} to{' '}
             {moment(this.state.endTime).format('h:mm a')}
-
           </Text>
           <View paddingVertical={10} />
 
-            <View style={styles.slider}>
+          <View style={styles.slider}>
             <Slider
-            style={(styles.slider, { width: 250, alignSelf: 'center' })}
-            step={0.2}
-            minimumValue={0.2}
-            maximumValue={10}
-            value={this.state.maxDistance}
-            onValueChange={val => this.setState({ maxDistance: val })}
-          />
-            </View>
-            <View style={styles.slider}>
-          <Text>See users {(this.state.maxDistance).toFixed(1)} miles away</Text>
-            </View>
+              style={(styles.slider, { width: 250, alignSelf: 'center' })}
+              step={0.2}
+              minimumValue={0.2}
+              maximumValue={10}
+              value={this.state.maxDistance}
+              onValueChange={val => this.setState({ maxDistance: val })}
+            />
+          </View>
+          <View style={styles.slider}>
+            <Text>
+              See users {this.state.maxDistance.toFixed(1)} miles away
+            </Text>
+          </View>
 
-            <View paddingVertical={20} />
+          <View paddingVertical={20} />
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
               this.setState({ creatorId: this.props.userId });
-              this.submitHandler()
-              }
-              }>
-                <Text>See available runs!</Text>
+              this.submitHandler();
+            }}
+          >
+            <Text>See available runs!</Text>
           </TouchableOpacity>
         </ScrollView>
       </View>
