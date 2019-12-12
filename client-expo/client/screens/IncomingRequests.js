@@ -36,7 +36,6 @@ class IncomingRequests extends React.Component {
     socket.emit('requestUpdate');
   }
   render() {
-    console.log('is fetching------>', this.props.isFetching);
     return !this.props.isFetching ? (
       this.props.notifications.length > 0 ? (
         <SafeAreaView style={styles.container}>

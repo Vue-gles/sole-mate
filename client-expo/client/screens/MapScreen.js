@@ -8,20 +8,19 @@ import {
   Button,
   ScrollView,
 } from 'react-native';
-import GooglePlacesInput from '../components/GooglePlacesInput';
-import { getDistance } from 'geolib';
 import { connect } from 'react-redux';
-import { completeRun } from '../store/upcomingRuns';
+import { getDistance, computeDestinationPoint } from 'geolib';
 import MapViewDirections from 'react-native-maps-directions';
+import GooglePlacesInput from '../components/GooglePlacesInput';
+
+
+import { completeRun } from '../store/upcomingRuns';
 import getEnvVars from '../../environment';
 const { GOOGLE_API_KEY } = getEnvVars();
 import { saveRun } from '../store/pastRuns';
-import { Chevron } from 'react-native-shapes';
-import RNPickerSelect from 'react-native-picker-select';
-import { computeDestinationPoint } from 'geolib';
-
 import socket from '../socket/index';
-import { TextButton, RaisedTextButton } from 'react-native-material-buttons';
+import MapScroller from '../components/MapScroller';
+
 
 const circleColor = 'rgba(93, 173, 226, 0.2)';
 const circle2Color = 'rgba(231, 76, 60  , 0.2)';
@@ -75,8 +74,14 @@ class MapScreen extends Component {
     this.startClock = this.startClock.bind(this);
     this.stopClock = this.stopClock.bind(this);
     this.stopWatch = this.stopWatch.bind(this);
+    this.handleStateChange = this.handleStateChange.bind(this)
+    this.toSecs = this.toSecs.bind(this)
+    this.generateRandomRoute= this.generateRandomRoute.bind(this)
+    this.stopTracking = this.stopTracking.bind(this)
   }
-
+  handleStateChange(stateProp, value) {
+    this.setState({[stateProp]: value})
+  }
   getCurrentLocationMock() {
     if (dataIndex < data.length - 1) {
       dataIndex = dataIndex + 1;
@@ -413,7 +418,27 @@ class MapScreen extends Component {
             />
           ) : null}
         </MapView>
-        <ScrollView horizontal={true}>
+        {/* styles = props.styles
+    props.startClock
+    props.startTracking
+    props.stopTracking
+    props.clearButton
+    props.saveButton
+    props.clearTracking
+    props.saveTracking */}
+        <MapScroller state={this.state} handleStateChange={this.handleStateChange} styles={styles} startClock={this.startClock} startTracking={this.startTracking} stopTracking={this.stopTracking}
+        clearButtonDisabled={this.clearButtonDisabled} 
+        saveButton={this.saveButton}
+        clearTracking={this.clearTracking}
+        saveTracking={this.saveTracking}
+        toSecs={this.toSecs}
+        pickerSelectStyles={pickerSelectStyles}
+        pickerSelectStyles2={pickerSelectStyles2}
+        generateRandomRoute={this.generateRandomRoute}
+        stopTracking={this.stopTracking}
+        stopClock = {this.stopClock}
+        />
+        {/* <ScrollView horizontal={true}>
           <View style={styles.rowButtonStyle}>
             <RaisedTextButton
               style={styles.button}
@@ -629,7 +654,7 @@ class MapScreen extends Component {
               ) : null}
             </View>
           </View>
-        </ScrollView>
+        </ScrollView> */}
       </View>
     );
   }
