@@ -11,10 +11,7 @@ import {
 import { connect } from 'react-redux';
 import { getDistance, computeDestinationPoint } from 'geolib';
 import MapViewDirections from 'react-native-maps-directions';
-import { Chevron } from 'react-native-shapes';
-import RNPickerSelect from 'react-native-picker-select';
 import GooglePlacesInput from '../components/GooglePlacesInput';
-import { RaisedTextButton } from 'react-native-material-buttons';
 
 
 import { completeRun } from '../store/upcomingRuns';
@@ -78,6 +75,9 @@ class MapScreen extends Component {
     this.stopClock = this.stopClock.bind(this);
     this.stopWatch = this.stopWatch.bind(this);
     this.handleStateChange = this.handleStateChange.bind(this)
+    this.toSecs = this.toSecs.bind(this)
+    this.generateRandomRoute= this.generateRandomRoute.bind(this)
+    this.stopTracking = this.stopTracking.bind(this)
   }
   handleStateChange(stateProp, value) {
     this.setState({[stateProp]: value})
@@ -418,7 +418,26 @@ class MapScreen extends Component {
             />
           ) : null}
         </MapView>
-        <MapScroller styles={styles}/>
+        {/* styles = props.styles
+    props.startClock
+    props.startTracking
+    props.stopTracking
+    props.clearButton
+    props.saveButton
+    props.clearTracking
+    props.saveTracking */}
+        <MapScroller state={this.state} handleStateChange={this.handleStateChange} styles={styles} startClock={this.startClock} startTracking={this.startTracking} stopTracking={this.stopTracking}
+        clearButtonDisabled={this.clearButtonDisabled} 
+        saveButton={this.saveButton}
+        clearTracking={this.clearTracking}
+        saveTracking={this.saveTracking}
+        toSecs={this.toSecs}
+        pickerSelectStyles={pickerSelectStyles}
+        pickerSelectStyles2={pickerSelectStyles2}
+        generateRandomRoute={this.generateRandomRoute}
+        stopTracking={this.stopTracking}
+        stopClock = {this.stopClock}
+        />
         {/* <ScrollView horizontal={true}>
           <View style={styles.rowButtonStyle}>
             <RaisedTextButton

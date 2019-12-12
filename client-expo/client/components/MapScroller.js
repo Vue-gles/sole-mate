@@ -1,16 +1,15 @@
 import React from 'react'
+import { RaisedTextButton } from 'react-native-material-buttons';
+import { Chevron } from 'react-native-shapes';
+import RNPickerSelect from 'react-native-picker-select';
+import {ScrollView, View, Text, Button } from 'react-native'
+
 
 export default MapScroller = (props) => {
-    styles = props.styles
-    props.startClock
-    props.startTracking
-    props.stopTracking
-    props.clearButton
-    props.saveButton
-    props.clearTracking
-    props.saveTracking
-    props.state.stopButtonDisabled
-    props.state.clearButtonDisabled
+const handleStateChange = props.handleStateChange
+const styles = props.styles
+const pickerSelectStyles = props.pickerSelectStyles
+const pickerSelectStyles2 = props.pickerSelectStyles2
 
     return (
         <ScrollView horizontal={true}>
@@ -19,7 +18,7 @@ export default MapScroller = (props) => {
               style={styles.button}
               title="Start"
               ref={ref => {
-                this.startButton = ref;
+                props.startButton = ref;
               }}
               disabled={props.state.startButtonDisabled}
               onPress={() => {
@@ -31,12 +30,12 @@ export default MapScroller = (props) => {
               style={styles.button}
               title="Stop"
               ref={ref => {
-                this.stopButton = ref;
+                props.stopButton = ref;
               }}
               disabled={props.state.stopButtonDisabled}
               onPress={() => {
-                this.stopClock();
-                this.stopTracking();
+                props.stopClock();
+                props.stopTracking();
               }}
             />
             <RaisedTextButton
@@ -66,7 +65,7 @@ export default MapScroller = (props) => {
               </Text>
               <Text style={styles.distanceTextStyle}>
                 {' '}
-                {this.toSecs(props.state.seconds)}
+                {props.toSecs(props.state.seconds)}
               </Text>
               <RNPickerSelect
                 placeholder={{ label: 'Circle 1' }}
@@ -104,7 +103,7 @@ export default MapScroller = (props) => {
                   };
                 })}
                 onValueChange={value =>
-                  this.setState({ bigCircleRadius: value })
+                  handleStateChange( 'bigCircleRadius', value)
                 }
                 style={{
                   ...pickerSelectStyles,
@@ -113,7 +112,7 @@ export default MapScroller = (props) => {
                     right: 12,
                   },
                 }}
-                value={this.state.bigCircleRadius}
+                value={props.state.bigCircleRadius}
                 useNativeAndroidPickerStyle={false}
                 textInputProps={{ underlineColor: 'red' }}
                 Icon={() => {
@@ -156,7 +155,7 @@ export default MapScroller = (props) => {
                   };
                 })}
                 onValueChange={value =>
-                  this.setState({ smallCircleRadius: value })
+                  handleStateChange( 'smallCircleRadius', value )
                 }
                 style={{
                   ...pickerSelectStyles,
@@ -165,7 +164,7 @@ export default MapScroller = (props) => {
                     right: 12,
                   },
                 }}
-                value={this.state.smallCircleRadius}
+                value={props.state.smallCircleRadius}
                 useNativeAndroidPickerStyle={false}
                 textInputProps={{ underlineColor: 'blue' }}
                 Icon={() => {
@@ -178,9 +177,9 @@ export default MapScroller = (props) => {
                 <Button
                   title="Random route"
                   onPress={() => {
-                    this.generateRandomRoute();
+                    props.generateRandomRoute();
                     setTimeout(() => {
-                      this.setState({ showRandRoute: true });
+                      handleStateChange( 'showRandRoute', true );
                     }, 1000);
                   }}
                 />
@@ -188,9 +187,9 @@ export default MapScroller = (props) => {
               <View style={styles.button2}>
                 <Button
                   title="Hide rand route"
-                  disabled={this.state.showRandRoute ? false : true}
+                  disabled={props.state.showRandRoute ? false : true}
                   onPress={() => {
-                    this.setState({ showRandRoute: false });
+                    handleStateChange('showRandRoute', false );
                   }}
                 />
               </View>
@@ -204,7 +203,7 @@ export default MapScroller = (props) => {
                     };
                   })}
                   onValueChange={value =>
-                    this.setState({ randRoutePrefMiles: value })
+                    handleStateChange('randRoutePrefMiles', value )
                   }
                   style={{
                     ...pickerSelectStyles2,
@@ -214,17 +213,17 @@ export default MapScroller = (props) => {
                       right: 12,
                     },
                   }}
-                  value={this.state.randRoutePrefMiles}
+                  value={props.state.randRoutePrefMiles}
                   useNativeAndroidPickerStyle={false}
                   textInputProps={(style = { textAlign: 'center' })}
                 />
               </View>
             </View>
             <View style={styles.stats}>
-              {this.state.randRouteDistance && this.state.showRandRoute ? (
+              {props.state.randRouteDistance && props.state.showRandRoute ? (
                 <Text style={{ paddingVertical: -1, marginVertical: -1 }}>
                   Generated route:
-                  {(this.state.randRouteDistance / 1.609).toFixed(2)} miles
+                  {(props.state.randRouteDistance / 1.609).toFixed(2)} miles
                 </Text>
               ) : null}
             </View>
