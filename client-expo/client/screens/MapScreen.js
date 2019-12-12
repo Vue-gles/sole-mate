@@ -8,20 +8,21 @@ import {
   Button,
   ScrollView,
 } from 'react-native';
-import GooglePlacesInput from '../components/GooglePlacesInput';
-import { getDistance } from 'geolib';
 import { connect } from 'react-redux';
-import { completeRun } from '../store/upcomingRuns';
+import { getDistance, computeDestinationPoint } from 'geolib';
 import MapViewDirections from 'react-native-maps-directions';
+import { Chevron } from 'react-native-shapes';
+import RNPickerSelect from 'react-native-picker-select';
+import GooglePlacesInput from '../components/GooglePlacesInput';
+import { RaisedTextButton } from 'react-native-material-buttons';
+
+
+import { completeRun } from '../store/upcomingRuns';
 import getEnvVars from '../../environment';
 const { GOOGLE_API_KEY } = getEnvVars();
 import { saveRun } from '../store/pastRuns';
-import { Chevron } from 'react-native-shapes';
-import RNPickerSelect from 'react-native-picker-select';
-import { computeDestinationPoint } from 'geolib';
-
 import socket from '../socket/index';
-import { TextButton, RaisedTextButton } from 'react-native-material-buttons';
+
 
 const circleColor = 'rgba(93, 173, 226, 0.2)';
 const circle2Color = 'rgba(231, 76, 60  , 0.2)';
