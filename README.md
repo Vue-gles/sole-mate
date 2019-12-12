@@ -176,6 +176,6 @@ Relive the magic by viewing your past runs, where you can see a map of the path 
 
 ## Examples
 
-![example2](https://github.com/Vue-gles/sole-mate/client-expo/assets/images/home.png)
+![example2](https://github.com/Vue-gles/sole-mate/blob/update-readme/client-expo/assets/images/home.png)
 
-![example1](https://github.com/Vue-gles/sole-mate/client-expo/assets/images/map.png)
+![example1]((https://github.com/Vue-gles/sole-mate/blob/update-readme/client-expo/assets/images/map.png)
