@@ -150,7 +150,7 @@ After logging in, you can choose to run now or run later.
 
 If you choose to run later, you'll fill out information about when an where you want to run.
 
-![tutorial1](https://github.com/Vue-gles/sole-mate/blob/update-readme/client-expo/assets/gifs/runform.gif)
+![tutorial1](https://github.com/Vue-gles/sole-mate/blob/update-readme/client-expo/assets/gifs/runform.gif | width=400 )
 
 Click into a run posting to see more information before requesting a run.
 
