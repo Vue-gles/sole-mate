@@ -150,7 +150,7 @@ After logging in, you can choose to run now or run later.
 
 If you choose to run later, you'll fill out information about when an where you want to run.
 
-![tutorial1]https://github.com/Vue-gles/sole-mate/blob/update-readme/client-expo/assets/gifs/runform.gif)
+![tutorial1](https://github.com/Vue-gles/sole-mate/blob/update-readme/client-expo/assets/gifs/runform.gif)
 
 Click into a run posting to see more information before requesting a run.
 
@@ -176,6 +176,6 @@ Relive the magic by viewing your past runs, where you can see a map of the path 
 
 ## Examples
 
-![example2](https://github.com/Vue-gles/sole-mate/blob/update-readme/client-expo/assets/images/home.png)
+![example1](https://github.com/Vue-gles/sole-mate/blob/update-readme/client-expo/assets/images/home.png)
 
-![example1]((https://github.com/Vue-gles/sole-mate/blob/update-readme/client-expo/assets/images/map.png)
+![example2](https://github.com/Vue-gles/sole-mate/blob/update-readme/client-expo/assets/images/map.png)
