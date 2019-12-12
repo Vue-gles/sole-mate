@@ -4,12 +4,11 @@ npm-debug.*
 *.jks
 *.p8
 *.p12
-*.key
+*.keys.js
 *.mobileprovision
 *.orig.*
 web-build/
 web-report/
+keys.js
 secrets.js
-environment.js
-
-
+environment
