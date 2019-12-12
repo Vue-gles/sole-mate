@@ -11,4 +11,4 @@ web-build/
 web-report/
 keys.js
 secrets.js
-environment
+environment.js
