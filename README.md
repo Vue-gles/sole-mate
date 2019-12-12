@@ -150,32 +150,32 @@ After logging in, you can choose to run now or run later.
 
 If you choose to run later, you'll fill out information about when an where you want to run.
 
-<img src='https://github.com/Vue-gles/sole-mate/blob/update-readme/client-expo/assets/gifs/runform.gif' width='400' />
+<img src='https://github.com/Vue-gles/sole-mate/blob/master/client-expo/assets/gifs/runform.gif' width='400' />
 
 Click into a run posting to see more information before requesting a run.
 
 After your request is accepted, message your running mate to iron out the details or your run.
 
-<img src='https://github.com/Vue-gles/sole-mate/blob/update-readme/client-expo/assets/gifs/request_run.gif' width='400' />
+<img src='https://github.com/Vue-gles/sole-mate/blob/master/client-expo/assets/gifs/request_run.gif' width='400' />
 
 When it's time to run, click 'Start Run' on your upcoming run to be taken to the map view.
 
 If you and your running mate don't know where you want to run, you can generate a custom route.
 
-<img src='https://github.com/Vue-gles/sole-mate/blob/update-readme/client-expo/assets/gifs/custom_routes.gif' width='400' />
+<img src='https://github.com/Vue-gles/sole-mate/blob/master/client-expo/assets/gifs/custom_routes.gif' width='400' />
 
 Or hide the the generated route and click 'Start' to track your run.
 
 When you're finished running, click 'Stop' and 'Save' to save your run.
 
-<img src='https://github.com/Vue-gles/sole-mate/blob/update-readme/client-expo/assets/gifs/track_run.gif' width='400' />
+<img src='https://github.com/Vue-gles/sole-mate/blob/master/client-expo/assets/gifs/track_run.gif' width='400' />
 
 Relive the magic by viewing your past runs, where you can see a map of the path you ran, as well as information about how far you went and how long it took.
 
-<img src='https://github.com/Vue-gles/sole-mate/blob/update-readme/client-expo/assets/gifs/past_runs.gif' width='400' />
+<img src='https://github.com/Vue-gles/sole-mate/blob/master/client-expo/assets/gifs/past_runs.gif' width='400' />
 
 ## Examples
 
-<img src='https://github.com/Vue-gles/sole-mate/blob/update-readme/client-expo/assets/images/home.png' width='400' />
+<img src='https://github.com/Vue-gles/sole-mate/blob/master/client-expo/assets/images/home.png' width='400' />
 
-<img src='https://github.com/Vue-gles/sole-mate/blob/update-readme/client-expo/assets/images/map.png' width='400' />
+<img src='https://github.com/Vue-gles/sole-mate/blob/master/client-expo/assets/images/map.png' width='400' />
