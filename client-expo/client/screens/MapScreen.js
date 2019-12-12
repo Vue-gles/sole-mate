@@ -22,6 +22,7 @@ import getEnvVars from '../../environment';
 const { GOOGLE_API_KEY } = getEnvVars();
 import { saveRun } from '../store/pastRuns';
 import socket from '../socket/index';
+import MapScroller from '../components/MapScroller';
 
 
 const circleColor = 'rgba(93, 173, 226, 0.2)';
@@ -76,8 +77,11 @@ class MapScreen extends Component {
     this.startClock = this.startClock.bind(this);
     this.stopClock = this.stopClock.bind(this);
     this.stopWatch = this.stopWatch.bind(this);
+    this.handleStateChange = this.handleStateChange.bind(this)
   }
-
+  handleStateChange(stateProp, value) {
+    this.setState({[stateProp]: value})
+  }
   getCurrentLocationMock() {
     if (dataIndex < data.length - 1) {
       dataIndex = dataIndex + 1;
@@ -414,7 +418,8 @@ class MapScreen extends Component {
             />
           ) : null}
         </MapView>
-        <ScrollView horizontal={true}>
+        <MapScroller styles={styles}/>
+        {/* <ScrollView horizontal={true}>
           <View style={styles.rowButtonStyle}>
             <RaisedTextButton
               style={styles.button}
@@ -630,7 +635,7 @@ class MapScreen extends Component {
               ) : null}
             </View>
           </View>
-        </ScrollView>
+        </ScrollView> */}
       </View>
     );
   }
