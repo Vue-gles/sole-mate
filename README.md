@@ -150,29 +150,29 @@ After logging in, you can choose to run now or run later.
 
 If you choose to run later, you'll fill out information about when an where you want to run.
 
-![tutorial1](https://github.com/Vue-gles/sole-mate/client-expo/assets/gifs/runform.gif)
+![tutorial1]https://github.com/Vue-gles/sole-mate/blob/update-readme/client-expo/assets/gifs/runform.gif)
 
 Click into a run posting to see more information before requesting a run.
 
 After your request is accepted, message your running mate to iron out the details or your run.
 
-![tutorial2](https://github.com/Vue-gles/sole-mate/client-expo/assets/gifs/request_run.gif)
+![tutorial2](https://github.com/Vue-gles/sole-mate/blob/update-readme/client-expo/assets/gifs/request_run.gif)
 
 When it's time to run, click 'Start Run' on your upcoming run to be taken to the map view.
 
 If you and your running mate don't know where you want to run, you can generate a custom route.
 
-![tutorial3](https://github.com/Vue-gles/sole-mate/client-expo/assets/gifs/custom_routes.gif)
+![tutorial3](hhttps://github.com/Vue-gles/sole-mate/blob/update-readme/client-expo/assets/gifs/custom_routes.gif)
 
 Or hide the the generated route and click 'Start' to track your run.
 
 When you're finished running, click 'Stop' and 'Save' to save your run.
 
-![tutorial4](https://github.com/Vue-gles/sole-mate/client-expo/assets/gifs/track_run.gif)
+![tutorial4](https://github.com/Vue-gles/sole-mate/blob/update-readme/client-expo/assets/gifs/track_run.gif)
 
 Relive the magic by viewing your past runs, where you can see a map of the path you ran, as well as information about how far you went and how long it took.
 
-![tutorial5](https://github.com/Vue-gles/sole-mate/client-expo/assets/gifs/past_runs.gif)
+![tutorial5](https://github.com/Vue-gles/sole-mate/blob/update-readme/client-expo/assets/gifs/past_runs.gif)
 
 ## Examples
 
