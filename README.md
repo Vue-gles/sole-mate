@@ -10,7 +10,7 @@ Visit [SoleMate](https://expo.io/@mdonnelly/sole-mate-app) to try us out!
 - [Table of Contents](#Table-of-Contents)
 - [Download](#Download)
 - [Team](#Team)
-  - [Meagn Donnelly](#Megan-Donnelly)
+  - [Megan Donnelly](#Megan-Donnelly)
   - [Jake Rothenberg](#Jake-Rothenberg)
   - [Matthew Chen](#Matthew-Chen)
   - [Gerard Shapiro](#Gerard-Shapiro)
